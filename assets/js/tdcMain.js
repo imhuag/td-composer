@@ -89,7 +89,7 @@ var tdcMain,
 
             TdcModel = Backbone.Model.extend({
 
-                requestShortcode: function( columns ) {
+                getShortcodeRender: function( containerModel, columns ) {
 
                     var model = this,
 
@@ -110,6 +110,14 @@ var tdcMain,
                         // Important! It should have this property
                         if ( _.has( data, 'replyHtml' ) ) {
                             model.set( 'html', data.replyHtml );
+
+                            tdcDebug.log( model.get( 'parentModel' ) );
+
+
+
+                            // Change the model structure
+
+
                         }
                     };
 
@@ -130,10 +138,10 @@ var tdcMain,
             TdcLiveView = Backbone.View.extend({
 
                 initialize: function() {
-                    this.listenTo( this.model, 'change', this.render );
+                    this.listenTo( this.model, 'change:html', this.render );
                 },
 
-                render: function() {
+                render: function( model, value, options) {
                     console.log( 'render' );
                     if ( this.model.has( 'html' ) && !_.isUndefined( this.model.get( 'html' ) ) ) {
                         this.el.innerHTML = this.model.get( 'html' );
@@ -390,6 +398,110 @@ var tdcMain,
 
         _getStructuredData: function() {
 
+        },
+
+
+        /**
+         * Important! This function should be called only by 'stop' sortable handler
+         * Steps:
+         * 1. Get the model of the draggable element
+         * 2. Get the model of the container (column or inner column) that contains the sortable list (the list where the element is dropped)
+         * 3. Request to the model of the element, to update its 'html property'
+         *      3.1 Get the 'column' from the model of the container
+         *      3.2 Make the request
+         *      3.3 Wait for the response
+         * 4. If success, update the structure data
+         * 5. If error, ???
+         *
+         * @param jqSortableList
+         * @param uiObject
+         */
+        changeData: function( jqSortableList, uiObject ) {
+
+
+            // Step1 ----------
+
+            // The item model id
+            var elementModelId = uiObject.item.data( 'model_id' );
+
+            // @todo This check should be removed - the content should have consistency
+            if ( _.isUndefined( elementModelId ) ) {
+                alert( 'Error: Element model id!' );
+                return;
+            }
+
+
+            // The item model
+            var elementModel = tdcMain.getModel( elementModelId );
+
+            // @todo This check should be removed - the content should have consistency
+            if ( _.isUndefined( elementModel ) ) {
+                alert( 'Error: Element model!' );
+                return;
+            }
+
+
+
+            // Step2 ----------
+
+            // Get the closest inner column (maybe the sortable list is in an inner row)
+            var containerParent = jqSortableList.closest( '.tdc_inner_column' );
+
+            // Get the closest column, if the sortable list is not inside of an inner row
+            if ( ! containerParent.length ) {
+                containerParent = jqSortableList.closest( '.tdc_column' );
+            }
+
+            // @todo This check should be removed - the content should have consistency
+            if ( ! containerParent.length || _.isUndefined( containerParent.data( 'model_id' ) ) ) {
+                alert( 'Error: Container (column or inner column) not available!' );
+                return;
+            }
+
+
+            // The model id (where the item model must be inserted)
+            var containerParentModelId = containerParent.data( 'model_id');
+
+            // @todo This check should be removed - the content should have consistency
+            if ( _.isUndefined( containerParentModelId ) ) {
+                alert( 'Error: Container model id!' );
+                return;
+            }
+
+            // The model (where the item model must be inserted)
+            var containerParentModel = tdcMain.getModel( containerParentModelId );
+
+            // @todo This check should be removed - the content should have consistency
+            if ( _.isUndefined( containerParentModel ) ) {
+                alert( 'Error: Column parent model!' );
+                return;
+            }
+
+
+
+            //tdcDebug.log( elementModelId );
+            //tdcDebug.log( containerParentModelId );
+
+            // Step3 ----------
+
+            var containerParentModelAttrs = containerParentModel.get( 'attrs'),
+                colParam = 1;
+
+            // @todo This check should be removed - the content should have consistency
+            if (! _.has( containerParentModelAttrs, 'width ') ) {
+                colParam = containerParentModelAttrs.width;
+            }
+
+
+            // Filter of the column param
+            switch ( colParam ) {
+                case '1/3' : colParam = 1; break;
+                case '2/3' : colParam = 2; break;
+                case '3/3' : colParam = 3; break;
+            }
+
+
+            elementModel.getShortcodeRender( containerParentModel, colParam );
         }
     };
 
@@ -784,9 +896,7 @@ var tdcMain,
                     }
 
 
-
                     tdcDebug.log( tdcRows.models );
-
 
 
 
@@ -888,21 +998,19 @@ var tdcMain,
                                     tdcAdminUI._tdcJqObjElements.sortable( 'cancel' );
 
                                 } else {
+
+
+
+                                    var targetDropEvent = jQuery( dropEvent.target );
+
+                                    // The dropEvent must be set undefined before changeData call, because changeData is a time consuming function
                                     dropEvent = undefined;
 
-
                                     // Trigger - change model
+                                    tdcMain.changeData( targetDropEvent, ui );
 
-                                    var modelId = ui.item.data( 'model_id' );
 
-                                    if (_.isUndefined( modelId ) ) {
-                                        alert( 'Error: Draggable without model!' );
-                                    } else {
 
-                                        var model = tdcMain.getModel( modelId );
-                                        //model.requestShortcode( '2' );
-
-                                    }
 
                                 }
                                 tdc_elements.sortable( 'refreshPositions' );
@@ -1191,6 +1299,8 @@ var tdcMain,
                             greedy: true,
 
                             drop: function (event, ui) {
+                                //tdcDebug.log( event );
+
                                 //tdcDebug.log( 'drop tdc_element or tdc_element_inner_row on outer list' );
 
                                 //tdcDebug.log( ui.draggable);
