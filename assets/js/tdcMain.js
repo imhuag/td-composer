@@ -89,7 +89,7 @@ var tdcMain,
 
             TdcModel = Backbone.Model.extend({
 
-                getShortcodeRender: function( containerModel, columns ) {
+                getShortcodeRender: function( containerDestinationParentModel, columns, newPosition ) {
 
                     var model = this,
 
@@ -109,15 +109,19 @@ var tdcMain,
 
                         // Important! It should have this property
                         if ( _.has( data, 'replyHtml' ) ) {
+
+                            // Update the 'html' attribute (This will trigger an event)
                             model.set( 'html', data.replyHtml );
 
-                            tdcDebug.log( model.get( 'parentModel' ) );
-
-
-
                             // Change the model structure
+                            var parentModel = model.get( 'parentModel' ),
+                                modelParentChildCollection = parentModel.get( 'childCollection' ),
+                                containerDestinationParentModelChildCollection = containerDestinationParentModel.get( 'childCollection' );
 
+                            modelParentChildCollection.remove( model );
+                            containerDestinationParentModelChildCollection.add( model, { at: newPosition } );
 
+                            //tdcDebug.log(containerDestinationParentModelChildCollection);
                         }
                     };
 
@@ -128,7 +132,50 @@ var tdcMain,
 
                     tdcJobManager.addJob( newJob );
 
-                }
+                },
+
+
+
+                //getShortcode: function() {
+                //    var modelType = this.get( 'type' ),
+                //        modelTag = this.get( 'tag' ),
+                //        modelLevel = this.get( 'level' ),
+                //        modelAttrs = this.get( 'attrs' ),
+                //
+                //        localShortcode = '';
+                //
+                //    _.map( modelAttrs, function( val, key ) {
+                //        localShortcode += ' ' + key + '="' + val + '"';
+                //    });
+                //
+                //    switch ( modelType ) {
+                //
+                //        case 'single' :
+                //            localShortcode = '[' + modelTag + localShortcode + ']';
+                //
+                //            break;
+                //
+                //        case 'closed':
+                //
+                //            var childShortcode = '';
+                //
+                //            if ( this.has( 'childCollection ' ) ) {
+                //                var childCollection = this.get( 'childCollection' );
+                //
+                //                _.each( childCollection, function())
+                //            }
+                //
+                //            // It happens that a closed shortcode not having child shortcodes
+                //            if ( !_.isUndefined( data.tempShortcode ) ) {
+                //                childShortcode = data.tempShortcode;
+                //            }
+                //            localShortcode = '[' + modelTag + localShortcode + ']' + childShortcode + '[/' + modelTag + ']';
+                //
+                //            break;
+                //    }
+                //
+                //    return localShortcode;
+                //}
             });
             TdcCollection = Backbone.Collection.extend({
                 model: TdcModel
@@ -174,12 +221,15 @@ var tdcMain,
                 }
 
 
-                var error;
+                var data = {
+                    error: undefined,
+                    shortcode: undefined
+                };
 
-                tdcMain.checkCurrentData( error );
+                tdcMain.checkCurrentData( data );
 
-                if ( !_.isUndefined( error ) ) {
-                    tdcDebug.log( error );
+                if ( !_.isUndefined( data.error ) ) {
+                    tdcDebug.log( data.error );
                 }
             }
         },
@@ -215,10 +265,10 @@ var tdcMain,
 
                 //console.log( element );
 
-                if ( element.has( 'tdc_collection') ) {
-                    var tdc_collection = element.get( 'tdc_collection' );
+                if ( element.has( 'childCollection') ) {
+                    var childCollection = element.get( 'childCollection' );
 
-                    model = tdcMain.getModel( modelId, tdc_collection );
+                    model = tdcMain.getModel( modelId, childCollection );
                 }
             });
 
@@ -302,16 +352,16 @@ var tdcMain,
 
                     if ( _.has(element, 'child') && element.child.length > 0 ) {
 
-                        model.set( 'tdc_collection', new TdcCollection() );
+                        model.set( 'childCollection', new TdcCollection() );
 
                         _.each( element.child, function(element, index, list) {
 
-                            tdcMain._getData( model.get( 'tdc_collection' ), model, element, errors );
+                            tdcMain._getData( model.get( 'childCollection' ), model, element, errors );
                         });
 
                         //for ( var i = 0; i < element.child.length; i++ ) {
                         //    console.log( errors );
-                        //    tdc._getData( model.get( 'tdc_collection' ), model, element.child[i], i, element.child, errors );
+                        //    tdc._getData( model.get( 'childCollection' ), model, element.child[i], i, element.child, errors );
                         //}
                     }
                     break;
@@ -338,20 +388,25 @@ var tdcMain,
         },
 
 
+
         /**
          * Helper function used to check if a model of the current structure data, respects the shortcode levels
          * @param model - backbone model - The current model
-         * @param error - string - The first error caught
+         * @param data - object - Ref.object {error: the first error caught; getShortcode: param that collects the shortcode structure}
          * @private
          */
-        _checkModelData: function( model, error ) {
+        _checkModelData: function( model, data ) {
 
-            var errorInfo;
+            // Do not continue anymore. This step is for '_each' calls
+            if ( ! _.isUndefined( data.error ) ) {
+                return;
+            }
+
 
             // not rows as the first elements
             if ( 0 === model.level && !_.isUndefined( model.parentModel ) ) {
 
-                error = 'Not rows as the first elements!';
+                data.error = 'Not rows as the first elements!';
                 return;
             }
 
@@ -359,7 +414,7 @@ var tdcMain,
             if ( !_.isUndefined( model.parentModel ) &&
                 parseInt( model.parentModel.get( 'level' ), 10 ) >= parseInt( model.level, 10 ) ) {
 
-                error = 'Elements does not respect the shortcode levels!';
+                data.error = 'Elements does not respect the shortcode levels!';
                 return;
             }
 
@@ -369,29 +424,112 @@ var tdcMain,
                 2 !== parseInt( model.parentModel.get( 'level' ), 10) &&
                 4 !== parseInt( model.level, 10 ) ) {
 
-                error = 'Elements respect the shortcode levels, but the difference higher than 1 is not allowed here!';
+                data.error = 'Elements respect the shortcode levels, but the difference higher than 1 is not allowed here!';
                 return;
             }
 
-            if ( model.has( 'tdc_collection' ) ) {
 
-                var tdcCollection = model.get( 'tdc_collection' );
+
+            // - This is an step required for getting shortcodes
+            // - For each level of the tree data structure, there is a temp property added to the 'data' param, each temp property being 'tempShortcodeDeepLevel' + level number
+            // In this data['tempShortcodeDeepLevel' + level number] the already checked nodes from the same level are saved (actually their shortcodes)
+            // - Obviously, these temp properties are initialized with empty string when a new level starts and are marked as undefined when a level stops
+            //
+            // (Important! Here the level means the deep of the tree data structure and not level of shortcode levels)
+
+            if ( ! _.isUndefined( data.getShortcode ) && _.isUndefined( data.deepLevel ) ) {
+                data.deepLevel = 0;
+                data['tempShortcodeDeepLevel' + data.deepLevel ] = '';
+            }
+
+
+
+            // Go deeper
+            if ( model.has( 'childCollection' ) ) {
+
+
+                // If getting shortcodes, prepare data for the next iteration step
+                if ( ! _.isUndefined( data.getShortcode ) ) {
+                    data.deepLevel++;
+                    data['tempShortcodeDeepLevel' + data.deepLevel ] = '';
+                }
+
+
+
+                var tdcCollection = model.get( 'childCollection' );
 
                 _.each( tdcCollection.models, function(element, index, list) {
-                    tdcMain._checkModelData( tdcCollection.get( element.cid ), error );
+                    tdcMain._checkModelData( tdcCollection.get( element.cid ), data );
                 });
+
+
+
+
+                // If getting shortcodes, prepare data for the next iteration step
+                if ( ! _.isUndefined( data.getShortcode ) ) {
+                    data.deepLevel--;
+                }
+            }
+
+
+
+            //Get the shortcode if the 'data.getShortcode' param is required (not undefined) and there's no error
+            if ( ! _.isUndefined( data.getShortcode ) ) {
+
+                var modelType = model.get( 'type' ),
+                    modelTag = model.get( 'tag' ),
+                    modelAttrs = model.get( 'attrs' ),
+
+                    localShortcode = '';
+
+                _.map( modelAttrs, function( val, key ) {
+                    localShortcode += ' ' + key + '="' + val + '"';
+                });
+
+
+                switch ( modelType ) {
+
+                    case 'single' :
+
+                        localShortcode = '[' + modelTag + localShortcode + ']';
+
+                        break;
+
+                    case 'closed':
+
+                        var childShortcode = '';
+
+                        // It happens that a closed shortcode not having child shortcodes
+                        if ( !_.isUndefined( data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel )  + 1 ) ] ) ) {
+                            childShortcode = data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel ) + 1 ) ];
+                            data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel ) + 1 ) ] = undefined;
+                        }
+                        localShortcode = '[' + modelTag + localShortcode + ']' + childShortcode + '[/' + modelTag + ']';
+
+                        break;
+                }
+
+                data['tempShortcodeDeepLevel' + data.deepLevel] += localShortcode;
+
+                //tdcDebug.log( data['tempShortcodeDeepLevel' + data.deepLevel] );
+
+                if ( 0 === data.deepLevel ) {
+                    data.getShortcode += localShortcode;
+                }
             }
         },
 
 
+
+
         /**
          * Check the current data structure to see if it respects the shortcode levels
-         * @param error - string - The first error caught
+         * @param data - object - Ref.object {error: the first error caught; getShortcode: param that collects the shortcode structure}
          */
-        checkCurrentData: function( error ) {
+        checkCurrentData: function( data ) {
 
             _.each( tdcRows.models, function(element, index, list) {
-                tdcMain._checkModelData( tdcRows.get( element.cid ), error );
+                tdcMain._checkModelData( tdcRows.get( element.cid ), data );
             });
         },
 
@@ -405,7 +543,7 @@ var tdcMain,
          * Important! This function should be called only by 'stop' sortable handler
          * Steps:
          * 1. Get the model of the draggable element
-         * 2. Get the model of the container (column or inner column) that contains the sortable list (the list where the element is dropped)
+         * 2. Get the model of the destination container (column or inner column) that contains the sortable list (the list where the element is dropped)
          * 3. Request to the model of the element, to update its 'html property'
          *      3.1 Get the 'column' from the model of the container
          *      3.2 Make the request
@@ -445,34 +583,34 @@ var tdcMain,
             // Step2 ----------
 
             // Get the closest inner column (maybe the sortable list is in an inner row)
-            var containerParent = jqSortableList.closest( '.tdc_inner_column' );
+            var containerDestinationParent = jqSortableList.closest( '.tdc_inner_column' );
 
             // Get the closest column, if the sortable list is not inside of an inner row
-            if ( ! containerParent.length ) {
-                containerParent = jqSortableList.closest( '.tdc_column' );
+            if ( ! containerDestinationParent.length ) {
+                containerDestinationParent = jqSortableList.closest( '.tdc_column' );
             }
 
             // @todo This check should be removed - the content should have consistency
-            if ( ! containerParent.length || _.isUndefined( containerParent.data( 'model_id' ) ) ) {
-                alert( 'Error: Container (column or inner column) not available!' );
+            if ( ! containerDestinationParent.length || _.isUndefined( containerDestinationParent.data( 'model_id' ) ) ) {
+                alert( 'Error: Container destination (column or inner column) not available!' );
                 return;
             }
 
 
             // The model id (where the item model must be inserted)
-            var containerParentModelId = containerParent.data( 'model_id');
+            var containerDestinationParentModelId = containerDestinationParent.data( 'model_id');
 
             // @todo This check should be removed - the content should have consistency
-            if ( _.isUndefined( containerParentModelId ) ) {
+            if ( _.isUndefined( containerDestinationParentModelId ) ) {
                 alert( 'Error: Container model id!' );
                 return;
             }
 
             // The model (where the item model must be inserted)
-            var containerParentModel = tdcMain.getModel( containerParentModelId );
+            var containerDestinationParentModel = tdcMain.getModel( containerDestinationParentModelId );
 
             // @todo This check should be removed - the content should have consistency
-            if ( _.isUndefined( containerParentModel ) ) {
+            if ( _.isUndefined( containerDestinationParentModel ) ) {
                 alert( 'Error: Column parent model!' );
                 return;
             }
@@ -480,11 +618,11 @@ var tdcMain,
 
 
             //tdcDebug.log( elementModelId );
-            //tdcDebug.log( containerParentModelId );
+            //tdcDebug.log( containerDestinationParentModelId );
 
             // Step3 ----------
 
-            var containerParentModelAttrs = containerParentModel.get( 'attrs'),
+            var containerParentModelAttrs = containerDestinationParentModel.get( 'attrs'),
                 colParam = 1;
 
             // @todo This check should be removed - the content should have consistency
@@ -500,9 +638,34 @@ var tdcMain,
                 case '3/3' : colParam = 3; break;
             }
 
+            // The new position of the element model in the 'childCollection' property of the containerDestinationParentModel
+            var newPosition = uiObject.item.index();
 
-            elementModel.getShortcodeRender( containerParentModel, colParam );
+            elementModel.getShortcodeRender( containerDestinationParentModel, colParam, newPosition );
+        },
+
+
+
+
+
+
+        getShortcodeFromData: function( data ) {
+
+            // We force initialize param shortcode to '', to be sure that '_checkModel' will get the shortcode, otherwise it will only check for error structures
+            data.getShortcode = '';
+
+            _.each( tdcRows.models, function(element, index, list) {
+                tdcMain._checkModelData( tdcRows.get( element.cid ), data );
+            });
         }
+
+
+
+
+
+
+
+
     };
 
 
@@ -601,7 +764,21 @@ var tdcMain,
                         });
 
                         tdcAdminUI._tdcJqObjSave.click(function(event) {
-                            alert( 'save the content' );
+
+                            var data = {
+                                error: undefined,
+                                getShortcode: ''
+                            };
+
+                            tdcMain.getShortcodeFromData( data );
+
+                            if ( !_.isUndefined( data.error ) ) {
+                                tdcDebug.log( data.error );
+                            } else {
+                                tdcDebug.log( data.getShortcode );
+                            }
+
+                            alert( 'Save the content. Look to the console for the post content' );
                         });
                     };
 
@@ -762,9 +939,9 @@ var tdcMain,
                                 });
 
                                 // Go deeper to the children
-                                if ( model.has( 'tdc_collection' ) ) {
+                                if ( model.has( 'childCollection' ) ) {
 
-                                    bindViewsModelsWrappers( errors, model.get( 'tdc_collection'), $element, level );
+                                    bindViewsModelsWrappers( errors, model.get( 'childCollection'), $element, level );
                                 }
                             });
 
@@ -873,9 +1050,9 @@ var tdcMain,
                                 });
 
                                 // Go deeper to the children, if the jq dom element is not tdc_element and the model has collection
-                                if ( ! $element.hasClass( 'tdc_element') && model.has( 'tdc_collection' ) ) {
+                                if ( ! $element.hasClass( 'tdc_element') && model.has( 'childCollection' ) ) {
 
-                                    bindViewsModelsWrappers( errors, model.get( 'tdc_collection'), $element, level );
+                                    bindViewsModelsWrappers( errors, model.get( 'childCollection'), $element, level );
                                 }
                             });
 
