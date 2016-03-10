@@ -120,6 +120,7 @@ var tdcMain,
 
                             modelParentChildCollection.remove( model );
                             containerDestinationParentModelChildCollection.add( model, { at: newPosition } );
+                            model.set( 'parentModel', containerDestinationParentModel );
 
                             //tdcDebug.log(containerDestinationParentModelChildCollection);
                         }
@@ -132,50 +133,7 @@ var tdcMain,
 
                     tdcJobManager.addJob( newJob );
 
-                },
-
-
-
-                //getShortcode: function() {
-                //    var modelType = this.get( 'type' ),
-                //        modelTag = this.get( 'tag' ),
-                //        modelLevel = this.get( 'level' ),
-                //        modelAttrs = this.get( 'attrs' ),
-                //
-                //        localShortcode = '';
-                //
-                //    _.map( modelAttrs, function( val, key ) {
-                //        localShortcode += ' ' + key + '="' + val + '"';
-                //    });
-                //
-                //    switch ( modelType ) {
-                //
-                //        case 'single' :
-                //            localShortcode = '[' + modelTag + localShortcode + ']';
-                //
-                //            break;
-                //
-                //        case 'closed':
-                //
-                //            var childShortcode = '';
-                //
-                //            if ( this.has( 'childCollection ' ) ) {
-                //                var childCollection = this.get( 'childCollection' );
-                //
-                //                _.each( childCollection, function())
-                //            }
-                //
-                //            // It happens that a closed shortcode not having child shortcodes
-                //            if ( !_.isUndefined( data.tempShortcode ) ) {
-                //                childShortcode = data.tempShortcode;
-                //            }
-                //            localShortcode = '[' + modelTag + localShortcode + ']' + childShortcode + '[/' + modelTag + ']';
-                //
-                //            break;
-                //    }
-                //
-                //    return localShortcode;
-                //}
+                }
             });
             TdcCollection = Backbone.Collection.extend({
                 model: TdcModel
