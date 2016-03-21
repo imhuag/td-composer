@@ -39,8 +39,6 @@ body.tdc #wpbody-content {
   margin-top: -32px !important;
 }
 
-
-
 #tdc {
   margin: 0 auto !important;
   display: block;
@@ -102,86 +100,6 @@ body.tdc #wpbody-content {
 }
 
 
-
-
-
-
-
-body.tdc #tdc-masque {
-  margin-top: -32px;
-  position: absolute;
-  border: 1px solid lightgreen;
-  height: 0;
-  width: 0;
-  z-index: 100000;
-  pointer-events: none;
-  display: none;
-}
-
-.td-masque-content {
-  background-color: #a7a7a7;
-  opacity: 0.3;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
-body.tdc #tdc-row {
-  background-color: red;
-  color: #FFF;
-  width: 100px;
-  pointer-events: all;
-  cursor: pointer;
-}
-
-body.tdc #tdc-row > #tdc-column {
-  background-color: blue;
-  color: #FFF;
-  width: 100px;
-  cursor: pointer;
-}
-
-
-
-.tdc-sortable-placeholder {
-  border: 1px dashed red;
-  height: 50px;
-  width: 50%;
-  position: absolute;
-  pointer-events: none;
-  z-index: 100000;
-  opacity: 0.3;
-  right: 0;
-  background-color: yellow;
-}
-
-.tdc-inner-row .tdc-sortable-placeholder {
-  background-color: blue;
-}
-
-.tdc-elements {
-  min-height: 50px; /* used when only the placeholder is inside and it's hidden */
-}
-
-.tdc-elements:empty {
-  border: 1px dashed green;
-  height: 50px;
-}
-
-.tdc-element-moving {
-  display: block !important;
-  opacity: 0.5;
-}
-
-.tdc-element-mouse,
-.tdc-element-sort {
-  border: 1px solid blue;
-  height: 60px !important;
-  width: 60px !important;
-  z-index: 9999;
-}
-
-
 #tdc-dragged-helper {
   display: none;
   position: fixed;
@@ -195,15 +113,24 @@ body.tdc #tdc-row > #tdc-column {
   color: #FFFFFF;
 }
 
-#tdc-placeholder {
-  display: none;
-  border: 1px dashed red;
-  height: 50px;
-  width: 50%;
-  position: absolute;
-  pointer-events: none;
-  z-index: 100000;
-  opacity: 0.3;
-  right: 0;
-  background-color: yellow;
-}
+
+//body.tdc #tdc-masque {
+//  margin-top: -32px;
+//  position: absolute;
+//  border: 1px solid lightgreen;
+//  height: 0;
+//  width: 0;
+//  z-index: 100000;
+//  pointer-events: none;
+//  display: none;
+//}
+//
+//.td-masque-content {
+//  background-color: #a7a7a7;
+//  opacity: 0.3;
+//  position: absolute;
+//  height: 100%;
+//  width: 100%;
+//}
+
+
