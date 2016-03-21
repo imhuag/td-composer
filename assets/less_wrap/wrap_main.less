@@ -49,62 +49,61 @@ body.tdc #wpbody-content {
 
 
 
-/*
+
 
 #tdc_settings,
 #tdc_elements,
 #tdc_inspector {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 300px;
-    border-right: 1px solid #e2e2e2;
-    background-color: #f5f5f5;
-    z-index: 1;
-    margin-top: -32px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  border-right: 1px solid #e2e2e2;
+  background-color: #f5f5f5;
+  z-index: 1;
 }
 
 #tdc_elements,
 #tdc_inspector {
-    left: -300px;
-    transition: all 0.2s;
-    top: 55px;
+  left: -300px;
+  transition: all 0.2s;
+  top: 55px;
 }
 
 #tdc_add,
 #tdc_save {
-    height: 50px;
-    width: 48%;
-    margin: 2px;
-    float: left;
-    border: 1px solid black
+  height: 50px;
+  width: 48%;
+  margin: 2px;
+  float: left;
+  border: 1px solid black
 }
 
 #tdc_elements .tdc_element {
-    height: 100px;
-    width: 143px;
-    margin: 2px;
-    float: left;
-    border: 1px solid black;
-    background-color: #808080;
-    color: #FFffff;
+  height: 100px;
+  width: 143px;
+  margin: 2px;
+  float: left;
+  border: 1px solid black;
+  background-color: #808080;
+  color: #FFffff;
 }
 
 #tdc_elements .tdc_wrapper,
 #tdc_inspector .tdc_wrapper {
-    border: 1px solid black;
-    height: 100%;
+  border: 1px solid black;
+  height: 100%;
 }
 
 #tdc_elements .tdc_title,
 #tdc_inspector .tdc_title {
-    width: 100%;
+  width: 100%;
 }
 
 
 
-*/
+
 
 
 
@@ -170,3 +169,73 @@ style for sortable
     width: 100px !important;
 }
 */
+
+
+/*
+style for sortable
+ */
+
+.tdc-sortable-placeholder {
+  border: 1px dashed red;
+  height: 50px;
+  width: 50%;
+  position: absolute;
+  pointer-events: none;
+  z-index: 100000;
+  opacity: 0.3;
+  right: 0;
+  background-color: yellow;
+}
+
+.tdc_inner_row .tdc-sortable-placeholder {
+  background-color: blue;
+}
+
+.tdc_elements {
+  min-height: 50px; /* used when only the placeholder is inside and it's hidden */
+}
+
+.tdc_elements:empty {
+  border: 1px dashed green;
+  height: 50px;
+}
+
+.tdc_element_moving {
+  display: block !important;
+  opacity: 0.5;
+}
+
+.tdc_element_mouse,
+.tdc_element_sort {
+  border: 1px solid blue;
+  height: 60px !important;
+  width: 60px !important;
+  z-index: 9999;
+}
+
+
+#tdc-dragged-helper {
+  display: none;
+  position: fixed;
+  border: 1px solid blue;
+  width: 100px;
+  height: 100px;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  pointer-events: none;
+  color: #FFFFFF;
+}
+
+#tdc_placeholder {
+  display: none;
+  border: 1px dashed red;
+  height: 50px;
+  width: 50%;
+  position: absolute;
+  pointer-events: none;
+  z-index: 100000;
+  opacity: 0.3;
+  right: 0;
+  background-color: yellow;
+}

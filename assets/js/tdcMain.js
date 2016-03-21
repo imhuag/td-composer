@@ -7,14 +7,15 @@
 /* global _:{} */
 
 /* global tdcShortcodeParser:{} */
+/* global tdcAdminWrapperUI:{} */
 
 
 var tdcMain,
-    tdcAdminUI,
+    tdcAdminIFrameUI,
     tdcAdminStructure,
     tdcDebug;
 
-(function(jQuery, backbone, _, undefined){
+(function(jQuery, backbone, _, undefined) {
 
     'use strict';
 
@@ -32,7 +33,7 @@ var tdcMain,
         TdcCollection,
         TdcLiveView,
 
-        // The general rows backbone collection
+    // The general rows backbone collection
         tdcRows;
 
 
@@ -53,7 +54,7 @@ var tdcMain,
 
 
         init: function() {
-            tdcAdminUI.init();
+            tdcAdminIFrameUI.init();
 
             tdcMain._defineStructuredData();
             tdcMain._initStructuredData();
@@ -93,7 +94,7 @@ var tdcMain,
 
                     var model = this,
 
-                        // A builder shortcode function must be used instead
+                    // A builder shortcode function must be used instead
                         shortcode = model.get( 'content'),
 
                         newJob = new tdcJobManager.job();
@@ -275,16 +276,16 @@ var tdcMain,
 
                     // elements do not respect the shortcode levels: 0 -> 1 -> 2 ...
                     if ( !_.isUndefined( parentModel ) &&
-                            parseInt( parentModel.get( 'level' ), 10 ) >= parseInt( prop, 10 ) ) {
+                        parseInt( parentModel.get( 'level' ), 10 ) >= parseInt( prop, 10 ) ) {
 
                         errorInfo = 'Elements does not respect the shortcode levels!';
                     }
 
                     // elements respect the shortcode levels: the difference to just 1, and higher than 1 when parentModel is column (level 2) and element is block (level 4)
                     if ( !_.isUndefined( parentModel ) &&
-                            parseInt( prop, 10 ) - parseInt( parentModel.get( 'level'), 10 ) > 1 &&
-                            2 !== parseInt( parentModel.get( 'level' ), 10) &&
-                            4 !== parseInt( prop, 10 ) ) {
+                        parseInt( prop, 10 ) - parseInt( parentModel.get( 'level'), 10 ) > 1 &&
+                        2 !== parseInt( parentModel.get( 'level' ), 10) &&
+                        4 !== parseInt( prop, 10 ) ) {
 
                         errorInfo = 'Elements respect the shortcode levels, but the difference higher than 1 is not allowed here!';
                     }
@@ -627,999 +628,1936 @@ var tdcMain,
     };
 
 
+    tdcAdminIFrameUI = _.extend( {}, tdcAdminWrapperUI );
+
+    tdcAdminIFrameUI.init = function() {
+
+        tdcAdminIFrameUI._initUI();
+
+        // This should be marked as false if something wrong
+        tdcAdminIFrameUI._initialized = true;
+    };
+
+    tdcAdminIFrameUI._initUI = function() {
+
+        tdcAdminIFrameUI._tdcPostSettings = window.tdcPostSettings;
 
 
 
 
 
+        if ( undefined === tdcAdminIFrameUI._tdcPostSettings ||
+            !tdcAdminIFrameUI._tdcJqObjWrapper.length ) {
+
+            // Here there will be a debug console window call
+            alert('something wrong');
+
+            return;
+        }
+
+        var tdc = jQuery( '<iframe id="tdc" src="' + tdcAdminIFrameUI._tdcPostSettings.postUrl + '?td_action=tdc_edit&post_id=' + tdcAdminIFrameUI._tdcPostSettings.postId + '" ' +
+        'scrolling="auto" style="width: 100%; height: 100%"></iframe>' )
+            .css({
+                height: jQuery(window).innerHeight()
+            })
+            .load(function(){
+
+                var $this = jQuery(this);
+
+                var contents = jQuery(this).contents();
 
 
-    tdcAdminUI = {
-
-        _tdcPostSettings: undefined,
-        _tdcJqObjWrapper: undefined,
-        _tdcJqObjSettings: undefined,
-        _tdcJqObjElements: undefined,
-        _tdcJqObjInspector: undefined,
-        _tdcJqObjAdd: undefined,
-        _tdcJqObjSave: undefined,
-
-        _initialized: false,
-
-
-        init: function() {
-
-            tdcAdminUI._initUI();
-
-            // This should be marked as false if something wrong
-            tdcAdminUI._initialized = true;
-        },
-
-        _initUI: function() {
-
-
-            tdcAdminUI._tdcPostSettings = window.tdcPostSettings;
-            tdcAdminUI._tdcJqObjWrapper = jQuery( '#tdc_wrapper');
-
-            if ( undefined === tdcAdminUI._tdcPostSettings ||
-                !tdcAdminUI._tdcJqObjWrapper.length ) {
-
-                // Here there will be a debug console window call
-                alert('something wrong');
-
-                return;
-            }
-
-
-
-            var tdc = jQuery( '<iframe id="tdc" src="' + tdcAdminUI._tdcPostSettings.postUrl + '?td_action=tdc_edit&post_id=' + tdcAdminUI._tdcPostSettings.postId + '" ' +
-            'scrolling="auto" style="width: 100%; height: 100%"></iframe>' )
-                .css({
-                    height: jQuery(window).innerHeight()
-                })
-                .load(function(){
-
-
-                    var contents = jQuery(this).contents();
-
-
-                    var setUI = function() {
-                        tdcAdminUI._tdcJqObjSettings = jQuery('<div id="tdc_settings"></div>');
-
-                        tdcAdminUI._tdcJqObjAdd = jQuery( '<div id="tdc_add">Add</div>' );
-                        tdcAdminUI._tdcJqObjSave = jQuery( '<div id="tdc_save">Save</div>' );
-
-                        tdcAdminUI._tdcJqObjSettings.append( tdcAdminUI._tdcJqObjAdd );
-                        tdcAdminUI._tdcJqObjSettings.append( tdcAdminUI._tdcJqObjSave );
-
-                        tdcAdminUI._tdcJqObjInspector = jQuery('<div id="tdc_inspector"></div>');
-
-                        tdcAdminUI._tdcJqObjInspector.append( '<div class="tdc_title">Inspector</div><div class="tdc_wrapper"></div>' );
-
-                        tdcAdminUI._tdcJqObjElements = jQuery('<div id="tdc_elements" class="test"></div>');
-                        tdcAdminUI._tdcJqObjElements.append( '<div class="tdc_element">Block 1</div>' +
-                        '<div class="tdc_element">Block 2</div>' );
-
-
-                        contents.find('body').append( tdcAdminUI._tdcJqObjSettings );
-                        contents.find('body').append( tdcAdminUI._tdcJqObjInspector );
-                        contents.find('body').append( tdcAdminUI._tdcJqObjElements );
-
-
-                        tdcAdminUI._tdcJqObjSettings.css({
-                            height: jQuery(window).innerHeight()
+                /**
+                 * Add wrappers around all shortcode dom elements
+                 */
+                var addWrappers = function() {
+                    contents.find( '.tdc_row')
+                        .wrapAll( '<div id="tdc_rows"></div>' )
+                        .each(function(index, el ) {
+                            jQuery( el ).find( '.tdc_column' ).wrapAll( '<div class="tdc_columns"></div>' );
                         });
 
 
-                        tdcAdminUI._tdcJqObjInspector.css({
-                            height: jQuery(window).innerHeight() - 75
-                        });
 
-                        tdcAdminUI._tdcJqObjAdd.click(function(event) {
-                            tdcAdminUI._tdcJqObjElements.css({
-                                left: 0
-                            });
-                        });
+                    // all tdc_inner_rows
+                    // all tdc_elements
+                    contents.find( '.tdc_column').each(function(index, el ) {
+                        //jQuery( el ).find( '.tdc_inner_row').wrapAll( '<div class="tdc_inner_rows"></div>');
+                        //jQuery( el ).find( '.tdc_inner_rows').wrapAll( '<div class="tdc_element_inner_row"></div>');
 
-                        tdcAdminUI._tdcJqObjSave.click(function(event) {
+                        jQuery( el ).find( '.tdc_inner_row').wrap( '<div class="tdc_element_inner_row"></div>');
 
-                            var data = {
-                                error: undefined,
-                                getShortcode: ''
-                            };
+                        jQuery( el ).find( '.td_block_wrap').wrap( '<div class="tdc_element"></div>' );
+                    });
 
-                            tdcMain.getShortcodeFromData( data );
 
-                            if ( !_.isUndefined( data.error ) ) {
-                                tdcDebug.log( data.error );
-                            } else {
-                                tdcDebug.log( data.getShortcode );
+
+                    // all tdc_inner_columns
+                    contents.find( '.tdc_inner_row').each(function(index, el ) {
+                        jQuery( el).find( '.tdc_inner_column').wrapAll( '<div class="tdc_inner_columns"></div>' );
+                    });
+
+
+
+                    // all tdc_element of the tdc_inner_column, moved to the tdc_elements
+                    contents.find( '.tdc_inner_column').each(function(index, el) {
+                        var tdc_element = jQuery( el).find( '.tdc_element');
+
+                        if ( tdc_element.length ) {
+                            tdc_element.addClass( 'tdc_element_inner_column' ).wrapAll( '<div class="tdc_elements"></div>' );
+                        } else {
+
+                            // add sortable area if empty inner column
+                            var innerMostElement = jQuery( el).find( '.wpb_wrapper' );
+
+                            if ( innerMostElement.length ) {
+                                innerMostElement.append( '<div class="tdc_elements"></div>' );
                             }
-
-                            alert( 'Save the content. Look to the console for the post content' );
-                        });
-                    };
-
-                    setUI();
-
-
-
-
-
-
-
-
-
-                    /**
-                     * Add wrappers around all shortcode dom elements
-                     */
-                    var addWrappers = function() {
-                        contents.find( '.tdc_row')
-                            .wrapAll( '<div id="tdc_rows"></div>' )
-                            .each(function(index, el ) {
-                                jQuery( el ).find( '.tdc_column' ).wrapAll( '<div class="tdc_columns"></div>' );
-                            });
-
-
-
-                        // all tdc_inner_rows
-                        // all tdc_elements
-                        contents.find( '.tdc_column').each(function(index, el ) {
-                            //jQuery( el ).find( '.tdc_inner_row').wrapAll( '<div class="tdc_inner_rows"></div>');
-                            //jQuery( el ).find( '.tdc_inner_rows').wrapAll( '<div class="tdc_element_inner_row"></div>');
-
-                            jQuery( el ).find( '.tdc_inner_row').wrap( '<div class="tdc_element_inner_row"></div>');
-
-                            jQuery( el ).find( '.td_block_wrap').wrap( '<div class="tdc_element"></div>' );
-                        });
-
-
-
-                        // all tdc_inner_columns
-                        contents.find( '.tdc_inner_row').each(function(index, el ) {
-                            jQuery( el).find( '.tdc_inner_column').wrapAll( '<div class="tdc_inner_columns"></div>' );
-                        });
-
-
-
-                        // all tdc_element of the tdc_inner_column, moved to the tdc_elements
-                        contents.find( '.tdc_inner_column').each(function(index, el) {
-                            var tdc_element = jQuery( el).find( '.tdc_element');
-
-                            if ( tdc_element.length ) {
-                                tdc_element.addClass( 'tdc_element_inner_column' ).wrapAll( '<div class="tdc_elements"></div>' );
-                            } else {
-
-                                // add sortable area if empty inner column
-                                var innerMostElement = jQuery( el).find( '.wpb_wrapper' );
-
-                                if ( innerMostElement.length ) {
-                                    innerMostElement.append( '<div class="tdc_elements"></div>' );
-                                }
-                            }
-                        });
-
-
-
-                        // all tdc_elements not already moved to tdc_elements, moved to their new tdc_elements (columns can have their elements, which are not inside of an inner row > inner column)
-                        contents.find( '.tdc_column').each(function(index, el) {
-
-                            var tdc_element = jQuery( el).find( '.tdc_element, .tdc_element_inner_row');
-
-                            if ( tdc_element.length ) {
-                                tdc_element
-                                    .not('.tdc_element_inner_column')
-                                    .addClass( 'tdc_element_column' )
-                                    .wrapAll( '<div class="tdc_elements"></div>' );
-
-                                //tdc_element.attr( 'data-td_shorcode', 11);
-
-                                var td_block_wrap = tdc_element.find( '.td_block_wrap' );
-                                if ( td_block_wrap.length ) {
-
-                                }
-
-                            } else {
-
-                                // add sortable area if empty columns
-                                var innerMostElement = jQuery( el).find( '.wpb_wrapper' );
-
-                                if ( innerMostElement.length ) {
-                                    innerMostElement.append( '<div class="tdc_elements"></div>' );
-                                }
-                            }
-                        });
-                    };
-
-                    addWrappers();
-
-
-
-
-
-
-
-                    /**
-                     * Create views.
-                     * Bind views to DOM elements.
-                     * Bind models to views.
-                     * @param error
-                     */
-                    var bindViewsModelsWrappers = function( errors, collection, jqDOMElement, level ) {
-
-                        if ( ! _.isEmpty( errors ) ) {
-                            return;
                         }
-
-                        if ( _.isUndefined( level ) ) {
-                            level = 0;
-                        }
-
-                        if ( _.isUndefined( collection ) ) {
-
-                            collection = tdcRows;
-
-                            // Bind rows
-                            var tdc_row = contents.find( '.tdc_row' );
+                    });
 
 
-                            // Stop if models number doesn't match the DOM elements number
-                            if ( collection.models.length !== tdc_row.length ) {
 
-                                errors[ _.keys(errors).length ] = {
-                                    collection: collection,
-                                    jqDOMElements: tdc_row,
-                                    info: 'Error at rows'
-                                };
-                                return;
+                    // all tdc_elements not already moved to tdc_elements, moved to their new tdc_elements (columns can have their elements, which are not inside of an inner row > inner column)
+                    contents.find( '.tdc_column').each(function(index, el) {
+
+                        var tdc_element = jQuery( el).find( '.tdc_element, .tdc_element_inner_row');
+
+                        if ( tdc_element.length ) {
+                            tdc_element
+                                .not('.tdc_element_inner_column')
+                                .addClass( 'tdc_element_column' )
+                                .wrapAll( '<div class="tdc_elements"></div>' );
+
+                            //tdc_element.attr( 'data-td_shorcode', 11);
+
+                            var td_block_wrap = tdc_element.find( '.td_block_wrap' );
+                            if ( td_block_wrap.length ) {
+
                             }
-
-
-                            // Increment the level, for the next bindViewsModelsWrappers call
-                            level++;
-
-                            _.each( tdc_row, function( element, index, list ) {
-
-                                // Get the model
-                                var model = collection.models[ index ],
-                                    $element = jQuery( element );
-
-                                // Attach data 'model_id' to the DOM element
-                                $element.data( 'model_id' , model.cid );
-
-                                // Set the html attribute for the model (its changed is captured by view)
-                                model.set( 'html', element.innerHTML );
-
-                                // Create the view
-                                new TdcLiveView({
-                                    model: model,
-                                    el: element
-                                });
-
-                                // Go deeper to the children
-                                if ( model.has( 'childCollection' ) ) {
-
-                                    bindViewsModelsWrappers( errors, model.get( 'childCollection'), $element, level );
-                                }
-                            });
-
-                            level--;
 
                         } else {
 
-                            var jqDOMElements;
+                            // add sortable area if empty columns
+                            var innerMostElement = jQuery( el).find( '.wpb_wrapper' );
 
-                            switch ( level ) {
-
-                                case 1:
-
-                                    jqDOMElements = jqDOMElement.find( '.tdc_columns:first' ).children( '.tdc_column' );
-
-                                    // Stop if models number doesn't match the DOM elements number
-                                    if ( collection.models.length !== jqDOMElements.length ) {
-
-                                        errors[ _.keys(errors).length ] = {
-                                            collection: collection,
-                                            jqDOMElements: jqDOMElements,
-                                            info: 'Errors at columns',
-                                            level: level
-                                        };
-                                        return;
-                                    }
-
-                                    break;
-
-                                case 2:
-
-                                    jqDOMElements = jqDOMElement.find( '.tdc_elements:first' ).children( '.tdc_element, .tdc_element_inner_row' );
-
-                                    // Stop if models number doesn't match the DOM elements number
-                                    if ( collection.models.length !== jqDOMElements.length ) {
-
-                                        errors[ _.keys(errors).length ] = {
-                                            collection: collection,
-                                            jqDOMElements: jqDOMElements,
-                                            info: 'Errors at columns elements',
-                                            level: level
-                                        };
-                                        return;
-                                    }
-
-                                    break;
-
-                                case 3:
-
-                                    jqDOMElements = jqDOMElement.find( '.tdc_inner_columns:first' ).children( '.tdc_inner_column' );
-
-                                    // Stop if models number doesn't match the DOM elements number
-                                    if ( collection.models.length !== jqDOMElements.length ) {
-
-                                        errors[ _.keys(errors).length ] = {
-                                            collection: collection,
-                                            jqDOMElements: jqDOMElements,
-                                            info: 'Errors at inner columns',
-                                            level: level
-                                        };
-                                        return;
-                                    }
-
-                                    break;
-
-                                case 4:
-
-                                    jqDOMElements = jqDOMElement.find( '.tdc_elements:first' ).children( '.tdc_element' );
-
-                                    // Stop if models number doesn't match the DOM elements number
-                                    if ( collection.models.length !== jqDOMElements.length ) {
-
-                                        errors[ _.keys(errors).length ] = {
-                                            collection: collection,
-                                            jqDOMElements: jqDOMElements,
-                                            info: 'Errors at elements',
-                                            level: level
-                                        };
-                                        return;
-                                    }
-
-                                    break;
+                            if ( innerMostElement.length ) {
+                                innerMostElement.append( '<div class="tdc_elements"></div>' );
                             }
-
-
-
-                            // Increment the level, for the next bindViewsModelsWrappers call
-                            level++;
-
-                            _.each( jqDOMElements, function( element, index, list ) {
-
-                                // Get the model
-                                var model = collection.models[ index ],
-                                    $element = jQuery( element );
-
-                                // Attach data 'model_id' to the DOM element
-                                $element.data( 'model_id' , model.cid );
-
-                                // Set the html attribute for the model (its changed is captured by view)
-                                model.set( 'html', element.innerHTML );
-
-                                // Create the view
-                                new TdcLiveView({
-                                    model: model,
-                                    el: element
-                                });
-
-                                // Go deeper to the children, if the jq dom element is not tdc_element and the model has collection
-                                if ( ! $element.hasClass( 'tdc_element') && model.has( 'childCollection' ) ) {
-
-                                    bindViewsModelsWrappers( errors, model.get( 'childCollection'), $element, level );
-                                }
-                            });
-
-                            // Decrement the level, for the next bindViewsModelsWrappers call
-                            level--;
                         }
+                    });
+                };
 
-                    };
+                addWrappers();
 
-                    var errors = {};
 
-                    bindViewsModelsWrappers( errors );
+
+
+
+
+
+
+                /**
+                 * Create views.
+                 * Bind views to DOM elements.
+                 * Bind models to views.
+                 * @param error
+                 */
+                var bindViewsModelsWrappers = function( errors, collection, jqDOMElement, level ) {
 
                     if ( ! _.isEmpty( errors ) ) {
-                        for ( var prop in errors ) {
-                            tdcDebug.log( errors[ prop ] );
+                        return;
+                    }
+
+                    if ( _.isUndefined( level ) ) {
+                        level = 0;
+                    }
+
+                    if ( _.isUndefined( collection ) ) {
+
+                        collection = tdcRows;
+
+                        // Bind rows
+                        var tdc_row = contents.find( '.tdc_row' );
+
+
+                        // Stop if models number doesn't match the DOM elements number
+                        if ( collection.models.length !== tdc_row.length ) {
+
+                            errors[ _.keys(errors).length ] = {
+                                collection: collection,
+                                jqDOMElements: tdc_row,
+                                info: 'Error at rows'
+                            };
+                            return;
+                        }
+
+
+                        // Increment the level, for the next bindViewsModelsWrappers call
+                        level++;
+
+                        _.each( tdc_row, function( element, index, list ) {
+
+                            // Get the model
+                            var model = collection.models[ index ],
+                                $element = jQuery( element );
+
+                            // Attach data 'model_id' to the DOM element
+                            $element.data( 'model_id' , model.cid );
+
+                            // Set the html attribute for the model (its changed is captured by view)
+                            model.set( 'html', element.innerHTML );
+
+                            // Create the view
+                            new TdcLiveView({
+                                model: model,
+                                el: element
+                            });
+
+                            // Go deeper to the children
+                            if ( model.has( 'childCollection' ) ) {
+
+                                bindViewsModelsWrappers( errors, model.get( 'childCollection'), $element, level );
+                            }
+                        });
+
+                        level--;
+
+                    } else {
+
+                        var jqDOMElements;
+
+                        switch ( level ) {
+
+                            case 1:
+
+                                jqDOMElements = jqDOMElement.find( '.tdc_columns:first' ).children( '.tdc_column' );
+
+                                // Stop if models number doesn't match the DOM elements number
+                                if ( collection.models.length !== jqDOMElements.length ) {
+
+                                    errors[ _.keys(errors).length ] = {
+                                        collection: collection,
+                                        jqDOMElements: jqDOMElements,
+                                        info: 'Errors at columns',
+                                        level: level
+                                    };
+                                    return;
+                                }
+
+                                break;
+
+                            case 2:
+
+                                jqDOMElements = jqDOMElement.find( '.tdc_elements:first' ).children( '.tdc_element, .tdc_element_inner_row' );
+
+                                // Stop if models number doesn't match the DOM elements number
+                                if ( collection.models.length !== jqDOMElements.length ) {
+
+                                    errors[ _.keys(errors).length ] = {
+                                        collection: collection,
+                                        jqDOMElements: jqDOMElements,
+                                        info: 'Errors at columns elements',
+                                        level: level
+                                    };
+                                    return;
+                                }
+
+                                break;
+
+                            case 3:
+
+                                jqDOMElements = jqDOMElement.find( '.tdc_inner_columns:first' ).children( '.tdc_inner_column' );
+
+                                // Stop if models number doesn't match the DOM elements number
+                                if ( collection.models.length !== jqDOMElements.length ) {
+
+                                    errors[ _.keys(errors).length ] = {
+                                        collection: collection,
+                                        jqDOMElements: jqDOMElements,
+                                        info: 'Errors at inner columns',
+                                        level: level
+                                    };
+                                    return;
+                                }
+
+                                break;
+
+                            case 4:
+
+                                jqDOMElements = jqDOMElement.find( '.tdc_elements:first' ).children( '.tdc_element' );
+
+                                // Stop if models number doesn't match the DOM elements number
+                                if ( collection.models.length !== jqDOMElements.length ) {
+
+                                    errors[ _.keys(errors).length ] = {
+                                        collection: collection,
+                                        jqDOMElements: jqDOMElements,
+                                        info: 'Errors at elements',
+                                        level: level
+                                    };
+                                    return;
+                                }
+
+                                break;
+                        }
+
+
+
+                        // Increment the level, for the next bindViewsModelsWrappers call
+                        level++;
+
+                        _.each( jqDOMElements, function( element, index, list ) {
+
+                            // Get the model
+                            var model = collection.models[ index ],
+                                $element = jQuery( element );
+
+                            // Attach data 'model_id' to the DOM element
+                            $element.data( 'model_id' , model.cid );
+
+                            // Set the html attribute for the model (its changed is captured by view)
+                            model.set( 'html', element.innerHTML );
+
+                            // Create the view
+                            new TdcLiveView({
+                                model: model,
+                                el: element
+                            });
+
+                            // Go deeper to the children, if the jq dom element is not tdc_element and the model has collection
+                            if ( ! $element.hasClass( 'tdc_element') && model.has( 'childCollection' ) ) {
+
+                                bindViewsModelsWrappers( errors, model.get( 'childCollection'), $element, level );
+                            }
+                        });
+
+                        // Decrement the level, for the next bindViewsModelsWrappers call
+                        level--;
+                    }
+
+                };
+
+                var errors = {};
+
+                bindViewsModelsWrappers( errors );
+
+                if ( ! _.isEmpty( errors ) ) {
+                    for ( var prop in errors ) {
+                        tdcDebug.log( errors[ prop ] );
+                    }
+                }
+
+
+                tdcDebug.log( tdcRows.models );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                function setOperationUI() {
+
+                    var
+
+                    // The 'tdc_element' elements (tagdiv blocks)
+                        tdc_element = contents.find( '.tdc_element'),
+
+                    // The 'tdc_elements' elements
+                        tdc_elements = contents.find( '.tdc_elements'),
+
+                    // The 'tdc_row' elements
+                        tdc_row = contents.find( '.tdc_row' ),
+
+                    // The 'tdc_column' elements
+                        tdc_column = contents.find( '.tdc_column' ),
+
+                    // The 'tdc_element_inner_row' elements
+                        tdc_element_inner_row = contents.find( '.tdc_element_inner_row' ),
+
+                    // The 'tdc_inner_column' elements
+                        tdc_inner_column = contents.find( '.tdc_inner_column' ),
+
+                    // The 'tdc_element', 'tdc_inner_column', 'tdc_element_inner_row', 'tdc_column' or 'tdc_row'  being dragged
+                        draggedElement,
+
+                    // The 'tdc_element', 'tdc_inner_column', 'tdc_element_inner_row', 'tdc_column' or 'tdc_row' where the 'draggedElement' is over
+                        current_element_over;
+
+
+                    function activeDraggedElement( currentElement ) {
+                        draggedElement = currentElement;
+                        draggedElement.css({
+                            opacity: 0.5
+                        });
+                        draggedElement.addClass( 'tdc_dragged' );
+                        console.log( 'ACTIVATE' );
+                        console.log( draggedElement );
+                    }
+
+                    function deactiveDraggedElement() {
+                        if ( ! _.isUndefined( draggedElement ) ) {
+                            draggedElement.css({
+                                opacity: ''
+                            });
+                            draggedElement.removeClass( 'tdc_dragged' );
+
+                            console.log( 'DEACTIVATE' );
+                            console.log( draggedElement );
+
+                            draggedElement = undefined;
+                        } else {
+                            console.log( 'dragged UNDEFINED' );
                         }
                     }
 
+                    function showHelper( mouseEvent ) {
+                        var $helper = tdcAdminIFrameUI._tdcJqObjHelper;
+                        if ( ! _.isUndefined( draggedElement ) ) {
+                            $helper.css({
+                                left: mouseEvent.clientX - 50,
+                                top: mouseEvent.clientY - 50
+                            });
+                            $helper.show();
 
-                    tdcDebug.log( tdcRows.models );
-
-
-
-
-
-
-
-
-
-
-
-                    var setOperationUI = function() {
-
-                        var contentElSortSettings = {
-
-                            items: '> .tdc_element, > .tdc_element_inner_row',
-
-                            //helper: 'clone',
-
-                            //helper: function() {
-                            //    var bodyEl = contents.find('body');
-                            //
-                            //    if ( bodyEl.length ) {
-                            //
-                            //        var helper = bodyEl.find( '#tdc_element_sortx' );
-                            //
-                            //        if ( !helper.length ) {
-                            //            bodyEl.append( '<div id="tdc_element_sortx" class="tdc_element_sort"></div>' );
-                            //            helper = jQuery( '#tdc_element_sortx');
-                            //        }
-                            //        return helper;
-                            //    }
-                            //},
-
-                            helper: function() {
-                                return '<div id="tdc_element_sort" class="tdc_element_sort"></div>';
-                            },
-
-
-                            //opacity: 0.2,
-                            placeholder: 'tdc-sortable-placeholder',
-                            //forcePlaceholderSize: true,
-
-                            tolerance: 'pointer',
-
-                            cursorAt: {
-                                left: 30,
-                                top: 30
-                            },
-
-                            zIndex: 10000,
-
-                            revert: 200,
-
-                            cursor: 'move',
-
-                            connectWith: '.tdc_elements',
-
-                            //appendTo: document.body,
-                            appendTo: contents.find('body').get(0),
-
-                            start: function(event, ui) {
-
-                                // Still show the selected element
-                                ui.item.addClass( 'tdc_element_moving' );
-
-                                // Important! This operation is necessary because the placeholder needs to position correctly
-                                // in the container of the current item (it doesn't snap between the available items)
-                                // Without it, for a correct position there's necessary to make 'over'
-                                tdc_elements.sortable( 'refreshPositions' );
-
-                                // Set position for the placeholder
-                                positionPlaceholder( ui, '.tdc_elements' );
-
-                                if ( ui.item.hasClass( 'tdc_element_inner_row' ) ) {
-                                    ui.helper.addClass( 'tdc_element_sort_inner_row' );
-                                }
-
-
-                                //tdcDebug.log( ui.item.hasClass( 'tdc_element_inner_row' ) );
-                            },
-
-                            stop: function(event, ui) {
-                                //tdcDebug.log( 'stop content' );
-
-                                // Remove style changes of the current item
-                                ui.item.removeClass( 'tdc_element_moving' );
-
-                                //tdc_elements.removeClass( 'tdc_elements_hover' );
-
-                                //tdcDebug.log( ui.item.data( 'test' ));
-
-                                if ( undefined === dropEvent || ui.placeholder.hasClass( 'invalid_placeholder' ) ) {
-
-                                    //var sortRef = jQuery(this).sortable( 'option', 'sortRef' );
-                                    //sortRef.sortable( 'cancel' );
-
-                                    jQuery(this).sortable( 'cancel' );
-                                    tdcAdminUI._tdcJqObjElements.sortable( 'cancel' );
-
-                                } else {
-
-
-
-                                    var targetDropEvent = jQuery( dropEvent.target );
-
-                                    // The dropEvent must be set undefined before changeData call, because changeData is a time consuming function
-                                    dropEvent = undefined;
-
-                                    // Trigger - change model
-                                    tdcMain.changeData( targetDropEvent, ui );
-
-
-
-
-                                }
-                                tdc_elements.sortable( 'refreshPositions' );
-                            },
-
-                            over: function(event, ui) {
-                                //tdcDebug.log( 'over content' );
-
-                                event.stopPropagation();
-
-                                //tdcDebug.log( ui.item.hasClass( 'tdc_element_inner_row' ) + ' : ' + jQuery(this).parents( '.tdc_elements').length );
-
-                                //if ( ui.item.hasClass( 'tdc_element_inner_row' ) && jQuery(this).parents( '.tdc_elements').length ) {
-                                //    ui.placeholder.hide();
-                                //    return;
-                                //}
-
-                                // Position placeholder - it even shows it
-                                positionPlaceholder( ui, '.tdc_elements' );
-
-                                // Show the placeholder
-                                //ui.placeholder.show();
-
-                                // Active hover list
-                                //setHoverList( ui, tdc_elements, '.tdc_elements', 'tdc_elements_hover' );
-                            },
-
-                            out: function(event, ui) {
-                                //tdcDebug.log( 'out content' );
-
-                                ui.placeholder.hide();
-                                //tdc_elements.removeClass( 'tdc_elements_hover' );
-                            },
-
-                            change: function(event, ui) {
-                                //tdcDebug.log( 'change content' );
-
-                                //if ( ui.item.hasClass( 'tdc_element_inner_row' ) && ( jQuery(this).parents( '.tdc_elements').length || ui.placeholder.parents( '.tdc_elements').length > 1 ) ) {
-                                //if ( ui.item.hasClass( 'tdc_element_inner_row' ) && jQuery(this).parents( '.tdc_elements').length ) {
-                                //    ui.placeholder.hide();
-                                //    return;
-                                //}
-
-                                // Active hover list
-                                //setHoverList( ui, tdc_elements, '.tdc_elements', 'tdc_elements_hover' );
-
-                                // Set position for the placeholder
-                                positionPlaceholder( ui, '.tdc_elements' );
+                            if ( draggedElement.hasClass( 'tdc_row' ) ) {
+                                $helper.html( 'ROW' );
+                            } else if ( draggedElement.hasClass( 'tdc_column' ) ) {
+                                $helper.html( 'COLUMN' );
+                            } else if ( draggedElement.hasClass( 'tdc_element_inner_row' ) ) {
+                                $helper.html( 'INNER ROW' );
+                            } else if ( draggedElement.hasClass( 'tdc_inner_column' ) ) {
+                                $helper.html( 'INNER COLUMN' );
+                            } else if ( draggedElement.hasClass( 'tdc_element' ) ) {
+                                $helper.html( 'ELEMENT' );
+                            } else {
+                                $helper.html( '' );
                             }
+                        } else {
+                            hideHelper();
+                        }
+                    }
+
+                    function hideHelper() {
+                        tdcAdminIFrameUI._tdcJqObjHelper.hide();
+                    }
+
+
+
+
+
+                    function isRowDragged() {
+                        return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc_row' );
+                    }
+
+
+                    /**
+                     * Check the dragged element is a column.
+                     * If the optional $siblingColumn parameter is used, it also checks to see if the sent column is sibling with the dragged element
+                     *
+                     * @param $siblingColumn - optional - jQuery column object under the mouse pointer
+                     * @returns {boolean|*}
+                     */
+                    function isColumnDragged( $siblingColumn ) {
+
+                        var result = !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc_column' );
+
+                        if ( ! _.isUndefined( $siblingColumn ) ) {
+                            result = result && ( $siblingColumn.closest( '.tdc_columns').find( '.tdc_column.tdc_dragged').length > 0 );
+                        }
+                        return result;
+                    }
+
+
+                    function isInnerRowDragged() {
+                        return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc_element_inner_row' );
+                    }
+
+
+                    function isInnerColumnDragged( $siblingInnerColumn ) {
+                        var result = !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc_inner_column' );
+
+                        if ( ! _.isUndefined( $siblingInnerColumn ) ) {
+                            result = result && ( $siblingInnerColumn.closest( '.tdc_inner_columns').find( '.tdc_inner_column.tdc_dragged').length > 0 );
+                        }
+                        return result;
+                    }
+
+
+                    function isElementDragged() {
+                        return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc_element' );
+                    }
+
+
+
+
+
+                    function _setPlaceholder( classes, props ) {
+
+                        var $placeholder = tdcAdminIFrameUI._tdcJqObjPlaceholder;
+
+                        if ( _.isArray( classes ) ) {
+                            _.each( classes, function( element, index, list) {
+                                $placeholder.addClass( element );
+                            });
+                        } else if ( _.isString( classes ) ) {
+                            $placeholder.addClass( classes );
+                        } else {
+                            $placeholder.attr( 'class', '' );
+                        }
+
+                        if ( _.isObject( props ) ) {
+                            $placeholder.css( props );
+                        }
+                    }
+
+                    function setHorizontalPlaceholder() {
+                        _setPlaceholder( null, {
+                            'top': '',
+                            'left': '',
+                            'bottom': '',
+                            'margin-left': '',
+                            'position': ''
+                        });
+                    }
+
+                    function setVerticalPlaceholder( props ) {
+                        _setPlaceholder( ['vertical'], props);
+                    }
+
+
+
+
+                    window.previousMouseClientX = 0;
+                    window.previousMouseClientY = 0;
+
+
+
+
+                    function positionElementPlaceholder( event ) {
+
+                        //console.log( event );
+
+                        var $placeholder = tdcAdminIFrameUI._tdcJqObjPlaceholder;
+
+                        // Adapt the placeholder to look great when it's not on columns and inner-columns
+                        setHorizontalPlaceholder();
+
+
+                        // The mouse position.
+                        // This is used as a mark value.
+                        // When an element is in 'drag' operation, the 'scroll' of the contents does not fire 'hover' ('mouseenter' and 'mouseleave') event
+                        // over the content, and, to solve this issue, a custom event ('fakemouseenterevent') with the mouse position, must be triggered to all 'tdc_element' elements,
+                        // to see which has the mouse over
+                        var mousePointerValue = {
+                            X: 0,
+                            Y: 0
                         };
 
+                        // Check if we have 'mousemove' or 'fakemouseenterevent'
+                        if ( 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
 
-                        // Merge defaults and options, without modifying defaults
-                        var definedElSortSettings = jQuery.extend( {}, contentElSortSettings, {
+                            mousePointerValue.X = event.pageX;
+                            mousePointerValue.Y = event.pageY;
 
-                            revert: false,
-
-                            over: function(event, ui) {
-
-                                // Hide the placeholder
-                                ui.placeholder.hide();
-
-                                // Still show the selected element
-                                ui.item.addClass( 'tdc_element_moving' );
-
-                                //tdcDebug.log( 'over defined' );
-                            },
-
-                            start: function(event, ui) {
-                                ui.item.td_shortcode = ui.item.get(0).innerText;
-                            },
-
-                            stop: function(event, ui) {
-
-                                if ( undefined !== dropEvent ) {
-                                    dropEvent = undefined;
-                                }
-
-                                tdcAdminUI._tdcJqObjElements.sortable( 'cancel' );
-
-                                // Remove style changes of the current item
-                                ui.item.removeClass( 'tdc_element_moving' );
-
-                                //tdcDebug.log( 'stop defined' );
+                            // These are saved here, and used at 'scroll', for computing the mouse position over a 'tdc_element' element
+                            if ( !_.isUndefined( event.clientX ) && !_.isUndefined( event.clientY ) ) {
+                                window.previousMouseClientX = event.clientX;
+                                window.previousMouseClientY = event.clientY;
                             }
-                        });
+
+                        } else if ( 'scroll' === event.type ) {
+                            //console.log( event.delegateTarget.scrollingElement.scrollTop + ' : ' + window.previousMouseClientY );
+
+                            mousePointerValue.X = contents.scrollLeft() + window.previousMouseClientX;
+                            mousePointerValue.Y = contents.scrollTop() + window.previousMouseClientY;
+
+                            var eventProp = {
+                                'pageX' : mousePointerValue.X,
+                                'pageY' : mousePointerValue.Y
+                            };
+
+                            //console.log( eventProp );
 
 
+                            // Try to find where the mouse is.
+                            // Trigger a custom event for all 'tdc_element' elements, but stop if one is found
+
+                            // Set the 'current_element_over' to undefined, to be find in the iteration
+                            current_element_over = undefined;
+
+                            // Trigger a 'fakemouseenterevent' event, for all 'tdc_element' elements, or until the variable 'current_element_over' is set to one of them
+                            tdc_element.each(function( index, element ) {
+
+                                if ( ! _.isUndefined( current_element_over ) ) {
+                                    // If it's not undefined, ( marked by 'fakemouseenterevent' event of the 'tdc_element' ) DO NOTHING (DO NOT TRIGGER ANY MORE 'fakemouseenterevent' EVENT)
+                                    return;
+                                }
+                                jQuery( element ).trigger( jQuery.Event( 'fakemouseenterevent', eventProp ) );
+                            });
+
+                            tdc_element_inner_row.each(function( index, element ) {
+
+                                if ( ! _.isUndefined( current_element_over ) ) {
+                                    // If it's not undefined, ( marked by 'fakemouseenterevent' event of the 'tdc_element_inner_row' ) DO NOTHING (DO NOT TRIGGER ANY MORE 'fakemouseenterevent' EVENT)
+                                    return;
+                                }
+                                jQuery( element ).trigger( jQuery.Event( 'fakemouseenterevent', eventProp ) );
+                            });
+                            return;
+                        }
+
+                        // Hide the placeholder and stop
+                        if ( _.isUndefined( draggedElement ) ||
+                            _.isUndefined( current_element_over ) ) {
+
+                            // Hide the placeholder when we are over the dragged element
+                            //( ! _.isUndefined( current_element_over ) && current_element_over.hasClass( 'tdc_dragged' ) ) ) {
+
+                            $placeholder.hide();
+                            return;
+                        }
 
 
+                        // If a 'tdc_element' is dragged and the 'current_element_over' is not undefined, show and position the placeholder
+                        $placeholder.show();
 
 
-                        var timeoutPositionPlaceholder;
+                        var elementOuterHeight = current_element_over.outerHeight( true );
+                        var elementOuterWidth = current_element_over.innerWidth();
+                        var elementOffset = current_element_over.offset();
 
-                        /**
-                         * - Position the placeholder at the top or at the bottom of the screen, when it's outside of the viewport
-                         * - A timer is used because before any placeholder movement, it must be set to a default position, and that position
-                         * is then checked if it's or not, outside of the viewport.
-                         * @param ui
-                         */
-                        var positionPlaceholder = function(ui, jqSelector ) {
+                        console.log( mousePointerValue.Y + ' : ' +  ( elementOffset.top + ( elementOuterHeight / 2 ) ) );
 
-                            ui.placeholder.show();
+                        if ( mousePointerValue.Y > elementOffset.top + ( elementOuterHeight / 2 ) ) {
 
-                            if ( undefined !== timeoutPositionPlaceholder ) {
-                                clearTimeout( timeoutPositionPlaceholder );
+                            current_element_over.after( $placeholder );
 
-                                ui.placeholder.show();
-                                ui.placeholder.css({
-                                    'position': '',
+                            // Position the placeholder at the bottom of the screen
+                            if (parseInt(elementOffset.top) + parseInt(elementOuterHeight) > parseInt(contents.scrollTop()) + parseInt(window.innerHeight)) {
+                                $placeholder.css({
+                                    'position': 'fixed',
                                     'top': '',
-                                    'left' : '',
-                                    'width': '',
-                                    'visibility': 'hidden'
+                                    'right': 'auto',
+                                    'bottom': '0',
+                                    'width': parseInt(elementOuterWidth / 2) + 'px'
+                                });
+                            } else {
+                                // Reset
+                                $placeholder.css({
+                                    'position': 'absolute',
+                                    'top': '',
+                                    'right': '0',
+                                    'bottom': '',
+                                    'width': ''
                                 });
                             }
+                        } else {
+                            current_element_over.before($placeholder);
 
-                            timeoutPositionPlaceholder = setTimeout(function() {
+                            // Position the placeholder at the top of the screen
+                            if (parseInt(elementOffset.top) < parseInt(contents.scrollTop())) {
+                                $placeholder.css({
+                                    'position': 'fixed',
+                                    'top': '0',
+                                    'right': 'auto',
+                                    'bottom': '',
+                                    'width': parseInt(elementOuterWidth / 2) + 'px'
+                                });
+                            } else {
+                                // Reset
+                                $placeholder.css({
+                                    'position': 'absolute',
+                                    'top': '',
+                                    'right': '0',
+                                    'bottom': '',
+                                    'width': ''
+                                });
+                            }
+                        }
 
-                                if ( ui.item.hasClass( 'tdc_element_inner_row' ) && ui.placeholder.parents( jqSelector).length > 1 ) {
-
-                                    if ( ui.placeholder.closest( '.tdc_elements' ).hasClass( 'tdc_elements_hover' ) ) {
-                                        ui.placeholder.show();
-                                    } else {
-
-
-                                        // Insert placeholder into the top most list content, according with the mouse position and the existing placeholder
-
-                                        var currentEl = ui.placeholder.closest( '.tdc_element_inner_row' );
-
-                                        if ( undefined !== ui.placeholder.offset() ) {
-                                            if ( ui.helper.position().top + ui.helper.outerHeight( true ) / 2 > ui.placeholder.offset().top ) {
-
-                                                ui.placeholder.insertBefore( currentEl );
-
-                                            } else if ( ui.helper.position().top + ui.helper.outerHeight( true ) / 2 < ui.placeholder.offset().top ) {
-
-                                                ui.placeholder.insertAfter( currentEl );
-
-                                            }
-                                        } else {
-
-                                            ui.placeholder.insertBefore( currentEl );
-
-                                        }
-
-                                        ui.placeholder.parents( '.tdc_elements').last().addClass( 'tdc_elements_hover' );
-                                    }
-                                }
+                        // Hide the placeholder if it's near the dragged element
+                        //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc_dragged' ) ||
+                        //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc_dragged' ) ) {
+                        //    $placeholder.hide();
+                        //}
+                    }
 
 
-                                var tdcElementsParent = ui.placeholder.closest( jqSelector ),
-                                    cssWidthValue = tdcElementsParent.outerWidth(true),
-                                    cssLeftValue = cssWidthValue / 2;
-
-                                if ( undefined !== tdcElementsParent.offset() ) {
-                                    cssLeftValue += tdcElementsParent.offset().left;
-                                }
 
 
-                                if ( ( ui.placeholder.offset().top + parseInt( ui.placeholder.outerHeight( true ) ) ) > (contents.scrollTop() + window.innerHeight) ) {
-                                    ui.placeholder.css({
-                                        'position': 'fixed',
-                                        'top' : window.innerHeight - 50,
-                                        'left' : cssLeftValue,
-                                        'width': cssWidthValue
-                                    });
-                                } else if ( ui.placeholder.offset().top < contents.scrollTop() ) {
-                                    ui.placeholder.css({
-                                        'position': 'fixed',
-                                        'top' : 0,
-                                        'left' : cssLeftValue,
-                                        'width' : cssWidthValue
-                                    });
-                                } else {
-                                    ui.placeholder.css({
-                                        'position': '',
-                                        'top': '',
-                                        'left' : '',
-                                        'width': ''
-                                    });
-                                }
 
-                                ui.placeholder.css( 'visibility', 'visible');
+                    function positionRowPlaceholder( event ) {
+                        //console.log( event );
 
-                            }, 100);
+                        var $placeholder = tdcAdminIFrameUI._tdcJqObjPlaceholder;
+
+                        // Adapt the placeholder to look great when it's not on columns and inner-columns
+                        setHorizontalPlaceholder();
+
+                        // The mouse position.
+                        // This is used as a mark value.
+                        // When an element is in 'drag' operation, the 'scroll' of the contents does not fire 'hover' ('mouseenter' and 'mouseleave') event
+                        // over the content, and, to solve this issue, a custom event ('fakemouseenterevent') with the mouse position, must be triggered to all 'tdc_element' elements,
+                        // to see which has the mouse over
+                        var mousePointerValue = {
+                            X: 0,
+                            Y: 0
                         };
 
+                        // Check if we have 'mousemove' or 'fakemouseenterevent'
+                        if ( 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
+
+                            mousePointerValue.X = event.pageX;
+                            mousePointerValue.Y = event.pageY;
+
+                            // These are saved here, and used at 'scroll', for computing the mouse position over a 'tdc_element' element
+                            if ( !_.isUndefined( event.clientX ) && !_.isUndefined( event.clientY ) ) {
+                                window.previousMouseClientX = event.clientX;
+                                window.previousMouseClientY = event.clientY;
+                            }
+
+                        } else if ( 'scroll' === event.type ) {
+                            //console.log( event.delegateTarget.scrollingElement.scrollTop + ' : ' + window.previousMouseClientY );
+
+                            mousePointerValue.X = contents.scrollLeft() + window.previousMouseClientX;
+                            mousePointerValue.Y = contents.scrollTop() + window.previousMouseClientY;
+
+                            var eventProp = {
+                                'pageX' : mousePointerValue.X,
+                                'pageY' : mousePointerValue.Y
+                            };
+
+                            //console.log( eventProp );
+
+
+                            // Try to find where the mouse is.
+                            // Trigger a custom event for all 'tdc_row' elements, but stop if one is found
+
+                            // Set the 'current_element_over' to undefined, to be find in the iteration
+                            current_element_over = undefined;
+
+                            // Trigger an 'fakemouseenterevent' event, for all 'tdc_row' elements, or until the variable 'current_element_over' is set to one of them
+                            tdc_row.each(function( index, element ) {
+
+                                if ( ! _.isUndefined( current_element_over ) ) {
+                                    // If it's not undefined, ( marked by 'fakemouseenterevent' event of the 'tdc_row' ) DO NOTHING (DO NOT TRIGGER ANY MORE 'fakemouseenterevent' EVENT)
+                                    return;
+                                }
+                                jQuery( element ).trigger( jQuery.Event( 'fakemouseenterevent', eventProp ) );
+                            });
+                            return;
+                        }
 
 
 
-                        /**
-                         * Remove the hover property from any already set list and add it to the closest list
-                         * @param ui
-                         * @param jqLists
-                         * @param jqSelectorList
-                         * @param jqSelectorHoverClass
-                         */
-                        var setHoverList = function(ui, jqLists, jqSelectorList, jqSelectorHoverClass ) {
+                        // Hide the placeholder and stop
+                        if ( _.isUndefined( draggedElement ) ||
+                            _.isUndefined( current_element_over ) ) {
+
+                            // Hide the placeholder when we are over the dragged element
+                            //( ! _.isUndefined( current_element_over ) && current_element_over.hasClass( 'tdc_dragged' ) ) ) {
+
+                            $placeholder.hide();
+                            return;
+                        }
+
+
+                        // If a 'tdc_row' is dragged and the 'current_element_over' is not undefined, show and position the placeholder
+                        $placeholder.show();
+
+
+                        var elementOuterHeight = current_element_over.outerHeight( true );
+                        var elementOuterWidth = current_element_over.innerWidth();
+                        var elementOffset = current_element_over.offset();
+
+                        //console.log( mousePointerValue.Y + ' : ' +  ( elementOffset.top + ( elementOuterHeight / 2 ) ) );
+
+                        if ( mousePointerValue.Y > elementOffset.top + ( elementOuterHeight / 2 ) ) {
+
+                            current_element_over.after($placeholder);
+
+                            // Position the placeholder at the bottom of the screen
+                            if (parseInt(elementOffset.top) + parseInt(elementOuterHeight) > parseInt(contents.scrollTop()) + parseInt(window.innerHeight)) {
+                                $placeholder.css({
+                                    'position': 'fixed',
+                                    'top': '',
+                                    'right': 'auto',
+                                    'bottom': '0',
+                                    'width': parseInt(elementOuterWidth / 2) + 'px'
+                                });
+                            } else {
+                                // Reset
+                                $placeholder.css({
+                                    'position': 'absolute',
+                                    'top': '',
+                                    'right': '0',
+                                    'bottom': '',
+                                    'width': ''
+                                });
+                            }
+                        } else {
+                            current_element_over.before($placeholder);
+
+                            // Position the placeholder at the top of the screen
+                            if (parseInt(elementOffset.top) < parseInt(contents.scrollTop())) {
+                                $placeholder.css({
+                                    'position': 'fixed',
+                                    'top': '0',
+                                    'right': 'auto',
+                                    'bottom': '',
+                                    'width': parseInt(elementOuterWidth / 2) + 'px'
+                                });
+                            } else {
+                                // Reset
+                                $placeholder.css({
+                                    'position': 'absolute',
+                                    'top': '',
+                                    'right': '0',
+                                    'bottom': '',
+                                    'width': ''
+                                });
+                            }
+                        }
+
+                        // Hide the placeholder if it's near the dragged element
+                        //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc_dragged' ) ||
+                        //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc_dragged' ) ) {
+                        //    $placeholder.hide();
+                        //}
+                    }
+
+
+
+
+
+
+                    function positionColumnPlaceholder( event ) {
+                        //console.log( event );
+
+                        var $placeholder = tdcAdminIFrameUI._tdcJqObjPlaceholder;
+
+
+                        // The mouse position.
+                        // This is used as a mark value.
+                        // When an element is in 'drag' operation, the 'scroll' of the contents does not fire 'hover' ('mouseenter' and 'mouseleave') event
+                        // over the content, and, to solve this issue, a custom event ('fakemouseenterevent') with the mouse position, must be triggered to all 'tdc_element' elements,
+                        // to see which has the mouse over
+                        var mousePointerValue = {
+                            X: 0,
+                            Y: 0
+                        };
+
+                        // Check if we have 'mousemove' or 'fakemouseenterevent'
+                        if ( 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
+
+                            mousePointerValue.X = event.pageX;
+                            mousePointerValue.Y = event.pageY;
+
+                            // These are saved here, and used at 'scroll', for computing the mouse position over a 'tdc_element' element
+                            if ( !_.isUndefined( event.clientX ) && !_.isUndefined( event.clientY ) ) {
+                                window.previousMouseClientX = event.clientX;
+                                window.previousMouseClientY = event.clientY;
+                            }
+
+                        } else if ( 'scroll' === event.type ) {
+                            //console.log( event.delegateTarget.scrollingElement.scrollTop + ' : ' + window.previousMouseClientY );
+
+                            mousePointerValue.X = contents.scrollLeft() + window.previousMouseClientX;
+                            mousePointerValue.Y = contents.scrollTop() + window.previousMouseClientY;
+
+                            var eventProp = {
+                                'pageX' : mousePointerValue.X,
+                                'pageY' : mousePointerValue.Y
+                            };
+
+                            //console.log( eventProp );
+
+
+                            // Try to find where the mouse is.
+                            // Trigger a custom event for all 'tdc_column' elements, but stop if one is found
+
+                            // Set the 'current_element_over' to undefined, to be find in the iteration
+                            current_element_over = undefined;
+
+                            // Trigger an 'fakemouseenterevent' event, for siblings 'tdc_column' elements, or until the variable 'current_element_over' is set to one of them
+                            draggedElement.closest( '.tdc_columns').find( '.tdc_column' ).each(function( index, element ) {
+
+                                if ( ! _.isUndefined( current_element_over ) ) {
+                                    // If it's not undefined, ( marked by 'fakemouseenterevent' event of the 'tdc_column' ) DO NOTHING (DO NOT TRIGGER ANY MORE 'fakemouseenterevent' EVENT)
+                                    return;
+                                }
+                                jQuery( element ).trigger( jQuery.Event( 'fakemouseenterevent', eventProp ) );
+                            });
+                            return;
+                        }
+
+
+
+                        // Hide the placeholder and stop
+                        if ( _.isUndefined( draggedElement ) ||
+                            _.isUndefined( current_element_over ) ) {
+
+                            // Hide the placeholder when we are over the dragged element
+                            //( ! _.isUndefined( current_element_over ) && current_element_over.hasClass( 'tdc_dragged' ) ) ) {
+
+                            $placeholder.hide();
+                            return;
+                        }
+
+
+                        // If a 'tdc_row' is dragged and the 'current_element_over' is not undefined, show and position the placeholder
+                        $placeholder.show();
+
+
+                        var elementOuterWidth = current_element_over.find( '.tdc_elements:first').outerWidth( true );
+                        var elementOffset = current_element_over.offset();
+
+
+                        // Being floated, all prev columns width must be considered when working with the offset().left
+                        var extraLeft = 0;
+                        var prevColumns = current_element_over.prevAll( '.tdc_column' );
+
+                        if ( prevColumns.length ) {
+                            prevColumns.each( function (index, element) {
+                                extraLeft += parseInt( jQuery(element).find( '.tdc_elements:first').width() );
+                            });
+                        }
+
+                        //console.log( mousePointerValue.X + ' : ' + extraLeft + ' : ' + elementOffset.left + ' : ' + elementOuterWidth );
+
+                        var cssMarginLeftValue = 0;
+
+                        if ( extraLeft !== 0 ) {
+                            cssMarginLeftValue = 48;
+                        }
+
+                        extraLeft += elementOffset.left;
+
+
+                        if ( mousePointerValue.X > (extraLeft + ( elementOuterWidth / 2 ) ) ) {
+
+                            current_element_over.after( $placeholder );
+
+                            //console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>' );
+
+                            setVerticalPlaceholder({
+                                left: parseInt( extraLeft + elementOuterWidth),
+                                'margin-left': cssMarginLeftValue
+                            });
+
+                        } else {
+                            current_element_over.before( $placeholder );
+
+                            //console.log( '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<' );
+
+                            setVerticalPlaceholder({
+                                left: parseInt( extraLeft ),
+                                'margin-left': cssMarginLeftValue
+                            });
+                        }
+
+                        // Hide the placeholder if it's near the dragged element
+                        //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc_dragged' ) ||
+                        //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc_dragged' ) ) {
+                        //    $placeholder.hide();
+                        //}
+                    }
+
+
+
+
+
+
+                    function positionInnerRowPlaceholder( event ) {
+                        //console.log( event );
+
+                        var $placeholder = tdcAdminIFrameUI._tdcJqObjPlaceholder;
+
+                        // Adapt the placeholder to look great when it's not on columns and inner-columns
+                        setHorizontalPlaceholder();
+
+
+                        // The mouse position.
+                        // This is used as a mark value.
+                        // When an element is in 'drag' operation, the 'scroll' of the contents does not fire 'hover' ('mouseenter' and 'mouseleave') event
+                        // over the content, and, to solve this issue, a custom event ('fakemouseenterevent') with the mouse position, must be triggered to all 'tdc_element' elements,
+                        // to see which has the mouse over
+                        var mousePointerValue = {
+                            X: 0,
+                            Y: 0
+                        };
+
+                        // Check if we have 'mousemove' or 'fakemouseenterevent'
+                        if ( 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
+
+                            mousePointerValue.X = event.pageX;
+                            mousePointerValue.Y = event.pageY;
+
+                            // These are saved here, and used at 'scroll', for computing the mouse position over a 'tdc_element' element
+                            if ( !_.isUndefined( event.clientX ) && !_.isUndefined( event.clientY ) ) {
+                                window.previousMouseClientX = event.clientX;
+                                window.previousMouseClientY = event.clientY;
+                            }
+
+                        } else if ( 'scroll' === event.type ) {
+                            //console.log( event.delegateTarget.scrollingElement.scrollTop + ' : ' + window.previousMouseClientY );
+
+                            mousePointerValue.X = contents.scrollLeft() + window.previousMouseClientX;
+                            mousePointerValue.Y = contents.scrollTop() + window.previousMouseClientY;
+
+                            var eventProp = {
+                                'pageX' : mousePointerValue.X,
+                                'pageY' : mousePointerValue.Y
+                            };
+
+                            //console.log( eventProp );
+
+
+                            // Try to find where the mouse is.
+                            // Trigger a custom event for all 'tdc_element' elements, but stop if one is found
+
+                            // Set the 'current_element_over' to undefined, to be find in the iteration
+                            current_element_over = undefined;
+
+                            // Trigger an 'fakemouseenterevent' event, for all 'tdc_element' elements, or until the variable 'current_element_over' is set to one of them
+                            tdc_element.each(function( index, element ) {
+
+                                if ( ! _.isUndefined( current_element_over ) ) {
+                                    // If it's not undefined, ( marked by 'fakemouseenterevent' event of the 'tdc_element' ) DO NOTHING (DO NOT TRIGGER ANY MORE 'fakemouseenterevent' EVENT)
+                                    return;
+                                }
+                                jQuery( element ).trigger( jQuery.Event( 'fakemouseenterevent', eventProp ) );
+                            });
+
+                            tdc_element_inner_row.each(function( index, element ) {
+
+                                if ( ! _.isUndefined( current_element_over ) ) {
+                                    // If it's not undefined, ( marked by 'fakemouseenterevent' event of the 'tdc_element_inner_row' ) DO NOTHING (DO NOT TRIGGER ANY MORE 'fakemouseenterevent' EVENT)
+                                    return;
+                                }
+                                jQuery( element ).trigger( jQuery.Event( 'fakemouseenterevent', eventProp ) );
+                            });
 
                             return;
+                        }
 
-                            jqLists.removeClass( jqSelectorHoverClass );
 
-                            ui.placeholder.parents( jqSelectorList ).removeClass( jqSelectorHoverClass );
 
-                            // The current sortable list is marked as active
-                            ui.placeholder.closest( jqSelectorList ).addClass( jqSelectorHoverClass );
+                        // Hide the placeholder and stop
+                        if ( _.isUndefined( draggedElement ) ||
+                            _.isUndefined( current_element_over ) ) {
+
+                            // Hide the placeholder when we are over the dragged element
+                            //( ! _.isUndefined( current_element_over ) && current_element_over.hasClass( 'tdc_dragged' ) ) ) {
+
+                            $placeholder.hide();
+                            return;
+                        }
+
+
+                        // If a 'tdc_row' is dragged and the 'current_element_over' is not undefined, show and position the placeholder
+                        $placeholder.show();
+
+
+                        var elementOuterHeight = current_element_over.outerHeight( true );
+                        var elementOuterWidth = current_element_over.innerWidth();
+                        var elementOffset = current_element_over.offset();
+
+                        //console.log( mousePointerValue.Y + ' : ' +  ( elementOffset.top + ( elementOuterHeight / 2 ) ) );
+
+                        if ( mousePointerValue.Y > elementOffset.top + ( elementOuterHeight / 2 ) ) {
+
+                            current_element_over.after($placeholder);
+
+                            // Position the placeholder at the bottom of the screen
+                            if (parseInt(elementOffset.top) + parseInt(elementOuterHeight) > parseInt(contents.scrollTop()) + parseInt(window.innerHeight)) {
+                                $placeholder.css({
+                                    'position': 'fixed',
+                                    'top': '',
+                                    'right': 'auto',
+                                    'bottom': '0',
+                                    'width': parseInt(elementOuterWidth / 2) + 'px'
+                                });
+                            } else {
+                                // Reset
+                                $placeholder.css({
+                                    'position': 'absolute',
+                                    'top': '',
+                                    'right': '0',
+                                    'bottom': '',
+                                    'width': ''
+                                });
+                            }
+                        } else {
+                            current_element_over.before($placeholder);
+
+                            // Position the placeholder at the top of the screen
+                            if (parseInt(elementOffset.top) < parseInt(contents.scrollTop())) {
+                                $placeholder.css({
+                                    'position': 'fixed',
+                                    'top': '0',
+                                    'right': 'auto',
+                                    'bottom': '',
+                                    'width': parseInt(elementOuterWidth / 2) + 'px'
+                                });
+                            } else {
+                                // Reset
+                                $placeholder.css({
+                                    'position': 'absolute',
+                                    'top': '',
+                                    'right': '0',
+                                    'bottom': '',
+                                    'width': ''
+                                });
+                            }
+                        }
+
+                        // Hide the placeholder if it's near the dragged element
+                        //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc_dragged' ) ||
+                        //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc_dragged' ) ) {
+                        //    $placeholder.hide();
+                        //}
+                    }
+
+
+
+
+
+                    function positionInnerColumnPlaceholder( event ) {
+                        //console.log( event );
+
+                        var $placeholder = tdcAdminIFrameUI._tdcJqObjPlaceholder;
+
+
+                        // The mouse position.
+                        // This is used as a mark value.
+                        // When an element is in 'drag' operation, the 'scroll' of the contents does not fire 'hover' ('mouseenter' and 'mouseleave') event
+                        // over the content, and, to solve this issue, a custom event ('fakemouseenterevent') with the mouse position, must be triggered to all 'tdc_element' elements,
+                        // to see which has the mouse over
+                        var mousePointerValue = {
+                            X: 0,
+                            Y: 0
                         };
 
+                        // Check if we have 'mousemove' or 'fakemouseenterevent'
+                        if ( 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
+
+                            mousePointerValue.X = event.pageX;
+                            mousePointerValue.Y = event.pageY;
+
+                            // These are saved here, and used at 'scroll', for computing the mouse position over a 'tdc_element' element
+                            if ( !_.isUndefined( event.clientX ) && !_.isUndefined( event.clientY ) ) {
+                                window.previousMouseClientX = event.clientX;
+                                window.previousMouseClientY = event.clientY;
+                            }
+
+                        } else if ( 'scroll' === event.type ) {
+                            //console.log( event.delegateTarget.scrollingElement.scrollTop + ' : ' + window.previousMouseClientY );
+
+                            mousePointerValue.X = contents.scrollLeft() + window.previousMouseClientX;
+                            mousePointerValue.Y = contents.scrollTop() + window.previousMouseClientY;
+
+                            var eventProp = {
+                                'pageX' : mousePointerValue.X,
+                                'pageY' : mousePointerValue.Y
+                            };
+
+                            //console.log( eventProp );
 
 
+                            // Try to find where the mouse is.
+                            // Trigger a custom event for all 'tdc_column' elements, but stop if one is found
 
+                            // Set the 'current_element_over' to undefined, to be find in the iteration
+                            current_element_over = undefined;
 
-                        var tdc_elements = contents.find('.tdc_elements');
+                            // Trigger an 'fakemouseenterevent' event, for siblings 'tdc_inner_column' elements, or until the variable 'current_element_over' is set to one of them
+                            draggedElement.closest( '.tdc_inner_columns').find( '.tdc_inner_column' ).each(function( index, element ) {
 
-                        tdc_elements.each(function(index, el) {
-                            var settings = jQuery.extend({}, contentElSortSettings, {
-                                sortRef: jQuery(el)
-                            });
-                            jQuery(el).sortable( settings ).disableSelection();
-                        });
-
-
-
-
-
-                        var dropEvent;
-
-                        var inner_tdc_element = tdc_elements.filter(function() {
-
-                            return ( jQuery(this).parents( '.tdc_elements').length > 0 );
-
-                        }).droppable({
-
-                            accept: '.tdc_element',
-
-                            greedy: true,
-
-                            drop: function (event, ui) {
-                                //tdcDebug.log( 'drop tdc_element on inner list' );
-
-                                //tdcDebug.log( ui.draggable);
-
-                                if ( ui.draggable.hasClass( 'tdc_element_inner_row' ) ) {
-                                    dropEvent = undefined;
-                                } else {
-                                    dropEvent = event;
+                                if ( ! _.isUndefined( current_element_over ) ) {
+                                    // If it's not undefined, ( marked by 'fakemouseenterevent' event of the 'tdc_column' ) DO NOTHING (DO NOT TRIGGER ANY MORE 'fakemouseenterevent' EVENT)
+                                    return;
                                 }
-                            },
-                            //
-                            over: function(event, ui) {
-                                //tdcDebug.log( 'over inside list' );
-                            },
-                            //
-                            out: function(event, ui) {
-                                //tdcDebug.log( 'out inside list' );
-                            },
+                                jQuery( element ).trigger( jQuery.Event( 'fakemouseenterevent', eventProp ) );
+                            });
+                            return;
+                        }
 
-                            //activate: function( event, ui) {
-                            //    jQuery(this).addClass( 'tdc_elements_active' );
-                            //    tdcDebug.log( ui.draggable);
-                            //},
-                            //
-                            //deactivate: function( event, ui) {
-                            //    jQuery(this).removeClass( 'tdc_elements_active' );
-                            //}
 
-                            activeClass: 'tdc_elements_active',
-                            hoverClass: 'tdc_elements_hover'
+
+                        // Hide the placeholder and stop
+                        if ( _.isUndefined( draggedElement ) ||
+                            _.isUndefined( current_element_over ) ) {
+
+                            // Hide the placeholder when we are over the dragged element
+                            //( ! _.isUndefined( current_element_over ) && current_element_over.hasClass( 'tdc_dragged' ) ) ) {
+
+                            $placeholder.hide();
+                            return;
+                        }
+
+
+                        // If a 'tdc_row' is dragged and the 'current_element_over' is not undefined, show and position the placeholder
+                        $placeholder.show();
+
+
+                        var elementOuterWidth = current_element_over.find( '.tdc_elements:first').outerWidth( true );
+                        var elementOffset = current_element_over.offset();
+
+
+                        // Being floated, all prev columns width must be considered when working with the offset().left
+                        var extraLeft = 0;
+                        var prevColumns = current_element_over.prevAll( '.tdc_inner_column' );
+
+                        if ( prevColumns.length ) {
+                            prevColumns.each( function (index, element) {
+                                extraLeft += parseInt( jQuery(element).find( '.tdc_elements:first').width() );
+                            });
+                        }
+
+                        console.log( mousePointerValue.X + ' : ' + extraLeft + ' : ' + elementOffset.left + ' : ' + elementOuterWidth );
+
+                        var cssMarginLeftValue = 0;
+
+                        if ( extraLeft !== 0 ) {
+                            cssMarginLeftValue = 48;
+                        }
+
+                        console.log( mousePointerValue.X + ' : ' + (extraLeft + elementOffset.left + elementOuterWidth / 2 ) );
+
+
+                        if ( mousePointerValue.X > (extraLeft + elementOffset.left + ( elementOuterWidth / 2 ) ) ) {
+
+                            current_element_over.after( $placeholder );
+
+                            //console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>' );
+
+                            setVerticalPlaceholder({
+                                left: parseInt( extraLeft + elementOuterWidth ),
+                                'margin-left': cssMarginLeftValue
+                            });
+
+                        } else {
+                            current_element_over.before( $placeholder );
+
+                            //console.log( '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<' );
+
+                            setVerticalPlaceholder({
+                                left: parseInt( extraLeft ),
+                                'margin-left': cssMarginLeftValue
+                            });
+                        }
+
+                        // Hide the placeholder if it's near the dragged element
+                        //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc_dragged' ) ||
+                        //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc_dragged' ) ) {
+                        //    $placeholder.hide();
+                        //}
+                    }
+
+
+
+
+
+
+
+                    tdc_element.each(function(index, element) {
+
+                        var $element = jQuery( element );
+
+                        $element.click(function(event) {
+                            //console.log( 'click element' );
+
+                            event.preventDefault();
+
+                        }).mousedown(function(event) {
+                            //console.log( 'element mouse down' );
+
+                            event.preventDefault();
+                            // Stop calling parents 'mousedown' (tdc_element_inner_column or tdc_column - each tdc_element must be in one of theme)
+                            event.stopPropagation();
+
+                            activeDraggedElement(jQuery(this));
+                            showHelper(event);
+
+                        }).mouseup(function(event) {
+
+                            // Respond only if dragged element is 'tdc_element'
+                            if ( isElementDragged() || ( isInnerRowDragged() && $element.hasClass( 'tdc_element_column' ) ) ) {
+                                //console.log( 'element mouse up' );
+
+                                event.preventDefault();
+
+                                deactiveDraggedElement();
+                                hideHelper();
+
+                                current_element_over = undefined;
+                                positionElementPlaceholder(event);
+                            }
+
+                        }).mousemove(function(event) {
+
+                            // Respond only if dragged element is 'tdc_element'
+                            if ( isElementDragged() || ( isInnerRowDragged() && $element.hasClass( 'tdc_element_column' ) ) ) {
+                                //console.log( 'element mouse move' );
+
+                                event.preventDefault();
+                                event.stopPropagation();
+
+                                showHelper( event );
+
+                                current_element_over = $element;
+                                positionElementPlaceholder( event );
+                            }
+
+                        }).mouseenter(function(event) {
+
+                            // Respond only if dragged element is 'tdc_element'
+                            if ( isElementDragged() || ( isInnerRowDragged() && $element.hasClass( 'tdc_element_column' ) ) ) {
+                                //console.log( 'element mouse enter' );
+
+                                event.preventDefault();
+
+                                current_element_over = $element;
+                                positionElementPlaceholder( event );
+                            }
+
+                        }).mouseleave(function(event) {
+
+                            // Respond only if dragged element is 'tdc_element'
+                            if ( isElementDragged() || ( isInnerRowDragged() && $element.hasClass( 'tdc_element_column' ) ) ) {
+                                //console.log( 'element mouse leave' );
+
+                                event.preventDefault();
+
+                                current_element_over = undefined;
+                                positionElementPlaceholder(event);
+                            }
+
+                        }).on( 'fakemouseenterevent', function(event) {
+
+                            // Respond only if dragged element is 'tdc_element'
+                            if ( isElementDragged() || ( isInnerRowDragged() && $element.hasClass( 'tdc_element_column' ) ) ) {
+                                console.log( 'element FAKE MOUSE ENTER EVENT' );
+
+                                event.preventDefault();
+                                event.stopPropagation();
+
+                                var outerHeight = $element.outerHeight(true);
+                                var outerWidth = $element.outerWidth();
+
+                                var offset = $element.offset();
+
+                                //console.log( offset.left + ' : ' + event.pageX + ' : ' + (offset.left + outerWidth) );
+                                //console.log( offset.top + ' : ' + event.pageY + ' : ' + (offset.top + outerHeight) );
+
+                                if ( ( parseInt(offset.left) <= parseInt(event.pageX) ) && ( parseInt(event.pageX) <= parseInt(offset.left + outerWidth) ) &&
+                                    ( parseInt(offset.top) <= parseInt(event.pageY) ) && ( parseInt(event.pageY) <= parseInt(offset.top + outerHeight) ) ) {
+
+                                    //console.log( '***********************' );
+
+                                    // Set the 'current_element_over' variable to the current element
+                                    current_element_over = $element;
+
+                                    // Position the placeholder
+                                    positionElementPlaceholder(event);
+                                }
+                            }
                         });
+                    });
 
 
 
+                    tdc_elements.each(function(index, element) {
 
+                        jQuery(element).hover(function(event) {
+                            //console.log( 'tdc_elements mouse enter' );
 
+                            event.preventDefault();
+                        },
+                        function(event) {
+                            //console.log( 'tdc_elements mouse leave' );
 
-                        var outer_tdc_elements = tdc_elements.filter(function() {
-
-                            return ( 0 === jQuery(this).parents( '.tdc_elements').length );
-
-                        }).droppable({
-
-                            accept: '.tdc_element, .tdc_element_inner_row',
-
-                            greedy: true,
-
-                            drop: function (event, ui) {
-                                //tdcDebug.log( event );
-
-                                //tdcDebug.log( 'drop tdc_element or tdc_element_inner_row on outer list' );
-
-                                //tdcDebug.log( ui.draggable);
-
-                                //tdcDebug.log( event.target);
-                                //tdcDebug.log( event.currentTarget);
-
-                                dropEvent = event;
-
-                                //tdcDebug.log( '2Request for ' + ui.draggable.td_shortcode );
-                            },
-                            //
-                            over: function(event, ui) {
-                                //tdcDebug.log( 'over outside list' );
-                            },
-                            //
-                            out: function(event, ui) {
-                                //tdcDebug.log( 'out outside list' );
-                            },
-
-                            //activate: function( event, ui) {
-                            //    jQuery(this).addClass( 'tdc_elements_active' );
-                            //},
-                            //
-                            //deactivate: function( event, ui) {
-                            //    jQuery(this).removeClass( 'tdc_elements_active' );
-                            //}
-
-                            activeClass: 'tdc_elements_active',
-                            hoverClass: 'tdc_elements_hover'
+                            event.preventDefault();
                         });
-
-
-                        tdcAdminUI._tdcJqObjElements.sortable( definedElSortSettings ).disableSelection();
-
+                    });
 
 
 
 
 
+                    tdc_row.each(function(index, element) {
+
+                        var $element = jQuery(element);
+
+                        $element.click(function(event) {
+                            //console.log( 'click row' );
+
+                            event.preventDefault();
+
+                        }).mousedown(function(event) {
+                            //console.log( 'row mouse down' );
+
+                            event.preventDefault();
+                            event.stopPropagation();
+
+                            activeDraggedElement( jQuery(this) );
+                            showHelper( event );
+
+                        }).mouseup(function(event) {
+
+                            // Respond only if dragged element is 'tdc_row'
+                            if ( isRowDragged() ) {
+                                //console.log( 'row mouse up' );
+
+                                event.preventDefault();
+
+                                deactiveDraggedElement();
+                                hideHelper();
+                            }
+
+                        }).mousemove(function(event) {
+
+                            // Respond only if dragged element is 'tdc_row'
+                            if ( isRowDragged() ) {
+                                //console.log( 'row mouse move' );
+
+                                event.preventDefault();
+                                event.stopPropagation();
+
+                                showHelper( event );
+
+                                current_element_over = $element;
+                                positionRowPlaceholder( event );
+                            }
+
+                        }).mouseenter(function(event) {
+
+                            // Respond only if dragged element is 'tdc_row'
+                            if ( isRowDragged() ) {
+                                //console.log('row mouse enter');
+
+                                event.preventDefault();
+
+                                current_element_over = $element;
+                                positionRowPlaceholder( event );
+                            }
+
+                        }).mouseleave(function(event) {
+
+                            // Respond only if dragged element is 'tdc_row'
+                            if ( isRowDragged() ) {
+                                //console.log('row mouse leave');
+
+                                event.preventDefault();
+
+                                current_element_over = undefined;
+                                positionRowPlaceholder( event );
+                            }
+
+                        }).on( 'fakemouseenterevent', function(event) {
+
+                            // Respond only if dragged element is 'tdc_row'
+                            if ( isRowDragged() ) {
+                                console.log( 'tdc_row FAKE MOUSE ENTER EVENT' );
+
+                                var outerHeight = $element.outerHeight(true);
+                                var outerWidth = $element.outerWidth();
+
+                                var offset = $element.offset();
+
+                                //console.log( offset.left + ' : ' + event.pageX + ' : ' + (offset.left + outerWidth) );
+                                //console.log( offset.top + ' : ' + event.pageY + ' : ' + (offset.top + outerHeight) );
+
+                                if ( ( parseInt(offset.left) <= parseInt(event.pageX) ) && ( parseInt(event.pageX) <= parseInt(offset.left + outerWidth) ) &&
+                                    ( parseInt(offset.top) <= parseInt(event.pageY) ) && ( parseInt(event.pageY) <= parseInt(offset.top + outerHeight) ) ) {
+
+                                    //console.log( '***********************' );
+
+                                    // Set the 'current_element_over' variable to the current element
+                                    current_element_over = $element;
+
+                                    // Position the placeholder
+                                    positionRowPlaceholder( event );
+                                }
+                            }
+                        });
+                    });
 
 
 
 
 
+                    tdc_column.each(function(index, element) {
+
+                        var $element = jQuery(element);
+
+                        $element.click(function(event) {
+                            //console.log( 'click column' );
+
+                            event.preventDefault();
 
 
+                        }).mousedown(function(event) {
+                            //console.log( 'column mouse down' );
 
+                            event.preventDefault();
+                            event.stopPropagation();
 
+                            activeDraggedElement( jQuery(this) );
+                            showHelper( event );
 
+                        }).mouseup(function(event) {
 
-                        var makeRowsSortable = function() {
+                            // Respond only if dragged element is 'tdc_column'
+                            if ( isColumnDragged( $element ) ) {
+                                //console.log( 'column mouse up' );
 
-                            var tdc_rows = contents.find( '#tdc_rows' );
+                                event.preventDefault();
 
-                            tdc_rows.sortable({
-                                items: '> .tdc_row',
+                                deactiveDraggedElement();
+                                hideHelper();
 
-                                helper: function() {
-                                    return '<div id="tdc_row_sort" class="tdc_row_sort"></div>';
-                                },
+                                current_element_over = undefined;
+                                positionColumnPlaceholder( event );
+                            }
 
-                                tolerance: 'pointer',
+                        }).mousemove(function(event) {
 
-                                cursorAt: {
-                                    left: 100,
-                                    top: 30
-                                },
+                            // Respond only if dragged element is 'tdc_column'
+                            if ( isColumnDragged( $element ) ) {
+                                //console.log( 'column mouse move' );
 
-                                zIndex: 10000,
+                                event.preventDefault();
+                                event.stopPropagation();
 
-                                revert: 200,
+                                showHelper(event);
 
-                                cursor: 'move',
+                                current_element_over = $element;
+                                positionColumnPlaceholder( event );
+                            }
 
-                                placeholder: 'tdc-sortable-placeholder',
+                        }).mouseenter(function(event) {
 
-                                //appendTo: document.body,
-                                appendTo: contents.find('body').get(0),
+                            // Respond only if dragged element is 'tdc_column'
+                            if ( isColumnDragged( $element ) ) {
+                                //console.log( 'column mouse enter' );
 
-                                start: function(event, ui) {
+                                event.preventDefault();
 
-                                    // Still show the selected element
-                                    ui.item.addClass( 'tdc_row_moving' );
+                                current_element_over = $element;
+                                positionColumnPlaceholder( event );
+                            }
 
+                        }).mouseleave(function(event) {
 
-                                    // Important! This operation is necessary because the placeholder needs to position correctly
-                                    // in the container of the current item (it doesn't snap between the available items)
-                                    // Without it, for a correct position there's necessary to make 'over'
-                                    tdc_rows.sortable( 'refreshPositions' );
+                            // Respond only if dragged element is 'tdc_column'
+                            if ( isColumnDragged( $element ) ) {
+                                //console.log( 'column mouse leave' );
 
-                                    positionPlaceholder(ui, '#tdc_rows' );
-                                },
+                                event.preventDefault();
 
-                                stop: function(event, ui) {
-                                    //tdcDebug.log( 'stop sortable row' );
+                                current_element_over = undefined;
+                                positionColumnPlaceholder( event );
+                            }
 
-                                    // Remove style changes of the current item
-                                    ui.item.removeClass( 'tdc_row_moving' );
+                        }).on( 'fakemouseenterevent', function(event) {
 
-                                    //tdc_rows.removeClass( 'tdc_rows_hover' );
+                            // Respond only if dragged element is 'tdc_column'
+                            if ( isColumnDragged( $element ) ) {
+                                //console.log( 'tdc_column FAKE MOUSE ENTER EVENT' );
 
-                                    //tdcDebug.log( ui.item.data( 'test' ));
+                                var list_tdc_elements = $element.find( '.tdc_elements:first' );
 
-                                    if ( undefined === dropEvent ) {
-
-                                        jQuery(this).sortable( 'cancel' );
-                                        tdcAdminUI._tdcJqObjElements.sortable( 'cancel' );
-
-                                    } else {
-                                        dropEvent = undefined;
-                                    }
-                                    tdc_rows.sortable( 'refreshPositions' );
-                                },
-
-                                over: function(event, ui) {
-                                    //tdcDebug.log( 'over sortable row' );
-
-                                    positionPlaceholder(ui, '#tdc_rows' );
-
-                                    // Show the placeholder
-                                    ui.placeholder.show();
-
-                                },
-
-                                out: function(event, ui) {
-                                    //tdcDebug.log( 'out sortable row' );
-
-                                    ui.placeholder.hide();
-                                },
-
-                                change: function(event, ui) {
-                                    //tdcDebug.log( 'change sortable row' );
-
-                                    // Set position for the placeholder
-                                    positionPlaceholder(ui, '#tdc_rows' );
+                                if ( ! list_tdc_elements.length ) {
+                                    return;
                                 }
 
-                            }).disableSelection();
+                                var outerHeight = list_tdc_elements.outerHeight(true);
+                                var outerWidth = list_tdc_elements.outerWidth();
+
+                                var offset = $element.offset();
+
+                                // Being floated, all prev columns width must be considered when working with the offset().left
+                                var extraLeft = 0;
+                                var prevColumns = $element.prevAll( '.tdc_column' );
+
+                                if ( prevColumns.length ) {
+                                    prevColumns.each( function (index, element) {
+                                        extraLeft += parseInt( jQuery(element).find( '.tdc_elements:first').width() );
+                                    });
+                                }
+
+                                extraLeft += offset.left;
 
 
-                            tdc_rows.droppable({
-
-                                accept: '.tdc_row',
-
-                                drop: function (event, ui) {
-                                    //tdcDebug.log( 'drop droppable row' );
-
-                                    dropEvent = event;
-                                },
-                                //
-                                over: function(event, ui) {
-                                    //tdcDebug.log( 'over droppable row' );
-                                },
-                                //
-                                out: function(event, ui) {
-                                    //tdcDebug.log( 'out droppable row' );
-                                },
-
-                                activeClass: 'tdc_elements_active',
-                                hoverClass: 'tdc_elements_hover'
+                                //console.log( extraLeft + ' : ' + event.pageX + ' : ' + ( extraLeft + outerWidth ) );
+                                //console.log( offset.top + ' : ' + event.pageY + ' : ' + ( offset.top + outerHeight ) );
 
 
-                                // Important! We can't use hoverClass because the dragged item is not displayed 'none'
-                                // and because of this, the position is miscalculated
-                                //hoverClass: 'tdc_elements_hover'
-                            });
-                        };
+                                if ( ( parseInt( extraLeft ) <= parseInt( event.pageX ) ) && ( parseInt( event.pageX ) <= parseInt( extraLeft + outerWidth ) ) &&
+                                    ( parseInt( offset.top ) <= parseInt( event.pageY ) ) && ( parseInt( event.pageY ) <= parseInt( offset.top + outerHeight ) ) ) {
 
-                        makeRowsSortable();
+                                    //console.log( '***********************' );
 
+                                    // Set the 'current_element_over' variable to the current element
+                                    current_element_over = $element;
+
+                                    // Position the placeholder
+                                    positionColumnPlaceholder( event );
+                                }
+                            }
+                        });
+                    });
+
+
+
+
+
+
+
+
+                    tdc_element_inner_row.each( function( index, element ) {
+
+                        var $element = jQuery(element);
+
+                        $element.click(function(event) {
+                             //console.log( 'click inner row' );
+
+                            event.preventDefault();
+
+
+                        }).mousedown(function(event) {
+                             //console.log( 'inner row mouse down' );
+
+                            event.preventDefault();
+                            event.stopPropagation();
+
+                            activeDraggedElement( jQuery(this) );
+                            showHelper( event );
+
+                        }).mouseup(function(event) {
+                             //console.log( 'inner row element mouse up' );
+
+                            event.preventDefault();
+
+                            deactiveDraggedElement();
+                            hideHelper();
+
+                        }).mousemove(function(event) {
+
+                            // Respond only if dragged element is 'tdc_inner_row'
+                            if ( isElementDragged() || isInnerRowDragged() ) {
+                                //console.log( 'inner row element mouse move' );
+
+                                event.preventDefault();
+                                event.stopPropagation();
+
+                                showHelper(event);
+
+                                current_element_over = $element;
+                                positionInnerRowPlaceholder( event );
+                            }
+
+                        }).mouseenter(function(event) {
+
+                            // Respond only if dragged element is 'tdc_inner_row'
+                            if ( isElementDragged() || isInnerRowDragged() ) {
+                                //console.log('inner row mouse enter');
+
+                                event.preventDefault();
+
+                                current_element_over = $element;
+                                positionInnerRowPlaceholder( event );
+                            }
+
+                        }).mouseleave(function(event) {
+
+                            // Respond only if dragged element is 'tdc_inner_row'
+                            if ( isElementDragged() || isInnerRowDragged() ) {
+                                //console.log('inner row mouse leave');
+
+                                event.preventDefault();
+
+                                current_element_over = undefined;
+                                positionInnerRowPlaceholder( event );
+                            }
+
+                        }).on( 'fakemouseenterevent', function(event) {
+
+                            // Respond only if dragged element is 'tdc_inner_row'
+                            if ( isElementDragged() || isInnerRowDragged() ) {
+                                console.log( 'tdc_inner_row FAKE MOUSE ENTER EVENT' );
+
+                                var outerHeight = $element.outerHeight(true);
+                                var outerWidth = $element.outerWidth();
+
+                                var offset = $element.offset();
+
+                                //console.log( offset.left + ' : ' + event.pageX + ' : ' + (offset.left + outerWidth) );
+                                //console.log( offset.top + ' : ' + event.pageY + ' : ' + (offset.top + outerHeight) );
+
+                                if ( ( parseInt(offset.left) <= parseInt(event.pageX) ) && ( parseInt(event.pageX) <= parseInt(offset.left + outerWidth) ) &&
+                                    ( parseInt(offset.top) <= parseInt(event.pageY) ) && ( parseInt(event.pageY) <= parseInt(offset.top + outerHeight) ) ) {
+
+                                    //console.log( '***********************' );
+
+                                    // Set the 'current_element_over' variable to the current element
+                                    current_element_over = $element;
+
+                                    // Position the placeholder
+                                    positionInnerRowPlaceholder( event );
+                                }
+                            }
+                        });
+                    });
+
+
+
+                    tdc_inner_column.each(function(index, element) {
+
+                        var $element = jQuery(element);
+
+                        $element.click(function(event) {
+                            console.log( 'click inner column' );
+
+                            event.preventDefault();
+
+                        }).mousedown(function(event) {
+                            console.log( 'inner column mouse down' );
+
+                            event.preventDefault();
+                            event.stopPropagation();
+
+                            activeDraggedElement( jQuery(this) );
+                            showHelper( event );
+
+                        }).mouseup(function(event) {
+
+                            // Respond only if dragged element is 'tdc_inner_column'
+                            if ( isInnerColumnDragged( $element ) ) {
+                                console.log( 'inner column mouse up' );
+
+                                event.preventDefault();
+
+                                deactiveDraggedElement();
+                                hideHelper();
+
+                                current_element_over = undefined;
+                                positionInnerColumnPlaceholder( event );
+                            }
+
+                        }).mousemove(function(event) {
+
+                            // Respond only if dragged element is 'tdc_inner_column'
+                            if ( isInnerColumnDragged( $element ) ) {
+                                console.log( 'inner column mouse move' );
+
+                                event.preventDefault();
+                                event.stopPropagation();
+
+                                showHelper(event);
+
+                                current_element_over = $element;
+                                positionInnerColumnPlaceholder( event );
+                            }
+
+                        }).mouseenter(function(event) {
+
+                            // Respond only if dragged element is 'tdc_inner_column'
+                            if ( isInnerColumnDragged( $element ) ) {
+                                console.log( 'inner column mouse enter' );
+
+                                event.preventDefault();
+
+                                current_element_over = $element;
+                                positionInnerColumnPlaceholder( event );
+                            }
+
+                        }).mouseleave(function(event) {
+
+                            // Respond only if dragged element is 'tdc_inner_column'
+                            if ( isInnerColumnDragged( $element ) ) {
+                                //console.log( 'column mouse leave' );
+
+                                event.preventDefault();
+
+                                current_element_over = undefined;
+                                positionInnerColumnPlaceholder( event );
+                            }
+
+                        }).on( 'fakemouseenterevent', function(event) {
+
+                            // Respond only if dragged element is 'tdc_inner_column'
+                            if ( isInnerColumnDragged( $element ) ) {
+                                console.log( 'tdc_inner_column FAKE MOUSE ENTER EVENT' );
+
+                                var list_tdc_elements = $element.find( '.tdc_elements:first' );
+
+                                if ( ! list_tdc_elements.length ) {
+                                    return;
+                                }
+
+                                var outerHeight = list_tdc_elements.outerHeight(true);
+                                var outerWidth = list_tdc_elements.outerWidth();
+
+                                var offset = $element.offset();
+
+                                // Being floated, all prev columns width must be considered when working with the offset().left
+                                var extraLeft = 0;
+                                var prevColumns = $element.prevAll( '.tdc_inner_column' );
+
+                                if ( prevColumns.length ) {
+                                    prevColumns.each( function (index, element) {
+                                        extraLeft += parseInt( jQuery(element).find( '.tdc_elements:first').width() );
+                                    });
+                                }
+
+                                extraLeft += offset.left;
+
+
+                                console.log( extraLeft + ' : ' + event.pageX + ' : ' + ( extraLeft + outerWidth ) );
+                                console.log( offset.top + ' : ' + event.pageY + ' : ' + ( offset.top + outerHeight ) );
+
+
+                                if ( ( parseInt( extraLeft ) <= parseInt( event.pageX ) ) && ( parseInt( event.pageX ) <= parseInt( extraLeft + outerWidth ) ) &&
+                                    ( parseInt( offset.top ) <= parseInt( event.pageY ) ) && ( parseInt( event.pageY ) <= parseInt( offset.top + outerHeight ) ) ) {
+
+                                    console.log( '***********************' );
+
+                                    // Set the 'current_element_over' variable to the current element
+                                    current_element_over = $element;
+
+                                    // Position the placeholder
+                                    positionInnerColumnPlaceholder( event );
+                                }
+                            }
+                        });
+                    });
+
+
+
+
+
+
+
+
+
+
+
+                    tdcAdminIFrameUI._tdcJqObjElements.find( '.tdc_element').each(function(index, element) {
+
+                        jQuery(element).click(function(event) {
+                            //console.log( 'element click' );
+
+                            event.preventDefault();
+
+                        }).mousedown(function(event) {
+                            //console.log( 'element mouse down' );
+
+                            event.preventDefault();
+
+                            activeDraggedElement( jQuery(this) );
+                            showHelper( event );
+
+                        }).mouseup(function(event) {
+                            //console.log( 'element mouse up' );
+
+                            event.preventDefault();
+
+                            deactiveDraggedElement();
+                            hideHelper();
+                        });
+                    });
+
+
+
+                    jQuery(window).mouseup(function(event) {
+                        //console.log( 'window mouse up' );
+
+                        deactiveDraggedElement();
+                        hideHelper();
+
+                    }).mousemove(function( event ) {
+                        //console.log( 'window mouse move' );
+
+                        showHelper( event );
+                    });
+
+
+
+                    contents.mousedown(function(event) {
+                        //console.log( 'contents mouse down' );
+
+                    }).mouseup(function(event) {
+                        //console.log( 'contents mouse up' );
+
+                        deactiveDraggedElement();
+                        hideHelper();
+
+                        current_element_over = undefined;
+                        positionElementPlaceholder( event );
+
+                    }).mousemove(function(event) {
+                        //console.log( 'contents mouse move' );
+
+                        showHelper( event );
+
+                        window.previousMouseClientX = event.clientX;
+                        window.previousMouseClientY = event.clientY;
+
+                    }).scroll(function( event ) {
+                        //console.log( '------------- content scroll -------------' );
+
+
+                        if ( isElementDragged() ) {
+                            positionElementPlaceholder( event );
+                        } else if ( isInnerColumnDragged() ) {
+                            positionInnerColumnPlaceholder( event );
+                        } else if ( isInnerRowDragged() ) {
+                            positionInnerRowPlaceholder( event );
+                        } else if ( isColumnDragged() ) {
+                            positionColumnPlaceholder( event );
+                        } else if ( isRowDragged() ) {
+                            positionRowPlaceholder( event);
+                        }
+
+                    });
+
+
+
+
+                    tdcAdminIFrameUI._tdcJqObjHelper.mouseup(function( event ) {
+                        console.log( 'helper mouse up' );
+
+                        hideHelper();
+                    });
+
+                    window.test = function() {
+                        console.log( 1 );
                     };
+                }
 
-                    setOperationUI();
-
-
-
+                setOperationUI();
 
 
-                });
 
-            tdcAdminUI._tdcJqObjWrapper.append( tdc );
 
-        }
+
+
+
+            });
+
+        tdcAdminIFrameUI._tdcJqObjWrapper.append( tdc );
     };
 
 

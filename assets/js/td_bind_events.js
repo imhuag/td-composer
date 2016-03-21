@@ -4,224 +4,98 @@
 
 /* global jQuery:{} */
 
-(function() {
+var tdcAdminWrapperUI;
+
+(function( jQuery, undefined ) {
 
     'use strict';
 
-    //jQuery( '.tdc_row')
-    //    .wrapAll( '<div class="tdc_rows"></div>' )
-    //    .each(function(index, el ) {
-    //        jQuery( el ).find( '.tdc_column' ).wrapAll( '<div class="tdc_columns"></div>' );
-    //});
-    //
-    //// all tdc_inner_rows
-    //// all tdc_elements
-    //jQuery( '.tdc_column').each(function(index, el ) {
-    //    jQuery( el ).find( '.tdc_inner_row').wrapAll( '<div class="tdc_inner_rows"></div>' );
-    //    jQuery( el ).find( '.td_block_wrap').wrap( '<div class="tdc_element"></div>' );
-    //});
-    //
-    //// all tdc_inner_columns
-    //jQuery( '.tdc_inner_row').each(function(index, el ) {
-    //    jQuery( el).find( '.tdc_inner_column').wrapAll( '<div class="tdc_inner_columns"></div>' );
-    //});
-    //
-    //// all tdc_element of the tdc_inner_column, moved to the tdc_elements
-    //jQuery( '.tdc_inner_column').each(function(index, el) {
-    //    var tdc_element = jQuery( el).find( '.tdc_element');
-    //
-    //    if ( tdc_element.length ) {
-    //        tdc_element.addClass( 'tdc_element_inner_column' ).wrapAll( '<div class="tdc_elements"></div>' );
-    //    } else {
-    //
-    //        // add sortable area if empty inner column
-    //        var innerMostElement = jQuery( el).find( '.wpb_wrapper' );
-    //
-    //        if ( innerMostElement.length ) {
-    //            innerMostElement.append( '<div class="tdc_elements"></div>' );
-    //        }
-    //    }
-    //});
-    //
-    //// all tdc_elements not already moved to tdc_elements, moved to their new tdc_elements (columns can have their elements, which are not inside of an inner row > inner column)
-    //jQuery( '.tdc_column').each(function(index, el) {
-    //
-    //    var tdc_element = jQuery( el).find( '.tdc_element');
-    //
-    //    if ( tdc_element.length ) {
-    //        tdc_element
-    //            .not('.tdc_element_inner_column')
-    //            .addClass( 'tdc_element_column' )
-    //            .wrapAll( '<div class="tdc_elements"></div>' );
-    //    } else {
-    //
-    //        // add sortable area if empty columns
-    //        var innerMostElement = jQuery( el).find( '.wpb_wrapper' );
-    //
-    //        if ( innerMostElement.length ) {
-    //            innerMostElement.append( '<div class="tdc_elements"></div>' );
-    //        }
-    //    }
-    //});
-    //
-    //
-    //
-    //var tdc_elements = jQuery( '.tdc_elements');
-    //
-    //tdc_elements.sortable({
-    //
-    //    items: '> .tdc_element',
-    //
-    //    //helper: 'clone',
-    //
-    //    helper: function() {
-    //        return jQuery( '<div class="tdc_element_mouse"></div>' );
-    //    },
-    //
-    //    //opacity: 0.2,
-    //    placeholder: 'tdc-sortable-placeholder',
-    //    //forcePlaceholderSize: true,
-    //
-    //    cursorAt: {
-    //        left: 50,
-    //        top: 50
-    //    },
-    //
-    //    cursor: 'move',
-    //
-    //    connectWith: '.tdc_elements',
-    //
-    //    appendTo: document.body,
-    //
-    //    over: function(event, ui) {
-    //        jQuery( '.tdc_elements.ui-sortable > .tdc_element.ui-sortable-handle').filter(function() {
-    //            return 'none' === jQuery(this).css( 'display' );
-    //        }).addClass( 'tdc_element_moving' );
-    //
-    //        console.log( 'over' );
-    //    },
-    //    stop: function(event, ui) {
-    //        jQuery( '.tdc_elements.ui-sortable > .tdc_element.ui-sortable-handle').removeClass( 'tdc_element_moving' );
-    //    },
-    //    out: function(event, ui) {
-    //        console.log( 'out' );
-    //    }
-    //
-    //});
-    //
-    //
-    //alert( 'bind-events' );
+    tdcAdminWrapperUI = {
 
-    return;
+        _tdcJqObjWrapper: undefined,
+        _tdcJqObjSettings: undefined,
+        _tdcJqObjElements: undefined,
+        _tdcJqObjInspector: undefined,
+        _tdcJqObjAdd: undefined,
+        _tdcJqObjSave: undefined,
+
+        _tdcJqObjHelper: undefined,
+
+
+        _initialized: false,
+
+
+        init: function() {
+            tdcAdminWrapperUI._tdcJqObjWrapper = jQuery( '#tdc_wrapper');
+
+            tdcAdminWrapperUI._tdcJqObjSettings = jQuery('<div id="tdc_settings"></div>');
+
+            tdcAdminWrapperUI._tdcJqObjAdd = jQuery( '<div id="tdc_add">Add</div>' );
+            tdcAdminWrapperUI._tdcJqObjSave = jQuery( '<div id="tdc_save">Save</div>' );
+
+            tdcAdminWrapperUI._tdcJqObjSettings.append( tdcAdminWrapperUI._tdcJqObjAdd );
+            tdcAdminWrapperUI._tdcJqObjSettings.append( tdcAdminWrapperUI._tdcJqObjSave );
+
+            tdcAdminWrapperUI._tdcJqObjInspector = jQuery('<div id="tdc_inspector"></div>');
+
+            tdcAdminWrapperUI._tdcJqObjInspector.append( '<div class="tdc_title">Inspector</div><div class="tdc_wrapper"></div>' );
+
+            tdcAdminWrapperUI._tdcJqObjElements = jQuery('<div id="tdc_elements" class="test"></div>');
+            tdcAdminWrapperUI._tdcJqObjElements.append( '<div class="tdc_element">Block 1</div>' +
+            '<div class="tdc_element">Block 2</div>' );
 
 
 
+            tdcAdminWrapperUI._tdcJqObjHelper = jQuery('<div id="tdc-dragged-helper"></div>');
+            tdcAdminWrapperUI._tdcJqObjPlaceholder = jQuery('<div id="tdc_placeholder"></div>');
 
 
 
+            jQuery('body').append( tdcAdminWrapperUI._tdcJqObjSettings );
+            jQuery('body').append( tdcAdminWrapperUI._tdcJqObjInspector );
+            jQuery('body').append( tdcAdminWrapperUI._tdcJqObjElements );
+
+            jQuery('body').append( tdcAdminWrapperUI._tdcJqObjHelper );
+            jQuery('body').append( tdcAdminWrapperUI._tdcJqObjPlaceholder );
 
 
-
-
-
-    //var tdScreenMasque = jQuery( parent.document.getElementById("td_screen_masque") );
-    //
-    //tdScreenMasque.hover(
-    //    function(event) {
-    //        //tdScreenMasque.hide();
-    //    }, function(event) {
-    //
-    //});
-
-    var tdComposerMasque = jQuery( parent.document.getElementById("td_composer_masque") );
-
-    //tdComposerMasque.find( '.td_masque_content');
-
-    var tdComposerRow = jQuery( parent.document.getElementById("td_composer_row") );
-
-    var tdComposerColumn = jQuery( parent.document.getElementById("td_composer_column") );
-
-    var currentElement;
-
-    var masqueShown = false;
-
-    jQuery( '.wpb_wrapper').hover(
-        function(event) {
-
-            currentElement = jQuery(this);
-
-            tdComposerMasque.show();
-            tdComposerMasque.css({
-                top: jQuery(this).offset().top,
-                left: jQuery(this).offset().left,
-                width: jQuery(this).outerWidth( true ),
-                height: jQuery(this).outerHeight( true )
+            tdcAdminWrapperUI._tdcJqObjSettings.css({
+                height: jQuery(window).innerHeight()
             });
 
-            currentElement.addClass( 'no_hover' );
-        },
-        function(event) {
 
-            tdComposerMasque.hide();
-            //currentElement.removeClass( 'no_hover' );
-    });
+            tdcAdminWrapperUI._tdcJqObjInspector.css({
+                height: jQuery(window).innerHeight() - 75
+            });
 
-    tdComposerRow.hover(
-        function(event) {
-
-            if ( undefined !== currentElement ) {
-                currentElement.addClass( 'no_hover' );
-
-                tdComposerMasque.show();
-                tdComposerMasque.css({
-                    top: currentElement.offset().top,
-                    left: currentElement.offset().left,
-                    width: currentElement.outerWidth( true ),
-                    height: currentElement.outerHeight( true )
+            tdcAdminWrapperUI._tdcJqObjAdd.click(function(event) {
+                tdcAdminWrapperUI._tdcJqObjElements.css({
+                    left: 0
                 });
-            }
-        },
-        function(event) {
-            tdComposerMasque.hide();
-            //currentElement.removeClass( 'no_hover' );
-    });
+            });
 
+            tdcAdminWrapperUI._tdcJqObjSave.click(function(event) {
 
-    tdComposerMasque.hover(
-        function(event) {
-
-            if ( undefined !== currentElement ) {
-                currentElement.addClass( 'no_hover' );
-
-                tdComposerMasque.show();
-                tdComposerMasque.css({
-                    top: currentElement.offset().top,
-                    left: currentElement.offset().left,
-                    width: currentElement.outerWidth( true ),
-                    height: currentElement.outerHeight( true )
-                });
-            }
-        },
-        function(event) {
-            tdComposerMasque.hide();
-            currentElement.removeClass( 'no_hover' );
-        });
-
-
-    //tdComposerMasque.find( '.td_masque_content').get(0).addEventListener( 'click', function(event) {
-    //    event.stopPropagation();
-    //    alert(11);
-    //}, true);
+                //var data = {
+                //    error: undefined,
+                //    getShortcode: ''
+                //};
+                //
+                //tdcMain.getShortcodeFromData( data );
+                //
+                //if ( !_.isUndefined( data.error ) ) {
+                //    tdcDebug.log( data.error );
+                //} else {
+                //    tdcDebug.log( data.getShortcode );
+                //}
+                //
+                alert( 'Save the content. Look to the console for the post content' );
+            });
+        }
+    };
 
 
 
-    tdComposerRow.click(function(event) {
-        alert( 'row click' );
-    });
+    tdcAdminWrapperUI.init();
 
-    tdComposerColumn.click(function(event) {
-        event.stopPropagation();
-        alert( 'column click' );
-    });
-
-})();
+})( jQuery );
