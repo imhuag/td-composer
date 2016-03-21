@@ -68,7 +68,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<!--</div>-->
 
 
-	<div id="tdc_wrapper"></div>
+	<div id="tdc-wrapper"></div>
 
 	<div style="height: 1px; visibility: hidden; overflow: hidden;">
 

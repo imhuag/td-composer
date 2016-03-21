@@ -26,28 +26,28 @@ var tdcAdminWrapperUI;
 
 
         init: function() {
-            tdcAdminWrapperUI._tdcJqObjWrapper = jQuery( '#tdc_wrapper');
+            tdcAdminWrapperUI._tdcJqObjWrapper = jQuery( '#tdc-wrapper');
 
-            tdcAdminWrapperUI._tdcJqObjSettings = jQuery('<div id="tdc_settings"></div>');
+            tdcAdminWrapperUI._tdcJqObjSettings = jQuery('<div id="tdc-settings"></div>');
 
-            tdcAdminWrapperUI._tdcJqObjAdd = jQuery( '<div id="tdc_add">Add</div>' );
-            tdcAdminWrapperUI._tdcJqObjSave = jQuery( '<div id="tdc_save">Save</div>' );
+            tdcAdminWrapperUI._tdcJqObjAdd = jQuery( '<div id="tdc-add">Add</div>' );
+            tdcAdminWrapperUI._tdcJqObjSave = jQuery( '<div id="tdc-save">Save</div>' );
 
             tdcAdminWrapperUI._tdcJqObjSettings.append( tdcAdminWrapperUI._tdcJqObjAdd );
             tdcAdminWrapperUI._tdcJqObjSettings.append( tdcAdminWrapperUI._tdcJqObjSave );
 
-            tdcAdminWrapperUI._tdcJqObjInspector = jQuery('<div id="tdc_inspector"></div>');
+            tdcAdminWrapperUI._tdcJqObjInspector = jQuery('<div id="tdc-inspector"></div>');
 
-            tdcAdminWrapperUI._tdcJqObjInspector.append( '<div class="tdc_title">Inspector</div><div class="tdc_wrapper"></div>' );
+            tdcAdminWrapperUI._tdcJqObjInspector.append( '<div class="tdc-title">Inspector</div><div class="tdc-wrapper"></div>' );
 
-            tdcAdminWrapperUI._tdcJqObjElements = jQuery('<div id="tdc_elements" class="test"></div>');
-            tdcAdminWrapperUI._tdcJqObjElements.append( '<div class="tdc_element">Block 1</div>' +
-            '<div class="tdc_element">Block 2</div>' );
+            tdcAdminWrapperUI._tdcJqObjElements = jQuery('<div id="tdc-elements" class="test"></div>');
+            tdcAdminWrapperUI._tdcJqObjElements.append( '<div class="tdc-element">Block 1</div>' +
+            '<div class="tdc-element">Block 2</div>' );
 
 
 
             tdcAdminWrapperUI._tdcJqObjHelper = jQuery('<div id="tdc-dragged-helper"></div>');
-            tdcAdminWrapperUI._tdcJqObjPlaceholder = jQuery('<div id="tdc_placeholder"></div>');
+            tdcAdminWrapperUI._tdcJqObjPlaceholder = jQuery('<div id="tdc-placeholder"></div>');
 
 
 

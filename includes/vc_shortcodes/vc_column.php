@@ -41,7 +41,7 @@ class vc_column extends vc_shortcode {
 		//$content = str_replace('vc_separator', '', $content);
 
 		ob_start();
-		?><div class="tdc_column"><div class="<?php echo $td_pb_class ?> wpb_column vc_column_container"><div class="wpb_wrapper"><?php echo self::wpb_js_remove_wpautop( $content ); ?></div></div></div><?php
+		?><div class="tdc-column"><div class="<?php echo $td_pb_class ?> wpb_column vc_column_container"><div class="wpb_wrapper"><?php echo self::wpb_js_remove_wpautop( $content ); ?></div></div></div><?php
 		return ob_get_clean();
 	}
 }

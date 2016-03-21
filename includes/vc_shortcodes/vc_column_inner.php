@@ -39,7 +39,7 @@ class vc_column_inner extends vc_shortcode {
 
 
 		ob_start();
-		?><div class="tdc_inner_column"><div class="<?php echo $td_pb_class ?> wpb_column vc_column_container"><div class="vc_column-inner"><div class="wpb_wrapper"><?php echo self::wpb_js_remove_wpautop( $content ); ?></div></div></div></div><?php
+		?><div class="tdc-inner-column"><div class="<?php echo $td_pb_class ?> wpb_column vc_column_container"><div class="vc_column-inner"><div class="wpb_wrapper"><?php echo self::wpb_js_remove_wpautop( $content ); ?></div></div></div></div><?php
 		return ob_get_clean();
 	}
 }

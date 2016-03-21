@@ -33,7 +33,7 @@ body.tdc #wpbody-content {
   padding-bottom: 0;
 }
 
-#tdc_wrapper {
+#tdc-wrapper {
   position: absolute;
   width: 100%;
   margin-top: -32px !important;
@@ -51,9 +51,9 @@ body.tdc #wpbody-content {
 
 
 
-#tdc_settings,
-#tdc_elements,
-#tdc_inspector {
+#tdc-settings,
+#tdc-elements,
+#tdc-inspector {
   position: absolute;
   top: 0;
   left: 0;
@@ -64,15 +64,15 @@ body.tdc #wpbody-content {
   z-index: 1;
 }
 
-#tdc_elements,
-#tdc_inspector {
+#tdc-elements,
+#tdc-inspector {
   left: -300px;
   transition: all 0.2s;
   top: 55px;
 }
 
-#tdc_add,
-#tdc_save {
+#tdc-add,
+#tdc-save {
   height: 50px;
   width: 48%;
   margin: 2px;
@@ -80,7 +80,7 @@ body.tdc #wpbody-content {
   border: 1px solid black
 }
 
-#tdc_elements .tdc_element {
+#tdc-elements .tdc-element {
   height: 100px;
   width: 143px;
   margin: 2px;
@@ -90,14 +90,14 @@ body.tdc #wpbody-content {
   color: #FFffff;
 }
 
-#tdc_elements .tdc_wrapper,
-#tdc_inspector .tdc_wrapper {
+#tdc-elements .tdc-wrapper,
+#tdc-inspector .tdc-wrapper {
   border: 1px solid black;
   height: 100%;
 }
 
-#tdc_elements .tdc_title,
-#tdc_inspector .tdc_title {
+#tdc-elements .tdc-title,
+#tdc-inspector .tdc-title {
   width: 100%;
 }
 
@@ -107,7 +107,7 @@ body.tdc #wpbody-content {
 
 
 
-body.tdc #tdc_masque {
+body.tdc #tdc-masque {
   margin-top: -32px;
   position: absolute;
   border: 1px solid lightgreen;
@@ -118,7 +118,7 @@ body.tdc #tdc_masque {
   display: none;
 }
 
-.td_masque_content {
+.td-masque-content {
   background-color: #a7a7a7;
   opacity: 0.3;
   position: absolute;
@@ -126,7 +126,7 @@ body.tdc #tdc_masque {
   width: 100%;
 }
 
-body.tdc #tdc_row {
+body.tdc #tdc-row {
   background-color: red;
   color: #FFF;
   width: 100px;
@@ -134,7 +134,7 @@ body.tdc #tdc_row {
   cursor: pointer;
 }
 
-body.tdc #tdc_row > #tdc_column {
+body.tdc #tdc-row > #tdc-column {
   background-color: blue;
   color: #FFF;
   width: 100px;
@@ -142,38 +142,6 @@ body.tdc #tdc_row > #tdc_column {
 }
 
 
-
-/*
-style for sortable
- */
-/*
-.tdc-sortable-placeholder {
-    border: 1px solid red;
-    height: 50px;
-}
-
-
-.tdc_elements:empty {
-    border: 1px dashed green;
-    height: 50px;
-}
-
-.tdc_element_moving {
-    display: block !important;
-    opacity: 0.5;
-}
-
-.tdc_element_mouse {
-    border: 1px solid blue;
-    height: 100px !important;
-    width: 100px !important;
-}
-*/
-
-
-/*
-style for sortable
- */
 
 .tdc-sortable-placeholder {
   border: 1px dashed red;
@@ -187,26 +155,26 @@ style for sortable
   background-color: yellow;
 }
 
-.tdc_inner_row .tdc-sortable-placeholder {
+.tdc-inner-row .tdc-sortable-placeholder {
   background-color: blue;
 }
 
-.tdc_elements {
+.tdc-elements {
   min-height: 50px; /* used when only the placeholder is inside and it's hidden */
 }
 
-.tdc_elements:empty {
+.tdc-elements:empty {
   border: 1px dashed green;
   height: 50px;
 }
 
-.tdc_element_moving {
+.tdc-element-moving {
   display: block !important;
   opacity: 0.5;
 }
 
-.tdc_element_mouse,
-.tdc_element_sort {
+.tdc-element-mouse,
+.tdc-element-sort {
   border: 1px solid blue;
   height: 60px !important;
   width: 60px !important;
@@ -227,7 +195,7 @@ style for sortable
   color: #FFFFFF;
 }
 
-#tdc_placeholder {
+#tdc-placeholder {
   display: none;
   border: 1px dashed red;
   height: 50px;
