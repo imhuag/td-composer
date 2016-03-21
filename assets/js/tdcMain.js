@@ -6,8 +6,10 @@
 /* global Backbone:{} */
 /* global _:{} */
 
+/* global tdcJobManager:{} */
 /* global tdcShortcodeParser:{} */
 /* global tdcAdminWrapperUI:{} */
+
 
 
 var tdcMain,
@@ -61,8 +63,6 @@ var tdcMain,
 
             //console.log( JSON.stringify( tdc_rows ) );
             tdcDebug.log( tdcRows.models );
-
-
         },
 
 

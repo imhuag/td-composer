@@ -21,11 +21,13 @@ class tdc_config {
 
 
 	static $js_files_for_wrapper = array (
-		'tdcShortcodeParser' => '/assets/js/tdcShortcodeParser.js',
-		'tdcDebug' => '/assets/js/tdcDebug.js',
-		'td_bind_events' => '/assets/js/td_bind_events.js',
-		'tdcMain' => '/assets/js/tdcMain.js',
-		'tdc_job_manager' => '/assets/js/tdcJobManager.js'
+		'tdcDebug'              => '/assets/js/tdcDebug.js',
+
+		'tdcShortcodeParser'    => '/assets/js/tdcShortcodeParser.js',
+		'tdcJobManager'         => '/assets/js/tdcJobManager.js',
+
+		'tdcAdminWrapperUI'     => '/assets/js/tdcAdminWrapperUI.js',
+		'tdcMain'               => '/assets/js/tdcMain.js'
 	);
 
 
