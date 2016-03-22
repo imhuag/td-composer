@@ -1443,7 +1443,8 @@ var tdcMain,
                     function positionColumnPlaceholder( event ) {
                         //tdcDebug.log( event );
 
-                        var $placeholder = tdcAdminIFrameUI._tdcJqObjPlaceholder;
+                        var $placeholder = tdcAdminIFrameUI._tdcJqObjPlaceholder,
+                            placeholderId = $placeholder.attr( 'id' );
 
 
                         // The mouse position.

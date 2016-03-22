@@ -89,7 +89,9 @@ var tdcAdminWrapperUI;
                 //    tdcDebug.log( data.getShortcode );
                 //}
                 //
-                alert( 'Save the content. Look to the console for the post content' );
+                //alert( 'Save the content. Look to the console for the post content' );
+
+                jQuery( '#tdc-wrapper' ).toggleClass( 'minimize' );
             });
         }
     };
