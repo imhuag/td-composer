@@ -1,0 +1,119 @@
+#tdc-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  border-right: 1px solid #e2e2e2;
+  background-color: #f5f5f5;
+  z-index: 1;
+
+  color:#161616;
+}
+
+
+
+/*
+  Top buttons
+*/
+.tdc-top-buttons {
+  a {
+    display: block;
+    width: 50%;
+    float: left;
+    background-color: #2489c2;
+    text-align: center;
+    line-height: 41px;
+    color:white;
+    text-decoration: none;
+  }
+
+
+  .tdc-save-page {
+    position: relative;
+
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 100%;
+      content: '';
+      background-color: #5f9dc0;
+    }
+  }
+}
+
+
+
+/*
+  Breadcrumbs
+*/
+.tdc-breadcrumbs-path {
+  a {
+    font-size:12px;
+    text-decoration: none;
+    color:#161616;
+  }
+}
+
+.tdc-breadcrumb-arrow {
+  width:16px;
+  height: 16px;
+  display: inline-block;
+  background: url('../images/sidebar/breadcrumbs-small-arrow.png');
+}
+
+
+.tdc-current-element {
+  font-size:15px;
+}
+
+
+/*
+  Modal window
+*/
+
+.tdc-sidebar-modal {
+  display: none;
+  background-color: white;
+  position: absolute;
+  left:10px;
+  top:10px;
+  right: 10px;
+  bottom: 10px;
+
+  -webkit-box-shadow: 0px 0px 20px -1px rgba(194,194,194,1);
+  -moz-box-shadow: 0px 0px 20px -1px rgba(194,194,194,1);
+  box-shadow: 0px 0px 20px -1px rgba(194,194,194,1);
+}
+
+// class used to open the modal
+.tdc-modal-open {
+  display: block;
+}
+
+
+// the title (wrapper)
+.tdc-sidebar-modal-title {
+  font-size:15px;
+  padding:10px;
+  border-bottom: 1px solid #ebebeb;
+  position: relative;
+
+  .tdc-modal-close {
+    position: absolute;
+    right:10px;
+    top:10px;
+    height: 20px;
+    width: 20px;
+    background: url('../images/sidebar/close-20.png');
+  }
+}
+
+
+
+
+.tdc-sidebar-modal-content {
+  padding: 10px;
+}
