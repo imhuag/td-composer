@@ -27,7 +27,10 @@ class tdc_config {
 		'tdcJobManager'         => '/assets/js/tdcJobManager.js',
 
 		'tdcAdminWrapperUI'     => '/assets/js/tdcAdminWrapperUI.js',
+		'tdcAdminIFrameUI'      => '/assets/js/tdcAdminIFrameUI.js',
 		'tdcMain'               => '/assets/js/tdcMain.js'
+
+
 	);
 
 

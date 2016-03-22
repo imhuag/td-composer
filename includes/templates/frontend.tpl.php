@@ -42,33 +42,13 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 
 
-	<!--<div id="tdc_inspector">-->
-	<!--	<div class="tdc_title">Inspector</div>-->
-	<!--	<div class="tdc_wrapper">-->
-	<!--	</div>-->
-	<!--</div>-->
-	<!---->
-	<!--<div id="tdc_elements">-->
-	<!--	<div class="tdc_title">Elements</div>-->
-	<!--	<div class="tdc_wrapper">-->
-	<!--		<div class="tdc_element">Block 1</div>-->
-	<!--		<div class="tdc_element">Block 2</div>-->
-	<!--	</div>-->
-	<!--</div>-->
-	<!---->
-	<!--<div id="tdc_masque">-->
-	<!--	<div class="tdc_masque_content">-->
-	<!--	</div>-->
-	<!--	<div id="tdc_row">-->
-	<!--		Row-->
-	<!--		<div id="tdc_column">-->
-	<!--			Column-->
-	<!--		</div>-->
-	<!--	</div>-->
-	<!--</div>-->
 
+	<div id="tdc-settings">
+		<div id="tdc-add">Add</div>
+		<div id="tdc-save">Save</div>
+	</div>
 
-	<div id="tdc-wrapper"></div>
+	<div id="tdc-live-iframe-wrapper"></div>
 
 	<div style="height: 1px; visibility: hidden; overflow: hidden;">
 
