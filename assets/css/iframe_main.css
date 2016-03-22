@@ -134,8 +134,3 @@ html.tdc-active #wpadminbar {
   margin-top: auto !important;
   right: auto !important;
 }
-.minimize {
-  transform-origin: bottom right;
-  transform: scale(0.175);
-  transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
-}
