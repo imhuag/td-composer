@@ -16,9 +16,15 @@ var tdcAdminIFrameUI;
 
     tdcAdminIFrameUI = {
 
+        // Flag used by any function other than 'init'
         _initialized: false,
 
         init: function() {
+
+            // Do nothing if it's already initialized
+            if ( tdcAdminIFrameUI._initialized ) {
+                return;
+            }
 
             tdcAdminIFrameUI._tdcPostSettings = window.tdcPostSettings;
 
@@ -540,7 +546,7 @@ var tdcAdminIFrameUI;
                             };
 
                             // Check if we have 'mousemove' or 'fakemouseenterevent'
-                            if ( 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
+                            if ( 'mousedown' === event.type || 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
 
                                 mousePointerValue.X = event.pageX;
                                 mousePointerValue.Y = event.pageY;
@@ -604,9 +610,8 @@ var tdcAdminIFrameUI;
                             }
 
 
-                            // If a 'tdc-element' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
-                            $placeholder.show();
 
+                            // If a 'tdc-element' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
                             var elementOuterHeight = currentElementOver.outerHeight( true );
                             var elementOuterWidth = currentElementOver.innerWidth();
@@ -661,6 +666,10 @@ var tdcAdminIFrameUI;
                                 }
                             }
 
+                            // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event
+                            $placeholder.show();
+
+
                             // Hide the placeholder if it's near the dragged element
                             //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc-dragged' ) ||
                             //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
@@ -691,7 +700,7 @@ var tdcAdminIFrameUI;
                             };
 
                             // Check if we have 'mousemove' or 'fakemouseenterevent'
-                            if ( 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
+                            if ( 'mousedown' === event.type || 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
 
                                 mousePointerValue.X = event.pageX;
                                 mousePointerValue.Y = event.pageY;
@@ -748,9 +757,8 @@ var tdcAdminIFrameUI;
                             }
 
 
-                            // If a 'tdc-row' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
-                            $placeholder.show();
 
+                            // If a 'tdc-row' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
                             var elementOuterHeight = currentElementOver.outerHeight( true );
                             var elementOuterWidth = currentElementOver.innerWidth();
@@ -805,6 +813,9 @@ var tdcAdminIFrameUI;
                                 }
                             }
 
+                            // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event
+                            $placeholder.show();
+
                             // Hide the placeholder if it's near the dragged element
                             //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc-dragged' ) ||
                             //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
@@ -834,7 +845,7 @@ var tdcAdminIFrameUI;
                             };
 
                             // Check if we have 'mousemove' or 'fakemouseenterevent'
-                            if ( 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
+                            if ( 'mousedown' === event.type || 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
 
                                 mousePointerValue.X = event.pageX;
                                 mousePointerValue.Y = event.pageY;
@@ -891,9 +902,8 @@ var tdcAdminIFrameUI;
                             }
 
 
-                            // If a 'tdcRow' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
-                            $placeholder.show();
 
+                            // If a 'tdcRow' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
                             var elementOuterWidth = currentElementOver.find( '.tdc-elements:first').outerWidth( true );
                             var elementOffset = currentElementOver.offset();
@@ -942,6 +952,9 @@ var tdcAdminIFrameUI;
                                 });
                             }
 
+                            // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event
+                            $placeholder.show();
+
                             // Hide the placeholder if it's near the dragged element
                             //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc-dragged' ) ||
                             //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
@@ -974,7 +987,7 @@ var tdcAdminIFrameUI;
                             };
 
                             // Check if we have 'mousemove' or 'fakemouseenterevent'
-                            if ( 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
+                            if ( 'mousedown' === event.type || 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
 
                                 mousePointerValue.X = event.pageX;
                                 mousePointerValue.Y = event.pageY;
@@ -1041,9 +1054,8 @@ var tdcAdminIFrameUI;
                             }
 
 
-                            // If a 'tdc-row' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
-                            $placeholder.show();
 
+                            // If a 'tdc-row' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
                             var elementOuterHeight = currentElementOver.outerHeight( true );
                             var elementOuterWidth = currentElementOver.innerWidth();
@@ -1098,6 +1110,9 @@ var tdcAdminIFrameUI;
                                 }
                             }
 
+                            // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event
+                            $placeholder.show();
+
                             // Hide the placeholder if it's near the dragged element
                             //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc-dragged' ) ||
                             //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
@@ -1126,7 +1141,7 @@ var tdcAdminIFrameUI;
                             };
 
                             // Check if we have 'mousemove' or 'fakemouseenterevent'
-                            if ( 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
+                            if ( 'mousedown' === event.type || 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
 
                                 mousePointerValue.X = event.pageX;
                                 mousePointerValue.Y = event.pageY;
@@ -1183,9 +1198,8 @@ var tdcAdminIFrameUI;
                             }
 
 
-                            // If a 'tdcRow' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
-                            $placeholder.show();
 
+                            // If a 'tdcRow' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
                             var elementOuterWidth = currentElementOver.find( '.tdc-elements:first').outerWidth( true );
                             var elementOffset = currentElementOver.offset();
@@ -1234,6 +1248,9 @@ var tdcAdminIFrameUI;
                                 });
                             }
 
+                            // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event
+                            $placeholder.show();
+
                             // Hide the placeholder if it's near the dragged element
                             //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc-dragged' ) ||
                             //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
@@ -1265,6 +1282,9 @@ var tdcAdminIFrameUI;
 
                                 activeDraggedElement( jQuery( this ) );
                                 showHelper( event );
+
+                                currentElementOver = $element;
+                                positionElementPlaceholder( event );
 
                             }).mouseup(function( event ) {
 
@@ -1390,6 +1410,9 @@ var tdcAdminIFrameUI;
                                 activeDraggedElement( jQuery( this ) );
                                 showHelper( event );
 
+                                currentElementOver = $element;
+                                positionRowPlaceholder( event );
+
                             }).mouseup(function( event ) {
 
                                 // Respond only if dragged element is 'tdc-row'
@@ -1492,6 +1515,11 @@ var tdcAdminIFrameUI;
 
                                 activeDraggedElement( jQuery( this ) );
                                 showHelper( event );
+
+                                //setVerticalPlaceholder();
+
+                                currentElementOver = $element;
+                                positionColumnPlaceholder( event );
 
                             }).mouseup(function( event ) {
 
@@ -1621,6 +1649,9 @@ var tdcAdminIFrameUI;
                                 activeDraggedElement( jQuery( this ) );
                                 showHelper( event );
 
+                                currentElementOver = $element;
+                                positionInnerRowPlaceholder( event );
+
                             }).mouseup(function( event ) {
                                 //tdcDebug.log( 'inner row element mouse up' );
 
@@ -1716,6 +1747,9 @@ var tdcAdminIFrameUI;
 
                                 activeDraggedElement( jQuery( this ) );
                                 showHelper( event );
+
+                                currentElementOver = $element;
+                                positionInnerColumnPlaceholder( event );
 
                             }).mouseup(function( event ) {
 
