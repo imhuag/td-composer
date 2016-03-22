@@ -37,6 +37,8 @@ body.tdc #wpbody-content {
   position: absolute;
   width: 100%;
   margin-top: -32px !important;
+  transform-origin: bottom right;
+  transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 #tdc-live-iframe {
@@ -134,4 +136,9 @@ body.tdc #wpbody-content {
 //  width: 100%;
 //}
 
+
+
+.minimize {
+  transform: scale(0.175);
+}
 
