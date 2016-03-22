@@ -377,13 +377,15 @@ var tdcAdminIFrameUI;
 
                         function activeDraggedElement( currentElement ) {
                             draggedElement = currentElement;
-                            draggedElement.css({
-                                opacity: 0.5
-                            });
-                            draggedElement.addClass( 'tdc-dragged' );
 
-                            //tdcDebug.log( 'ACTIVATE' );
-                            //tdcDebug.log( draggedElement );
+                            if ( ! draggedElement.hasClass( 'tdc-dragged' ) ) {
+                                draggedElement.css({
+                                    opacity: 0.5
+                                });
+                                draggedElement.addClass( 'tdc-dragged' );
+                                //tdcDebug.log( 'ACTIVATE' );
+                                //tdcDebug.log( draggedElement );
+                            }
                         }
 
                         function deactiveDraggedElement() {
@@ -621,10 +623,14 @@ var tdcAdminIFrameUI;
 
                             if ( mousePointerValue.Y > elementOffset.top + ( elementOuterHeight / 2 ) ) {
 
-                                currentElementOver.after( $placeholder );
+                                var $nextElement = currentElementOver.next();
+
+                                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                                    currentElementOver.after($placeholder);
+                                }
 
                                 // Position the placeholder at the bottom of the screen
-                                if ( parseInt( elementOffset.top ) + parseInt( elementOuterHeight ) > parseInt( iframeContents.scrollTop() ) + parseInt( window.innerHeight ) ) {
+                                if (parseInt(elementOffset.top) + parseInt(elementOuterHeight) > parseInt(iframeContents.scrollTop()) + parseInt(window.innerHeight)) {
                                     $placeholder.css({
                                         'position': 'fixed',
                                         'top': '',
@@ -642,17 +648,23 @@ var tdcAdminIFrameUI;
                                         'width': ''
                                     });
                                 }
+
                             } else {
-                                currentElementOver.before( $placeholder );
+
+                                var $prevElement = currentElementOver.prev();
+
+                                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                                    currentElementOver.before($placeholder);
+                                }
 
                                 // Position the placeholder at the top of the screen
-                                if ( parseInt( elementOffset.top ) < parseInt( iframeContents.scrollTop() ) ) {
+                                if (parseInt(elementOffset.top) < parseInt(iframeContents.scrollTop())) {
                                     $placeholder.css({
                                         'position': 'fixed',
                                         'top': '0',
                                         'right': 'auto',
                                         'bottom': '',
-                                        'width': parseInt( elementOuterWidth / 2 ) + 'px'
+                                        'width': parseInt(elementOuterWidth / 2) + 'px'
                                     });
                                 } else {
                                     // Reset
@@ -768,10 +780,14 @@ var tdcAdminIFrameUI;
 
                             if ( mousePointerValue.Y > elementOffset.top + ( elementOuterHeight / 2 ) ) {
 
-                                currentElementOver.after( $placeholder );
+                                var $nextElement = currentElementOver.next();
+
+                                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                                    currentElementOver.after($placeholder);
+                                }
 
                                 // Position the placeholder at the bottom of the screen
-                                if ( parseInt( elementOffset.top ) + parseInt( elementOuterHeight ) > parseInt( iframeContents.scrollTop() ) + parseInt( window.innerHeight ) ) {
+                                if (parseInt(elementOffset.top) + parseInt(elementOuterHeight) > parseInt(iframeContents.scrollTop()) + parseInt(window.innerHeight)) {
                                     $placeholder.css({
                                         'position': 'fixed',
                                         'top': '',
@@ -789,11 +805,17 @@ var tdcAdminIFrameUI;
                                         'width': ''
                                     });
                                 }
+
                             } else {
-                                currentElementOver.before( $placeholder );
+
+                                var $prevElement = currentElementOver.prev();
+
+                                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                                    currentElementOver.before($placeholder);
+                                }
 
                                 // Position the placeholder at the top of the screen
-                                if ( parseInt( elementOffset.top ) < parseInt( iframeContents.scrollTop() ) ) {
+                                if (parseInt(elementOffset.top) < parseInt(iframeContents.scrollTop())) {
                                     $placeholder.css({
                                         'position': 'fixed',
                                         'top': '0',
@@ -911,11 +933,15 @@ var tdcAdminIFrameUI;
 
                             // Being floated, all prev columns width must be considered when working with the offset().left
                             var extraLeft = 0;
-                            var prevColumns = currentElementOver.prevAll( '.tdc-column' );
+                            var prevColumns = currentElementOver.prevAll();
 
                             if ( prevColumns.length ) {
                                 prevColumns.each( function (index, element) {
-                                    extraLeft += parseInt( jQuery(element).find( '.tdc-elements:first').width() );
+                                    var $element = jQuery( element );
+                                    if ( ! $element.hasClass( 'tdc-column' ) ) {
+                                        return;
+                                    }
+                                    extraLeft += parseInt( $element.find( '.tdc-elements:first').width() );
                                 });
                             }
 
@@ -932,22 +958,30 @@ var tdcAdminIFrameUI;
 
                             if ( mousePointerValue.X > (extraLeft + ( elementOuterWidth / 2 ) ) ) {
 
-                                currentElementOver.after( $placeholder );
+                                var $nextElement = currentElementOver.next();
 
+                                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                                    currentElementOver.after($placeholder);
+                                }
                                 //tdcDebug.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>' );
 
                                 setVerticalPlaceholder({
-                                    left: parseInt( extraLeft + elementOuterWidth),
+                                    left: parseInt(extraLeft + elementOuterWidth),
                                     'margin-left': cssMarginLeftValue
                                 });
 
                             } else {
-                                currentElementOver.before( $placeholder );
+
+                                var $prevElement = currentElementOver.prev();
+
+                                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                                    currentElementOver.before($placeholder);
+                                }
 
                                 //tdcDebug.log( '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<' );
 
                                 setVerticalPlaceholder({
-                                    left: parseInt( extraLeft ),
+                                    left: parseInt(extraLeft),
                                     'margin-left': cssMarginLeftValue
                                 });
                             }
@@ -1065,16 +1099,20 @@ var tdcAdminIFrameUI;
 
                             if ( mousePointerValue.Y > elementOffset.top + ( elementOuterHeight / 2 ) ) {
 
-                                currentElementOver.after( $placeholder );
+                                var $nextElement = currentElementOver.next();
+
+                                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                                    currentElementOver.after($placeholder);
+                                }
 
                                 // Position the placeholder at the bottom of the screen
-                                if ( parseInt( elementOffset.top ) + parseInt( elementOuterHeight ) > parseInt( iframeContents.scrollTop() ) + parseInt( window.innerHeight ) ) {
+                                if (parseInt(elementOffset.top) + parseInt(elementOuterHeight) > parseInt(iframeContents.scrollTop()) + parseInt(window.innerHeight)) {
                                     $placeholder.css({
                                         'position': 'fixed',
                                         'top': '',
                                         'right': 'auto',
                                         'bottom': '0',
-                                        'width': parseInt( elementOuterWidth / 2 ) + 'px'
+                                        'width': parseInt(elementOuterWidth / 2) + 'px'
                                     });
                                 } else {
                                     // Reset
@@ -1086,17 +1124,23 @@ var tdcAdminIFrameUI;
                                         'width': ''
                                     });
                                 }
+
                             } else {
-                                currentElementOver.before( $placeholder );
+
+                                var $prevElement = currentElementOver.prev();
+
+                                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                                    currentElementOver.before($placeholder);
+                                }
 
                                 // Position the placeholder at the top of the screen
-                                if ( parseInt( elementOffset.top ) < parseInt( iframeContents.scrollTop() ) ) {
+                                if (parseInt(elementOffset.top) < parseInt(iframeContents.scrollTop())) {
                                     $placeholder.css({
                                         'position': 'fixed',
                                         'top': '0',
                                         'right': 'auto',
                                         'bottom': '',
-                                        'width': parseInt( elementOuterWidth / 2 ) + 'px'
+                                        'width': parseInt(elementOuterWidth / 2) + 'px'
                                     });
                                 } else {
                                     // Reset
@@ -1123,12 +1167,10 @@ var tdcAdminIFrameUI;
 
 
 
-
                         function positionInnerColumnPlaceholder( event ) {
                             //tdcDebug.log( event );
 
                             var $placeholder = tdcAdminWrapperUI._tdcJqObjPlaceholder;
-
 
                             // The mouse position.
                             // This is used as a mark value.
@@ -1207,11 +1249,15 @@ var tdcAdminIFrameUI;
 
                             // Being floated, all prev columns width must be considered when working with the offset().left
                             var extraLeft = 0;
-                            var prevColumns = currentElementOver.prevAll( '.tdc-inner-column' );
+                            var prevColumns = currentElementOver.prevAll();
 
                             if ( prevColumns.length ) {
                                 prevColumns.each( function (index, element) {
-                                    extraLeft += parseInt( jQuery( element ).find( '.tdc-elements:first').width() );
+                                    var $element = jQuery( element );
+                                    if ( ! $element.hasClass( 'tdc-inner-column' ) ) {
+                                        return;
+                                    }
+                                    extraLeft += parseInt( $element.find( '.tdc-elements:first').width() );
                                 });
                             }
 
@@ -1225,25 +1271,33 @@ var tdcAdminIFrameUI;
 
                             //tdcDebug.log( mousePointerValue.X + ' : ' + (extraLeft + elementOffset.left + elementOuterWidth / 2 ) );
 
-
                             if ( mousePointerValue.X > ( extraLeft + elementOffset.left + ( elementOuterWidth / 2 ) ) ) {
 
-                                currentElementOver.after( $placeholder );
+                                var $nextElement = currentElementOver.next();
 
-                                //tdcDebug.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>' );
+                                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                                    currentElementOver.after($placeholder);
+                                }
+
+                                //tdcDebug.log( '>>>>>>>>>>>>>>>>>>>>>>>>>> 1' );
 
                                 setVerticalPlaceholder({
-                                    left: parseInt( extraLeft + elementOuterWidth ),
+                                    left: parseInt(extraLeft + elementOuterWidth),
                                     'margin-left': cssMarginLeftValue
                                 });
 
                             } else {
-                                currentElementOver.before( $placeholder );
 
-                                //tdcDebug.log( '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<' );
+                                var $prevElement = currentElementOver.prev();
+
+                                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                                    currentElementOver.before($placeholder);
+                                }
+
+                                //tdcDebug.log( '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 1' );
 
                                 setVerticalPlaceholder({
-                                    left: parseInt( extraLeft ),
+                                    left: parseInt(extraLeft),
                                     'margin-left': cssMarginLeftValue
                                 });
                             }

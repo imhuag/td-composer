@@ -45,9 +45,11 @@ var tdcAdminWrapperUI;
             //'<div class="tdc-element">Block 2</div>' );
 
 
+            tdcAdminWrapperUI._tdcJqObjHelperId = 'tdc-dragged-helper';
+            tdcAdminWrapperUI._tdcJqObjPlaceholderId = 'tdc-placeholder';
 
-            tdcAdminWrapperUI._tdcJqObjHelper = jQuery('<div id="tdc-dragged-helper"></div>');
-            tdcAdminWrapperUI._tdcJqObjPlaceholder = jQuery('<div id="tdc-placeholder"></div>');
+            tdcAdminWrapperUI._tdcJqObjHelper = jQuery('<div id="' + tdcAdminWrapperUI._tdcJqObjHelperId + '"></div>');
+            tdcAdminWrapperUI._tdcJqObjPlaceholder = jQuery('<div id="' + tdcAdminWrapperUI._tdcJqObjPlaceholderId + '"></div>');
 
 
 
