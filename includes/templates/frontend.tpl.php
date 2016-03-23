@@ -44,8 +44,8 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<!-- the composer sidebar -->
 	<div id="tdc-sidebar">
 		<div class="tdc-top-buttons">
-			<a href="#" class="tdc-add-element">Add element</a>
 			<a href="#" class="tdc-save-page">Save page</a>
+			<a href="#" class="tdc-add-element">Add element</a>
 		</div>
 
 
@@ -70,7 +70,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 
 		<!-- modal window -->
-		<div class="tdc-sidebar-modal tdc-modal-open">
+		<div class="tdc-sidebar-modal tdc-sidebar-modal-elements">
 			<div class="tdc-sidebar-modal-title">
 				Add Element
 				<a href="#" class="tdc-modal-close"></a>

@@ -28,7 +28,8 @@ class tdc_config {
 
 		'tdcAdminWrapperUI'     => '/assets/js/tdcAdminWrapperUI.js',
 		'tdcAdminIFrameUI'      => '/assets/js/tdcAdminIFrameUI.js',
-		'tdcMain'               => '/assets/js/tdcMain.js'
+		'tdcMain'               => '/assets/js/tdcMain.js',
+		'tdcSidebar'      => '/assets/js/tdcSidebar.js'
 
 
 	);
