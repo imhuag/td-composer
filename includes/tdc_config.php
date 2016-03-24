@@ -28,12 +28,13 @@ class tdc_config {
 
 		'tdcAdminWrapperUI'     => '/assets/js/tdcAdminWrapperUI.js',
 
-		'tdcOperationUI'        => '/assets/js/tdcOperationUI.js',
-		'tdcRowUI'              => '/assets/js/tdcRowUI.js',
-		'tdcColumnUI'           => '/assets/js/tdcColumnUI.js',
-		'tdcInnerRowUI'         => '/assets/js/tdcInnerRowUI.js',
-		'tdcInnerColumnUI'      => '/assets/js/tdcInnerColumnUI.js',
-		'tdcElementUI'          => '/assets/js/tdcElementUI.js',
+		'tdcOperationUI'        => '/assets/js/ui/tdcOperationUI.js',
+		'tdcRowUI'              => '/assets/js/ui/tdcRowUI.js',
+		'tdcColumnUI'           => '/assets/js/ui/tdcColumnUI.js',
+		'tdcInnerRowUI'         => '/assets/js/ui/tdcInnerRowUI.js',
+		'tdcInnerColumnUI'      => '/assets/js/ui/tdcInnerColumnUI.js',
+		'tdcElementUI'          => '/assets/js/ui/tdcElementUI.js',
+
 		'tdcAdminIFrameUI'      => '/assets/js/tdcAdminIFrameUI.js',
 
 		'tdcMain'               => '/assets/js/tdcMain.js',

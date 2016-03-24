@@ -6,7 +6,9 @@
 /* global Backbone:{} */
 /* global _:{} */
 
+/* global tdcDebug:{} */
 /* global tdcAdminWrapperUI:{} */
+/* global tdcOperationUI:{} */
 
 var tdcAdminIFrameUI;
 
