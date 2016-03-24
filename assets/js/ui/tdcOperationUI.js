@@ -315,10 +315,11 @@ var tdcOperationUI;
 
             if ( ! _.isUndefined( $draggedElement ) && ! _.isUndefined( $currentElementOver ) && ! _.isUndefined( $placeholder ) ) {
 
-                var $tdcElements = $draggedElement.closest( '.tdc-elements' );
+                var $emptyElement,
+                    $tdcElements = $draggedElement.closest( '.tdc-elements' );
 
                 if ( 1 === $tdcElements.children().length ) {
-                    var $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + '"></div>' );
+                    $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + '"></div>' );
 
                     tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
 
@@ -327,15 +328,32 @@ var tdcOperationUI;
 
                 $placeholder.replaceWith( $draggedElement );
 
-                var $prevDraggedElement = $draggedElement.prev();
-                if ( $prevDraggedElement.hasClass( tdcOperationUI._emptyElementClass ) ) {
-                    $prevDraggedElement.remove();
-                    return;
+
+
+                // Update the 'tdc-element-inner-column' or the 'tdc-element-column' of the dragged element (after it has been dragged)
+
+                var $tdcInnerColumnParent = $draggedElement.closest( '.tdc-inner-column' );
+                if ( $tdcInnerColumnParent.length ) {
+                    $draggedElement.removeClass( 'tdc-element-column' );
+                    $draggedElement.addClass( 'tdc-element-inner-column' );
+                } else {
+                    var $tdcColumnParent = $draggedElement.closest( '.tdc-column' );
+                    if ( $tdcColumnParent.length ) {
+                        $draggedElement.removeClass( 'tdc-element-inner-column' );
+                        $draggedElement.addClass( 'tdc-element-column' );
+                    }
                 }
 
-                var $nextDraggedElement = $draggedElement.next();
-                if ( $nextDraggedElement.hasClass( tdcOperationUI._emptyElementClass ) ) {
-                    $nextDraggedElement.remove();
+
+
+                // Remove the empty element if exists (after the dragged element has been dragged)
+
+                // Get the new 'tdc_elements'
+                $tdcElements = $draggedElement.closest( '.tdc-elements' );
+
+                $emptyElement = $tdcElements.find( '.' + tdcOperationUI._emptyElementClass );
+                if ( $emptyElement.length ) {
+                    $emptyElement.remove();
                 }
             }
         }
