@@ -316,10 +316,23 @@ var tdcOperationUI;
             if ( ! _.isUndefined( $draggedElement ) && ! _.isUndefined( $currentElementOver ) && ! _.isUndefined( $placeholder ) ) {
 
                 var $emptyElement,
-                    $tdcElements = $draggedElement.closest( '.tdc-elements' );
+                    $tdcElements = $draggedElement.closest( '.tdc-elements');
 
                 if ( 1 === $tdcElements.children().length ) {
-                    $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + '"></div>' );
+
+                    // 'tdc-element-column' or 'tdc-element-inner-column' class
+                    var structureClass = '';
+
+                    var $tdcInnerColumnParent = $draggedElement.closest( '.tdc-inner-column' );
+                    if ( $tdcInnerColumnParent.length ) {
+                        structureClass = ' tdc-element-inner-column';
+                    } else {
+                        var $tdcColumnParent = $draggedElement.closest( '.tdc-column' );
+                        if ( $tdcColumnParent.length ) {
+                            structureClass = ' tdc-element-column';
+                        }
+                    }
+                    $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + structureClass + '"></div>' );
 
                     tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
 

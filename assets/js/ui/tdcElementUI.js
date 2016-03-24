@@ -332,8 +332,10 @@ var tdcElementUI;
             }).mousemove(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element' or inner row
+                console.log( tdcOperationUI.getDraggedElement() );
+                console.log( $element );
                 if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
-                    //tdcDebug.log( 'element mouse move' );
+                    tdcDebug.log( 'EMPTY element mouse move' );
 
                     event.preventDefault();
                     event.stopPropagation();
