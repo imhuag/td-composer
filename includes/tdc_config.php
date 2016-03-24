@@ -33,6 +33,7 @@ class tdc_config {
 		'tdcColumnUI'           => '/assets/js/ui/tdcColumnUI.js',
 		'tdcInnerRowUI'         => '/assets/js/ui/tdcInnerRowUI.js',
 		'tdcInnerColumnUI'      => '/assets/js/ui/tdcInnerColumnUI.js',
+		'tdcElementsUI'         => '/assets/js/ui/tdcElementsUI.js',
 		'tdcElementUI'          => '/assets/js/ui/tdcElementUI.js',
 
 		'tdcAdminIFrameUI'      => '/assets/js/tdcAdminIFrameUI.js',

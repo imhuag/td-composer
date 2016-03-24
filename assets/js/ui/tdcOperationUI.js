@@ -29,6 +29,8 @@ var tdcOperationUI;
         // The 'tdc-element', 'tdc-inner-column', 'tdc-element-inner-row', 'tdc-column' or 'tdc-row' where the 'draggedElement' is over
         _currentElementOver: undefined,
 
+        _emptyElementClass: 'tdc-element-empty',
+
 
 
 
@@ -162,6 +164,8 @@ var tdcOperationUI;
                     opacity: ''
                 });
                 draggedElement.removeClass( 'tdc-dragged' );
+
+                tdcOperationUI._moveDraggedElement();
 
                 //tdcDebug.log( 'DEACTIVATE' );
                 //tdcDebug.log( draggedElement );
@@ -299,6 +303,41 @@ var tdcOperationUI;
 
         setVerticalPlaceholder: function( props ) {
             tdcOperationUI._setPlaceholder( ['vertical'], props);
+        },
+
+
+
+
+        _moveDraggedElement: function() {
+            var $draggedElement = tdcOperationUI.getDraggedElement(),
+                $currentElementOver = tdcOperationUI.getCurrentElementOver(),
+                $placeholder = tdcAdminWrapperUI._tdcJqObjPlaceholder;
+
+            if ( ! _.isUndefined( $draggedElement ) && ! _.isUndefined( $currentElementOver ) && ! _.isUndefined( $placeholder ) ) {
+
+                var $tdcElements = $draggedElement.closest( '.tdc-elements' );
+
+                if ( 1 === $tdcElements.children().length ) {
+                    var $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + '"></div>' );
+
+                    tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
+
+                    $tdcElements.append( $emptyElement );
+                }
+
+                $placeholder.replaceWith( $draggedElement );
+
+                var $prevDraggedElement = $draggedElement.prev();
+                if ( $prevDraggedElement.hasClass( tdcOperationUI._emptyElementClass ) ) {
+                    $prevDraggedElement.remove();
+                    return;
+                }
+
+                var $nextDraggedElement = $draggedElement.next();
+                if ( $nextDraggedElement.hasClass( tdcOperationUI._emptyElementClass ) ) {
+                    $nextDraggedElement.remove();
+                }
+            }
         }
     };
 

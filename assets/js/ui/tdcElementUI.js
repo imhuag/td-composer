@@ -20,143 +20,17 @@ var tdcElementUI;
 
     tdcElementUI = {
 
-        // The 'tdc-element' elements (tagdiv blocks)
-        tdcElement: undefined,
-
         // The 'tdc-elements' elements
         tdcElements: undefined,
-
-
 
 
         init: function() {
 
             tdcElementUI.tdcElement = tdcOperationUI.iframeContents.find( '.tdc-element' );
 
-            tdcElementUI.tdcElements = tdcOperationUI.iframeContents.find( '.tdc-elements' );
-
-
             tdcElementUI.tdcElement.each(function( index, element ) {
 
-                var $element = jQuery( element );
-
-                $element.click(function( event ) {
-                    //tdcDebug.log( 'click element' );
-
-                    event.preventDefault();
-
-                }).mousedown(function( event ) {
-                    //tdcDebug.log( 'element mouse down' );
-
-                    event.preventDefault();
-                    // Stop calling parents 'mousedown' (tdc-element-inner-column or tdc-column - each tdc-element must be in one of theme)
-                    event.stopPropagation();
-
-                    tdcOperationUI.activeDraggedElement( $element );
-                    tdcOperationUI.showHelper( event );
-
-                    tdcOperationUI.setCurrentElementOver( $element );
-                    tdcElementUI.positionElementPlaceholder( event );
-
-                }).mouseup(function( event ) {
-
-                    // Respond only if dragged element is 'tdc-element'
-                    if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
-                        //tdcDebug.log( 'element mouse up' );
-
-                        event.preventDefault();
-
-                        tdcOperationUI.deactiveDraggedElement();
-                        tdcOperationUI.hideHelper();
-
-                        tdcAdminIFrameUI.currentElementOver = undefined;
-                        tdcElementUI.positionElementPlaceholder( event );
-                    }
-
-                }).mousemove(function( event ) {
-
-                    // Respond only if dragged element is 'tdc-element' or inner row
-                    if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
-                        //tdcDebug.log( 'element mouse move' );
-
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        tdcOperationUI.showHelper( event );
-
-                        tdcOperationUI.setCurrentElementOver( $element );
-                        tdcElementUI.positionElementPlaceholder( event );
-                    }
-
-                }).mouseenter(function( event ) {
-
-                    // Respond only if dragged element is 'tdc-element' or inner row
-                    if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
-                        //tdcDebug.log( 'element mouse enter' );
-
-                        event.preventDefault();
-
-                        tdcOperationUI.setCurrentElementOver( $element );
-                        tdcElementUI.positionElementPlaceholder( event );
-                    }
-
-                }).mouseleave(function( event ) {
-
-                    // Respond only if dragged element is 'tdc-element' or inner row
-                    if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
-                        //tdcDebug.log( 'element mouse leave' );
-
-                        event.preventDefault();
-
-                        tdcOperationUI.setCurrentElementOver( undefined );
-                        tdcElementUI.positionElementPlaceholder( event );
-                    }
-
-                }).on( 'fakemouseenterevent', function(event) {
-
-                    // Respond only if dragged element is 'tdc-element' or inner row
-                    if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
-                        //tdcDebug.log( 'element FAKE MOUSE ENTER EVENT' );
-
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        var outerHeight = $element.outerHeight( true );
-                        var outerWidth = $element.outerWidth();
-
-                        var offset = $element.offset();
-
-                        //tdcDebug.log( offset.left + ' : ' + event.pageX + ' : ' + (offset.left + outerWidth) );
-                        //tdcDebug.log( offset.top + ' : ' + event.pageY + ' : ' + (offset.top + outerHeight) );
-
-                        if ( ( parseInt( offset.left ) <= parseInt( event.pageX ) ) && ( parseInt( event.pageX ) <= parseInt( offset.left + outerWidth ) ) &&
-                            ( parseInt( offset.top ) <= parseInt( event.pageY ) ) && ( parseInt( event.pageY ) <= parseInt( offset.top + outerHeight ) ) ) {
-
-                            //tdcDebug.log( '***********************' );
-
-                            // Set the 'currentElementOver' variable to the current element
-                            tdcOperationUI.setCurrentElementOver( $element );
-
-                            // Position the placeholder
-                            tdcElementUI.positionElementPlaceholder( event );
-                        }
-                    }
-                });
-            });
-
-
-            tdcElementUI.tdcElements.each(function( index, element ) {
-
-                jQuery( element ).hover( function( event ) {
-                        //tdcDebug.log( 'tdc-elements mouse enter' );
-
-                        event.preventDefault();
-                    },
-                    function(event) {
-                        //tdcDebug.log( 'tdc-elements mouse leave' );
-
-                        event.preventDefault();
-                    });
+                tdcElementUI.defineOperations( jQuery( element ) );
             });
         },
 
@@ -323,6 +197,178 @@ var tdcElementUI;
             //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
             //    $placeholder.hide();
             //}
+        },
+
+
+        defineOperations: function( $element ) {
+
+            $element.click(function( event ) {
+                //tdcDebug.log( 'click element' );
+
+                event.preventDefault();
+
+            }).mousedown(function( event ) {
+                //tdcDebug.log( 'element mouse down' );
+
+                event.preventDefault();
+                // Stop calling parents 'mousedown' (tdc-element-inner-column or tdc-column - each tdc-element must be in one of theme)
+                event.stopPropagation();
+
+                tdcOperationUI.activeDraggedElement( $element );
+                tdcOperationUI.showHelper( event );
+
+                tdcOperationUI.setCurrentElementOver( $element );
+                tdcElementUI.positionElementPlaceholder( event );
+
+            }).mouseup(function( event ) {
+
+                // Respond only if dragged element is 'tdc-element'
+                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                    //tdcDebug.log( 'element mouse up' );
+
+                    event.preventDefault();
+
+                    tdcOperationUI.deactiveDraggedElement();
+                    tdcOperationUI.hideHelper();
+
+                    tdcAdminIFrameUI.currentElementOver = undefined;
+                    tdcElementUI.positionElementPlaceholder( event );
+                }
+
+            }).mousemove(function( event ) {
+
+                // Respond only if dragged element is 'tdc-element' or inner row
+                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                    //tdcDebug.log( 'element mouse move' );
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    tdcOperationUI.showHelper( event );
+
+                    tdcOperationUI.setCurrentElementOver( $element );
+                    tdcElementUI.positionElementPlaceholder( event );
+                }
+
+            }).mouseenter(function( event ) {
+
+                // Respond only if dragged element is 'tdc-element' or inner row
+                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                    //tdcDebug.log( 'element mouse enter' );
+
+                    event.preventDefault();
+
+                    tdcOperationUI.setCurrentElementOver( $element );
+                    tdcElementUI.positionElementPlaceholder( event );
+                }
+
+            }).mouseleave(function( event ) {
+
+                // Respond only if dragged element is 'tdc-element' or inner row
+                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                    //tdcDebug.log( 'element mouse leave' );
+
+                    event.preventDefault();
+
+                    tdcOperationUI.setCurrentElementOver( undefined );
+                    tdcElementUI.positionElementPlaceholder( event );
+                }
+
+            }).on( 'fakemouseenterevent', function(event) {
+
+                // Respond only if dragged element is 'tdc-element' or inner row
+                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                    //tdcDebug.log( 'element FAKE MOUSE ENTER EVENT' );
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    var outerHeight = $element.outerHeight( true );
+                    var outerWidth = $element.outerWidth();
+
+                    var offset = $element.offset();
+
+                    //tdcDebug.log( offset.left + ' : ' + event.pageX + ' : ' + (offset.left + outerWidth) );
+                    //tdcDebug.log( offset.top + ' : ' + event.pageY + ' : ' + (offset.top + outerHeight) );
+
+                    if ( ( parseInt( offset.left ) <= parseInt( event.pageX ) ) && ( parseInt( event.pageX ) <= parseInt( offset.left + outerWidth ) ) &&
+                        ( parseInt( offset.top ) <= parseInt( event.pageY ) ) && ( parseInt( event.pageY ) <= parseInt( offset.top + outerHeight ) ) ) {
+
+                        //tdcDebug.log( '***********************' );
+
+                        // Set the 'currentElementOver' variable to the current element
+                        tdcOperationUI.setCurrentElementOver( $element );
+
+                        // Position the placeholder
+                        tdcElementUI.positionElementPlaceholder( event );
+                    }
+                }
+            });
+        },
+
+
+        defineOperationsForEmptyElement: function( $element ) {
+
+            $element.click(function( event ) {
+                //tdcDebug.log( 'click element' );
+
+                event.preventDefault();
+
+            }).mouseup(function( event ) {
+
+                // Respond only if dragged element is 'tdc-element'
+                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                    //tdcDebug.log( 'element mouse up' );
+
+                    event.preventDefault();
+
+                    tdcOperationUI.deactiveDraggedElement();
+                    tdcOperationUI.hideHelper();
+
+                    tdcAdminIFrameUI.currentElementOver = undefined;
+                    tdcElementUI.positionElementPlaceholder( event );
+                }
+
+            }).mousemove(function( event ) {
+
+                // Respond only if dragged element is 'tdc-element' or inner row
+                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                    //tdcDebug.log( 'element mouse move' );
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    tdcOperationUI.showHelper( event );
+
+                    tdcOperationUI.setCurrentElementOver( $element );
+                    tdcElementUI.positionElementPlaceholder( event );
+                }
+
+            }).mouseenter(function( event ) {
+
+                // Respond only if dragged element is 'tdc-element' or inner row
+                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                    //tdcDebug.log( 'element mouse enter' );
+
+                    event.preventDefault();
+
+                    tdcOperationUI.setCurrentElementOver( $element );
+                    tdcElementUI.positionElementPlaceholder( event );
+                }
+
+            }).mouseleave(function( event ) {
+
+                // Respond only if dragged element is 'tdc-element' or inner row
+                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                    //tdcDebug.log( 'element mouse leave' );
+
+                    event.preventDefault();
+
+                    tdcOperationUI.setCurrentElementOver( undefined );
+                    tdcElementUI.positionElementPlaceholder( event );
+                }
+
+            });
         }
     };
 
