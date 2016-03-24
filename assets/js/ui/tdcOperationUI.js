@@ -311,24 +311,29 @@ var tdcOperationUI;
         _moveDraggedElement: function() {
             var $draggedElement = tdcOperationUI.getDraggedElement(),
                 $currentElementOver = tdcOperationUI.getCurrentElementOver(),
-                $placeholder = tdcAdminWrapperUI._tdcJqObjPlaceholder;
+                $placeholder = tdcAdminWrapperUI._tdcJqObjPlaceholder,
+
+                $tdcInnerColumnParentOfDraggedElement,
+                $tdcColumnParentOfDraggedElement;
 
             if ( ! _.isUndefined( $draggedElement ) && ! _.isUndefined( $currentElementOver ) && ! _.isUndefined( $placeholder ) ) {
 
                 var $emptyElement,
                     $tdcElements = $draggedElement.closest( '.tdc-elements');
 
+                // An empty element is added to the remaining '.tdc-elements' list, to allow drag&drop operations over it
+                // At drop, any empty element is removed from the target list
                 if ( 1 === $tdcElements.children().length ) {
 
-                    // 'tdc-element-column' or 'tdc-element-inner-column' class
+                    // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
                     var structureClass = '';
 
-                    var $tdcInnerColumnParent = $draggedElement.closest( '.tdc-inner-column' );
-                    if ( $tdcInnerColumnParent.length ) {
+                    $tdcInnerColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-inner-column' );
+                    if ( $tdcInnerColumnParentOfDraggedElement.length ) {
                         structureClass = ' tdc-element-inner-column';
                     } else {
-                        var $tdcColumnParent = $draggedElement.closest( '.tdc-column' );
-                        if ( $tdcColumnParent.length ) {
+                        $tdcColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-column' );
+                        if ( $tdcColumnParentOfDraggedElement.length ) {
                             structureClass = ' tdc-element-column';
                         }
                     }
@@ -343,15 +348,15 @@ var tdcOperationUI;
 
 
 
-                // Update the 'tdc-element-inner-column' or the 'tdc-element-column' of the dragged element (after it has been dragged)
+                // Update the 'tdc-element-inner-column' or the 'tdc-element-column' of the dragged element (AFTER IT HAS BEEN MOVED TO THE DROP POSITION)
 
-                var $tdcInnerColumnParent = $draggedElement.closest( '.tdc-inner-column' );
-                if ( $tdcInnerColumnParent.length ) {
+                $tdcInnerColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-inner-column' );
+                if ( $tdcInnerColumnParentOfDraggedElement.length ) {
                     $draggedElement.removeClass( 'tdc-element-column' );
                     $draggedElement.addClass( 'tdc-element-inner-column' );
                 } else {
-                    var $tdcColumnParent = $draggedElement.closest( '.tdc-column' );
-                    if ( $tdcColumnParent.length ) {
+                    $tdcColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-column' );
+                    if ( $tdcColumnParentOfDraggedElement.length ) {
                         $draggedElement.removeClass( 'tdc-element-inner-column' );
                         $draggedElement.addClass( 'tdc-element-column' );
                     }
