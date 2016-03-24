@@ -1918,30 +1918,30 @@ var tdcAdminIFrameUI;
 
 
 
-                        //tdcAdminIFrameUI._tdcJqObjElements.find( '.tdc-element').each(function( index, element ) {
-                        //
-                        //    jQuery(element).click(function( event ) {
-                        //        //tdcDebug.log( 'element click' );
-                        //
-                        //        event.preventDefault();
-                        //
-                        //    }).mousedown(function( event ) {
-                        //        //tdcDebug.log( 'element mouse down' );
-                        //
-                        //        event.preventDefault();
-                        //
-                        //        activeDraggedElement( jQuery( this ) );
-                        //        showHelper( event );
-                        //
-                        //    }).mouseup(function(event) {
-                        //        //tdcDebug.log( 'element mouse up' );
-                        //
-                        //        event.preventDefault();
-                        //
-                        //        deactiveDraggedElement();
-                        //        hideHelper();
-                        //    });
-                        //});
+                        tdcAdminWrapperUI._tdcJqObjElements.find( '.tdc-sidebar-element').each(function( index, element ) {
+
+                            jQuery(element).click(function( event ) {
+                                //tdcDebug.log( 'element click' );
+
+                                event.preventDefault();
+
+                            }).mousedown(function( event ) {
+                                //tdcDebug.log( 'element mouse down' );
+
+                                event.preventDefault();
+
+                                activeDraggedElement( jQuery( this ) );
+                                showHelper( event );
+
+                            }).mouseup(function(event) {
+                                //tdcDebug.log( 'element mouse up' );
+
+                                event.preventDefault();
+
+                                deactiveDraggedElement();
+                                hideHelper();
+                            });
+                        });
 
 
 
@@ -2009,7 +2009,14 @@ var tdcAdminIFrameUI;
                         };
                     }
 
-                    setOperationUI();
+                    //setOperationUI();
+
+
+
+
+
+
+                    tdcOperationUI.init( iframeContents );
 
 
 

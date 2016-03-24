@@ -27,7 +27,15 @@ class tdc_config {
 		'tdcJobManager'         => '/assets/js/tdcJobManager.js',
 
 		'tdcAdminWrapperUI'     => '/assets/js/tdcAdminWrapperUI.js',
+
+		'tdcOperationUI'        => '/assets/js/tdcOperationUI.js',
+		'tdcRowUI'              => '/assets/js/tdcRowUI.js',
+		'tdcColumnUI'           => '/assets/js/tdcColumnUI.js',
+		'tdcInnerRowUI'         => '/assets/js/tdcInnerRowUI.js',
+		'tdcInnerColumnUI'      => '/assets/js/tdcInnerColumnUI.js',
+		'tdcElementUI'          => '/assets/js/tdcElementUI.js',
 		'tdcAdminIFrameUI'      => '/assets/js/tdcAdminIFrameUI.js',
+
 		'tdcMain'               => '/assets/js/tdcMain.js',
 		'tdcSidebar'      => '/assets/js/tdcSidebar.js'
 

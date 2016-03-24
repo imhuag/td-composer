@@ -101,8 +101,8 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="tdc-sidebar-modal-content">
 				<!-- sidebar elements list -->
 				<div class="tdc-sidebar-elements">
-					<div class="tdc-sidebar-element">Block 1</div>
-					<div class="tdc-sidebar-element">Block 2</div>
+					<div class="tdc-sidebar-element tdc-element">Block 1</div>
+					<div class="tdc-sidebar-element tdc-element">Block 2</div>
 				</div>
 			</div>
 		</div>

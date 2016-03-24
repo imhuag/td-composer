@@ -40,7 +40,7 @@ var tdcAdminWrapperUI;
 
             //tdcAdminWrapperUI._tdcJqObjInspector.append( '<div class="tdc-title">Inspector</div><div class="tdc-wrapper"></div>' );
 
-            //tdcAdminWrapperUI._tdcJqObjElements = jQuery('<div id="tdc-elements" class="test"></div>');
+            tdcAdminWrapperUI._tdcJqObjElements = jQuery( '.tdc-sidebar-elements' );
             //tdcAdminWrapperUI._tdcJqObjElements.append( '<div class="tdc-element">Block 1</div>' +
             //'<div class="tdc-element">Block 2</div>' );
 
