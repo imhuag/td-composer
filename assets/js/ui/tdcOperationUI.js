@@ -348,12 +348,15 @@ var tdcOperationUI;
 
                 // Remove the empty element if exists (after the dragged element has been dragged)
 
-                // Get the new 'tdc_elements'
-                $tdcElements = $draggedElement.closest( '.tdc-elements' );
+                var $prevDraggedElement = $draggedElement.prev();
+                if ( $prevDraggedElement.hasClass( tdcOperationUI._emptyElementClass ) ) {
+                    $prevDraggedElement.remove();
+                    return;
+                }
 
-                $emptyElement = $tdcElements.find( '.' + tdcOperationUI._emptyElementClass );
-                if ( $emptyElement.length ) {
-                    $emptyElement.remove();
+                var $nextDraggedElement = $draggedElement.next();
+                if ( $nextDraggedElement.hasClass( tdcOperationUI._emptyElementClass ) ) {
+                    $nextDraggedElement.remove();
                 }
             }
         }
