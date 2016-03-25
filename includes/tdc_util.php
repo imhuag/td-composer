@@ -8,6 +8,15 @@
 
 
 class tdc_util {
+	private static $unique_id_counter = 0;
+
+
+	static function generate_unique_id() {
+		self::$unique_id_counter ++;
+		return 'td_uid_' . self::$unique_id_counter . '_' . uniqid();
+	}
+
+
 	static function enqueue_js_files_array($js_files_array, $dependency_array) {
 		$last_js_file_id = '';
 		foreach ($js_files_array as $js_file_id => $js_file) {
