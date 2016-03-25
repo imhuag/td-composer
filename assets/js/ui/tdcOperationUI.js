@@ -311,14 +311,33 @@ var tdcOperationUI;
         _moveDraggedElement: function() {
             var $draggedElement = tdcOperationUI.getDraggedElement(),
                 $currentElementOver = tdcOperationUI.getCurrentElementOver(),
-                $placeholder = tdcAdminWrapperUI._tdcJqObjPlaceholder;
+                $placeholder = tdcAdminWrapperUI._tdcJqObjPlaceholder,
+
+                $tdcInnerColumnParentOfDraggedElement,
+                $tdcColumnParentOfDraggedElement;
 
             if ( ! _.isUndefined( $draggedElement ) && ! _.isUndefined( $currentElementOver ) && ! _.isUndefined( $placeholder ) ) {
 
-                var $tdcElements = $draggedElement.closest( '.tdc-elements' );
+                var $emptyElement,
+                    $tdcElements = $draggedElement.closest( '.tdc-elements');
 
+                // An empty element is added to the remaining '.tdc-elements' list, to allow drag&drop operations over it
+                // At drop, any empty element is removed from the target list
                 if ( 1 === $tdcElements.children().length ) {
-                    var $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + '"></div>' );
+
+                    // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
+                    var structureClass = '';
+
+                    $tdcInnerColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-inner-column' );
+                    if ( $tdcInnerColumnParentOfDraggedElement.length ) {
+                        structureClass = ' tdc-element-inner-column';
+                    } else {
+                        $tdcColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-column' );
+                        if ( $tdcColumnParentOfDraggedElement.length ) {
+                            structureClass = ' tdc-element-column';
+                        }
+                    }
+                    $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + structureClass + '"></div>' );
 
                     tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
 
@@ -326,6 +345,26 @@ var tdcOperationUI;
                 }
 
                 $placeholder.replaceWith( $draggedElement );
+
+
+
+                // Update the 'tdc-element-inner-column' or the 'tdc-element-column' of the dragged element (AFTER IT HAS BEEN MOVED TO THE DROP POSITION)
+
+                $tdcInnerColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-inner-column' );
+                if ( $tdcInnerColumnParentOfDraggedElement.length ) {
+                    $draggedElement.removeClass( 'tdc-element-column' );
+                    $draggedElement.addClass( 'tdc-element-inner-column' );
+                } else {
+                    $tdcColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-column' );
+                    if ( $tdcColumnParentOfDraggedElement.length ) {
+                        $draggedElement.removeClass( 'tdc-element-inner-column' );
+                        $draggedElement.addClass( 'tdc-element-column' );
+                    }
+                }
+
+
+
+                // Remove the empty element if exists (after the dragged element has been dragged)
 
                 var $prevDraggedElement = $draggedElement.prev();
                 if ( $prevDraggedElement.hasClass( tdcOperationUI._emptyElementClass ) ) {
