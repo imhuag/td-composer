@@ -7,6 +7,7 @@
 /* global _:{} */
 
 /* global tdcAdminWrapperUI:{} */
+/* global tdcMaskUI:{} */
 /* global tdcRowUI:{} */
 /* global tdcColumnUI:{} */
 /* global tdcInnerRowUI:{} */
@@ -42,11 +43,17 @@ var tdcOperationUI;
             tdcOperationUI.iframeContents = iframeContents;
 
 
+
             tdcRowUI.init();
             tdcColumnUI.init();
             tdcInnerRowUI.init();
             tdcInnerColumnUI.init();
             tdcElementUI.init();
+
+
+            tdcAdminWrapperUI.$mask = jQuery('<div id="' + tdcAdminWrapperUI.maskId + '"></div>');
+            tdcOperationUI.iframeContents.find('body').append( tdcAdminWrapperUI.$mask );
+            tdcMaskUI.init( tdcAdminWrapperUI.$mask );
 
 
 

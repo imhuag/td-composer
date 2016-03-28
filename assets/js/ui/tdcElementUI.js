@@ -9,7 +9,7 @@
 /* global tdcAdminWrapperUI:{} */
 /* global tdcAdminIFrameUI:{} */
 /* global tdcOperationUI:{} */
-
+/* global tdcMaskUI:{} */
 
 
 var tdcElementUI;
@@ -260,6 +260,9 @@ var tdcElementUI;
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcElementUI.positionElementPlaceholder( event );
+
+                } else if ( _.isUndefined( tdcOperationUI.getDraggedElement() ) ) {
+                    tdcMaskUI.setCurrentElement( $element );
                 }
 
             }).mouseleave(function( event ) {
@@ -272,6 +275,9 @@ var tdcElementUI;
 
                     tdcOperationUI.setCurrentElementOver( undefined );
                     tdcElementUI.positionElementPlaceholder( event );
+
+                } else {
+                    tdcMaskUI.setCurrentElement( undefined );
                 }
 
             }).on( 'fakemouseenterevent', function(event) {
@@ -332,8 +338,8 @@ var tdcElementUI;
             }).mousemove(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element' or inner row
-                console.log( tdcOperationUI.getDraggedElement() );
-                console.log( $element );
+                //console.log( tdcOperationUI.getDraggedElement() );
+                //console.log( $element );
                 if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
                     tdcDebug.log( 'EMPTY element mouse move' );
 

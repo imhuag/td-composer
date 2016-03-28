@@ -2024,7 +2024,6 @@ var tdcAdminIFrameUI;
 
 
 
-
                 });
 
             tdcAdminWrapperUI._tdcJqObjWrapper.append( tdcLiveIframe );

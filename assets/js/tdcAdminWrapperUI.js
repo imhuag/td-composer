@@ -47,9 +47,11 @@ var tdcAdminWrapperUI;
 
             tdcAdminWrapperUI._tdcJqObjHelperId = 'tdc-dragged-helper';
             tdcAdminWrapperUI._tdcJqObjPlaceholderId = 'tdc-placeholder';
+            tdcAdminWrapperUI.maskId = 'tdc-mask';
 
             tdcAdminWrapperUI._tdcJqObjHelper = jQuery('<div id="' + tdcAdminWrapperUI._tdcJqObjHelperId + '"></div>');
             tdcAdminWrapperUI._tdcJqObjPlaceholder = jQuery('<div id="' + tdcAdminWrapperUI._tdcJqObjPlaceholderId + '"></div>');
+
 
 
 
