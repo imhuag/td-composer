@@ -39,7 +39,7 @@ var tdcRowHandlerUI;
 
 
         // Handler element
-        $elementInnerColumn: undefined,
+        $elementRow: undefined,
 
         // Handler jquery object
         _$handler: undefined,
@@ -111,9 +111,9 @@ var tdcRowHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementInnerColumn = $element.closest( '.' + tdcRowHandlerUI._elementCssClass );
-            if ( $elementInnerColumn.length ) {
-                tdcRowHandlerUI.$elementInnerColumn = $elementInnerColumn;
+            var $elementRow = $element.closest( '.' + tdcRowHandlerUI._elementCssClass );
+            if ( $elementRow.length ) {
+                tdcRowHandlerUI.$elementRow = $elementRow;
                 tdcRowHandlerUI._$handler.show();
             } else {
                 tdcRowHandlerUI._$handler.hide();
@@ -129,8 +129,8 @@ var tdcRowHandlerUI;
          */
         _triggerEvent: function( event ) {
 
-            if ( ! _.isUndefined( tdcRowHandlerUI.$elementInnerColumn ) ) {
-                tdcRowHandlerUI.$elementInnerColumn.trigger( event );
+            if ( ! _.isUndefined( tdcRowHandlerUI.$elementRow ) ) {
+                tdcRowHandlerUI.$elementRow.trigger( event );
             }
         }
 

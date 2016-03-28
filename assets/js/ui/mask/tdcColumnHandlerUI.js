@@ -40,7 +40,7 @@ var tdcColumnHandlerUI;
 
 
         // Handler element
-        $elementInnerColumn: undefined,
+        $elementColumn: undefined,
 
         // Handler jquery object
         _$handler: undefined,
@@ -112,9 +112,9 @@ var tdcColumnHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementInnerColumn = $element.closest( '.' + tdcColumnHandlerUI._elementCssClass );
-            if ( $elementInnerColumn.length ) {
-                tdcColumnHandlerUI.$elementInnerColumn = $elementInnerColumn;
+            var $elementColumn = $element.closest( '.' + tdcColumnHandlerUI._elementCssClass );
+            if ( $elementColumn.length ) {
+                tdcColumnHandlerUI.$elementColumn = $elementColumn;
                 tdcColumnHandlerUI._$handler.show();
             } else {
                 tdcColumnHandlerUI._$handler.hide();
@@ -130,8 +130,8 @@ var tdcColumnHandlerUI;
          */
         _triggerEvent: function( event ) {
 
-            if ( ! _.isUndefined( tdcColumnHandlerUI.$elementInnerColumn ) ) {
-                tdcColumnHandlerUI.$elementInnerColumn.trigger( event );
+            if ( ! _.isUndefined( tdcColumnHandlerUI.$elementColumn ) ) {
+                tdcColumnHandlerUI.$elementColumn.trigger( event );
             }
         }
 
