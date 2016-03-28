@@ -48,8 +48,10 @@ class tdc_config {
 		'tdcAdminIFrameUI'      => '/assets/js/tdcAdminIFrameUI.js',
 
 		'tdcMain'               => '/assets/js/tdcMain.js',
-		'tdcSidebar'      => '/assets/js/tdcSidebar.js'
+		'tdcSidebar'      => '/assets/js/tdcSidebar.js',
 
+
+		'tdcColorPicker'      => '/assets/js/tdcColorPicker.js'
 
 	);
 

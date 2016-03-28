@@ -72,18 +72,72 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			</div>
 			<div class="tdc-tab-content-wrap">
 				<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-id-1">
-					Bacon ipsum dolor amet brisket tenderloin short ribs leberkas ground round bacon. Swine fatback ribeye tail. Cupim ball tip shankle kevin tail turkey. Pastrami t-bone turkey meatloaf pancetta bacon picanha turducken salami landjaeger flank filet mignon beef. Strip steak swine shank brisket venison.
-					Boudin pig strip steak ball tip landjaeger tongue. Tongue ground round meatball, cupim bresaola venison tail capicola ham hock kevin chuck swine. Jowl rump shank turducken porchetta. T-bone biltong sirloin alcatra andouille shank.
+					<!-- tab 1 -->
+
+
+					<div class="tdc-property-wrap tdc-property-textfield">
+						<div class="tdc-property-title">My control title:</div>
+						<div class="tdc-property">
+							<input name="my_name" type="text" value="Block title"/>
+						</div>
+					</div>
+
+
+					<!-- textfield -->
+					<div class="tdc-property-wrap tdc-property-textfield">
+						<div class="tdc-property-title">My random shit:</div>
+						<div class="tdc-property">
+							<input name="my_name" type="text" value="Block title"/>
+						</div>
+					</div>
+
+
+					<!-- dropdown -->
+					<div class="tdc-property-wrap tdc-property-dropdown">
+						<div class="tdc-property-title">My prop:</div>
+						<div class="tdc-property">
+							<select name="category_id" data-option=""><option class="" value="">- All categories -</option><option class="988" value="988">Fashion</option><option class="2" value="2">Featured</option><option class="982" value="982">Lifestyle</option><option class="984" value="984"> - Health</option><option class="985" value="985"> - Music</option><option class="986" value="986"> - Recipes</option><option class="983" value="983"> - Travel</option><option class="990" value="990">Music</option><option class="991" value="991">Photography</option><option class="989" value="989">Sport</option><option class="1" value="1">Uncategorized</option><option class="987" value="987">World</option></select>
+						</div>
+					</div>
+
+
+
+					<!-- colorpicker -->
+					<?php
+					$widget_color_picker_id = tdc_util::generate_unique_id();
+					?>
+					<div class="tdc-property-wrap tdc-property-colorpicker">
+						<div class="tdc-property-title">My colorpicker:</div>
+						<div class="tdc-property">
+							<input id="<?php echo $widget_color_picker_id ?>" name="my_name" type="text" value="#dd3333"/>
+						</div>
+					</div>
+					<script>
+						jQuery( document ).ready(function() {
+							jQuery("#<?php echo $widget_color_picker_id ?>").cs_wpColorPicker();
+						});
+					</script>
+
+
+
+
+
 				</div>
 				<div class="tdc-tab-content" id="td-tab-id-2">
+					<!-- tab 1 -->
+
 					Leberkas shank venison meatball turducken frankfurter tenderloin shoulder. Leberkas turkey spare ribs shankle ribeye sausage. Frankfurter pork ribeye tenderloin filet mignon jerky boudin pig tri-tip chuck brisket jowl. Pork chop flank tri-tip tenderloin kevin pork loin landjaeger biltong, turkey alcatra pastrami ham hock swine drumstick jowl. Salami alcatra chuck biltong, leberkas ham hock chicken ground round andouille pancetta beef bacon short ribs strip steak shoulder. Sausage doner strip steak filet mignon. Pork chop bresaola bacon hamburger boudin filet mignon capicola kielbasa pig venison short loin cupim jerky shoulder.
 					Salami porchetta leberkas, pancetta ground round frankfurter shoulder tenderloin andouille shankle ham picanha. Sausage shoulder short ribs, brisket cupim tri-tip hamburger beef. Kielbasa shank pastrami, landjaeger rump leberkas ribeye ham venison tri-tip tenderloin. Jerky chicken ham andouille, jowl sausage venison salami. Spare ribs pork chop pork loin, prosciutto beef ribs tri-tip capicola salami. Porchetta t-bone meatball salami filet mignon short ribs.
 				</div>
 				<div class="tdc-tab-content" id="td-tab-id-3">
+					<!-- tab 1 -->
+
 					Salami porchetta leberkas, pancetta ground round frankfurter shoulder tenderloin andouille shankle ham picanha. Sausage shoulder short ribs, brisket cupim tri-tip hamburger beef. Kielbasa shank pastrami, landjaeger rump leberkas ribeye ham venison tri-tip tenderloin. Jerky chicken ham andouille, jowl sausage venison salami. Spare ribs pork chop pork loin, prosciutto beef ribs tri-tip capicola salami. Porchetta t-bone meatball salami filet mignon short ribs.
 					Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!
 				</div>
 				<div class="tdc-tab-content" id="td-tab-id-4">
+					<!-- tab 1 -->
+
 					Turkey prosciutto short loin chicken pork loin turducken. Doner beef turducken, biltong pastrami pork prosciutto short ribs tri-tip frankfurter brisket leberkas. Hamburger doner venison tongue chicken shank pig sirloin corned beef filet mignon rump alcatra. Frankfurter venison porchetta strip steak short ribs.
 					Swine prosciutto picanha, flank corned beef meatloaf turkey chicken hamburger short loin. Salami meatball prosciutto tongue pork. Pork chop biltong boudin bresaola, tail tongue pancetta prosciutto sausage. Pork belly landjaeger cupim cow shoulder, tail tenderloin. Brisket picanha pork porchetta flank chicken ham bresaola capicola beef cupim jowl short loin. Turkey biltong spare ribs corned beef, shoulder pancetta filet mignon hamburger meatball.
 				</div>
