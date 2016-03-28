@@ -89,12 +89,12 @@ var tdcMaskUI;
                 tdcMaskUI.$wrapper.show();
                 tdcMaskUI.setHandlers();
 
-                tdcDebug.log( offset.top + ' : ' + offset.left + ' : ' + width + ' : ' + height );
+                //tdcDebug.log( offset.top + ' : ' + offset.left + ' : ' + width + ' : ' + height );
 
             } else {
                 tdcMaskUI.$wrapper.hide();
 
-                tdcDebug.log( 'current element undefined' );
+                //tdcDebug.log( 'current element undefined' );
             }
         },
 
