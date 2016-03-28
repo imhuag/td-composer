@@ -42,8 +42,12 @@ var tdcColumnHandlerUI;
         // Handler element
         $elementColumn: undefined,
 
+        _$handlerWrapper: undefined,
+
         // Handler jquery object
-        _$handler: undefined,
+        _$handlerDrag: undefined,
+
+        _$handlerEdit: undefined,
 
         // Initialization flag
         _isInitialized: false,
@@ -58,14 +62,26 @@ var tdcColumnHandlerUI;
                 return;
             }
 
+
             // Create the handler jquery object and append it to the mask wrapper
-            tdcColumnHandlerUI._$handler = jQuery( '<div id="' + tdcColumnHandlerUI._handlerCssClass + '">' + tdcColumnHandlerUI._handlerText + '</div>' );
-            tdcMaskUI.$wrapper.append( tdcColumnHandlerUI._$handler );
+            var $handlerWrapper = jQuery( '<div id="' + tdcColumnHandlerUI._handlerCssClass + '"></div>'),
+                $handlerDrag = jQuery( '<div class="tdc-mask-handler">' + tdcColumnHandlerUI._handlerText + '</div>' ),
+                $handlerEdit = jQuery( '<div class="tdc-mask-edit">edit</div>' );
+
+            $handlerWrapper.append( $handlerDrag );
+            $handlerWrapper.append( $handlerEdit );
+
+            tdcColumnHandlerUI._$handlerDrag = $handlerDrag;
+            tdcColumnHandlerUI._$handlerEdit = $handlerEdit;
+            tdcColumnHandlerUI._$handlerWrapper = $handlerWrapper;
+
+            tdcMaskUI.$wrapper.append( $handlerWrapper );
 
 
-            // Define the events the handler will respond to
 
-            tdcColumnHandlerUI._$handler.mousedown( function( event ) {
+            // Define the events the $_handlerDrag object will respond to
+
+            tdcColumnHandlerUI._$handlerDrag.mousedown( function( event ) {
 
                 // Send the event to its 'tdc-column' element
                 tdcColumnHandlerUI._triggerEvent( event );
@@ -95,6 +111,27 @@ var tdcColumnHandlerUI;
 
 
 
+            // Define the events the _$handlerEdit object will respond to
+
+            tdcColumnHandlerUI._$handlerEdit.click( function( event ) {
+
+                event.preventDefault();
+
+                alert( 'edit column' );
+
+            }).mousemove( function( event ) {
+
+                event.preventDefault();
+                tdcMaskUI.show();
+
+            }).mouseenter(function( event ) {
+
+                event.preventDefault();
+                tdcMaskUI.show();
+            });
+
+
+
             // The final step of initialization is to add the handler object to the mask handlers and to mark it has initialized
 
             // Add the handler and its id to the mask handlers
@@ -115,9 +152,9 @@ var tdcColumnHandlerUI;
             var $elementColumn = $element.closest( '.' + tdcColumnHandlerUI._elementCssClass );
             if ( $elementColumn.length ) {
                 tdcColumnHandlerUI.$elementColumn = $elementColumn;
-                tdcColumnHandlerUI._$handler.show();
+                tdcColumnHandlerUI._$handlerWrapper.show();
             } else {
-                tdcColumnHandlerUI._$handler.hide();
+                tdcColumnHandlerUI._$handlerWrapper.hide();
             }
         },
 

@@ -42,8 +42,12 @@ var tdcInnerRowHandlerUI;
         // Handler element
         $elementInnerRow: undefined,
 
+        _$handlerWrapper: undefined,
+
         // Handler jquery object
-        _$handler: undefined,
+        _$handlerDrag: undefined,
+
+        _$handlerEdit: undefined,
 
         // Initialization flag
         _isInitialized: false,
@@ -59,13 +63,24 @@ var tdcInnerRowHandlerUI;
             }
 
             // Create the handler jquery object and append it to the mask wrapper
-            tdcInnerRowHandlerUI._$handler = jQuery( '<div id="' + tdcInnerRowHandlerUI._handlerCssClass + '">' + tdcInnerRowHandlerUI._handlerText + '</div>' );
-            tdcMaskUI.$wrapper.append( tdcInnerRowHandlerUI._$handler );
+            var $handlerWrapper = jQuery( '<div id="' + tdcInnerRowHandlerUI._handlerCssClass + '"></div>'),
+                $handlerDrag = jQuery( '<div class="tdc-mask-handler">' + tdcInnerRowHandlerUI._handlerText + '</div>' ),
+                $handlerEdit = jQuery( '<div class="tdc-mask-edit">edit</div>' );
+
+            $handlerWrapper.append( $handlerDrag );
+            $handlerWrapper.append( $handlerEdit );
+
+            tdcInnerRowHandlerUI._$handlerDrag = $handlerDrag;
+            tdcInnerRowHandlerUI._$handlerEdit = $handlerEdit;
+            tdcInnerRowHandlerUI._$handlerWrapper = $handlerWrapper;
+
+            tdcMaskUI.$wrapper.append( $handlerWrapper );
 
 
-            // Define the events the handler will respond to
 
-            tdcInnerRowHandlerUI._$handler.mousedown( function( event ) {
+            // Define the events the $_handlerDrag object will respond to
+
+            tdcInnerRowHandlerUI._$handlerDrag.mousedown( function( event ) {
 
                 // Send the event to its 'tdc-inner-row' element
                 tdcInnerRowHandlerUI._triggerEvent( event );
@@ -95,6 +110,28 @@ var tdcInnerRowHandlerUI;
 
 
 
+
+            // Define the events the _$handlerEdit object will respond to
+
+            tdcInnerRowHandlerUI._$handlerEdit.click( function( event ) {
+
+                event.preventDefault();
+
+                alert( 'edit inner row' );
+
+            }).mousemove( function( event ) {
+
+                event.preventDefault();
+                tdcMaskUI.show();
+
+            }).mouseenter(function( event ) {
+
+                event.preventDefault();
+                tdcMaskUI.show();
+            });
+
+
+
             // The final step of initialization is to add the handler object to the mask handlers and to mark it has initialized
 
             // Add the handler and its id to the mask handlers
@@ -115,9 +152,9 @@ var tdcInnerRowHandlerUI;
             var $elementInnerRow = $element.closest( '.' + tdcInnerRowHandlerUI._elementCssClass );
             if ( $elementInnerRow.length ) {
                 tdcInnerRowHandlerUI.$elementInnerRow = $elementInnerRow;
-                tdcInnerRowHandlerUI._$handler.show();
+                tdcInnerRowHandlerUI._$handlerWrapper.show();
             } else {
-                tdcInnerRowHandlerUI._$handler.hide();
+                tdcInnerRowHandlerUI._$handlerWrapper.hide();
             }
         },
 
