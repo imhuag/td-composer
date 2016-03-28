@@ -234,6 +234,7 @@ var tdcElementUI;
                     tdcAdminIFrameUI.currentElementOver = undefined;
                     tdcElementUI.positionElementPlaceholder( event );
                 }
+                tdcMaskUI.setCurrentElement( $element );
 
             }).mousemove(function( event ) {
 

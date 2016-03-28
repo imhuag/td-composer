@@ -84,7 +84,8 @@ var tdcOperationUI;
                 tdcElementUI.positionElementPlaceholder( event );
 
                 // Hide the mask
-                tdcMaskUI.setCurrentElement( undefined );
+                //tdcMaskUI.setCurrentElement( undefined );
+
 
             }).mousemove(function(event) {
                 //tdcDebug.log( 'contents mouse move' );
