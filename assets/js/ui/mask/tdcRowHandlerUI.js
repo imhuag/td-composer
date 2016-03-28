@@ -129,7 +129,7 @@ var tdcRowHandlerUI;
          */
         _triggerEvent: function( event ) {
 
-            if ( ! _.isUndefined( tdcRowHandlerUI.$elementRow ) ) {
+            if ( ! _.isUndefined( event ) && ! _.isUndefined( tdcRowHandlerUI.$elementRow ) ) {
                 tdcRowHandlerUI.$elementRow.trigger( event );
             }
         }

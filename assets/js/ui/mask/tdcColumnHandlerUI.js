@@ -130,7 +130,7 @@ var tdcColumnHandlerUI;
          */
         _triggerEvent: function( event ) {
 
-            if ( ! _.isUndefined( tdcColumnHandlerUI.$elementColumn ) ) {
+            if ( ! _.isUndefined( event ) && ! _.isUndefined( tdcColumnHandlerUI.$elementColumn ) ) {
                 tdcColumnHandlerUI.$elementColumn.trigger( event );
             }
         }

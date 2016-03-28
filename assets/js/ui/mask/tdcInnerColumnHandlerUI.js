@@ -132,7 +132,7 @@ var tdcInnerColumnHandlerUI;
          */
         _triggerEvent: function( event ) {
 
-            if ( ! _.isUndefined( tdcInnerColumnHandlerUI.$elementInnerColumn ) ) {
+            if ( ! _.isUndefined( event ) && ! _.isUndefined( tdcInnerColumnHandlerUI.$elementInnerColumn ) ) {
                 tdcInnerColumnHandlerUI.$elementInnerColumn.trigger( event );
             }
         }
