@@ -10,6 +10,11 @@
 /* global tdcAdminIFrameUI:{} */
 /* global tdcOperationUI:{} */
 
+/* global tdcRowHandlerUI:{} */
+/* global tdcColumnHandlerUI:{} */
+/* global tdcInnerRowHandlerUI:{} */
+/* global tdcInnerColumnHandlerUI:{} */
+
 
 
 var tdcMaskUI;
@@ -84,12 +89,12 @@ var tdcMaskUI;
                 tdcMaskUI.$wrapper.show();
                 tdcMaskUI.setHandlers();
 
-
-
-                //tdcDebug.log( offset.top + ' : ' + offset.left + ' : ' + width + ' : ' + height );
+                tdcDebug.log( offset.top + ' : ' + offset.left + ' : ' + width + ' : ' + height );
 
             } else {
                 tdcMaskUI.$wrapper.hide();
+
+                tdcDebug.log( 'current element undefined' );
             }
         },
 
@@ -105,32 +110,6 @@ var tdcMaskUI;
                 _.map( tdcMaskUI._handlers, function( handler, handlerId ) {
                     handler.setElement( tdcMaskUI.$currentElement );
                 });
-
-                //var $elementInnerColumn = tdcMaskUI.$currentElement.closest( '.tdc-inner-column' );
-                //if ( $elementInnerColumn.length ) {
-                //    tdcMaskUI.$elementInnerColumn = $elementInnerColumn;
-                //    tdcMaskUI.$handlerInnerColumn.show();
-                //} else {
-                //    tdcMaskUI.$handlerInnerColumn.hide();
-                //}
-                //
-                //var $elementInnerRow = tdcMaskUI.$currentElement.closest( '.tdc-inner-row' );
-                //if ( $elementInnerRow.length ) {
-                //    tdcMaskUI.$elementInnerRow = $elementInnerRow;
-                //    tdcMaskUI.$handlerInnerRow.show();
-                //} else {
-                //    tdcMaskUI.$handlerInnerRow.hide();
-                //}
-                //
-                //var $elementColumn = tdcMaskUI.$currentElement.closest( '.tdc-column' );
-                //if ( $elementColumn.length ) {
-                //    tdcMaskUI.$elementColumn = $elementColumn;
-                //}
-                //
-                //var $elementRow = tdcMaskUI.$currentElement.closest( '.tdc-row' );
-                //if ( $elementRow.length ) {
-                //    tdcMaskUI.$elementRow = $elementRow;
-                //}
             }
         },
 

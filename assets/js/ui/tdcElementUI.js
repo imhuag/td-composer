@@ -276,7 +276,7 @@ var tdcElementUI;
                     tdcOperationUI.setCurrentElementOver( undefined );
                     tdcElementUI.positionElementPlaceholder( event );
 
-                } else {
+                } else if ( _.isUndefined( tdcOperationUI.getDraggedElement() ) ) {
                     tdcMaskUI.setCurrentElement( undefined );
                 }
 
