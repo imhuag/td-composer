@@ -19,7 +19,8 @@ var tdcAdminWrapperUI;
         //_tdcJqObjAdd: undefined,
         //_tdcJqObjSave: undefined,
 
-        _tdcJqObjHelper: undefined,
+        $placeholder: undefined,
+        $helper: undefined,
 
 
         _initialized: false,
@@ -45,12 +46,13 @@ var tdcAdminWrapperUI;
             //'<div class="tdc-element">Block 2</div>' );
 
 
-            tdcAdminWrapperUI._tdcJqObjHelperId = 'tdc-dragged-helper';
-            tdcAdminWrapperUI._tdcJqObjPlaceholderId = 'tdc-placeholder';
+            tdcAdminWrapperUI.helperId = 'tdc-dragged-helper';
+            tdcAdminWrapperUI.placeholderId = 'tdc-placeholder';
+
             tdcAdminWrapperUI.maskId = 'tdc-mask';
 
-            tdcAdminWrapperUI._tdcJqObjHelper = jQuery('<div id="' + tdcAdminWrapperUI._tdcJqObjHelperId + '"></div>');
-            tdcAdminWrapperUI._tdcJqObjPlaceholder = jQuery('<div id="' + tdcAdminWrapperUI._tdcJqObjPlaceholderId + '"></div>');
+            tdcAdminWrapperUI.$helper = jQuery('<div id="' + tdcAdminWrapperUI.helperId + '"></div>');
+            tdcAdminWrapperUI.$placeholder = jQuery('<div id="' + tdcAdminWrapperUI.placeholderId + '"></div>');
 
 
 
@@ -59,8 +61,8 @@ var tdcAdminWrapperUI;
             //jQuery('body').append( tdcAdminWrapperUI._tdcJqObjInspector );
             //jQuery('body').append( tdcAdminWrapperUI._tdcJqObjElements );
 
-            jQuery('body').append( tdcAdminWrapperUI._tdcJqObjHelper );
-            jQuery('body').append( tdcAdminWrapperUI._tdcJqObjPlaceholder );
+            jQuery('body').append( tdcAdminWrapperUI.$helper );
+            jQuery('body').append( tdcAdminWrapperUI.$placeholder );
 
 
             //tdcAdminWrapperUI._tdcJqObjSettings.css({

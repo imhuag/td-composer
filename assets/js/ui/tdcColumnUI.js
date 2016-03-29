@@ -162,7 +162,7 @@ var tdcColumnUI;
         positionColumnPlaceholder: function( event ) {
             //tdcDebug.log( event );
 
-            var $placeholder = tdcAdminWrapperUI._tdcJqObjPlaceholder;
+            var $placeholder = tdcAdminWrapperUI.$placeholder;
 
 
             // The mouse position.
@@ -230,7 +230,7 @@ var tdcColumnUI;
                 // Hide the placeholder when we are over the dragged element
                 //( ! _.isUndefined( currentElementOver ) && currentElementOver.hasClass( 'tdc-dragged' ) ) ) {
 
-                $placeholder.hide();
+                tdcOperationUI.hidePlaceholder();
                 return;
             }
 
@@ -270,8 +270,11 @@ var tdcColumnUI;
 
                 var $nextElement = currentElementOver.next();
 
-                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
                     currentElementOver.after($placeholder);
+
+                    // Update the helper
+                    tdcOperationUI.updateInfoHelper();
                 }
                 //tdcDebug.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>' );
 
@@ -284,8 +287,11 @@ var tdcColumnUI;
 
                 var $prevElement = currentElementOver.prev();
 
-                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
                     currentElementOver.before($placeholder);
+
+                    // Update the helper
+                    tdcOperationUI.updateInfoHelper();
                 }
 
                 //tdcDebug.log( '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<' );
@@ -297,7 +303,7 @@ var tdcColumnUI;
             }
 
             // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event
-            $placeholder.show();
+            tdcOperationUI.showPlaceholder();
 
             // Hide the placeholder if it's near the dragged element
             //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc-dragged' ) ||

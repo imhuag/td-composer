@@ -45,6 +45,7 @@ class tdc_config {
 
 
 
+		'tdcIFrameData'         => '/assets/js/data/tdcIFrameData.js',
 		'tdcAdminIFrameUI'      => '/assets/js/tdcAdminIFrameUI.js',
 
 		'tdcMain'               => '/assets/js/tdcMain.js',

@@ -32,7 +32,9 @@ var tdcOperationUI;
 
         _emptyElementClass: 'tdc-element-empty',
 
+        _isPlaceholderVisible: false,
 
+        _intervalUpdateInfoHelper: undefined,
 
 
         init: function( iframeContents ) {
@@ -41,7 +43,6 @@ var tdcOperationUI;
             window.previousMouseClientY = 0;
 
             tdcOperationUI.iframeContents = iframeContents;
-
 
 
             tdcRowUI.init();
@@ -54,7 +55,6 @@ var tdcOperationUI;
             tdcAdminWrapperUI.$mask = jQuery('<div id="' + tdcAdminWrapperUI.maskId + '"></div>');
             tdcOperationUI.iframeContents.find('body').append( tdcAdminWrapperUI.$mask );
             tdcMaskUI.init( tdcAdminWrapperUI.$mask );
-
 
 
             jQuery( window ).mouseup(function( event ) {
@@ -114,7 +114,7 @@ var tdcOperationUI;
 
 
 
-            tdcAdminWrapperUI._tdcJqObjHelper.mouseup(function( event ) {
+            tdcAdminWrapperUI.$helper.mouseup(function( event ) {
                 //tdcDebug.log( 'helper mouse up' );
 
                 tdcOperationUI.hideHelper();
@@ -189,31 +189,35 @@ var tdcOperationUI;
 
 
 
-
+        /**
+         * Show/hide, position the helper and set its 'tdcElementType' data
+         *
+         * @param mouseEvent
+         */
         showHelper: function( mouseEvent ) {
-            var $helper = tdcAdminWrapperUI._tdcJqObjHelper;
 
-            var draggedElement = tdcOperationUI.getDraggedElement();
+            var $helper = tdcAdminWrapperUI.$helper,
+                $draggedElement = tdcOperationUI.getDraggedElement();
 
-            if ( ! _.isUndefined( draggedElement ) ) {
+            if ( ! _.isUndefined( $draggedElement ) ) {
                 $helper.css({
                     left: mouseEvent.clientX - 50,
                     top: mouseEvent.clientY - 50
                 });
                 $helper.show();
 
-                if ( draggedElement.hasClass( 'tdc-row' ) ) {
-                    $helper.html( 'ROW' );
-                } else if ( draggedElement.hasClass( 'tdc-column' ) ) {
-                    $helper.html( 'COLUMN' );
-                } else if ( draggedElement.hasClass( 'tdc-element-inner-row' ) ) {
-                    $helper.html( 'INNER ROW' );
-                } else if ( draggedElement.hasClass( 'tdc-inner-column' ) ) {
-                    $helper.html( 'INNER COLUMN' );
-                } else if ( draggedElement.hasClass( 'tdc-element' ) ) {
-                    $helper.html( 'ELEMENT' );
+                if ( $draggedElement.hasClass( 'tdc-row' ) ) {
+                    $helper.data( 'tdcElementType', 'ROW' );
+                } else if ( $draggedElement.hasClass( 'tdc-column' ) ) {
+                    $helper.data( 'tdcElementType', 'COLUMN' );
+                } else if ( $draggedElement.hasClass( 'tdc-element-inner-row' ) ) {
+                    $helper.data( 'tdcElementType', 'INNER ROW' );
+                } else if ( $draggedElement.hasClass( 'tdc-inner-column' ) ) {
+                    $helper.data( 'tdcElementType', 'INNER COLUMN' );
+                } else if ( $draggedElement.hasClass( 'tdc-element' ) ) {
+                    $helper.data( 'tdcElementType', 'ELEMENT' );
                 } else {
-                    $helper.html( '' );
+                    $helper.data( 'tdcElementType', '' );
                 }
             } else {
                 tdcOperationUI.hideHelper();
@@ -221,13 +225,142 @@ var tdcOperationUI;
         },
 
 
+        /**
+         * Hide the helper
+         */
         hideHelper: function() {
-            tdcAdminWrapperUI._tdcJqObjHelper.hide();
+            tdcAdminWrapperUI.$helper.hide();
         },
 
 
+        /**
+         * - Get the helper data 'tdcElementType' and update the helper info using an interval.
+         * - If there's already an interval started earlier, stop it and start a new one.
+         * - The interval does nothing if the placeholder is not visible. It waits for the placeholder visibility.
+         *
+         * @param resetInfo boolean - just reset the helper info, without starting an interval
+         */
+        updateInfoHelper: function( resetInfo ) {
+
+            if ( ! _.isUndefined( resetInfo ) && true === resetInfo ) {
+
+                var $helper = tdcAdminWrapperUI.$helper,
+                    tdcElementTypeData = $helper.data( 'tdcElementType' );
+
+                $helper.html( tdcElementTypeData );
+                return;
+            }
 
 
+            if ( ! _.isUndefined( tdcOperationUI._intervalUpdateInfoHelper ) ) {
+                clearInterval( tdcOperationUI._intervalUpdateInfoHelper );
+            }
+
+
+            tdcOperationUI._intervalUpdateInfoHelper = setInterval( function(){
+
+                if ( ! tdcOperationUI.isPlaceholderVisible() ) {
+                    return;
+                }
+
+                clearInterval(tdcOperationUI._intervalUpdateInfoHelper);
+
+
+                var $helper = tdcAdminWrapperUI.$helper,
+                    $draggedElement = tdcOperationUI.getDraggedElement(),
+
+                // The axis that will be checked ('x' or 'y')
+                    axis = '',
+                    tdcElementTypeData = $helper.data( 'tdcElementType' );
+
+                if ( ! _.isUndefined( tdcElementTypeData ) && ( '' !== tdcElementTypeData ) && ! _.isUndefined( $draggedElement ) ) {
+
+                    switch ( tdcElementTypeData ) {
+                        case 'ROW' : axis = 'y'; break;
+                        case 'COLUMN' : axis = 'x'; break;
+                        case 'INNER ROW' : axis = 'y'; break;
+                        case 'INNER COLUMN' : axis = 'x'; break;
+                        case 'ELEMENT' : axis = 'y'; break;
+                    }
+                    if ( '' !== axis ) {
+
+                        var $helperOffset = tdcAdminWrapperUI.$helper.offset(),
+                            $placeholderOffset = tdcAdminWrapperUI.$placeholder.offset(),
+                            direction = '';
+
+                        if ( 'x' === axis ) {
+                            if ( $helperOffset.left > $placeholderOffset.left ) {
+                                //direction = 'left';
+                                direction = '&#x2190;';
+                            } else {
+                                //direction = 'right';
+                                direction = '&#x2192;';
+                            }
+                        } else if ( 'y' === axis ) {
+                            if ( ( $helperOffset.top + tdcOperationUI.iframeContents.scrollTop() ) > $placeholderOffset.top ) {
+                                //direction = 'up';
+                                direction = '&#x2191;';
+                            } else {
+                                //direction = 'down';
+                                direction = '&#x2193;';
+                            }
+                        }
+                        $helper.html( tdcElementTypeData + ' ' + direction );
+                    }
+                }
+            }, 100 );
+        },
+
+
+        /**
+         * - Hide the placeholder
+         * - Update the helper info
+         * - Update the _isPlaceholderVisible flag
+         */
+        showPlaceholder: function() {
+            var $placeholder = tdcAdminWrapperUI.$placeholder;
+
+            if ( false === tdcOperationUI._isPlaceholderVisible ) {
+                tdcOperationUI._isPlaceholderVisible = true;
+                $placeholder.show();
+
+                tdcOperationUI.updateInfoHelper();
+            }
+        },
+
+
+        /**
+         * - Show the placeholder
+         * - Update the helper info
+         * - Update the _isPlaceholderVisible flag
+         */
+        hidePlaceholder: function() {
+            var $placeholder = tdcAdminWrapperUI.$placeholder;
+
+            if ( true === tdcOperationUI._isPlaceholderVisible ) {
+                tdcOperationUI._isPlaceholderVisible = false;
+                $placeholder.hide();
+
+                tdcOperationUI.updateInfoHelper( true );
+            }
+        },
+
+
+        /**
+         * Get the internally _isPlaceholderVisible flag
+         *
+         * @returns {boolean}
+         */
+        isPlaceholderVisible: function() {
+            return tdcOperationUI._isPlaceholderVisible;
+        },
+
+
+        /**
+         * Check the dragged element is a row
+         *
+         * @returns {boolean|*}
+         */
         isRowDragged: function() {
             var draggedElement = tdcOperationUI.getDraggedElement();
 
@@ -254,6 +387,11 @@ var tdcOperationUI;
         },
 
 
+        /**
+         * Check the current element is a inner row
+         *
+         * @returns {boolean|*}
+         */
         isInnerRowDragged: function() {
             var draggedElement = tdcOperationUI.getDraggedElement();
 
@@ -261,7 +399,15 @@ var tdcOperationUI;
         },
 
 
+        /**
+         * Check the current dragged element is a 'tdc-inner-column' one.
+         * If the '$siblingInnerColumn' parameter is specified, it also checks the dragged element and the $siblingInnerColumn are siblings
+         *
+         * @param $siblingInnerColumn - optional
+         * @returns {boolean|*}
+         */
         isInnerColumnDragged: function( $siblingInnerColumn ) {
+
             var draggedElement = tdcOperationUI.getDraggedElement(),
                 result = !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-inner-column' );
 
@@ -272,6 +418,11 @@ var tdcOperationUI;
         },
 
 
+        /**
+         * Check the current dragged element is a 'tdc-element' one
+         *
+         * @returns {boolean|*}
+         */
         isElementDragged: function() {
             var draggedElement = tdcOperationUI.getDraggedElement();
 
@@ -279,11 +430,16 @@ var tdcOperationUI;
         },
 
 
-
-
+        /**
+         * Helper function used by 'setHorizontalPlaceholder' and 'setVerticalPlaceholder' functions
+         *
+         * @param classes
+         * @param props
+         * @private
+         */
         _setPlaceholder: function( classes, props ) {
 
-            var $placeholder = tdcAdminWrapperUI._tdcJqObjPlaceholder;
+            var $placeholder = tdcAdminWrapperUI.$placeholder;
 
             if ( _.isArray( classes ) ) {
                 _.each( classes, function( element, index, list) {
@@ -301,6 +457,9 @@ var tdcOperationUI;
         },
 
 
+        /**
+         * Set the placeholder as horizontal (its default css settings) for element, row and inner-row
+         */
         setHorizontalPlaceholder: function() {
             tdcOperationUI._setPlaceholder( null, {
                 'top': '',
@@ -312,17 +471,25 @@ var tdcOperationUI;
         },
 
 
+        /**
+         * Set the placeholder as vertical for column and inner-column
+         *
+         * @param props
+         */
         setVerticalPlaceholder: function( props ) {
             tdcOperationUI._setPlaceholder( ['vertical'], props);
         },
 
 
-
-
+        /**
+         * Move the dragged element to the placeholder position
+         *
+         * @private
+         */
         _moveDraggedElement: function() {
             var $draggedElement = tdcOperationUI.getDraggedElement(),
                 $currentElementOver = tdcOperationUI.getCurrentElementOver(),
-                $placeholder = tdcAdminWrapperUI._tdcJqObjPlaceholder,
+                $placeholder = tdcAdminWrapperUI.$placeholder,
 
                 $tdcInnerColumnParentOfDraggedElement,
                 $tdcColumnParentOfDraggedElement;
@@ -387,6 +554,12 @@ var tdcOperationUI;
                 if ( $nextDraggedElement.hasClass( tdcOperationUI._emptyElementClass ) ) {
                     $nextDraggedElement.remove();
                 }
+
+
+
+
+                // Change the structured data
+                tdcIFrameData.changeData();
             }
         }
     };

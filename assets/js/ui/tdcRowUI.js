@@ -136,7 +136,7 @@ var tdcRowUI;
         positionRowPlaceholder: function( event ) {
             //tdcDebug.log( event );
 
-            var $placeholder = tdcAdminWrapperUI._tdcJqObjPlaceholder;
+            var $placeholder = tdcAdminWrapperUI.$placeholder;
 
             // Adapt the placeholder to look great when it's not on columns and inner-columns
             tdcOperationUI.setHorizontalPlaceholder();
@@ -205,7 +205,7 @@ var tdcRowUI;
                 // Hide the placeholder when we are over the dragged element
                 //( ! _.isUndefined( currentElementOver ) && currentElementOver.hasClass( 'tdc-dragged' ) ) ) {
 
-                $placeholder.hide();
+                tdcOperationUI.hidePlaceholder();
                 return;
             }
 
@@ -223,8 +223,11 @@ var tdcRowUI;
 
                 var $nextElement = currentElementOver.next();
 
-                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
                     currentElementOver.after($placeholder);
+
+                    // Update the helper
+                    tdcOperationUI.updateInfoHelper();
                 }
 
                 // Position the placeholder at the bottom of the screen
@@ -251,8 +254,11 @@ var tdcRowUI;
 
                 var $prevElement = currentElementOver.prev();
 
-                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI._tdcJqObjPlaceholderId ) ) {
+                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
                     currentElementOver.before( $placeholder );
+
+                    // Update the helper
+                    tdcOperationUI.updateInfoHelper();
                 }
 
                 // Position the placeholder at the top of the screen
@@ -277,7 +283,7 @@ var tdcRowUI;
             }
 
             // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event
-            $placeholder.show();
+            tdcOperationUI.showPlaceholder();
 
             // Hide the placeholder if it's near the dragged element
             //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc-dragged' ) ||
