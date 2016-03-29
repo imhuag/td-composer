@@ -557,9 +557,10 @@ var tdcOperationUI;
 
 
 
-
-                // Change the structured data
-                tdcIFrameData.changeData();
+                if ( $draggedElement.hasClass( 'tdc-element' ) ) {
+                    // Change the structured data
+                    tdcIFrameData.changeData();
+                }
             }
         }
     };
