@@ -430,6 +430,19 @@ var tdcOperationUI;
         },
 
 
+
+        /**
+        * Check the current dragged element is a 'tdc-element-empty' one
+        *
+        * @returns {boolean|*}
+        */
+        isEmptyElementDragged: function() {
+            var draggedElement = tdcOperationUI.getDraggedElement();
+
+            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-element-empty' );
+        },
+
+
         /**
          * Helper function used by 'setHorizontalPlaceholder' and 'setVerticalPlaceholder' functions
          *
@@ -494,14 +507,22 @@ var tdcOperationUI;
                 $tdcInnerColumnParentOfDraggedElement,
                 $tdcColumnParentOfDraggedElement;
 
-            if ( ! _.isUndefined( $draggedElement ) && ! _.isUndefined( $currentElementOver ) && ! _.isUndefined( $placeholder ) ) {
+
+
+            if ( ! _.isUndefined( $draggedElement ) &&
+                ! _.isUndefined( $currentElementOver ) &&
+                ! _.isUndefined( $placeholder ) ) {
 
                 var $emptyElement,
                     $tdcElements = $draggedElement.closest( '.tdc-elements');
 
                 // An empty element is added to the remaining '.tdc-elements' list, to allow drag&drop operations over it
                 // At drop, any empty element is removed from the target list
-                if ( 1 === $tdcElements.children().length ) {
+
+                var $childrenElements = $tdcElements.children();
+                //if ( 1 === $childrenElements.length && ! $childrenElements.first().hasClass( 'tdc-element-inner-row') ) {
+
+                if ( 1 === $childrenElements.length && ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) ) {
 
                     // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
                     var structureClass = '';
@@ -520,9 +541,26 @@ var tdcOperationUI;
                     tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
 
                     $tdcElements.append( $emptyElement );
+
+                    tdcDebug.log( 1111111);
                 }
 
+
+
+
+                // Get the settings of the dragged element
+                var wasElementDragged = tdcOperationUI.isElementDragged(),
+                    wasInnerRowDragged = false;
+
+                if ( ! wasElementDragged ) {
+                    wasInnerRowDragged = tdcOperationUI.isInnerRowDragged();
+                }
+
+
+
+                // The placeholder is replaced by the dragged element
                 $placeholder.replaceWith( $draggedElement );
+
 
 
 
@@ -557,10 +595,14 @@ var tdcOperationUI;
 
 
 
-                if ( $draggedElement.hasClass( 'tdc-element' ) ) {
-                    // Change the structured data
-                    tdcIFrameData.changeData();
-                }
+
+                //if ( wasElementDragged ) {
+                //    // Change the structured data
+                //    tdcIFrameData.changeData();
+                //
+                //} else if ( wasInnerRowDragged ) {
+                //
+                //}
             }
         }
     };

@@ -227,6 +227,8 @@ var tdcElementUI;
                 tdcOperationUI.setCurrentElementOver( $element );
                 tdcElementUI.positionElementPlaceholder( event );
 
+                tdcMaskUI.hide();
+
             }).mouseup(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element'
@@ -324,15 +326,24 @@ var tdcElementUI;
         defineOperationsForEmptyElement: function( $element ) {
 
             $element.click(function( event ) {
-                //tdcDebug.log( 'click element' );
+                //tdcDebug.log( 'click empty element' );
 
                 event.preventDefault();
+
+            }).mousedown(function( event ) {
+                //tdcDebug.log( 'empty element mouse down' );
+
+                event.preventDefault();
+                // Stop calling parents 'mousedown' (tdc-element-inner-column or tdc-column - each tdc-element must be in one of theme)
+                event.stopPropagation();
+
+                tdcMaskUI.hide();
 
             }).mouseup(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element'
                 if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
-                    //tdcDebug.log( 'element mouse up' );
+                    //tdcDebug.log( 'empty element mouse up' );
 
                     event.preventDefault();
 
@@ -341,6 +352,9 @@ var tdcElementUI;
 
                     tdcAdminIFrameUI.currentElementOver = undefined;
                     tdcElementUI.positionElementPlaceholder( event );
+
+                } else {
+                    tdcMaskUI.setCurrentElement( $element );
                 }
 
             }).mousemove(function( event ) {
@@ -349,7 +363,7 @@ var tdcElementUI;
                 //console.log( tdcOperationUI.getDraggedElement() );
                 //console.log( $element );
                 if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
-                    tdcDebug.log( 'EMPTY element mouse move' );
+                    //tdcDebug.log( 'empty element mouse move' );
 
                     event.preventDefault();
                     event.stopPropagation();
@@ -364,24 +378,30 @@ var tdcElementUI;
 
                 // Respond only if dragged element is 'tdc-element' or inner row
                 if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
-                    //tdcDebug.log( 'element mouse enter' );
+                    //tdcDebug.log( 'empty element mouse enter' );
 
                     event.preventDefault();
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcElementUI.positionElementPlaceholder( event );
+
+                } else if ( _.isUndefined( tdcOperationUI.getDraggedElement() ) ) {
+                    tdcMaskUI.setCurrentElement( $element );
                 }
 
             }).mouseleave(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element' or inner row
                 if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
-                    //tdcDebug.log( 'element mouse leave' );
+                    //tdcDebug.log( 'empty element mouse leave' );
 
                     event.preventDefault();
 
                     tdcOperationUI.setCurrentElementOver( undefined );
                     tdcElementUI.positionElementPlaceholder( event );
+
+                } else if ( _.isUndefined( tdcOperationUI.getDraggedElement() ) ) {
+                    tdcMaskUI.setCurrentElement( undefined );
                 }
 
             });
