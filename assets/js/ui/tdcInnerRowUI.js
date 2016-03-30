@@ -10,6 +10,7 @@
 /* global tdcAdminIFrameUI:{} */
 /* global tdcOperationUI:{} */
 /* global tdcElementUI:{} */
+/* global tdcMaskUI:{} */
 
 
 
@@ -48,6 +49,8 @@ var tdcInnerRowUI;
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcInnerRowUI.positionInnerRowPlaceholder( event );
+
+                    tdcMaskUI.hide();
 
                 }).mouseup(function( event ) {
                     //tdcDebug.log( 'inner row element mouse up' );

@@ -157,7 +157,8 @@ html.tdc-active #wpadminbar {
 }
 
 .tdc-element-empty {
-  border: 1px solid green;
+  border: 1px solid yellow;
+  opacity: 0.5;
   width: 100%;
   min-height: 50px;
   cursor: default;
@@ -166,6 +167,12 @@ html.tdc-active #wpadminbar {
 .tdc-element-empty:before {
   content: 'EMPTY ELEMENT - not dragged, auto removed, only for handlers';
 }
+
+.tdc-inner-column .tdc-elements > .tdc-element-empty {
+  border: 1px solid blue;
+}
+
+
 
 
 #tdc-placeholder {

@@ -520,7 +520,6 @@ var tdcOperationUI;
                 // At drop, any empty element is removed from the target list
 
                 var $childrenElements = $tdcElements.children();
-                //if ( 1 === $childrenElements.length && ! $childrenElements.first().hasClass( 'tdc-element-inner-row') ) {
 
                 if ( 1 === $childrenElements.length && ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) ) {
 
@@ -541,20 +540,18 @@ var tdcOperationUI;
                     tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
 
                     $tdcElements.append( $emptyElement );
-
-                    tdcDebug.log( 1111111);
                 }
 
 
 
 
-                // Get the settings of the dragged element
-                var wasElementDragged = tdcOperationUI.isElementDragged(),
-                    wasInnerRowDragged = false;
-
-                if ( ! wasElementDragged ) {
-                    wasInnerRowDragged = tdcOperationUI.isInnerRowDragged();
-                }
+                //// Get the settings of the dragged element
+                //var wasElementDragged = tdcOperationUI.isElementDragged(),
+                //    wasInnerRowDragged = false;
+                //
+                //if ( ! wasElementDragged ) {
+                //    wasInnerRowDragged = tdcOperationUI.isInnerRowDragged();
+                //}
 
 
 

@@ -20,8 +20,12 @@ var tdcElementUI;
 
     tdcElementUI = {
 
+        // Gap top, gap bottom - set the placeholder outside of inner column
+        _innerColumnGap: 20,
+
         // The 'tdc-elements' elements
         tdcElements: undefined,
+
 
 
         init: function() {
@@ -133,6 +137,19 @@ var tdcElementUI;
 
             if ( mousePointerValue.Y > elementOffset.top + ( elementOuterHeight / 2 ) ) {
 
+
+
+
+                // Check the bottom to position the placeholder out of the inner row -> inner column
+
+                //if ( tdcElementUI.isInnerColumnLastElement( currentElementOver ) && ( mousePointerValue.Y > elementOffset.top + elementOuterHeight - tdcElementUI._innerColumnGap ) ) {
+                //    tdcDebug.log( 'last' );
+                //}
+
+
+
+
+
                 var $nextElement = currentElementOver.next();
 
                 // Position the placeholder
@@ -164,6 +181,16 @@ var tdcElementUI;
                 }
 
             } else {
+
+
+                //if ( tdcElementUI.isInnerColumnFirstElement( currentElementOver ) && ( mousePointerValue.Y < elementOffset.top + tdcElementUI._innerColumnGap ) ) {
+                //    tdcDebug.log( 'first' );
+                //}
+
+
+
+
+
 
                 var $prevElement = currentElementOver.prev();
 
@@ -405,6 +432,34 @@ var tdcElementUI;
                 }
 
             });
+        },
+
+
+
+
+        isInnerColumnFirstElement: function( $element ) {
+
+            var $placeholder = tdcAdminWrapperUI.$placeholder;
+
+            if ( $placeholder.closest( '.tdc-inner-column' ).length &&
+                $element.closest( '.tdc-inner-column' ).length &&
+                ! $element.prevAll( '.tdc-element' ).length &&
+                $element.next().attr( 'id' ) !== 'tdc-placeholder' ) {
+
+                //tdcDebug.log( $element );
+                return true;
+            }
+            return false;
+        },
+
+
+        isInnerColumnLastElement: function( $element ) {
+
+            if ( $element.closest( '.tdc-inner-column' ).length && ! $element.nextAll( '.tdc-element' ).length ) {
+                //tdcDebug.log( $element );
+                return true;
+            }
+            return false;
         }
     };
 
