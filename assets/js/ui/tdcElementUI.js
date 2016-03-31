@@ -21,7 +21,7 @@ var tdcElementUI;
     tdcElementUI = {
 
         // Gap top, gap bottom - set the placeholder outside of inner column
-        _innerColumnGap: 30,
+        _innerColumnGap: 10,
 
         // The 'tdc-elements' elements
         tdcElements: undefined,
@@ -168,7 +168,7 @@ var tdcElementUI;
                     // Rare case:
                     // Position the placeholder outside the inner-column
 
-                    var $innerRowParent = currentElementOver.closest( '.tdc-inner-row' );
+                    var $innerRowParent = currentElementOver.closest( '.tdc-element-inner-row' );
 
                     $nextElement = $innerRowParent.next();
 
@@ -251,7 +251,7 @@ var tdcElementUI;
                     // Rare case:
                     // Position the placeholder outside the inner-column
 
-                    var $innerRowParent = currentElementOver.closest( '.tdc-inner-row' );
+                    var $innerRowParent = currentElementOver.closest( '.tdc-element-inner-row' );
 
                     $prevElement = $innerRowParent.prev();
 
@@ -525,13 +525,14 @@ var tdcElementUI;
 
             var $innerColumn = $element.closest( '.tdc-inner-column' );
 
-            if (
-                // The checked element is also inside of the inner column
-                $innerColumn.length &&
+            // The checked element is also inside of the inner column
+            if ( $innerColumn.length ) {
 
-                0 === $innerColumn.find( '.tdc-element-inner-column' ).index( $element )
-            ) {
-                return true;
+                var $innerColumnElements = $innerColumn.find( '.tdc-element-inner-column' );
+
+                if ( $innerColumnElements.length && 0 === $innerColumnElements.index( $element ) ) {
+                    return true;
+                }
             }
 
             return false;
@@ -553,7 +554,7 @@ var tdcElementUI;
 
                 var $innerColumnElements = $innerColumn.find( '.tdc-element-inner-column' );
 
-                if ( $innerColumnElements.length === $innerColumnElements.index( $element ) + 1 ) {
+                if ( $innerColumnElements.length && $innerColumnElements.length === $innerColumnElements.index( $element ) + 1 ) {
                     return true;
                 }
             }
