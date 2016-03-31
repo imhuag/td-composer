@@ -21,7 +21,7 @@ var tdcElementUI;
     tdcElementUI = {
 
         // Gap top, gap bottom - set the placeholder outside of inner column
-        _innerColumnGap: 20,
+        _innerColumnGap: 30,
 
         // The 'tdc-elements' elements
         tdcElements: undefined,
@@ -89,12 +89,12 @@ var tdcElementUI;
                 // Trigger a custom event for all 'tdc-element' elements, but stop if one is found
 
                 // Set the 'currentElementOver' to undefined, to be find in the iteration
-                currentElementOver = undefined;
+                tdcOperationUI.setCurrentElementOver( undefined );
 
                 // Trigger a 'fakemouseenterevent' event, for all 'tdc-element' elements, or until the variable 'currentElementOver' is set to one of them
                 tdcElementUI.tdcElement.each(function( index, element ) {
 
-                    if ( ! _.isUndefined( currentElementOver ) ) {
+                    if ( ! _.isUndefined( tdcOperationUI.getCurrentElementOver() ) ) {
                         // If it's not undefined, ( marked by 'fakemouseenterevent' event of the 'tdc-element' ) DO NOTHING (DO NOT TRIGGER ANY MORE 'fakemouseenterevent' EVENT)
                         return;
                     }
@@ -146,8 +146,8 @@ var tdcElementUI;
 
                 var isInnerColumnLastElement = false;
 
-                if ( ( mousePointerValue.Y > elementOffset.top + elementOuterHeight - tdcElementUI._innerColumnGap ) && tdcElementUI.isInnerColumnLastElement( currentElementOver ) ) {
-                    //tdcDebug.log( 'last' );
+                if ( tdcElementUI.isInnerColumnLastElement( currentElementOver ) && ( mousePointerValue.Y > elementOffset.top + elementOuterHeight - tdcElementUI._innerColumnGap ) ) {
+                    //tdcDebug.log( 'last of inner column' );
 
                     isInnerColumnLastElement = true;
                 }
@@ -231,8 +231,8 @@ var tdcElementUI;
 
                 var isInnerColumnFirstElement = false;
 
-                if ( ( mousePointerValue.Y < elementOffset.top + tdcElementUI._innerColumnGap ) && tdcElementUI.isInnerColumnFirstElement( currentElementOver ) ) {
-                    //tdcDebug.log( 'first' );
+                if ( tdcElementUI.isInnerColumnFirstElement( currentElementOver ) && ( mousePointerValue.Y < elementOffset.top + tdcElementUI._innerColumnGap ) ) {
+                    //tdcDebug.log( 'first of inner column' );
 
                     isInnerColumnFirstElement = true;
                 }
@@ -515,40 +515,49 @@ var tdcElementUI;
         },
 
 
-
-
+        /**
+         * Check an element is the first of its inner column parent
+         *
+         * @param $element
+         * @returns {boolean}
+         */
         isInnerColumnFirstElement: function( $element ) {
 
-            var $placeholder = tdcAdminWrapperUI.$placeholder;
+            var $innerColumn = $element.closest( '.tdc-inner-column' );
 
             if (
-                // Is the placeholder already positioned inside of the inner column
-                ($placeholder.closest( '.tdc-column' ).length || $placeholder.closest( '.tdc-inner-column' ).length ) &&
-
                 // The checked element is also inside of the inner column
-                $element.closest( '.tdc-inner-column' ).length &&
+                $innerColumn.length &&
 
-                // There are no '.tdc-element' elements above the checked element
-                ! $element.prevAll( '.tdc-element' ).length &&
-
-                // The already positioned placeholder is not after the checked element
-                $element.next().attr( 'id' ) !== 'tdc-placeholder'
-
+                0 === $innerColumn.find( '.tdc-element-inner-column' ).index( $element )
             ) {
-
-                //tdcDebug.log( $element );
                 return true;
             }
+
             return false;
         },
 
 
+        /**
+         * Check an element is the first of its inner column parent
+         *
+         * @param $element
+         * @returns {boolean}
+         */
         isInnerColumnLastElement: function( $element ) {
 
-            if ( $element.closest( '.tdc-inner-column' ).length && ! $element.nextAll( '.tdc-element' ).length ) {
-                //tdcDebug.log( $element );
-                return true;
+            var $innerColumn = $element.closest( '.tdc-inner-column' );
+
+            // The checked element is also inside of the inner column
+            if ( $innerColumn.length ) {
+
+                var $innerColumnElements = $innerColumn.find( '.tdc-element-inner-column' );
+
+                if ( $innerColumnElements.length === $innerColumnElements.index( $element ) + 1 ) {
+                    return true;
+                }
             }
+
             return false;
         }
     };
