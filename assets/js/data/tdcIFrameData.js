@@ -81,7 +81,7 @@ var tdcIFrameData,
 
             tdcIFrameData.TdcModel = Backbone.Model.extend({
 
-                getShortcodeRender: function( destinationParentModel, columns, newPosition ) {
+                getShortcodeRender: function( destinationModel, columns, newPosition ) {
 
                     var model = this,
 
@@ -109,11 +109,11 @@ var tdcIFrameData,
                             // Change the model structure
                             var parentModel = model.get( 'parentModel' ),
                                 sourceChildCollection = parentModel.get( 'childCollection' ),
-                                destinationChildCollection = destinationParentModel.get( 'childCollection' );
+                                destinationChildCollection = destinationModel.get( 'childCollection' );
 
                             sourceChildCollection.remove( model );
                             destinationChildCollection.add( model, { at: newPosition } );
-                            model.set( 'parentModel', destinationParentModel );
+                            model.set( 'parentModel', destinationModel );
 
                             //tdcDebug.log(containerDestinationParentModelChildCollection);
                         }
@@ -530,115 +530,19 @@ var tdcIFrameData,
         /**
          * Important! This function should be called only by 'stop' sortable handler
          * Steps:
-         * 1. Get the model of the draggable element
-         * 2. Get the model of the destination container (column or inner column) that contains the sortable list (the list where the element is dropped)
-         * 3. Request to the model of the element, to update its 'html property'
+         *  Step 1. Get the model of the draggable element
+         *  Step 2. Get the model of the destination container (column or inner column) that contains the sortable list (the list where the element is dropped)
+         *  Step 3. Request to the model of the element, to update its 'html property'
          *      3.1 Get the 'column' from the model of the container
          *      3.2 Make the request
          *      3.3 Wait for the response
-         * 4. If success, update the structure data
-         * 5. If error, ???
-         *
-         * @param jqSortableList
-         * @param uiObject
+         *  Step 4. If success, update the structure data
+         *  Step 5. If error, ???
          */
-        //changeData: function( jqSortableList, uiObject ) {
-        //
-        //
-        //    // Step1 ----------
-        //
-        //    // The item model id
-        //    var elementModelId = uiObject.item.data( 'model_id' );
-        //
-        //    // @todo This check should be removed - the content should have consistency
-        //    if ( _.isUndefined( elementModelId ) ) {
-        //        alert( 'Error: Element model id!' );
-        //        return;
-        //    }
-        //
-        //
-        //    // The item model
-        //    var elementModel = tdcIFrameData.getModel( elementModelId );
-        //
-        //    // @todo This check should be removed - the content should have consistency
-        //    if ( _.isUndefined( elementModel ) ) {
-        //        alert( 'Error: Element model!' );
-        //        return;
-        //    }
-        //
-        //
-        //
-        //    // Step2 ----------
-        //
-        //    // Get the closest inner column (maybe the sortable list is in an inner row)
-        //    var containerDestinationParent = jqSortableList.closest( '.tdc-inner-column' );
-        //
-        //    // Get the closest column, if the sortable list is not inside of an inner row
-        //    if ( ! containerDestinationParent.length ) {
-        //        containerDestinationParent = jqSortableList.closest( '.tdc-column' );
-        //    }
-        //
-        //    // @todo This check should be removed - the content should have consistency
-        //    if ( ! containerDestinationParent.length || _.isUndefined( containerDestinationParent.data( 'model_id' ) ) ) {
-        //        alert( 'Error: Container destination (column or inner column) not available!' );
-        //        return;
-        //    }
-        //
-        //
-        //    // The model id (where the item model must be inserted)
-        //    var containerDestinationParentModelId = containerDestinationParent.data( 'model_id');
-        //
-        //    // @todo This check should be removed - the content should have consistency
-        //    if ( _.isUndefined( containerDestinationParentModelId ) ) {
-        //        alert( 'Error: Container model id!' );
-        //        return;
-        //    }
-        //
-        //    // The model (where the item model must be inserted)
-        //    var containerDestinationParentModel = tdcIFrameData.getModel( containerDestinationParentModelId );
-        //
-        //    // @todo This check should be removed - the content should have consistency
-        //    if ( _.isUndefined( containerDestinationParentModel ) ) {
-        //        alert( 'Error: Column parent model!' );
-        //        return;
-        //    }
-        //
-        //
-        //
-        //    //tdcDebug.log( elementModelId );
-        //    //tdcDebug.log( containerDestinationParentModelId );
-        //
-        //    // Step3 ----------
-        //
-        //    var containerParentModelAttrs = containerDestinationParentModel.get( 'attrs'),
-        //        colParam = 1;
-        //
-        //    // @todo This check should be removed - the content should have consistency
-        //    if (! _.has( containerParentModelAttrs, 'width ') ) {
-        //        colParam = containerParentModelAttrs.width;
-        //    }
-        //
-        //
-        //    // Filter of the column param
-        //    switch ( colParam ) {
-        //        case '1/3' : colParam = 1; break;
-        //        case '2/3' : colParam = 2; break;
-        //        case '3/3' : colParam = 3; break;
-        //    }
-        //
-        //    // The new position of the element model in the 'childCollection' property of the containerDestinationParentModel
-        //    var newPosition = uiObject.item.index();
-        //
-        //    elementModel.getShortcodeRender( containerDestinationParentModel, colParam, newPosition );
-        //},
-
-
-
-
         changeData: function(  ) {
 
 
-            // Step1 ----------
+            // Step 1 ----------
 
             var $draggedElement = tdcOperationUI.getDraggedElement();
 
@@ -648,7 +552,7 @@ var tdcIFrameData,
 
             // @todo This check should be removed - the content should have consistency
             if ( _.isUndefined( elementModelId ) ) {
-                alert( 'Error: Element model id!' );
+                alert( 'changeData - Error: Element model id is not in $draggedElement data!' );
                 return;
             }
 
@@ -658,74 +562,77 @@ var tdcIFrameData,
 
             // @todo This check should be removed - the content should have consistency
             if ( _.isUndefined( elementModel ) ) {
-                alert( 'Error: Element model!' );
+                alert( 'changeData Error: Element model not in structure data!' );
                 return;
             }
 
 
 
-            // Step2 ----------
+            // Step 2 ----------
 
-            // Get the closest inner column (maybe the sortable list is in an inner row)
-            var containerDestinationParent = $draggedElement.closest( '.tdc-inner-column' );
+            // Get the closest inner column (maybe the destination was an inner column)
+            var $destination = $draggedElement.closest( '.tdc-inner-column' );
 
-            // Get the closest column, if the sortable list is not inside of an inner row
-            if ( ! containerDestinationParent.length ) {
-                containerDestinationParent = $draggedElement.closest( '.tdc-column' );
+            // Get the closest column, if the destination was not inside of an inner column
+            if ( ! $destination.length ) {
+                $destination = $draggedElement.closest( '.tdc-column' );
             }
 
             // @todo This check should be removed - the content should have consistency
-            if ( ! containerDestinationParent.length || _.isUndefined( containerDestinationParent.data( 'model_id' ) ) ) {
-                alert( 'Error: Container destination (column or inner column) not available!' );
+            if ( ! $destination.length ) {
+                alert( 'changeData Error: Container destination (column or inner column) not available!' );
                 return;
             }
-
 
             // The model id (where the item model must be inserted)
-            var containerDestinationParentModelId = containerDestinationParent.data( 'model_id');
+            var destinationModelId = $destination.data( 'model_id');
 
             // @todo This check should be removed - the content should have consistency
-            if ( _.isUndefined( containerDestinationParentModelId ) ) {
-                alert( 'Error: Container model id!' );
+            if ( _.isUndefined( destinationModelId ) ) {
+                alert( 'changeData Error: Model id of the container destination (column or inner column) not in data!' );
                 return;
             }
 
+
             // The model (where the item model must be inserted)
-            var containerDestinationParentModel = tdcIFrameData.getModel( containerDestinationParentModelId );
+            var destinationModel = tdcIFrameData.getModel( destinationModelId );
 
             // @todo This check should be removed - the content should have consistency
-            if ( _.isUndefined( containerDestinationParentModel ) ) {
-                alert( 'Error: Column parent model!' );
+            if ( _.isUndefined( destinationModel ) ) {
+                alert( 'changeData Error: Column or inner column model not in structure data!' );
                 return;
             }
 
 
 
             //tdcDebug.log( elementModelId );
-            //tdcDebug.log( containerDestinationParentModelId );
+            //tdcDebug.log( destinationModelId );
 
-            // Step3 ----------
 
-            var containerParentModelAttrs = containerDestinationParentModel.get( 'attrs'),
+
+
+            // Step 3 ----------
+
+            var destinationModelAttrs = destinationModel.get( 'attrs' ),
                 colParam = 1;
 
             // @todo This check should be removed - the content should have consistency
-            if (! _.has( containerParentModelAttrs, 'width ') ) {
-                colParam = containerParentModelAttrs.width;
+            if ( ! _.has( destinationModelAttrs, 'width ' ) ) {
+                colParam = destinationModelAttrs.width;
             }
 
 
-            // Filter of the column param
+            // The column param filter
             switch ( colParam ) {
                 case '1/3' : colParam = 1; break;
                 case '2/3' : colParam = 2; break;
                 case '3/3' : colParam = 3; break;
             }
 
-            // The new position of the element model in the 'childCollection' property of the containerDestinationParentModel
+            // The new position of the element model in the 'childCollection' property of the destinationModel
             var newPosition = $draggedElement.prev().length;
 
-            elementModel.getShortcodeRender( containerDestinationParentModel, colParam, newPosition );
+            elementModel.getShortcodeRender( destinationModel, colParam, newPosition );
         },
 
 
