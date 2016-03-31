@@ -140,25 +140,65 @@ var tdcElementUI;
 
 
 
-                // Check the bottom to position the placeholder out of the inner row -> inner column
-
-                //if ( tdcElementUI.isInnerColumnLastElement( currentElementOver ) && ( mousePointerValue.Y > elementOffset.top + elementOuterHeight - tdcElementUI._innerColumnGap ) ) {
-                //    tdcDebug.log( 'last' );
-                //}
 
 
+                // Check the bottom of the inner-column, to position the placeholder out
+
+                var isInnerColumnLastElement = false;
+
+                if ( ( mousePointerValue.Y > elementOffset.top + elementOuterHeight - tdcElementUI._innerColumnGap ) && tdcElementUI.isInnerColumnLastElement( currentElementOver ) ) {
+                    //tdcDebug.log( 'last' );
+
+                    isInnerColumnLastElement = true;
+                }
 
 
 
-                var $nextElement = currentElementOver.next();
+
+
+
 
                 // Position the placeholder
-                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
-                    currentElementOver.after($placeholder);
 
-                    // Update the helper
-                    tdcOperationUI.updateInfoHelper();
+                var $nextElement;
+
+                // Position the placeholder
+                if ( isInnerColumnLastElement ) {
+
+                    // Rare case:
+                    // Position the placeholder outside the inner-column
+
+                    var $innerRowParent = currentElementOver.closest( '.tdc-inner-row' );
+
+                    $nextElement = $innerRowParent.next();
+
+                    if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                        $innerRowParent.after($placeholder);
+
+                        // Update the helper
+                        tdcOperationUI.updateInfoHelper();
+                    }
+
+                } else {
+
+                    // Usual case:
+                    // Position the placeholder inside the inner-column
+
+                    $nextElement = currentElementOver.next();
+
+                    if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                        currentElementOver.after($placeholder);
+
+                        // Update the helper
+                        tdcOperationUI.updateInfoHelper();
+                    }
                 }
+
+
+
+
+
+
 
                 // Position the placeholder at the bottom of the screen
                 if ( parseInt( elementOffset.top ) + parseInt( elementOuterHeight ) > parseInt( tdcOperationUI.iframeContents.scrollTop()) + parseInt( window.innerHeight ) ) {
@@ -183,24 +223,64 @@ var tdcElementUI;
             } else {
 
 
-                //if ( tdcElementUI.isInnerColumnFirstElement( currentElementOver ) && ( mousePointerValue.Y < elementOffset.top + tdcElementUI._innerColumnGap ) ) {
-                //    tdcDebug.log( 'first' );
-                //}
+
+
+
+
+                // Check the top of the inner-column, to position the placeholder out
+
+                var isInnerColumnFirstElement = false;
+
+                if ( ( mousePointerValue.Y < elementOffset.top + tdcElementUI._innerColumnGap ) && tdcElementUI.isInnerColumnFirstElement( currentElementOver ) ) {
+                    //tdcDebug.log( 'first' );
+
+                    isInnerColumnFirstElement = true;
+                }
 
 
 
 
 
-
-                var $prevElement = currentElementOver.prev();
 
                 // Position the placeholder
-                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
-                    currentElementOver.before($placeholder);
 
-                    // Update the helper
-                    tdcOperationUI.updateInfoHelper();
+                var $prevElement;
+
+                if ( isInnerColumnFirstElement ) {
+
+                    // Rare case:
+                    // Position the placeholder outside the inner-column
+
+                    var $innerRowParent = currentElementOver.closest( '.tdc-inner-row' );
+
+                    $prevElement = $innerRowParent.prev();
+
+                    if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                        $innerRowParent.before($placeholder);
+
+                        // Update the helper
+                        tdcOperationUI.updateInfoHelper();
+                    }
+
+                } else {
+
+                    // Usual case:
+                    // Position the placeholder inside the inner-column
+
+                    $prevElement = currentElementOver.prev();
+
+                    if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                        currentElementOver.before($placeholder);
+
+                        // Update the helper
+                        tdcOperationUI.updateInfoHelper();
+                    }
                 }
+
+
+
+
+
 
                 // Position the placeholder at the top of the screen
                 if ( parseInt( elementOffset.top ) < parseInt( tdcOperationUI.iframeContents.scrollTop() ) ) {
@@ -441,10 +521,20 @@ var tdcElementUI;
 
             var $placeholder = tdcAdminWrapperUI.$placeholder;
 
-            if ( $placeholder.closest( '.tdc-inner-column' ).length &&
+            if (
+                // Is the placeholder already positioned inside of the inner column
+                ($placeholder.closest( '.tdc-column' ).length || $placeholder.closest( '.tdc-inner-column' ).length ) &&
+
+                // The checked element is also inside of the inner column
                 $element.closest( '.tdc-inner-column' ).length &&
+
+                // There are no '.tdc-element' elements above the checked element
                 ! $element.prevAll( '.tdc-element' ).length &&
-                $element.next().attr( 'id' ) !== 'tdc-placeholder' ) {
+
+                // The already positioned placeholder is not after the checked element
+                $element.next().attr( 'id' ) !== 'tdc-placeholder'
+
+            ) {
 
                 //tdcDebug.log( $element );
                 return true;
