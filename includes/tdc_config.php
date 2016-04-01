@@ -60,7 +60,6 @@ class tdc_config {
 
 	static $js_files_for_iframe = array (
 		'td_post_content' => '/assets/js/td_post_content.js',
-
 	);
 
 }

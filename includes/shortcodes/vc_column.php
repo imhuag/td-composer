@@ -6,7 +6,7 @@
  * Time: 13:55
  */
 
-class vc_column extends vc_shortcode {
+class vc_column extends tdc_shortcode {
 
 	function render($atts, $content = null) {
 

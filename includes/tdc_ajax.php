@@ -33,7 +33,7 @@ class tdc_ajax {
 
 
 
-		sleep(rand(0, 1));
+		//sleep(rand(0, 1));
 
 
 //		if (rand(0,1)) {

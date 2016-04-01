@@ -28,4 +28,30 @@ class tdc_util {
 			$last_js_file_id = $js_file_id;
 		}
 	}
+
+
+
+
+
+	/**
+	 * Shows a soft error. The site will run as usual if possible. If the user is logged in and has 'switch_themes'
+	 * privileges this will also output the caller file path
+	 * @param $file - The file should be __FILE__
+	 * @param $function - __FUNCTION__
+	 * @param $message - the error message
+	 * @param $more_data - it will be print_r if available
+	 */
+	static function error($file, $function, $message, $more_data = '') {
+		echo '<br><br>wp booster error:<br>';
+		echo $message;
+		if (is_user_logged_in() and current_user_can('switch_themes')){
+			echo '<br>' . $file . ' > ' . $function;
+			if (!empty($more_data)) {
+				echo '<br><br><pre>';
+				echo 'more data:' . PHP_EOL;
+				print_r($more_data);
+				echo '</pre>';
+			}
+		};
+	}
 }
