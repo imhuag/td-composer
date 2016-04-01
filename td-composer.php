@@ -25,7 +25,6 @@ function tdc_plugin_init() {
 	require_once('includes/tdc_util.php');
 
 	require_once('includes/tdc_shortcode.php');
-	//require_once('includes/shortcodes/vc_shortcode.php');
 	require_once('includes/shortcodes/vc_row.php' );
 	require_once('includes/shortcodes/vc_row_inner.php' );
 	require_once('includes/shortcodes/vc_column.php' );
@@ -33,11 +32,6 @@ function tdc_plugin_init() {
 	require_once('includes/shortcodes/vc_column_text.php' );
 	require_once('includes/shortcodes/vc_raw_html.php' );
 	require_once('includes/shortcodes/vc_widget_sidebar.php' );
-
-
-
-
-
 	require_once('includes/tdc_mapper.php');
 	require_once('includes/tdc_map.php');
 
