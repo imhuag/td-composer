@@ -487,7 +487,7 @@ var tdcOperationUI;
 
         /**
          * Move the dragged element to the placeholder position
-         * @todo IMPORTANT! This operation must be ATOMIC. For now this is accomplished checking the $draggedElement, the $currentElementOver and the $placeholder. We'll see in tests if these are enough. A better solution would be a main flag checked by all helper functions, maybe.
+         * @todo IMPORTANT! This operation must be ATOMIC. For now this is accomplished just checking the $draggedElement, the $currentElementOver and the $placeholder. We'll see in tests if these are enough. Maybe a better solution would be a main flag, checked by all helper functions.
          *
          * @private
          */
@@ -557,48 +557,92 @@ var tdcOperationUI;
 
 
 
-                // Get the settings of the dragged element
-                //
-                // IMPORTANT! These are read here because the next steps are:
-                //  Step 1. Replace the placeholder with the dragged element
-                //  Step 2. Set the css settings of the dragged element, according with the destination position
-                //  Step 3. Remove the empty element from the destination position, if it exists
-                //  Step 4. Change data structure
-                //  Step 5. Here some checks must be done
+                // IMPORTANT! The next steps are:
+                //  Step 1. Check the dragged element to see if it's element, inner-column, inner-row, column or row
+                //  Step 2. Replace the placeholder with the dragged element
+                //  Step 3. If the dragged element was element or inner-row, set the css settings of the dragged element, according with the destination position
+                //  Step 4. Remove the empty element from the destination position, if it exists
+                //  Step 5. Change data structure
+                //  Step 6. Here some checks must be done
+
+                // Step 1 ----------
+
                 var wasElementDragged = tdcOperationUI.isElementDragged(),
-                    wasInnerRowDragged = false;
+                    wasInnerColumnDragged = false,
+                    wasInnerRowDragged = false,
+                    wasColumnDragged = false,
+                    wasRowDragged = false;
 
                 if ( ! wasElementDragged ) {
+                    wasInnerColumnDragged = tdcOperationUI.isInnerColumnDragged();
+                }
+
+                if ( ! wasInnerColumnDragged ) {
                     wasInnerRowDragged = tdcOperationUI.isInnerRowDragged();
+                }
+
+                if ( ! wasInnerRowDragged ) {
+                    wasColumnDragged = tdcOperationUI.isColumnDragged();
+                }
+
+                if ( ! wasColumnDragged ) {
+                    wasRowDragged = tdcOperationUI.isRowDragged();
+                }
+
+                if ( ! wasElementDragged && ! wasInnerColumnDragged && ! wasInnerRowDragged && ! wasColumnDragged && ! wasRowDragged ) {
+
+                    // @todo This check should be removed - the content should have consistency
+                    alert( '_moveDraggedElement - Error: $draggedElement not valid!' );
+                    return;
                 }
 
 
 
-                // Step 1 ----------
+
+
+                // Step 2 ----------
                 // The placeholder is replaced by the dragged element
 
                 $placeholder.replaceWith( $draggedElement );
 
 
 
-                // Step 2 ----------
-                // Update the 'tdc-element-inner-column' or the 'tdc-element-column' of the dragged element (AFTER IT HAS BEEN MOVED TO THE DROP POSITION)
 
-                $tdcInnerColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-inner-column' );
-                if ( $tdcInnerColumnParentOfDraggedElement.length ) {
-                    $draggedElement.removeClass( 'tdc-element-column' );
-                    $draggedElement.addClass( 'tdc-element-inner-column' );
-                } else {
-                    $tdcColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-column' );
-                    if ( $tdcColumnParentOfDraggedElement.length ) {
-                        $draggedElement.removeClass( 'tdc-element-inner-column' );
-                        $draggedElement.addClass( 'tdc-element-column' );
+
+                // Step 3 ----------
+                // Update the 'tdc-element-inner-column' or the 'tdc-element-column' of the dragged element (AFTER IT HAS BEEN MOVED TO THE DROP POSITION)
+                // An element can be dragged from:
+                //  1. column to column
+                //  2. inner-column to inner-column
+                //  3. column to inner-column
+                //  4. inner-column to column
+
+                if ( wasElementDragged ) {
+
+                    // If the $draggedElement is in a inner-column, add the class 'tdc-element-inner-column', but remove the class 'tdc-element-column' (if it exists)
+                    // Obs. We do not check from where it comes
+
+                    $tdcInnerColumnParentOfDraggedElement = $draggedElement.closest('.tdc-inner-column');
+                    if ($tdcInnerColumnParentOfDraggedElement.length) {
+                        $draggedElement.removeClass( 'tdc-element-column' );
+                        $draggedElement.addClass( 'tdc-element-inner-column' );
+
+                    } else {
+
+                        // If the $draggedElement is in a column, add the class 'tdc-element-column', but remove the class 'tdc-element-inner-column' (if it exists)
+                        // Obs. We do not check from where it comes
+
+                        $tdcColumnParentOfDraggedElement = $draggedElement.closest('.tdc-column');
+                        if ($tdcColumnParentOfDraggedElement.length) {
+                            $draggedElement.removeClass('tdc-element-inner-column');
+                            $draggedElement.addClass('tdc-element-column');
+                        }
                     }
                 }
 
 
 
-                // Step 3 ----------
+                // Step 4 ----------
                 // Remove the empty element if exists (after the dragged element has been dragged)
 
                 var $prevDraggedElement = $draggedElement.prev();
@@ -613,21 +657,17 @@ var tdcOperationUI;
 
 
 
-                // Step 4 ----------
+                // Step 5 ----------
                 // Change the data structure
+                // Here any UI changes has been done
 
-                tdcIFrameData.changeData( wasElementDragged, wasInnerRowDragged );
-
-                //if ( wasElementDragged ) {
-                //    // Change the structured data
-                //    tdcIFrameData.changeData( wasElementDragged, wasInnerRowDragged );
-                //
-                //} else if ( wasInnerRowDragged ) {
-                //
-                //    // Change the structured data
-                //    //tdcIFrameData.changeData();
-                //
-                //}
+                tdcIFrameData.changeData({
+                    wasElementDragged: wasElementDragged,
+                    wasInnerColumnDragged: wasInnerColumnDragged,
+                    wasInnerRowDragged: wasInnerRowDragged,
+                    wasColumnDragged: wasColumnDragged,
+                    wasRowDragged: wasRowDragged
+                });
             }
         }
     };

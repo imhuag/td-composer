@@ -85,11 +85,17 @@ var tdcIFrameData,
 
                     var model = this,
 
-                        // A builder shortcode function must be used instead
-                        shortcode = model.get( 'content' ),
+                        parentModel = model.get( 'parentModel' ),
+                        sourceChildCollection = parentModel.get( 'childCollection' );
 
-                        // Define new empty job
-                        newJob = new tdcJobManager.job();
+
+                    // Get the shortcode rendered and change the structure
+
+                    // A builder shortcode function must be used instead
+                    var shortcode = model.get( 'content' ),
+
+                    // Define new empty job
+                    newJob = new tdcJobManager.job();
 
                     newJob.shortcode = shortcode;
                     newJob.columns = columns;
@@ -103,17 +109,16 @@ var tdcIFrameData,
                         // Important! It should have this property
                         if ( _.has( data, 'replyHtml' ) ) {
 
-                            // Update the 'html' attribute (This will trigger an event)
-                            model.set( 'html', data.replyHtml );
-
                             // Change the model structure
                             var parentModel = model.get( 'parentModel' ),
-                                sourceChildCollection = parentModel.get( 'childCollection' ),
                                 destinationChildCollection = destinationModel.get( 'childCollection' );
 
-                            sourceChildCollection.remove( model );
-                            destinationChildCollection.add( model, { at: newPosition } );
-                            model.set( 'parentModel', destinationModel );
+                                // Update the 'html' attribute (This will trigger an event)
+                                model.set( 'html', data.replyHtml );
+
+                                sourceChildCollection.remove( model );
+                                destinationChildCollection.add( model, { at: newPosition } );
+                                model.set( 'parentModel', destinationModel );
 
                             //tdcDebug.log(destinationChildCollection);
                         }
@@ -126,6 +131,47 @@ var tdcIFrameData,
 
                     tdcJobManager.addJob( newJob );
 
+
+
+                    // Get the shortcode of the moved model
+
+                    var data = {
+                        error: undefined,
+                        getShortcode: ''
+                    };
+
+                    tdcIFrameData._checkModelData( model, data );
+
+                    if ( !_.isUndefined( data.error ) ) {
+                        tdcDebug.log( data.error );
+                    }
+
+                    if ( !_.isUndefined( data.getShortcode ) ) {
+                        tdcDebug.log( data.getShortcode );
+                    }
+
+
+
+                    // Get the shortcode of the parentModel (of the moved model)
+
+                    data = {
+                        error: undefined,
+                        getShortcode: ''
+                    };
+
+                    tdcIFrameData._checkModelData( model.get( 'parentModel' ), data );
+
+                    if ( !_.isUndefined( data.error ) ) {
+                        tdcDebug.log( data.error );
+                    }
+
+                    if ( !_.isUndefined( data.getShortcode ) ) {
+                        tdcDebug.log( data.getShortcode );
+                    }
+
+
+
+                    tdcDebug.log( tdcIFrameData.tdcRows.models );
                 }
             });
 
@@ -535,8 +581,10 @@ var tdcIFrameData,
          *      3.3 Wait for the response
          *  Step 4. If success, update the structure data
          *  Step 5. If error, ???
+         *
+         * @param whatWasDragged object
          */
-        changeData: function( wasElementDragged, wasInnerRowDragged ) {
+        changeData: function( whatWasDragged ) {
 
 
             // Step 1 ----------
@@ -567,17 +615,142 @@ var tdcIFrameData,
 
             // Step 2 ----------
 
-            // Get the closest inner column (maybe the destination was an inner column)
-            var $destination = $draggedElement.closest( '.tdc-inner-column' );
+            // The destination of the $draggedElement
+            var sourceModel,
 
-            // Get the closest column, if the destination was not inside of an inner column
-            if ( ! $destination.length ) {
-                $destination = $draggedElement.closest( '.tdc-column' );
+                destinationModel,
+                destinationModelAttrs,
+
+                colParam = 1,
+
+                sourceChildCollection,
+                destinationChildCollection,
+
+                newPosition = $draggedElement.prev().length;
+
+            if ( whatWasDragged.wasElementDragged ) {
+
+                sourceModel = elementModel.get( 'parentModel' );
+                destinationModel = tdcIFrameData._getDestinationModel( [ '.tdc-inner-column', '.tdc-column' ] );
+
+                if ( _.isUndefined( destinationModel ) ) {
+                    return;
+                }
+
+                if ( sourceModel.cid === destinationModel.cid ) {
+
+                    sourceChildCollection = sourceModel.get( 'childCollection' );
+                    sourceChildCollection.remove( elementModel );
+                    sourceChildCollection.add( elementModel, { at: newPosition } );
+
+                } else {
+
+                    destinationModelAttrs = destinationModel.get( 'attrs' );
+
+                    // @todo This check should be removed - the content should have consistency
+                    //if ( ! _.has( destinationModelAttrs, 'width ' ) ) {
+                    //    colParam = destinationModelAttrs.width;
+                    //}
+
+                    if ( _.has( destinationModelAttrs, 'width' ) ) {
+                        colParam = destinationModelAttrs.width;
+                    }
+
+                    //tdcDebug.log( colParam );
+
+                    // The column param filter
+                    switch ( colParam ) {
+                        case '1/3' : colParam = 1; break;
+                        case '2/3' : colParam = 2; break;
+                        case '3/3' : colParam = 3; break;
+                    }
+
+                    elementModel.getShortcodeRender( destinationModel, colParam, newPosition );
+                }
+
+            } else if ( whatWasDragged.wasInnerRowDragged ) {
+
+                sourceModel = elementModel.get( 'parentModel' );
+                destinationModel = tdcIFrameData._getDestinationModel( [ '.tdc-column' ] );
+
+                if ( _.isUndefined( destinationModel ) ) {
+                    return;
+                }
+
+                if ( sourceModel.cid === destinationModel.cid ) {
+
+                    sourceChildCollection = sourceModel.get( 'childCollection' );
+                    sourceChildCollection.remove( elementModel );
+                    sourceChildCollection.add( elementModel, { at: newPosition } );
+
+                } else {
+
+                    destinationModelAttrs = destinationModel.get( 'attrs' );
+
+                    // @todo This check should be removed - the content should have consistency
+                    //if ( ! _.has( destinationModelAttrs, 'width ' ) ) {
+                    //    colParam = destinationModelAttrs.width;
+                    //}
+
+                    if ( _.has( destinationModelAttrs, 'width' ) ) {
+                        colParam = destinationModelAttrs.width;
+                    }
+
+                    //tdcDebug.log( colParam );
+
+                    // The column param filter
+                    switch ( colParam ) {
+                        case '1/3' : colParam = 1; break;
+                        case '2/3' : colParam = 2; break;
+                        case '3/3' : colParam = 3; break;
+                    }
+
+                    // @todo Other case should be implemented here
+                    //elementModel.getShortcodeRender( destinationModel, colParam, newPosition );
+                }
+
+            } else if ( whatWasDragged.wasInnerColumnDragged || whatWasDragged.wasColumnDragged ) {
+
+                sourceModel = elementModel.get( 'parentModel' );
+                sourceChildCollection = sourceModel.get( 'childCollection' );
+                sourceChildCollection.remove( elementModel );
+                sourceChildCollection.add( elementModel, { at: newPosition } );
+
+            } else if ( whatWasDragged.wasRowDragged ) {
+
+                tdcIFrameData.tdcRows.remove( elementModel );
+                tdcIFrameData.tdcRows.add( elementModel, { at: newPosition } );
             }
+
+            tdcDebug.log( tdcIFrameData.tdcRows );
+        },
+
+
+        /**
+         * Get the destination model, looking into DOM and getting the 'model_id', and then searching into the structure data
+         *
+         * @param cssClasses array
+         * @private
+         */
+        _getDestinationModel: function( cssClasses ) {
+
+            var $draggedElement = tdcOperationUI.getDraggedElement();
+
+            // Get the closest available container
+            var $destination;
+
+            for ( var i = 0; i < cssClasses.length; i++ ) {
+                $destination = $draggedElement.closest( cssClasses[i] );
+
+                if ( $destination.length ) {
+                    break;
+                }
+            }
+
 
             // @todo This check should be removed - the content should have consistency
             if ( ! $destination.length ) {
-                alert( 'changeData Error: Container destination (column or inner column) not available!' );
+                alert( 'changeData Error: Container destination not available!' );
                 return;
             }
 
@@ -586,7 +759,7 @@ var tdcIFrameData,
 
             // @todo This check should be removed - the content should have consistency
             if ( _.isUndefined( destinationModelId ) ) {
-                alert( 'changeData Error: Model id of the container destination (column or inner column) not in data!' );
+                alert( 'changeData Error: Model id of the container destination not in data!' );
                 return;
             }
 
@@ -596,60 +769,23 @@ var tdcIFrameData,
 
             // @todo This check should be removed - the content should have consistency
             if ( _.isUndefined( destinationModel ) ) {
-                alert( 'changeData Error: Column or inner column model not in structure data!' );
+                alert( 'changeData Error: Model not in structure data!' );
                 return;
             }
 
+            //tdcDebug.log( destinationModel );
 
-
-            //tdcDebug.log( elementModelId );
-            //tdcDebug.log( destinationModelId );
-
-
-
-
-            // Step 3 ----------
-
-            var destinationModelAttrs = destinationModel.get( 'attrs' ),
-                colParam = 1;
-
-            // @todo This check should be removed - the content should have consistency
-            //if ( ! _.has( destinationModelAttrs, 'width ' ) ) {
-            //    colParam = destinationModelAttrs.width;
-            //}
-
-            if ( _.has( destinationModelAttrs, 'width' ) ) {
-                colParam = destinationModelAttrs.width;
-            }
-
-            //tdcDebug.log( colParam );
-
-            // The column param filter
-            switch ( colParam ) {
-                case '1/3' : colParam = 1; break;
-                case '2/3' : colParam = 2; break;
-                case '3/3' : colParam = 3; break;
-            }
-
-            // The new position of the element model in the 'childCollection' property of the destinationModel
-            var newPosition = $draggedElement.prev().length;
-
-
-
-
-            if ( wasElementDragged ) {
-                elementModel.getShortcodeRender( destinationModel, colParam, newPosition );
-            } else if ( wasInnerRowDragged ) {
-                tdcDebug.log( 'inner row' );
-            }
+            return destinationModel;
         },
+
+
 
 
 
 
         getShortcodeFromData: function( data ) {
 
-            // We force initialize param shortcode to '', to be sure that '_checkModel' will get the shortcode, otherwise it will only check for error structures
+            // We set the data.getShortcode to '', to be sure that '_checkModel' will get the shortcode, otherwise it will only check for error structures
             data.getShortcode = '';
 
             _.each( tdcIFrameData.tdcRows.models, function(element, index, list) {
