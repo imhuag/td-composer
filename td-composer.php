@@ -22,24 +22,7 @@ function tdc_plugin_init() {
 
 	// load the plugin config
 	require_once('includes/tdc_config.php');
-	require_once('includes/tdc_util.php');
 
-	require_once('includes/tdc_shortcode.php');
-	//require_once('includes/shortcodes/vc_shortcode.php');
-	require_once('includes/shortcodes/vc_row.php' );
-	require_once('includes/shortcodes/vc_row_inner.php' );
-	require_once('includes/shortcodes/vc_column.php' );
-	require_once('includes/shortcodes/vc_column_inner.php' );
-	require_once('includes/shortcodes/vc_column_text.php' );
-	require_once('includes/shortcodes/vc_raw_html.php' );
-	require_once('includes/shortcodes/vc_widget_sidebar.php' );
-
-
-
-
-
-	require_once('includes/tdc_mapper.php');
-	require_once('includes/tdc_map.php');
 
 
 	if ( ! defined( 'TD_AURORA_VERSION' ) or TD_AURORA_VERSION !== TDC_VERSION ) {
@@ -138,8 +121,21 @@ abstract class tdc {
 		// Ready to load the shortcodes
 		require_once('includes/tdc_ajax.php');
 		require_once('includes/tdc_state.php');
+		require_once('includes/tdc_util.php');
 
+		// shortcodes
+		require_once('includes/tdc_shortcode.php');
+		require_once('includes/shortcodes/vc_row.php' );
+		require_once('includes/shortcodes/vc_row_inner.php' );
+		require_once('includes/shortcodes/vc_column.php' );
+		require_once('includes/shortcodes/vc_column_inner.php' );
+		require_once('includes/shortcodes/vc_column_text.php' );
+		require_once('includes/shortcodes/vc_raw_html.php' );
+		require_once('includes/shortcodes/vc_widget_sidebar.php' );
 
+		// mapper and internal map
+		require_once('includes/tdc_mapper.php');
+		require_once('includes/tdc_map.php');
 
 
 		if (!isset($_GET['td_action']) || !isset($_GET['post_id'])) {

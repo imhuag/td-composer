@@ -4,6 +4,10 @@
  * Date: 4/1/2016
  */
 
+
+/**
+ * Class tdc_shortcode base class for all the shortcodes that are for tagDiv Composer
+ */
 class tdc_shortcode {
 
 
