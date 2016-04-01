@@ -64,7 +64,7 @@ var tdcInnerRowUI;
 
                     // Respond only if dragged element is 'tdc-inner-row'
                     if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
-                        tdcDebug.log( 'inner row element mouse move' );
+                        //tdcDebug.log( 'inner row element mouse move' );
 
                         event.preventDefault();
                         event.stopPropagation();

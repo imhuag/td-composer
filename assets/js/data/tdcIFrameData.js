@@ -115,7 +115,7 @@ var tdcIFrameData,
                             destinationChildCollection.add( model, { at: newPosition } );
                             model.set( 'parentModel', destinationModel );
 
-                            //tdcDebug.log(containerDestinationParentModelChildCollection);
+                            //tdcDebug.log(destinationChildCollection);
                         }
                     };
 
@@ -522,9 +522,6 @@ var tdcIFrameData,
         },
 
 
-        _getStructuredData: function() {
-
-        },
 
 
         /**
@@ -539,7 +536,7 @@ var tdcIFrameData,
          *  Step 4. If success, update the structure data
          *  Step 5. If error, ???
          */
-        changeData: function(  ) {
+        changeData: function( wasElementDragged, wasInnerRowDragged ) {
 
 
             // Step 1 ----------
@@ -617,10 +614,15 @@ var tdcIFrameData,
                 colParam = 1;
 
             // @todo This check should be removed - the content should have consistency
-            if ( ! _.has( destinationModelAttrs, 'width ' ) ) {
+            //if ( ! _.has( destinationModelAttrs, 'width ' ) ) {
+            //    colParam = destinationModelAttrs.width;
+            //}
+
+            if ( _.has( destinationModelAttrs, 'width' ) ) {
                 colParam = destinationModelAttrs.width;
             }
 
+            //tdcDebug.log( colParam );
 
             // The column param filter
             switch ( colParam ) {
@@ -632,7 +634,14 @@ var tdcIFrameData,
             // The new position of the element model in the 'childCollection' property of the destinationModel
             var newPosition = $draggedElement.prev().length;
 
-            elementModel.getShortcodeRender( destinationModel, colParam, newPosition );
+
+
+
+            if ( wasElementDragged ) {
+                elementModel.getShortcodeRender( destinationModel, colParam, newPosition );
+            } else if ( wasInnerRowDragged ) {
+                tdcDebug.log( 'inner row' );
+            }
         },
 
 
