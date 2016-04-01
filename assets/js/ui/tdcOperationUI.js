@@ -508,6 +508,27 @@ var tdcOperationUI;
                 var $emptyElement,
                     $tdcElements = $draggedElement.closest( '.tdc-elements');
 
+
+
+
+
+                // If $draggedElement and $placeholder are siblings, do not continue
+
+                var indexDraggedElement = $tdcElements.children().index( $draggedElement ),
+                    indexPlaceholder = $tdcElements.children().index( $placeholder );
+
+                //tdcDebug.log( indexDraggedElement );
+                //tdcDebug.log( indexPlaceholder );
+
+                if ( -1 !== indexPlaceholder && 1 === Math.abs( indexDraggedElement - indexPlaceholder ) ) {
+                    return;
+                }
+
+
+
+
+
+
                 // An empty element is added to the remaining '.tdc-elements' list, to allow drag&drop operations over it
                 // At drop, any empty element is removed from the target list
 
@@ -583,7 +604,6 @@ var tdcOperationUI;
                 var $prevDraggedElement = $draggedElement.prev();
                 if ( $prevDraggedElement.hasClass( tdcOperationUI._emptyElementClass ) ) {
                     $prevDraggedElement.remove();
-                    return;
                 }
 
                 var $nextDraggedElement = $draggedElement.next();
@@ -596,13 +616,18 @@ var tdcOperationUI;
                 // Step 4 ----------
                 // Change the data structure
 
-                if ( wasElementDragged ) {
-                    // Change the structured data
-                    tdcIFrameData.changeData();
+                tdcIFrameData.changeData( wasElementDragged, wasInnerRowDragged );
 
-                } else if ( wasInnerRowDragged ) {
-
-                }
+                //if ( wasElementDragged ) {
+                //    // Change the structured data
+                //    tdcIFrameData.changeData( wasElementDragged, wasInnerRowDragged );
+                //
+                //} else if ( wasInnerRowDragged ) {
+                //
+                //    // Change the structured data
+                //    //tdcIFrameData.changeData();
+                //
+                //}
             }
         }
     };
