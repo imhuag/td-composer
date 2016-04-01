@@ -9,6 +9,7 @@
 /* global tdcAdminWrapperUI:{} */
 /* global tdcAdminIFrameUI:{} */
 /* global tdcOperationUI:{} */
+/* global tdcMaskUI:{} */
 
 
 
@@ -50,6 +51,8 @@ var tdcInnerColumnUI;
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcInnerColumnUI.positionInnerColumnPlaceholder( event );
+
+                    tdcMaskUI.hide();
 
                 }).mouseup(function( event ) {
 

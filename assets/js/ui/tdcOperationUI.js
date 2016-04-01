@@ -30,15 +30,19 @@ var tdcOperationUI;
         // The 'tdc-element', 'tdc-inner-column', 'tdc-element-inner-row', 'tdc-column' or 'tdc-row' where the 'draggedElement' is over
         _currentElementOver: undefined,
 
+        // Css class of empty element
         _emptyElementClass: 'tdc-element-empty',
 
+        // Flag of placeholder visibility
         _isPlaceholderVisible: false,
 
         _intervalUpdateInfoHelper: undefined,
 
 
+
         init: function( iframeContents ) {
 
+            // @todo Not ok window variables
             window.previousMouseClientX = 0;
             window.previousMouseClientY = 0;
 
@@ -430,19 +434,6 @@ var tdcOperationUI;
         },
 
 
-
-        /**
-        * Check the current dragged element is a 'tdc-element-empty' one
-        *
-        * @returns {boolean|*}
-        */
-        isEmptyElementDragged: function() {
-            var draggedElement = tdcOperationUI.getDraggedElement();
-
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-element-empty' );
-        },
-
-
         /**
          * Helper function used by 'setHorizontalPlaceholder' and 'setVerticalPlaceholder' functions
          *
@@ -496,6 +487,7 @@ var tdcOperationUI;
 
         /**
          * Move the dragged element to the placeholder position
+         * @todo IMPORTANT! This operation must be ATOMIC. For now this is accomplished checking the $draggedElement, the $currentElementOver and the $placeholder. We'll see in tests if these are enough. A better solution would be a main flag checked by all helper functions, maybe.
          *
          * @private
          */
@@ -520,7 +512,6 @@ var tdcOperationUI;
                 // At drop, any empty element is removed from the target list
 
                 var $childrenElements = $tdcElements.children();
-                //if ( 1 === $childrenElements.length && ! $childrenElements.first().hasClass( 'tdc-element-inner-row') ) {
 
                 if ( 1 === $childrenElements.length && ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) ) {
 
@@ -541,14 +532,18 @@ var tdcOperationUI;
                     tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
 
                     $tdcElements.append( $emptyElement );
-
-                    tdcDebug.log( 1111111);
                 }
 
 
 
-
                 // Get the settings of the dragged element
+                //
+                // IMPORTANT! These are read here because the next steps are:
+                //  Step 1. Replace the placeholder with the dragged element
+                //  Step 2. Set the css settings of the dragged element, according with the destination position
+                //  Step 3. Remove the empty element from the destination position, if it exists
+                //  Step 4. Change data structure
+                //  Step 5. Here some checks must be done
                 var wasElementDragged = tdcOperationUI.isElementDragged(),
                     wasInnerRowDragged = false;
 
@@ -558,12 +553,14 @@ var tdcOperationUI;
 
 
 
+                // Step 1 ----------
                 // The placeholder is replaced by the dragged element
+
                 $placeholder.replaceWith( $draggedElement );
 
 
 
-
+                // Step 2 ----------
                 // Update the 'tdc-element-inner-column' or the 'tdc-element-column' of the dragged element (AFTER IT HAS BEEN MOVED TO THE DROP POSITION)
 
                 $tdcInnerColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-inner-column' );
@@ -580,6 +577,7 @@ var tdcOperationUI;
 
 
 
+                // Step 3 ----------
                 // Remove the empty element if exists (after the dragged element has been dragged)
 
                 var $prevDraggedElement = $draggedElement.prev();
@@ -595,14 +593,16 @@ var tdcOperationUI;
 
 
 
+                // Step 4 ----------
+                // Change the data structure
 
-                //if ( wasElementDragged ) {
-                //    // Change the structured data
-                //    tdcIFrameData.changeData();
-                //
-                //} else if ( wasInnerRowDragged ) {
-                //
-                //}
+                if ( wasElementDragged ) {
+                    // Change the structured data
+                    tdcIFrameData.changeData();
+
+                } else if ( wasInnerRowDragged ) {
+
+                }
             }
         }
     };
