@@ -100,7 +100,6 @@ function tdc_plugin_init() {
 
 
 
-
 /**
  * Class tdc
  */
@@ -136,6 +135,39 @@ abstract class tdc {
 		// mapper and internal map
 		require_once('includes/tdc_mapper.php');
 		require_once('includes/tdc_map.php');
+
+
+		add_action( 'wp_ajax_tdc_save_post', 'tdc_save_post' );
+		function tdc_save_post() {
+
+			$parameters = array();
+
+			$action = $_POST[ 'action' ];
+			$post_id = $_POST[ 'post_id' ];
+			$post_content = $_POST[ 'content' ];
+
+			if ( !isset($action) || 'tdc_save_post' !== $action || !isset($post_id) || !isset($post_content)) {
+
+				$parameters['errors'][] = 'Invalid data';
+
+			} else {
+				$data_post = array(
+					'ID'           => $post_id,
+					'post_content' => $post_content
+				);
+
+				$post_id = wp_update_post( $data_post, true );
+				if (is_wp_error($post_id)) {
+					$errors = $post_id->get_error_messages();
+
+					$parameters['errors'] = array();
+					foreach ($errors as $error) {
+						$parameters['errors'][] = $error;
+					}
+				}
+			}
+			die(json_encode($parameters));
+		}
 
 
 		if (!isset($_GET['td_action']) || !isset($_GET['post_id'])) {
@@ -196,9 +228,9 @@ abstract class tdc {
 
 		tdc_util::enqueue_js_files_array(tdc_config::$js_files_for_wrapper, array(
 			'jquery',
-			'jquery-ui-core',
-			'jquery-ui-sortable',
-			'jquery-ui-droppable',
+//			'jquery-ui-core',
+//			'jquery-ui-sortable',
+//			'jquery-ui-droppable',
 			'backbone',
 			'underscore'
 		));
@@ -233,9 +265,9 @@ abstract class tdc {
 
 		tdc_util::enqueue_js_files_array(tdc_config::$js_files_for_iframe, array(
 			'jquery',
-			'jquery-ui-core',
-			'jquery-ui-sortable',
-			'jquery-ui-droppable'
+//			'jquery-ui-core',
+//			'jquery-ui-sortable',
+//			'jquery-ui-droppable'
 		));
 
 		wp_enqueue_style('td_composer_edit', TDC_URL . '/td_less_style.css.php?part=iframe_main', false, false);

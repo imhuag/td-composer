@@ -106,7 +106,22 @@ var tdcInnerColumnHandlerUI;
 
                 // Send the event to its 'tdc-inner-column' element
                 tdcInnerColumnHandlerUI._triggerEvent( event );
+            });
 
+
+
+            // Define the events for _$handlerWrapper
+            // Show/hide the mask when the header mask is wider than the element
+
+            tdcInnerColumnHandlerUI._$handlerWrapper.mouseenter(function( event ) {
+
+                event.preventDefault();
+                tdcMaskUI.show();
+
+            }).mouseleave( function( event ) {
+
+                event.preventDefault();
+                tdcMaskUI.hide();
             });
 
 

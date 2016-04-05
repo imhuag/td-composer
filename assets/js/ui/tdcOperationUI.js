@@ -13,6 +13,7 @@
 /* global tdcInnerRowUI:{} */
 /* global tdcInnerColumnUI:{} */
 /* global tdcElementUI:{} */
+/* global tdcDebug:{} */
 
 var tdcOperationUI;
 
@@ -505,65 +506,15 @@ var tdcOperationUI;
                 ! _.isUndefined( $currentElementOver ) &&
                 ! _.isUndefined( $placeholder ) ) {
 
-                var $emptyElement,
-                    $tdcElements = $draggedElement.closest( '.tdc-elements');
-
-
-
-
-
-                // If $draggedElement and $placeholder are siblings, do not continue
-
-                var indexDraggedElement = $tdcElements.children().index( $draggedElement ),
-                    indexPlaceholder = $tdcElements.children().index( $placeholder );
-
-                //tdcDebug.log( indexDraggedElement );
-                //tdcDebug.log( indexPlaceholder );
-
-                if ( -1 !== indexPlaceholder && 1 === Math.abs( indexDraggedElement - indexPlaceholder ) ) {
-                    return;
-                }
-
-
-
-
-
-
-                // An empty element is added to the remaining '.tdc-elements' list, to allow drag&drop operations over it
-                // At drop, any empty element is removed from the target list
-
-                var $childrenElements = $tdcElements.children();
-
-                if ( 1 === $childrenElements.length && ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) ) {
-
-                    // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
-                    var structureClass = '';
-
-                    $tdcInnerColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-inner-column' );
-                    if ( $tdcInnerColumnParentOfDraggedElement.length ) {
-                        structureClass = ' tdc-element-inner-column';
-                    } else {
-                        $tdcColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-column' );
-                        if ( $tdcColumnParentOfDraggedElement.length ) {
-                            structureClass = ' tdc-element-column';
-                        }
-                    }
-                    $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + structureClass + '"></div>' );
-
-                    tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
-
-                    $tdcElements.append( $emptyElement );
-                }
-
-
-
                 // IMPORTANT! The next steps are:
                 //  Step 1. Check the dragged element to see if it's element, inner-column, inner-row, column or row
-                //  Step 2. Replace the placeholder with the dragged element
-                //  Step 3. If the dragged element was element or inner-row, set the css settings of the dragged element, according with the destination position
-                //  Step 4. Remove the empty element from the destination position, if it exists
-                //  Step 5. Change data structure
-                //  Step 6. Here some checks must be done
+                //  Step 2. Check the dragged element and the placeholder are siblings. If they are, do not continue.
+                //  Step 3. Add an empty element (to allow drop over it), if the dragged element is the last element or the last inner row in its container.
+                //  Step 4. Replace the placeholder with the dragged element
+                //  Step 5. If the dragged element was element or inner-row, set the css settings of the dragged element, according with the destination position
+                //  Step 6. Remove the empty element from the destination position, if it exists
+                //  Step 7. Change data structure
+                //  Step 8. Missing! Here some checks must be done
 
                 // Step 1 ----------
 
@@ -571,22 +522,45 @@ var tdcOperationUI;
                     wasInnerColumnDragged = false,
                     wasInnerRowDragged = false,
                     wasColumnDragged = false,
-                    wasRowDragged = false;
+                    wasRowDragged = false,
+
+                    // The current container list of the $draggedElement and of the $placeholder
+                    $parentList;
+
+                if ( wasElementDragged ) {
+                    $parentList = $draggedElement.closest( '.tdc-elements' );
+                }
 
                 if ( ! wasElementDragged ) {
                     wasInnerColumnDragged = tdcOperationUI.isInnerColumnDragged();
+
+                    if ( wasInnerColumnDragged ) {
+                        $parentList = $draggedElement.closest( '.tdc-inner-columns' );
+                    }
                 }
 
                 if ( ! wasInnerColumnDragged ) {
                     wasInnerRowDragged = tdcOperationUI.isInnerRowDragged();
+
+                    if ( wasInnerRowDragged ) {
+                        $parentList = $draggedElement.closest( '.tdc-elements' );
+                    }
                 }
 
                 if ( ! wasInnerRowDragged ) {
                     wasColumnDragged = tdcOperationUI.isColumnDragged();
+
+                    if ( wasColumnDragged ) {
+                        $parentList = $draggedElement.closest( '.tdc-columns' );
+                    }
                 }
 
                 if ( ! wasColumnDragged ) {
                     wasRowDragged = tdcOperationUI.isRowDragged();
+
+                    if ( wasRowDragged ) {
+                        $parentList = $draggedElement.closest( '#tdc-rows' );
+                    }
                 }
 
                 if ( ! wasElementDragged && ! wasInnerColumnDragged && ! wasInnerRowDragged && ! wasColumnDragged && ! wasRowDragged ) {
@@ -600,7 +574,67 @@ var tdcOperationUI;
 
 
 
+
                 // Step 2 ----------
+
+                // If $draggedElement and $placeholder are siblings, do not continue
+
+                if ( ! _.isUndefined( $parentList ) && $parentList.length ) {
+
+                    var indexDraggedElement = $parentList.children().index( $draggedElement ),
+                        indexPlaceholder = $parentList.children().index( $placeholder );
+
+                    //tdcDebug.log( indexDraggedElement );
+                    //tdcDebug.log( indexPlaceholder );
+
+                    if ( -1 !== indexPlaceholder && 1 === Math.abs( indexDraggedElement - indexPlaceholder ) ) {
+
+                        //tdcDebug.log( '$placeholder and $draggedElement: siblings' );
+
+                        return;
+                    }
+
+
+
+                    // Step 3 ----------
+
+                    // An empty element is added to the remaining '.tdc-elements' list, to allow drag&drop operations over it
+                    // At drop, any empty element is removed from the target list
+
+                    if ( ( wasElementDragged || wasInnerRowDragged ) )  {
+
+                        var $emptyElement,
+                            $childrenElements = $parentList.children();
+
+                        if ( 1 === $childrenElements.length ) {
+
+                            // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
+                            var structureClass = '';
+
+                            $tdcInnerColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-inner-column' );
+                            if ( $tdcInnerColumnParentOfDraggedElement.length ) {
+                                structureClass = ' tdc-element-inner-column';
+                            } else {
+                                $tdcColumnParentOfDraggedElement = $draggedElement.closest( '.tdc-column' );
+                                if ( $tdcColumnParentOfDraggedElement.length ) {
+                                    structureClass = ' tdc-element-column';
+                                }
+                            }
+                            $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + structureClass + '"></div>' );
+
+                            tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
+
+                            $parentList.append( $emptyElement );
+                        }
+                    }
+                }
+
+
+
+
+
+
+                // Step 4 ----------
                 // The placeholder is replaced by the dragged element
 
                 $placeholder.replaceWith( $draggedElement );
@@ -609,7 +643,7 @@ var tdcOperationUI;
 
 
 
-                // Step 3 ----------
+                // Step 5 ----------
                 // Update the 'tdc-element-inner-column' or the 'tdc-element-column' of the dragged element (AFTER IT HAS BEEN MOVED TO THE DROP POSITION)
                 // An element can be dragged from:
                 //  1. column to column
@@ -642,7 +676,9 @@ var tdcOperationUI;
 
 
 
-                // Step 4 ----------
+
+
+                // Step 6 ----------
                 // Remove the empty element if exists (after the dragged element has been dragged)
 
                 var $prevDraggedElement = $draggedElement.prev();
@@ -657,7 +693,7 @@ var tdcOperationUI;
 
 
 
-                // Step 5 ----------
+                // Step 7 ----------
                 // Change the data structure
                 // Here any UI changes has been done
 

@@ -8,6 +8,7 @@
 
 /* global tdcJobManager:{} */
 /* global tdcShortcodeParser:{} */
+/* global tdcOperationUI:{} */
 
 var tdcIFrameData,
     tdcDebug;
@@ -81,21 +82,17 @@ var tdcIFrameData,
 
             tdcIFrameData.TdcModel = Backbone.Model.extend({
 
-                getShortcodeRender: function( destinationModel, columns, newPosition ) {
+                // Get the shortcode rendered
+                getShortcodeRender: function( columns ) {
 
                     var model = this,
 
-                        parentModel = model.get( 'parentModel' ),
-                        sourceChildCollection = parentModel.get( 'childCollection' );
+                        // A builder shortcode function must be used instead
+                        shortcode = model.get( 'content' ),
 
+                        // Define new empty job
+                        newJob = new tdcJobManager.job();
 
-                    // Get the shortcode rendered and change the structure
-
-                    // A builder shortcode function must be used instead
-                    var shortcode = model.get( 'content' ),
-
-                    // Define new empty job
-                    newJob = new tdcJobManager.job();
 
                     newJob.shortcode = shortcode;
                     newJob.columns = columns;
@@ -109,18 +106,8 @@ var tdcIFrameData,
                         // Important! It should have this property
                         if ( _.has( data, 'replyHtml' ) ) {
 
-                            // Change the model structure
-                            var parentModel = model.get( 'parentModel' ),
-                                destinationChildCollection = destinationModel.get( 'childCollection' );
-
-                                // Update the 'html' attribute (This will trigger an event)
-                                model.set( 'html', data.replyHtml );
-
-                                sourceChildCollection.remove( model );
-                                destinationChildCollection.add( model, { at: newPosition } );
-                                model.set( 'parentModel', destinationModel );
-
-                            //tdcDebug.log(destinationChildCollection);
+                            // Update the 'html' attribute (This will trigger an event)
+                            model.set( 'html', data.replyHtml );
                         }
                     };
 
@@ -146,9 +133,9 @@ var tdcIFrameData,
                         tdcDebug.log( data.error );
                     }
 
-                    if ( !_.isUndefined( data.getShortcode ) ) {
-                        tdcDebug.log( data.getShortcode );
-                    }
+                    //if ( !_.isUndefined( data.getShortcode ) ) {
+                    //    tdcDebug.log( data.getShortcode );
+                    //}
 
 
 
@@ -165,13 +152,10 @@ var tdcIFrameData,
                         tdcDebug.log( data.error );
                     }
 
-                    if ( !_.isUndefined( data.getShortcode ) ) {
-                        tdcDebug.log( data.getShortcode );
-                    }
+                    //if ( !_.isUndefined( data.getShortcode ) ) {
+                    //    tdcDebug.log( data.getShortcode );
+                    //}
 
-
-
-                    tdcDebug.log( tdcIFrameData.tdcRows.models );
                 }
             });
 
@@ -617,11 +601,13 @@ var tdcIFrameData,
 
             // The destination of the $draggedElement
             var sourceModel,
+                sourceModelAttrs,
+
 
                 destinationModel,
                 destinationModelAttrs,
+                destinationColParam = 1,
 
-                colParam = 1,
 
                 sourceChildCollection,
                 destinationChildCollection,
@@ -629,6 +615,8 @@ var tdcIFrameData,
                 newPosition = $draggedElement.prev().length;
 
             if ( whatWasDragged.wasElementDragged ) {
+
+                tdcDebug.log( 'case 1' );
 
                 sourceModel = elementModel.get( 'parentModel' );
                 destinationModel = tdcIFrameData._getDestinationModel( [ '.tdc-inner-column', '.tdc-column' ] );
@@ -653,22 +641,42 @@ var tdcIFrameData,
                     //}
 
                     if ( _.has( destinationModelAttrs, 'width' ) ) {
-                        colParam = destinationModelAttrs.width;
+                        destinationColParam = destinationModelAttrs.width;
                     }
 
                     //tdcDebug.log( colParam );
 
                     // The column param filter
-                    switch ( colParam ) {
-                        case '1/3' : colParam = 1; break;
-                        case '2/3' : colParam = 2; break;
-                        case '3/3' : colParam = 3; break;
+                    switch ( destinationColParam ) {
+                        case '1/3' : destinationColParam = 1; break;
+                        case '2/3' : destinationColParam = 2; break;
+                        case '3/3' : destinationColParam = 3; break;
                     }
 
-                    elementModel.getShortcodeRender( destinationModel, colParam, newPosition );
+                    // Change the model structure
+                    // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
+                    // In this case, we initialize it at an empty collection
+                    if ( destinationModel.has( 'childCollection' ) ) {
+                        destinationChildCollection = destinationModel.get( 'childCollection' );
+                    } else {
+                        destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
+                        destinationChildCollection = destinationModel.get( 'childCollection' );
+                    }
+
+                    sourceChildCollection = sourceModel.get( 'childCollection' );
+
+                    sourceChildCollection.remove( elementModel );
+                    destinationChildCollection.add( elementModel, { at: newPosition } );
+
+                    elementModel.set( 'parentModel', destinationModel );
+
+                    // Get the shortcode rendered
+                    elementModel.getShortcodeRender( destinationColParam );
                 }
 
             } else if ( whatWasDragged.wasInnerRowDragged ) {
+
+                tdcDebug.log( 'case 2' );
 
                 sourceModel = elementModel.get( 'parentModel' );
                 destinationModel = tdcIFrameData._getDestinationModel( [ '.tdc-column' ] );
@@ -685,31 +693,28 @@ var tdcIFrameData,
 
                 } else {
 
-                    destinationModelAttrs = destinationModel.get( 'attrs' );
+                    //tdcIFrameData._changeInnerRowData( elementModel, sourceModel, destinationModel, newPosition );
 
-                    // @todo This check should be removed - the content should have consistency
-                    //if ( ! _.has( destinationModelAttrs, 'width ' ) ) {
-                    //    colParam = destinationModelAttrs.width;
-                    //}
-
-                    if ( _.has( destinationModelAttrs, 'width' ) ) {
-                        colParam = destinationModelAttrs.width;
+                    // Change the model structure
+                    // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
+                    // In this case, we initialize it at an empty collection
+                    if ( destinationModel.has( 'childCollection' ) ) {
+                        destinationChildCollection = destinationModel.get( 'childCollection' );
+                    } else {
+                        destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
+                        destinationChildCollection = destinationModel.get( 'childCollection' );
                     }
 
-                    //tdcDebug.log( colParam );
-
-                    // The column param filter
-                    switch ( colParam ) {
-                        case '1/3' : colParam = 1; break;
-                        case '2/3' : colParam = 2; break;
-                        case '3/3' : colParam = 3; break;
-                    }
-
-                    // @todo Other case should be implemented here
-                    //elementModel.getShortcodeRender( destinationModel, colParam, newPosition );
+                    // Move the entire structure
+                    sourceChildCollection = sourceModel.get( 'childCollection' );
+                    sourceChildCollection.remove( elementModel );
+                    destinationChildCollection.add( elementModel, { at: newPosition } );
+                    elementModel.set( 'parentModel', destinationModel );
                 }
 
             } else if ( whatWasDragged.wasInnerColumnDragged || whatWasDragged.wasColumnDragged ) {
+
+                tdcDebug.log( 'case 3' );
 
                 sourceModel = elementModel.get( 'parentModel' );
                 sourceChildCollection = sourceModel.get( 'childCollection' );
@@ -718,12 +723,174 @@ var tdcIFrameData,
 
             } else if ( whatWasDragged.wasRowDragged ) {
 
+                tdcDebug.log( 'case 4' );
+
                 tdcIFrameData.tdcRows.remove( elementModel );
                 tdcIFrameData.tdcRows.add( elementModel, { at: newPosition } );
             }
 
             tdcDebug.log( tdcIFrameData.tdcRows );
         },
+
+
+
+
+
+        _getColParam: function( model ) {
+            var modelAttrs = model.get( 'attrs' ),
+                colParam = 1;
+
+            if ( _.has( modelAttrs, 'width' ) ) {
+                colParam = modelAttrs.width;
+            }
+
+            // The source column param filter
+            switch ( colParam ) {
+                case '1/3' : colParam = 1; break;
+                case '2/3' : colParam = 2; break;
+                case '3/3' : colParam = 3; break;
+                case '1/2' : colParam = 1; break;
+            }
+
+            return colParam;
+        },
+
+
+
+
+
+        //_changeInnerRowDOM: function( colParam ) {
+        //
+        //    if ( ! tdcOperationUI.isInnerRowDragged() ) {
+        //        return;
+        //    }
+        //
+        //    var $draggedElement = tdcOperationUI.getDraggedElement(),
+        //        $innerColumnsElements = $draggedElement.find( '.tdc-inner-column' );
+        //
+        //    if ( $innerColumnsElements.length ) {
+        //        var $lastInnerColumn = jQuery( $innerColumnsElements[ colParam - 1 ] );
+        //
+        //        if ( $lastInnerColumn.length ) {
+        //
+        //            var $lastInnerColumnTdcElements = $lastInnerColumn.find( '.tdc-elements' );
+        //
+        //            for ( var i = colParam; i < $innerColumnsElements.length; i++ ) {
+        //                var $currentInnerColumn = jQuery( $innerColumnsElements[ i ] ),
+        //                    $elements = $currentInnerColumn.find( '.tdc-element' );
+        //
+        //                if ( $elements.length ) {
+        //                    tdcDebug.log( $elements.length );
+        //
+        //                    $elements.each( function( index, $element ) {
+        //                        $lastInnerColumnTdcElements.append( $element );
+        //                    });
+        //                }
+        //
+        //                $currentInnerColumn.remove();
+        //            }
+        //        }
+        //    }
+        //},
+        //
+        //
+        //
+        //
+        //
+        //
+        //_changeInnerRowData: function( elementModel, sourceModel, destinationModel, newPosition ) {
+        //
+        //    var sourceColParam = tdcIFrameData._getColParam( sourceModel ),
+        //        destinationColParam = tdcIFrameData._getColParam( destinationModel ),
+        //        elementChildCollection = elementModel.get( 'childCollection' ),
+        //        sourceChildCollection = sourceModel.get( 'childCollection' ),
+        //        destinationChildCollection = destinationModel.get( 'childCollection' );
+        //
+        //    //tdcDebug.log( 'sourceColParam : ' + sourceColParam );
+        //    //tdcDebug.log( 'destinationColParam : ' + destinationColParam );
+        //
+        //
+        //    // Move the entire structure
+        //    sourceChildCollection = sourceModel.get( 'childCollection' );
+        //    sourceChildCollection.remove( elementModel );
+        //    destinationChildCollection.add( elementModel, { at: newPosition } );
+        //    elementModel.set( 'parentModel', destinationModel );
+        //
+        //
+        //    tdcDebug.log( sourceColParam + ' / ' + destinationColParam );
+        //
+        //    // Check the elements of the structure. Maybe they must be redistributed
+        //    if ( sourceColParam !== destinationColParam ) {
+        //
+        //        if ( elementChildCollection.length > destinationColParam ) {
+        //
+        //            tdcDebug.log( elementChildCollection.length + ' : ' + destinationColParam );
+        //
+        //            var lastInnerColumnModel = elementChildCollection.at( destinationColParam - 1 ),
+        //                lastInnerColumnChildCollection = lastInnerColumnModel.get( 'childCollection' );
+        //
+        //            for ( var i = destinationColParam; i < elementChildCollection.length; i++ ) {
+        //                var currentInnerColumnModel = elementChildCollection.at( i ),
+        //                    currentInnerColumnChildCollection = currentInnerColumnModel.get( 'childCollection' );
+        //
+        //                for ( var j = 0; j < currentInnerColumnChildCollection.length; j++ ) {
+        //                    var elementModelOfInnerColumn = currentInnerColumnChildCollection.remove( currentInnerColumnChildCollection.at(0) );
+        //                    lastInnerColumnChildCollection.add( elementModelOfInnerColumn );
+        //                    elementModelOfInnerColumn.set( 'parentModel', lastInnerColumnModel );
+        //
+        //                    //var colParam = tdcIFrameData._getColParam( lastInnerColumnModel );
+        //
+        //                    //tdcDebug.log( colParam );
+        //                    //tdcDebug.log( elementModelOfInnerColumn );
+        //
+        //                    //elementModelOfInnerColumn.getShortcodeRender( colParam );
+        //                }
+        //
+        //                // Remove the inner column model
+        //                elementChildCollection.remove( currentInnerColumnModel );
+        //            }
+        //
+        //            tdcDebug.log( 'width: ' + lastInnerColumnModel.get( 'width' ) );
+        //
+        //            lastInnerColumnModel.set({ 'width': destinationColParam });
+        //
+        //            var data = {
+        //                error: undefined,
+        //                getShortcode: ''
+        //            };
+        //
+        //            tdcIFrameData._checkModelData( lastInnerColumnModel.get( 'parentModel' ), data );
+        //
+        //            if ( !_.isUndefined( data.error ) ) {
+        //                tdcDebug.log( data.error );
+        //            }
+        //
+        //            if ( !_.isUndefined( data.getShortcode ) ) {
+        //
+        //                lastInnerColumnModel.get( 'parentModel' ).set( 'content', data.getShortcode );
+        //                tdcDebug.log( data.getShortcode );
+        //            }
+        //
+        //            //lastInnerColumnModel.get( 'parentModel' ).getShortcodeRender( destinationColParam );
+        //
+        //
+        //            //tdcIFrameData._changeInnerRowDOM( destinationColParam );
+        //
+        //        } else if ( elementChildCollection.length < destinationColParam ) {
+        //
+        //            var diff = destinationColParam - elementChildCollection.length;
+        //
+        //            while ( diff > 0 ) {
+        //                diff--;
+        //            }
+        //
+        //        }
+        //    }
+        //},
+
+
+
+
 
 
         /**

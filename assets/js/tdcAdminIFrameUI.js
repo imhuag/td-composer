@@ -103,7 +103,7 @@ var tdcAdminIFrameUI;
 
 
 
-                        // all tdc-elements not already moved to tdc-elements, moved to their new tdc-elements (columns can have their elements, which are not inside of an inner row > inner column)
+                        // all tdc-element not already moved to tdc-elements, moved to their new tdc-elements (columns can have their elements, which are not inside of an inner row > inner column)
                         iframeContents.find( '.tdc-column' ).each(function( index, el ) {
 
                             var tdcElement = jQuery( el).find( '.tdc-element, .tdc-element-inner-row');
@@ -130,6 +130,30 @@ var tdcAdminIFrameUI;
                                     innerMostElement.append( '<div class="tdc-elements"></div>' );
                                 }
                             }
+                        });
+
+
+                        // all empty tdc-elements will have an empty element
+                        iframeContents.find( '.tdc-elements:empty' ).each(function( index, element ) {
+
+                            // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
+                            var structureClass = '',
+                                $element = jQuery( element );
+
+                            var $tdcInnerColumnParentOfDraggedElement = $element.closest( '.tdc-inner-column' );
+                            if ( $tdcInnerColumnParentOfDraggedElement.length ) {
+                                structureClass = ' tdc-element-inner-column';
+                            } else {
+                                var $tdcColumnParentOfDraggedElement = $element.closest( '.tdc-column' );
+                                if ( $tdcColumnParentOfDraggedElement.length ) {
+                                    structureClass = ' tdc-element-column';
+                                }
+                            }
+                            var $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + structureClass + '"></div>' );
+
+                            tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
+
+                            $element.append( $emptyElement );
                         });
                     };
 

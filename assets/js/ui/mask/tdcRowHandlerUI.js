@@ -109,6 +109,22 @@ var tdcRowHandlerUI;
 
 
 
+            // Define the events for _$handlerWrapper
+            // Show/hide the mask when the header mask is wider than the element
+
+            tdcRowHandlerUI._$handlerWrapper.mouseenter(function( event ) {
+
+                event.preventDefault();
+                tdcMaskUI.show();
+
+            }).mouseleave( function( event ) {
+
+                event.preventDefault();
+                tdcMaskUI.hide();
+            });
+
+
+
             // Define the events the _$handlerEdit object will respond to
 
             tdcRowHandlerUI._$handlerEdit.click( function( event ) {
