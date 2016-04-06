@@ -48,6 +48,8 @@ var tdcRowHandlerUI;
 
         _$handlerEdit: undefined,
 
+        _$breadcrumbRef: undefined,
+
         // Initialization flag
         _isInitialized: false,
 
@@ -74,6 +76,8 @@ var tdcRowHandlerUI;
             tdcRowHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$wrapper.append( $handlerWrapper );
+
+            tdcRowHandlerUI._$breadcrumbRef = jQuery( '.tdc-breadcrumb-row:first' );
 
 
 
@@ -156,6 +160,24 @@ var tdcRowHandlerUI;
         },
 
 
+        ///**
+        // * Set the element ( 'tdc-row' ) where this handler will send its proper events
+        // *
+        // * @param $element
+        // */
+        //setElement: function( $element ) {
+        //
+        //    var $elementRow = $element.closest( '.' + tdcRowHandlerUI._elementCssClass );
+        //    if ( $elementRow.length ) {
+        //        tdcRowHandlerUI.$elementRow = $elementRow;
+        //        tdcRowHandlerUI._$handlerWrapper.show();
+        //    } else {
+        //        tdcRowHandlerUI._$handlerWrapper.hide();
+        //    }
+        //},
+
+
+
         /**
          * Set the element ( 'tdc-row' ) where this handler will send its proper events
          *
@@ -163,13 +185,59 @@ var tdcRowHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementRow = $element.closest( '.' + tdcRowHandlerUI._elementCssClass );
-            if ( $elementRow.length ) {
+            var $elementRow = tdcRowHandlerUI._checkRow( $element );
+
+            if ( ! _.isUndefined( $elementRow ) ) {
                 tdcRowHandlerUI.$elementRow = $elementRow;
                 tdcRowHandlerUI._$handlerWrapper.show();
             } else {
                 tdcRowHandlerUI._$handlerWrapper.hide();
             }
+        },
+
+
+        /**
+         * Set the row breadcrumb
+         *
+         * @param $element
+         */
+        setBreadcrumb: function( $element ) {
+            var $elementRow = tdcRowHandlerUI._checkRow( $element );
+
+            if ( ! _.isUndefined( $elementRow ) ) {
+                tdcRowHandlerUI._$breadcrumbRef.show();
+            } else if ( tdcRowHandlerUI._isRow( $element ) ) {
+                tdcRowHandlerUI._$breadcrumbRef.show();
+            } else {
+                tdcRowHandlerUI._$breadcrumbRef.hide();
+            }
+        },
+
+
+        /**
+         * Check the $element param is child of a row. If it is, return the row
+         *
+         * @param $element
+         * @returns {*}
+         * @private
+         */
+        _checkRow: function( $element ) {
+            var $elementRow = $element.closest( '.' + tdcRowHandlerUI._elementCssClass );
+            if ( $elementRow.length ) {
+                return $elementRow;
+            }
+        },
+
+
+        /**
+         * Check the $element is row
+         *
+         * @param $element
+         * @returns {*}
+         * @private
+         */
+        _isRow: function( $element ) {
+            return $element.hasClass( tdcRowHandlerUI._elementCssClass );
         },
 
 

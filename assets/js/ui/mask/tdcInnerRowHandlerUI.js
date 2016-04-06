@@ -25,10 +25,12 @@ var tdcInnerRowHandlerUI;
     tdcInnerRowHandlerUI = {
 
         // The css class of the handler element
-        _elementCssClass: 'tdc-inner-row',
+        //_elementCssClass: 'tdc-inner-row',
+        _elementCssClass: 'tdc-element-inner-row',
 
         //_handlerId: tdcInnerColumnHandlerUI._elementCssClass,
-        _handlerId: 'tdc-inner-row',
+        //_handlerId: 'tdc-inner-row',
+        _handlerId: 'tdc-element-inner-row',
 
         // Handler text
         _handlerText: 'Inner Row',
@@ -48,6 +50,8 @@ var tdcInnerRowHandlerUI;
         _$handlerDrag: undefined,
 
         _$handlerEdit: undefined,
+
+        _$breadcrumbRef: undefined,
 
         // Initialization flag
         _isInitialized: false,
@@ -75,6 +79,8 @@ var tdcInnerRowHandlerUI;
             tdcInnerRowHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$wrapper.append( $handlerWrapper );
+
+            tdcInnerRowHandlerUI._$breadcrumbRef = jQuery( '.tdc-breadcrumb-inner-row:first' );
 
 
 
@@ -163,13 +169,59 @@ var tdcInnerRowHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementInnerRow = $element.closest( '.' + tdcInnerRowHandlerUI._elementCssClass );
-            if ( $elementInnerRow.length ) {
+            var $elementInnerRow = tdcInnerRowHandlerUI._checkInnerRow( $element );
+
+            if ( ! _.isUndefined( $elementInnerRow ) ) {
                 tdcInnerRowHandlerUI.$elementInnerRow = $elementInnerRow;
                 tdcInnerRowHandlerUI._$handlerWrapper.show();
             } else {
                 tdcInnerRowHandlerUI._$handlerWrapper.hide();
             }
+        },
+
+
+        /**
+         * Set the inner row breadcrumb
+         *
+         * @param $element
+         */
+        setBreadcrumb: function( $element ) {
+            var $elementInnerRow = tdcInnerRowHandlerUI._checkInnerRow( $element );
+
+            if ( ! _.isUndefined( $elementInnerRow ) ) {
+                tdcInnerRowHandlerUI._$breadcrumbRef.show();
+            } else if ( tdcInnerRowHandlerUI._isInnerRow( $element ) ) {
+                tdcInnerRowHandlerUI._$breadcrumbRef.show();
+            } else {
+                tdcInnerRowHandlerUI._$breadcrumbRef.hide();
+            }
+        },
+
+
+        /**
+         * Check the $element param is child of an inner row. If it is, return the inner row
+         *
+         * @param $element
+         * @returns {*}
+         * @private
+         */
+        _checkInnerRow: function( $element ) {
+            var $elementInnerRow = $element.closest( '.' + tdcInnerRowHandlerUI._elementCssClass );
+            if ( $elementInnerRow.length ) {
+                return $elementInnerRow;
+            }
+        },
+
+
+        /**
+         * Check the $element is inner row
+         *
+         * @param $element
+         * @returns {*}
+         * @private
+         */
+        _isInnerRow: function( $element ) {
+            return $element.hasClass( tdcInnerRowHandlerUI._elementCssClass );
         },
 
 

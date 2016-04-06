@@ -136,6 +136,13 @@ var tdcMaskUI;
             if ( ! _.isUndefined( tdcMaskUI.$wrapper ) ) {
                 tdcMaskUI.$wrapper.hide();
             }
+        },
+
+
+        setBreadcrumb: function( $element ) {
+            _.map( tdcMaskUI._handlers, function( handler, handlerId ) {
+                handler.setBreadcrumb( $element );
+            });
         }
     };
 

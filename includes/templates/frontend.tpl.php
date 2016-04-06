@@ -52,9 +52,21 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<!-- breadcrumbs browser -->
 		<div class="tdc-breadcrumbs">
 			<div class="tdc-breadcrumbs-path">
-				<a href="#">row</a>
-				<span class="tdc-breadcrumb-arrow"></span>
-				<a href="#">column</a>
+				<div class="tdc-breadcrumb-row">
+					<a href="#">row</a>
+				</div>
+				<div class="tdc-breadcrumb-column">
+					<span class="tdc-breadcrumb-arrow"></span>
+					<a href="#">column</a>
+				</div>
+				<div class="tdc-breadcrumb-inner-row">
+					<span class="tdc-breadcrumb-arrow"></span>
+					<a href="#">inner-row</a>
+				</div>
+				<div class="tdc-breadcrumb-inner-column">
+					<span class="tdc-breadcrumb-arrow"></span>
+					<a href="#">inner-column</a>
+				</div>
 			</div>
 			<div class="tdc-current-element">
 				Block 14

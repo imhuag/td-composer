@@ -52,6 +52,8 @@ var tdcInnerRowUI;
 
                     tdcMaskUI.hide();
 
+                    tdcMaskUI.setBreadcrumb( $element );
+
                 }).mouseup(function( event ) {
                     //tdcDebug.log( 'inner row element mouse up' );
 

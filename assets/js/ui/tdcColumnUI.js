@@ -56,6 +56,8 @@ var tdcColumnUI;
                     tdcColumnUI.positionColumnPlaceholder( event );
 
                     tdcMaskUI.hide();
+                    
+                    tdcMaskUI.setBreadcrumb( $element );
 
                 }).mouseup(function( event ) {
 

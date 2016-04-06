@@ -49,6 +49,8 @@ var tdcColumnHandlerUI;
 
         _$handlerEdit: undefined,
 
+        _$breadcrumbRef: undefined,
+
         // Initialization flag
         _isInitialized: false,
 
@@ -76,6 +78,8 @@ var tdcColumnHandlerUI;
             tdcColumnHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$wrapper.append( $handlerWrapper );
+
+            tdcColumnHandlerUI._$breadcrumbRef = jQuery( '.tdc-breadcrumb-column:first' );
 
 
 
@@ -158,6 +162,23 @@ var tdcColumnHandlerUI;
         },
 
 
+        ///**
+        // * Set the element ( 'tdc-column' ) where this handler will send its proper events
+        // *
+        // * @param $element
+        // */
+        //setElement: function( $element ) {
+        //
+        //    var $elementColumn = $element.closest( '.' + tdcColumnHandlerUI._elementCssClass );
+        //    if ( $elementColumn.length ) {
+        //        tdcColumnHandlerUI.$elementColumn = $elementColumn;
+        //        tdcColumnHandlerUI._$handlerWrapper.show();
+        //    } else {
+        //        tdcColumnHandlerUI._$handlerWrapper.hide();
+        //    }
+        //},
+
+
         /**
          * Set the element ( 'tdc-column' ) where this handler will send its proper events
          *
@@ -165,14 +186,61 @@ var tdcColumnHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementColumn = $element.closest( '.' + tdcColumnHandlerUI._elementCssClass );
-            if ( $elementColumn.length ) {
+            var $elementColumn = tdcColumnHandlerUI._checkColumn( $element );
+
+            if ( ! _.isUndefined( $elementColumn ) ) {
                 tdcColumnHandlerUI.$elementColumn = $elementColumn;
                 tdcColumnHandlerUI._$handlerWrapper.show();
             } else {
                 tdcColumnHandlerUI._$handlerWrapper.hide();
             }
         },
+
+
+        /**
+         * Set the column breadcrumb
+         *
+         * @param $element
+         */
+        setBreadcrumb: function( $element ) {
+            var $elementColumn = tdcColumnHandlerUI._checkColumn( $element );
+
+            if ( ! _.isUndefined( $elementColumn ) ) {
+                tdcColumnHandlerUI._$breadcrumbRef.show();
+            } else if ( tdcColumnHandlerUI._isColumn( $element ) ) {
+                tdcColumnHandlerUI._$breadcrumbRef.show();
+            } else {
+                tdcColumnHandlerUI._$breadcrumbRef.hide();
+            }
+        },
+
+
+        /**
+         * Check the $element is column
+         *
+         * @param $element
+         * @returns {*}
+         * @private
+         */
+        _isColumn: function( $element ) {
+            return $element.hasClass( tdcColumnHandlerUI._elementCssClass );
+        },
+
+
+        /**
+         * Check the $element param is child of a column. If it is, return the column
+         *
+         * @param $element
+         * @returns {*}
+         * @private
+         */
+        _checkColumn: function( $element ) {
+            var $elementColumn = $element.closest( '.' + tdcColumnHandlerUI._elementCssClass );
+            if ( $elementColumn.length ) {
+                return $elementColumn;
+            }
+        },
+
 
 
         /**

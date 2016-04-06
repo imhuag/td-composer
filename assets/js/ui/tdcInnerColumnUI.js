@@ -54,6 +54,8 @@ var tdcInnerColumnUI;
 
                     tdcMaskUI.hide();
 
+                    tdcMaskUI.setBreadcrumb( $element );
+
                 }).mouseup(function( event ) {
 
                     // Respond only if dragged element is 'tdc-inner-column'

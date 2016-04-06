@@ -49,6 +49,9 @@ var tdcInnerColumnHandlerUI;
 
         _$handlerEdit: undefined,
 
+        _$breadcrumbRef: undefined,
+
+
         // Initialization flag
         _isInitialized: false,
 
@@ -75,6 +78,8 @@ var tdcInnerColumnHandlerUI;
             tdcInnerColumnHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$wrapper.append( $handlerWrapper );
+
+            tdcInnerColumnHandlerUI._$breadcrumbRef = jQuery( '.tdc-breadcrumb-inner-column:first' );
 
 
 
@@ -158,6 +163,24 @@ var tdcInnerColumnHandlerUI;
         },
 
 
+        ///**
+        // * Set the element ( 'tdc-inner-column' ) where this handler will send its proper events
+        // *
+        // * @param $element
+        // */
+        //setElement: function( $element ) {
+        //
+        //    var $elementInnerColumn = $element.closest( '.' + tdcInnerColumnHandlerUI._elementCssClass );
+        //    if ( $elementInnerColumn.length ) {
+        //        tdcInnerColumnHandlerUI.$elementInnerColumn = $elementInnerColumn;
+        //        tdcInnerColumnHandlerUI._$handlerWrapper.show();
+        //    } else {
+        //        tdcInnerColumnHandlerUI._$handlerWrapper.hide();
+        //    }
+        //},
+
+
+
         /**
          * Set the element ( 'tdc-inner-column' ) where this handler will send its proper events
          *
@@ -165,13 +188,59 @@ var tdcInnerColumnHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementInnerColumn = $element.closest( '.' + tdcInnerColumnHandlerUI._elementCssClass );
-            if ( $elementInnerColumn.length ) {
+            var $elementInnerColumn = tdcInnerColumnHandlerUI._inInnerColumn( $element );
+
+            if ( ! _.isUndefined( $elementInnerColumn ) ) {
                 tdcInnerColumnHandlerUI.$elementInnerColumn = $elementInnerColumn;
                 tdcInnerColumnHandlerUI._$handlerWrapper.show();
             } else {
                 tdcInnerColumnHandlerUI._$handlerWrapper.hide();
             }
+        },
+
+
+        /**
+         * Set the inner column breadcrumb
+         *
+         * @param $element
+         */
+        setBreadcrumb: function( $element ) {
+            var $elementInnerColumn = tdcInnerColumnHandlerUI._inInnerColumn( $element );
+
+            if ( ! _.isUndefined( $elementInnerColumn ) ) {
+                tdcInnerColumnHandlerUI._$breadcrumbRef.show();
+            } else if ( tdcInnerColumnHandlerUI._isInnerColumn( $element ) ) {
+                tdcInnerColumnHandlerUI._$breadcrumbRef.show();
+            } else {
+                tdcInnerColumnHandlerUI._$breadcrumbRef.hide();
+            }
+        },
+
+
+        /**
+         * Check the $element param is child of an inner column. If it is, return the inner column
+         *
+         * @param $element
+         * @returns {*}
+         * @private
+         */
+        _inInnerColumn: function( $element ) {
+            var $elementInnerColumn = $element.closest( '.' + tdcInnerColumnHandlerUI._elementCssClass );
+            if ( $elementInnerColumn.length ) {
+                return $elementInnerColumn;
+            }
+        },
+
+
+        /**
+         * Check the $element is inner column
+         *
+         * @param $element
+         * @returns {*}
+         * @private
+         */
+        _isInnerColumn: function( $element ) {
+            return $element.hasClass( tdcInnerColumnHandlerUI._elementCssClass );
         },
 
 
