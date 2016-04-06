@@ -38,7 +38,33 @@ var tdcIFrameData,
             1: ['vc_column'],
             2: ['vc_row_inner'],     // 2+4
             3: ['vc_column_inner'],
-            4: ['td_block_1', 'td_block_2', 'td_block_3', 'td_block_4', 'td_block_6', 'td_block_weather', 'vc_column_text']
+            4: ['td_block_1', // @todo These will be completed by the mapped shortcodes
+                'td_block_2',
+                'td_block_3',
+                'td_block_4',
+                'td_block_5',
+                'td_block_6',
+                'td_block_7',
+                'td_block_8',
+                'td_block_9',
+                'td_block_10',
+                'td_block_11',
+                'td_block_12',
+                'td_block_13',
+                'td_block_14',
+                'td_block_15',
+                'td_block_16',
+                'td_block_17',
+                'td_block_18',
+                'td_block_19',
+                'td_block_20',
+                'td_block_21',
+                'td_block_22',
+                'td_block_23',
+                'td_block_24',
+                'td_block_25',
+                'td_block_weather',
+                'vc_column_text']
         },
 
         _isInitialized: false,
@@ -54,25 +80,26 @@ var tdcIFrameData,
             tdcIFrameData.iframeContents = iframeContents;
 
             tdcIFrameData._defineStructuredData();
-            tdcIFrameData._initStructuredData();
 
+            if ( true === tdcIFrameData._initStructuredData() ) {
 
+                var errors = {};
 
+                tdcIFrameData.bindViewsModelsWrappers(errors);
 
+                if (!_.isEmpty(errors)) {
+                    for (var prop in errors) {
+                        tdcDebug.log(errors[prop]);
+                    }
 
-
-            var errors = {};
-
-            tdcIFrameData.bindViewsModelsWrappers( errors );
-
-            if ( ! _.isEmpty( errors ) ) {
-                for ( var prop in errors ) {
-                    tdcDebug.log( errors[ prop ] );
+                    alert('Errors happened during tdcIframeData.init() -> bindViewsModelsWrappers()! Errors in console ...');
+                    return;
                 }
-            }
 
-            tdcDebug.log( tdcIFrameData.tdcRows.models );
-            tdcIFrameData._isInitialized = true;
+                tdcDebug.log(tdcIFrameData.tdcRows.models);
+
+                tdcIFrameData._isInitialized = true;
+            }
         },
 
 
@@ -80,49 +107,65 @@ var tdcIFrameData,
 
         _defineStructuredData: function() {
 
+            if ( tdcIFrameData._isInitialized ) {
+                return;
+            }
+
             tdcIFrameData.TdcModel = Backbone.Model.extend({
 
                 // Get the shortcode rendered
                 getShortcodeRender: function( columns ) {
 
-                    var model = this,
+                    var model = this;
 
-                        // A builder shortcode function must be used instead
-                        shortcode = model.get( 'content' ),
+                    var data = {
+                        error: undefined,
+                        getShortcode: ''
+                    };
+
+                    // Get the shortcode using the _checkModelData builder function
+                    tdcIFrameData._checkModelData( model, data );
+
+                    if ( ! _.isUndefined( data.getShortcode ) ) {
+
+                        tdcDebug.log( data.getShortcode );
 
                         // Define new empty job
-                        newJob = new tdcJobManager.job();
+                        var newJob = new tdcJobManager.job();
+
+                        newJob.shortcode = data.getShortcode;
+                        newJob.columns = columns;
+
+                        newJob.liveViewId = 'test';
+
+                        newJob.success = function( data ) {
+
+                            tdcDebug.log( data );
+
+                            // Important! It should have this property
+                            if ( _.has( data, 'replyHtml' ) ) {
+
+                                // Update the 'html' attribute (This will trigger an event)
+                                model.set( 'html', data.replyHtml );
+                            }
+                        };
+
+                        newJob.error = function( job, errorMsg ) {
+                            tdcDebug.log( errorMsg );
+                            tdcDebug.log( job );
+                        };
+
+                        tdcJobManager.addJob( newJob );
+                    }
 
 
-                    newJob.shortcode = shortcode;
-                    newJob.columns = columns;
-
-                    newJob.liveViewId = 'test';
-
-                    newJob.success = function( data ) {
-
-                        tdcDebug.log( data );
-
-                        // Important! It should have this property
-                        if ( _.has( data, 'replyHtml' ) ) {
-
-                            // Update the 'html' attribute (This will trigger an event)
-                            model.set( 'html', data.replyHtml );
-                        }
-                    };
-
-                    newJob.error = function( job, errorMsg ) {
-                        tdcDebug.log( errorMsg );
-                        tdcDebug.log( job );
-                    };
-
-                    tdcJobManager.addJob( newJob );
 
 
+                    // Just some checks!
 
                     // Get the shortcode of the moved model
 
-                    var data = {
+                    data = {
                         error: undefined,
                         getShortcode: ''
                     };
@@ -214,6 +257,10 @@ var tdcIFrameData,
 
         _initStructuredData: function() {
 
+            if ( tdcIFrameData._isInitialized ) {
+                return;
+            }
+
             var content = tdcIFrameData._getPostOriginalContentJSON();
 
             tdcDebug.log( content );
@@ -231,6 +278,9 @@ var tdcIFrameData,
 
                 if ( !_.isEmpty( errors ) ) {
                     tdcDebug.log( errors );
+
+                    alert( 'Errors happened during _initStructureData() -> _getData()! Errors in console ...' );
+                    return false;
                 }
 
 
@@ -243,8 +293,12 @@ var tdcIFrameData,
 
                 if ( !_.isUndefined( data.error ) ) {
                     tdcDebug.log( data.error );
+
+                    alert( 'Errors happened during _initStructureData() -> checkCurrentData()! Errors in console ...' );
+                    return false;
                 }
             }
+            return true;
         },
 
 
@@ -370,6 +424,10 @@ var tdcIFrameData,
          * @returns {*}
          */
         getModel: function( modelId, collection ) {
+
+            if ( ! tdcIFrameData._isInitialized ) {
+                return;
+            }
 
             var model;
 
@@ -546,6 +604,10 @@ var tdcIFrameData,
          */
         checkCurrentData: function( data ) {
 
+            if ( ! tdcIFrameData._isInitialized ) {
+                return;
+            }
+
             _.each( tdcIFrameData.tdcRows.models, function(element, index, list) {
                 tdcIFrameData._checkModelData( tdcIFrameData.tdcRows.get( element.cid ), data );
             });
@@ -556,177 +618,224 @@ var tdcIFrameData,
 
         /**
          * Important! This function should be called only by 'stop' sortable handler
-         * Steps:
-         *  Step 1. Get the model of the draggable element
-         *  Step 2. Get the model of the destination container (column or inner column) that contains the sortable list (the list where the element is dropped)
-         *  Step 3. Request to the model of the element, to update its 'html property'
-         *      3.1 Get the 'column' from the model of the container
-         *      3.2 Make the request
-         *      3.3 Wait for the response
-         *  Step 4. If success, update the structure data
-         *  Step 5. If error, ???
+         * Case A (the sidebar element was dragged)
+         * Case B
+         *      Steps:
+         *          Step 1. Get the model of the draggable element
+         *          Step 2. Get the model of the destination container (column or inner column) that contains the sortable list (the list where the element is dropped)
+         *          Step 3. Request to the model of the element, to update its 'html property'
+         *              3.1 Get the 'column' from the model of the container
+         *              3.2 Make the request
+         *              3.3 Wait for the response
+         *          Step 4. If success, update the structure data
+         *          Step 5. If error, ???
          *
          * @param whatWasDragged object
          */
         changeData: function( whatWasDragged ) {
 
-
-            // Step 1 ----------
-
-            var $draggedElement = tdcOperationUI.getDraggedElement();
-
-            // The item model id
-            var elementModelId = $draggedElement.data( 'model_id' );
-
-
-            // @todo This check should be removed - the content should have consistency
-            if ( _.isUndefined( elementModelId ) ) {
-                alert( 'changeData - Error: Element model id is not in $draggedElement data!' );
+            if ( ! tdcIFrameData._isInitialized ) {
                 return;
             }
 
-
-            // The item model
-            var elementModel = tdcIFrameData.getModel( elementModelId );
-
-            // @todo This check should be removed - the content should have consistency
-            if ( _.isUndefined( elementModel ) ) {
-                alert( 'changeData Error: Element model not in structure data!' );
-                return;
-            }
-
-
-
-            // Step 2 ----------
-
-            // The destination of the $draggedElement
-            var sourceModel,
-                sourceModelAttrs,
-
-
+            var $draggedElement = tdcOperationUI.getDraggedElement(),
+                newPosition = $draggedElement.prev().length,
                 destinationModel,
-                destinationModelAttrs,
-                destinationColParam = 1,
-
-
-                sourceChildCollection,
                 destinationChildCollection,
+                destinationColParam;
 
-                newPosition = $draggedElement.prev().length;
 
-            if ( whatWasDragged.wasElementDragged ) {
+            if ( whatWasDragged.wasSidebarElementDragged ) {
 
-                tdcDebug.log( 'case 1' );
+                // Case A
 
-                sourceModel = elementModel.get( 'parentModel' );
-                destinationModel = tdcIFrameData._getDestinationModel( [ '.tdc-inner-column', '.tdc-column' ] );
+                destinationModel = tdcIFrameData._getDestinationModel(['.tdc-inner-column', '.tdc-column']);
 
                 if ( _.isUndefined( destinationModel ) ) {
+                    alert( 'changeData Error: Destination model not in structure data!' );
                     return;
                 }
 
-                if ( sourceModel.cid === destinationModel.cid ) {
+                destinationColParam = tdcIFrameData._getColParam( destinationModel );
 
-                    sourceChildCollection = sourceModel.get( 'childCollection' );
-                    sourceChildCollection.remove( elementModel );
-                    sourceChildCollection.add( elementModel, { at: newPosition } );
-
+                // Change the model structure
+                // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
+                // In this case, we initialize it at an empty collection
+                if (destinationModel.has('childCollection')) {
+                    destinationChildCollection = destinationModel.get( 'childCollection' );
                 } else {
-
-                    destinationModelAttrs = destinationModel.get( 'attrs' );
-
-                    // @todo This check should be removed - the content should have consistency
-                    //if ( ! _.has( destinationModelAttrs, 'width ' ) ) {
-                    //    colParam = destinationModelAttrs.width;
-                    //}
-
-                    if ( _.has( destinationModelAttrs, 'width' ) ) {
-                        destinationColParam = destinationModelAttrs.width;
-                    }
-
-                    //tdcDebug.log( colParam );
-
-                    // The column param filter
-                    switch ( destinationColParam ) {
-                        case '1/3' : destinationColParam = 1; break;
-                        case '2/3' : destinationColParam = 2; break;
-                        case '3/3' : destinationColParam = 3; break;
-                    }
-
-                    // Change the model structure
-                    // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
-                    // In this case, we initialize it at an empty collection
-                    if ( destinationModel.has( 'childCollection' ) ) {
-                        destinationChildCollection = destinationModel.get( 'childCollection' );
-                    } else {
-                        destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
-                        destinationChildCollection = destinationModel.get( 'childCollection' );
-                    }
-
-                    sourceChildCollection = sourceModel.get( 'childCollection' );
-
-                    sourceChildCollection.remove( elementModel );
-                    destinationChildCollection.add( elementModel, { at: newPosition } );
-
-                    elementModel.set( 'parentModel', destinationModel );
-
-                    // Get the shortcode rendered
-                    elementModel.getShortcodeRender( destinationColParam );
+                    destinationModel.set('childCollection', new tdcIFrameData.TdcCollection());
+                    destinationChildCollection = destinationModel.get( 'childCollection' );
                 }
 
-            } else if ( whatWasDragged.wasInnerRowDragged ) {
+                var shortcodeName = $draggedElement.data( 'shortcodeName' ),
+                    shortcodeTitle = $draggedElement.html(),
 
-                tdcDebug.log( 'case 2' );
+                    // Define the model
+                    elementModel = new tdcIFrameData.TdcModel({
+                        'content' : '',
+                        'attrs' : {
+                            'ajax_pagination': 'next_prev',
+                            'custom_title': shortcodeTitle
+                        },
+                        'tag' : shortcodeName,
+                        'type' : 'single',
+                        'level' : 4,
+                        'parentModel': destinationModel
+                    }),
 
-                sourceModel = elementModel.get( 'parentModel' );
-                destinationModel = tdcIFrameData._getDestinationModel( [ '.tdc-column' ] );
+                    // Devine the liveView
+                    elementView = new tdcIFrameData.TdcLiveView({
+                        model: elementModel,
+                        el: $draggedElement[0]
+                    });
 
-                if ( _.isUndefined( destinationModel ) ) {
+                tdcElementUI.defineOperations( $draggedElement );
+
+                // Set the data model id to the liveView jquery element
+                $draggedElement.data( 'model_id', elementModel.cid );
+
+                destinationChildCollection.add( elementModel, { at: newPosition } );
+
+                elementModel.set( 'parentModel', destinationModel );
+
+                // Get the shortcode rendered
+                elementModel.getShortcodeRender( destinationColParam );
+
+            } else {
+
+
+
+
+                // Case B
+
+                // Step 1 ----------
+
+                // The item model id
+                var elementModelId = $draggedElement.data('model_id');
+
+
+                // @todo This check should be removed - the content should have consistency
+                if (_.isUndefined(elementModelId)) {
+                    alert('changeData - Error: Element model id is not in $draggedElement data!');
                     return;
                 }
 
-                if ( sourceModel.cid === destinationModel.cid ) {
 
-                    sourceChildCollection = sourceModel.get( 'childCollection' );
-                    sourceChildCollection.remove( elementModel );
-                    sourceChildCollection.add( elementModel, { at: newPosition } );
+                // The item model
+                var elementModel = tdcIFrameData.getModel(elementModelId);
 
-                } else {
-
-                    //tdcIFrameData._changeInnerRowData( elementModel, sourceModel, destinationModel, newPosition );
-
-                    // Change the model structure
-                    // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
-                    // In this case, we initialize it at an empty collection
-                    if ( destinationModel.has( 'childCollection' ) ) {
-                        destinationChildCollection = destinationModel.get( 'childCollection' );
-                    } else {
-                        destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
-                        destinationChildCollection = destinationModel.get( 'childCollection' );
-                    }
-
-                    // Move the entire structure
-                    sourceChildCollection = sourceModel.get( 'childCollection' );
-                    sourceChildCollection.remove( elementModel );
-                    destinationChildCollection.add( elementModel, { at: newPosition } );
-                    elementModel.set( 'parentModel', destinationModel );
+                // @todo This check should be removed - the content should have consistency
+                if (_.isUndefined(elementModel)) {
+                    alert('changeData Error: Element model not in structure data!');
+                    return;
                 }
 
-            } else if ( whatWasDragged.wasInnerColumnDragged || whatWasDragged.wasColumnDragged ) {
 
-                tdcDebug.log( 'case 3' );
+                // Step 2 ----------
 
-                sourceModel = elementModel.get( 'parentModel' );
-                sourceChildCollection = sourceModel.get( 'childCollection' );
-                sourceChildCollection.remove( elementModel );
-                sourceChildCollection.add( elementModel, { at: newPosition } );
+                // The destination of the $draggedElement
+                var sourceModel,
+                    sourceChildCollection;
 
-            } else if ( whatWasDragged.wasRowDragged ) {
+                if (whatWasDragged.wasElementDragged) {
 
-                tdcDebug.log( 'case 4' );
+                    tdcDebug.log('case 1');
 
-                tdcIFrameData.tdcRows.remove( elementModel );
-                tdcIFrameData.tdcRows.add( elementModel, { at: newPosition } );
+                    sourceModel = elementModel.get('parentModel');
+                    destinationModel = tdcIFrameData._getDestinationModel(['.tdc-inner-column', '.tdc-column']);
+
+                    if (_.isUndefined(destinationModel)) {
+                        alert( 'changeData Error: Destination model not in structure data!' );
+                        return;
+                    }
+
+                    if ( sourceModel.cid === destinationModel.cid ) {
+
+                        sourceChildCollection = sourceModel.get('childCollection');
+                        sourceChildCollection.remove(elementModel);
+                        sourceChildCollection.add(elementModel, {at: newPosition});
+
+                    } else {
+
+                        // The column param filter
+                        destinationColParam = tdcIFrameData._getColParam( destinationModel );
+
+                        // Change the model structure
+                        // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
+                        // In this case, we initialize it at an empty collection
+                        if (destinationModel.has('childCollection')) {
+                            destinationChildCollection = destinationModel.get('childCollection');
+                        } else {
+                            destinationModel.set('childCollection', new tdcIFrameData.TdcCollection());
+                            destinationChildCollection = destinationModel.get('childCollection');
+                        }
+
+                        sourceChildCollection = sourceModel.get('childCollection');
+
+                        sourceChildCollection.remove(elementModel);
+                        destinationChildCollection.add(elementModel, {at: newPosition});
+
+                        elementModel.set('parentModel', destinationModel);
+
+                        // Get the shortcode rendered
+                        elementModel.getShortcodeRender(destinationColParam);
+                    }
+
+                } else if (whatWasDragged.wasInnerRowDragged) {
+
+                    tdcDebug.log('case 2');
+
+                    sourceModel = elementModel.get('parentModel');
+                    destinationModel = tdcIFrameData._getDestinationModel(['.tdc-column']);
+
+                    if (_.isUndefined(destinationModel)) {
+                        return;
+                    }
+
+                    if (sourceModel.cid === destinationModel.cid) {
+
+                        sourceChildCollection = sourceModel.get('childCollection');
+                        sourceChildCollection.remove(elementModel);
+                        sourceChildCollection.add(elementModel, {at: newPosition});
+
+                    } else {
+
+                        //tdcIFrameData._changeInnerRowData( elementModel, sourceModel, destinationModel, newPosition );
+
+                        // Change the model structure
+                        // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
+                        // In this case, we initialize it at an empty collection
+                        if (destinationModel.has('childCollection')) {
+                            destinationChildCollection = destinationModel.get('childCollection');
+                        } else {
+                            destinationModel.set('childCollection', new tdcIFrameData.TdcCollection());
+                            destinationChildCollection = destinationModel.get('childCollection');
+                        }
+
+                        // Move the entire structure
+                        sourceChildCollection = sourceModel.get('childCollection');
+                        sourceChildCollection.remove(elementModel);
+                        destinationChildCollection.add(elementModel, {at: newPosition});
+                        elementModel.set('parentModel', destinationModel);
+                    }
+
+                } else if (whatWasDragged.wasInnerColumnDragged || whatWasDragged.wasColumnDragged) {
+
+                    tdcDebug.log('case 3');
+
+                    sourceModel = elementModel.get('parentModel');
+                    sourceChildCollection = sourceModel.get('childCollection');
+                    sourceChildCollection.remove(elementModel);
+                    sourceChildCollection.add(elementModel, {at: newPosition});
+
+                } else if (whatWasDragged.wasRowDragged) {
+
+                    tdcDebug.log('case 4');
+
+                    tdcIFrameData.tdcRows.remove(elementModel);
+                    tdcIFrameData.tdcRows.add(elementModel, {at: newPosition});
+                }
             }
 
             tdcDebug.log( tdcIFrameData.tdcRows );
@@ -754,7 +863,6 @@ var tdcIFrameData,
 
             return colParam;
         },
-
 
 
 

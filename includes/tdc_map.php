@@ -7,7 +7,7 @@
 
 
 // map the blocks from our themes
-add_action('td_wp_booster_loaded', 'tdc_map_theme_blocks');
+add_action('td_wp_booster_loaded', 'tdc_map_theme_blocks', 10002);
 function tdc_map_theme_blocks() {
 	foreach (td_api_block::get_all() as $block) {
 		if (isset($block['map_in_visual_composer']) && $block['map_in_visual_composer'] === true) { // map only shortcodes that have to appear in the composer
@@ -108,7 +108,6 @@ tdc_mapper::map(
 		)
 	)
 );
-
 
 
 

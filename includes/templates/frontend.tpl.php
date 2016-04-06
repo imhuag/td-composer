@@ -52,18 +52,18 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<!-- breadcrumbs browser -->
 		<div class="tdc-breadcrumbs">
 			<div class="tdc-breadcrumbs-path">
-				<div class="tdc-breadcrumb-row">
+				<div class="tdc-breadcrumb-row tdc-edit-row">
 					<a href="#">row</a>
 				</div>
-				<div class="tdc-breadcrumb-column">
+				<div class="tdc-breadcrumb-column tdc-edit-column">
 					<span class="tdc-breadcrumb-arrow"></span>
 					<a href="#">column</a>
 				</div>
-				<div class="tdc-breadcrumb-inner-row">
+				<div class="tdc-breadcrumb-inner-row tdc-edit-inner-row">
 					<span class="tdc-breadcrumb-arrow"></span>
 					<a href="#">inner-row</a>
 				</div>
-				<div class="tdc-breadcrumb-inner-column">
+				<div class="tdc-breadcrumb-inner-column tdc-edit-inner-column">
 					<span class="tdc-breadcrumb-arrow"></span>
 					<a href="#">inner-column</a>
 				</div>
@@ -167,9 +167,72 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="tdc-sidebar-modal-content">
 				<!-- sidebar elements list -->
 				<div class="tdc-sidebar-elements">
-					<div class="tdc-sidebar-element tdc-element">Block 1</div>
-					<div class="tdc-sidebar-element tdc-element">Block 2</div>
+					<?php
+
+					$mapped_shortcodes = tdc_mapper::get_mapped_shortcodes();
+
+					$contor = 0;
+					foreach ($mapped_shortcodes as $mapped_shortcode ) {
+						if ( isset($mapped_shortcode['map_in_visual_composer']) && true === $mapped_shortcode['map_in_visual_composer'] ) {
+							echo '<div class="tdc-sidebar-element tdc-element" data-shortcode-name="' . $mapped_shortcode['class'] . '">' . $mapped_shortcode['name'] . '</div>';
+						}
+						// @todo load only blocks for now
+						if ( $contor++ > 27 ) {
+							break;
+						}
+					}
+
+					?>
 				</div>
+			</div>
+		</div>
+
+
+
+		<!-- modal window -->
+		<div class="tdc-sidebar-modal tdc-sidebar-modal-row">
+			<div class="tdc-sidebar-modal-title">
+				Row
+				<a href="#" class="tdc-modal-close"></a>
+			</div>
+			<div class="tdc-sidebar-modal-content">
+				css editorul and operare columns
+			</div>
+		</div>
+
+
+		<!-- modal window -->
+		<div class="tdc-sidebar-modal tdc-sidebar-modal-column">
+			<div class="tdc-sidebar-modal-title">
+				Column
+				<a href="#" class="tdc-modal-close"></a>
+			</div>
+			<div class="tdc-sidebar-modal-content">
+				css editorul
+			</div>
+		</div>
+
+
+		<!-- modal window -->
+		<div class="tdc-sidebar-modal tdc-sidebar-modal-inner-row">
+			<div class="tdc-sidebar-modal-title">
+				Inner Row
+				<a href="#" class="tdc-modal-close"></a>
+			</div>
+			<div class="tdc-sidebar-modal-content">
+				css editorul and operare inner columns
+			</div>
+		</div>
+
+
+		<!-- modal window -->
+		<div class="tdc-sidebar-modal tdc-sidebar-modal-inner-column">
+			<div class="tdc-sidebar-modal-title">
+				Inner Column
+				<a href="#" class="tdc-modal-close"></a>
+			</div>
+			<div class="tdc-sidebar-modal-content">
+				css editorul
 			</div>
 		</div>
 

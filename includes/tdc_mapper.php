@@ -44,6 +44,13 @@ class tdc_mapper {
 
 
 
+	static function get_mapped_shortcodes() {
+		return self::$mapped_shortcodes;
+	}
+
+
+
+	// @todo this should be removed
 	static function _debug_get_all() {
 		return self::$mapped_shortcodes;
 	}

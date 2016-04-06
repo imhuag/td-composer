@@ -436,6 +436,18 @@ var tdcOperationUI;
 
 
         /**
+         * Check the current dragged element is a 'tdc-sidebar-element' one
+         *
+         * @returns {boolean|*}
+         */
+        isSidebarElementDragged: function() {
+            var draggedElement = tdcOperationUI.getDraggedElement();
+
+            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-sidebar-element' );
+        },
+
+
+        /**
          * Helper function used by 'setHorizontalPlaceholder' and 'setVerticalPlaceholder' functions
          *
          * @param classes
@@ -518,24 +530,30 @@ var tdcOperationUI;
 
                 // Step 1 ----------
 
-                var wasElementDragged = tdcOperationUI.isElementDragged(),
+                var wasSidebarElementDragged = tdcOperationUI.isSidebarElementDragged(),
+                    wasElementDragged = false,
                     wasInnerColumnDragged = false,
                     wasInnerRowDragged = false,
                     wasColumnDragged = false,
                     wasRowDragged = false,
 
-                    // The current container list of the $draggedElement and of the $placeholder
-                    $parentList;
+                    // The container of the $draggedElement
+                    $draggedElementContainer;
 
-                if ( wasElementDragged ) {
-                    $parentList = $draggedElement.closest( '.tdc-elements' );
+                if ( ! wasSidebarElementDragged ) {
+                    wasElementDragged = tdcOperationUI.isElementDragged();
+
+                    if ( wasElementDragged ) {
+                        $draggedElementContainer = $draggedElement.closest( '.tdc-elements' );
+                    }
                 }
+
 
                 if ( ! wasElementDragged ) {
                     wasInnerColumnDragged = tdcOperationUI.isInnerColumnDragged();
 
                     if ( wasInnerColumnDragged ) {
-                        $parentList = $draggedElement.closest( '.tdc-inner-columns' );
+                        $draggedElementContainer = $draggedElement.closest( '.tdc-inner-columns' );
                     }
                 }
 
@@ -543,7 +561,7 @@ var tdcOperationUI;
                     wasInnerRowDragged = tdcOperationUI.isInnerRowDragged();
 
                     if ( wasInnerRowDragged ) {
-                        $parentList = $draggedElement.closest( '.tdc-elements' );
+                        $draggedElementContainer = $draggedElement.closest( '.tdc-elements' );
                     }
                 }
 
@@ -551,7 +569,7 @@ var tdcOperationUI;
                     wasColumnDragged = tdcOperationUI.isColumnDragged();
 
                     if ( wasColumnDragged ) {
-                        $parentList = $draggedElement.closest( '.tdc-columns' );
+                        $draggedElementContainer = $draggedElement.closest( '.tdc-columns' );
                     }
                 }
 
@@ -559,11 +577,11 @@ var tdcOperationUI;
                     wasRowDragged = tdcOperationUI.isRowDragged();
 
                     if ( wasRowDragged ) {
-                        $parentList = $draggedElement.closest( '#tdc-rows' );
+                        $draggedElementContainer = $draggedElement.closest( '#tdc-rows' );
                     }
                 }
 
-                if ( ! wasElementDragged && ! wasInnerColumnDragged && ! wasInnerRowDragged && ! wasColumnDragged && ! wasRowDragged ) {
+                if ( ! wasSidebarElementDragged && ! wasElementDragged && ! wasInnerColumnDragged && ! wasInnerRowDragged && ! wasColumnDragged && ! wasRowDragged ) {
 
                     // @todo This check should be removed - the content should have consistency
                     alert( '_moveDraggedElement - Error: $draggedElement not valid!' );
@@ -579,10 +597,11 @@ var tdcOperationUI;
 
                 // If $draggedElement and $placeholder are siblings, do not continue
 
-                if ( ! _.isUndefined( $parentList ) && $parentList.length ) {
+                if ( ! _.isUndefined( $draggedElementContainer ) && $draggedElementContainer.length ) {
 
-                    var indexDraggedElement = $parentList.children().index( $draggedElement ),
-                        indexPlaceholder = $parentList.children().index( $placeholder );
+                    var $draggedElementContainerChildren = $draggedElementContainer.children(),
+                        indexDraggedElement = $draggedElementContainerChildren.index( $draggedElement ),
+                        indexPlaceholder = $draggedElementContainerChildren.index( $placeholder );
 
                     //tdcDebug.log( indexDraggedElement );
                     //tdcDebug.log( indexPlaceholder );
@@ -603,10 +622,9 @@ var tdcOperationUI;
 
                     if ( ( wasElementDragged || wasInnerRowDragged ) )  {
 
-                        var $emptyElement,
-                            $childrenElements = $parentList.children();
+                        var $emptyElement;
 
-                        if ( 1 === $childrenElements.length ) {
+                        if ( 1 === $draggedElementContainerChildren.length ) {
 
                             // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
                             var structureClass = '';
@@ -624,7 +642,7 @@ var tdcOperationUI;
 
                             tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
 
-                            $parentList.append( $emptyElement );
+                            $draggedElementContainer.append( $emptyElement );
                         }
                     }
                 }
@@ -637,7 +655,17 @@ var tdcOperationUI;
                 // Step 4 ----------
                 // The placeholder is replaced by the dragged element
 
+                if ( wasSidebarElementDragged ) {
+                    // Copy a shallow clone of the $draggedElement
+                    var $fakeDraggedElement = jQuery( '<div class="tdc-element">' + $draggedElement.html() + '</div>' );
+                    $fakeDraggedElement.data( 'shortcodeName', $draggedElement.data( 'shortcodeName' ) );
+
+                    tdcOperationUI.setDraggedElement( $fakeDraggedElement );
+                    $draggedElement = tdcOperationUI.getDraggedElement();
+                }
+
                 $placeholder.replaceWith( $draggedElement );
+
 
 
 
@@ -651,7 +679,7 @@ var tdcOperationUI;
                 //  3. column to inner-column
                 //  4. inner-column to column
 
-                if ( wasElementDragged ) {
+                if ( wasSidebarElementDragged || wasElementDragged ) {
 
                     // If the $draggedElement is in a inner-column, add the class 'tdc-element-inner-column', but remove the class 'tdc-element-column' (if it exists)
                     // Obs. We do not check from where it comes
@@ -698,6 +726,7 @@ var tdcOperationUI;
                 // Here any UI changes has been done
 
                 tdcIFrameData.changeData({
+                    wasSidebarElementDragged: wasSidebarElementDragged,
                     wasElementDragged: wasElementDragged,
                     wasInnerColumnDragged: wasInnerColumnDragged,
                     wasInnerRowDragged: wasInnerRowDragged,
