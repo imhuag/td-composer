@@ -52,24 +52,23 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<!-- breadcrumbs browser -->
 		<div class="tdc-breadcrumbs">
 			<div class="tdc-breadcrumbs-path">
-				<div class="tdc-breadcrumb-row tdc-edit-row">
+				<div id="tdc-breadcrumb-row">
 					<a href="#">row</a>
 				</div>
-				<div class="tdc-breadcrumb-column tdc-edit-column">
+				<div id="tdc-breadcrumb-column">
 					<span class="tdc-breadcrumb-arrow"></span>
 					<a href="#">column</a>
 				</div>
-				<div class="tdc-breadcrumb-inner-row tdc-edit-inner-row">
+				<div id="tdc-breadcrumb-inner-row">
 					<span class="tdc-breadcrumb-arrow"></span>
 					<a href="#">inner-row</a>
 				</div>
-				<div class="tdc-breadcrumb-inner-column tdc-edit-inner-column">
+				<div id="tdc-breadcrumb-inner-column">
 					<span class="tdc-breadcrumb-arrow"></span>
 					<a href="#">inner-column</a>
 				</div>
 			</div>
 			<div class="tdc-current-element">
-				Block 14
 			</div>
 		</div>
 
@@ -195,54 +194,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			</div>
 		</div>
 
-
-
-		<!-- modal window -->
-		<div class="tdc-sidebar-modal tdc-sidebar-modal-row">
-			<div class="tdc-sidebar-modal-title">
-				Row
-				<a href="#" class="tdc-modal-close"></a>
-			</div>
-			<div class="tdc-sidebar-modal-content">
-				css editorul and operare columns
-			</div>
-		</div>
-
-
-		<!-- modal window -->
-		<div class="tdc-sidebar-modal tdc-sidebar-modal-column">
-			<div class="tdc-sidebar-modal-title">
-				Column
-				<a href="#" class="tdc-modal-close"></a>
-			</div>
-			<div class="tdc-sidebar-modal-content">
-				css editorul
-			</div>
-		</div>
-
-
-		<!-- modal window -->
-		<div class="tdc-sidebar-modal tdc-sidebar-modal-inner-row">
-			<div class="tdc-sidebar-modal-title">
-				Inner Row
-				<a href="#" class="tdc-modal-close"></a>
-			</div>
-			<div class="tdc-sidebar-modal-content">
-				css editorul and operare inner columns
-			</div>
-		</div>
-
-
-		<!-- modal window -->
-		<div class="tdc-sidebar-modal tdc-sidebar-modal-inner-column">
-			<div class="tdc-sidebar-modal-title">
-				Inner Column
-				<a href="#" class="tdc-modal-close"></a>
-			</div>
-			<div class="tdc-sidebar-modal-content">
-				css editorul
-			</div>
-		</div>
 
 	</div>
 

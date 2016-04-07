@@ -37,6 +37,7 @@ var tdcInnerRowUI;
                     //tdcDebug.log( 'click inner row' );
 
                     event.preventDefault();
+                    event.stopPropagation();
 
                     tdcMaskUI.setBreadcrumb( $element );
 

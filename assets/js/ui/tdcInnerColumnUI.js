@@ -39,6 +39,7 @@ var tdcInnerColumnUI;
                     //tdcDebug.log( 'click inner column' );
 
                     event.preventDefault();
+                    event.stopPropagation();
 
                     tdcMaskUI.setBreadcrumb( $element );
 

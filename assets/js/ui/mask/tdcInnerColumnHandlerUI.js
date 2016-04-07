@@ -7,6 +7,7 @@
 /* global _:{} */
 
 /* global tdcMaskUI:{} */
+/* global tdcSidebar:{} */
 
 
 /*
@@ -49,9 +50,6 @@ var tdcInnerColumnHandlerUI;
 
         _$handlerEdit: undefined,
 
-        _$breadcrumbRef: undefined,
-
-
         // Initialization flag
         _isInitialized: false,
 
@@ -67,8 +65,8 @@ var tdcInnerColumnHandlerUI;
 
             // Create the handler jquery object and append it to the mask wrapper
             var $handlerWrapper = jQuery( '<div id="' + tdcInnerColumnHandlerUI._handlerCssClass + '"></div>'),
-                $handlerDrag = jQuery( '<div class="tdc-mask-handler">' + tdcInnerColumnHandlerUI._handlerText + '</div>' ),
-                $handlerEdit = jQuery( '<div class="tdc-mask-edit">edit</div>' );
+                $handlerDrag = jQuery( '<div class="tdc-mask-handler">&#10021;&nbsp;' + tdcInnerColumnHandlerUI._handlerText + '</div>' ),
+                $handlerEdit = jQuery( '<div class="tdc-mask-edit">&#10000;</div>' );
 
             $handlerWrapper.append( $handlerDrag );
             $handlerWrapper.append( $handlerEdit );
@@ -78,8 +76,6 @@ var tdcInnerColumnHandlerUI;
             tdcInnerColumnHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$wrapper.append( $handlerWrapper );
-
-            tdcInnerColumnHandlerUI._$breadcrumbRef = jQuery( '.tdc-breadcrumb-inner-column:first' );
 
 
 
@@ -210,11 +206,11 @@ var tdcInnerColumnHandlerUI;
             var $elementInnerColumn = tdcInnerColumnHandlerUI._inInnerColumn( $element );
 
             if ( ! _.isUndefined( $elementInnerColumn ) ) {
-                tdcInnerColumnHandlerUI._$breadcrumbRef.show();
+                tdcSidebar.$editInnerColumn.show();
             } else if ( tdcInnerColumnHandlerUI._isInnerColumn( $element ) ) {
-                tdcInnerColumnHandlerUI._$breadcrumbRef.show();
+                tdcSidebar.$editInnerColumn.show();
             } else {
-                tdcInnerColumnHandlerUI._$breadcrumbRef.hide();
+                tdcSidebar.$editInnerColumn.hide();
             }
         },
 

@@ -39,6 +39,7 @@ var tdcRowUI;
                     //tdcDebug.log( 'click row' );
 
                     event.preventDefault();
+                    event.stopPropagation();
 
                     tdcMaskUI.setBreadcrumb( $element );
 

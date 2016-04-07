@@ -7,6 +7,7 @@
 /* global _:{} */
 
 /* global tdcMaskUI:{} */
+/* global tdcSidebar:{} */
 
 
 /*
@@ -51,8 +52,6 @@ var tdcInnerRowHandlerUI;
 
         _$handlerEdit: undefined,
 
-        _$breadcrumbRef: undefined,
-
         // Initialization flag
         _isInitialized: false,
 
@@ -68,8 +67,8 @@ var tdcInnerRowHandlerUI;
 
             // Create the handler jquery object and append it to the mask wrapper
             var $handlerWrapper = jQuery( '<div id="' + tdcInnerRowHandlerUI._handlerCssClass + '"></div>'),
-                $handlerDrag = jQuery( '<div class="tdc-mask-handler">' + tdcInnerRowHandlerUI._handlerText + '</div>' ),
-                $handlerEdit = jQuery( '<div class="tdc-mask-edit">edit</div>' );
+                $handlerDrag = jQuery( '<div class="tdc-mask-handler">&#10021;&nbsp;' + tdcInnerRowHandlerUI._handlerText + '</div>' ),
+                $handlerEdit = jQuery( '<div class="tdc-mask-edit">&#10000;</div>' );
 
             $handlerWrapper.append( $handlerDrag );
             $handlerWrapper.append( $handlerEdit );
@@ -79,8 +78,6 @@ var tdcInnerRowHandlerUI;
             tdcInnerRowHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$wrapper.append( $handlerWrapper );
-
-            tdcInnerRowHandlerUI._$breadcrumbRef = jQuery( '.tdc-breadcrumb-inner-row:first' );
 
 
 
@@ -191,11 +188,11 @@ var tdcInnerRowHandlerUI;
             var $elementInnerRow = tdcInnerRowHandlerUI._checkInnerRow( $element );
 
             if ( ! _.isUndefined( $elementInnerRow ) ) {
-                tdcInnerRowHandlerUI._$breadcrumbRef.show();
+                tdcSidebar.$editInnerRow.show();
             } else if ( tdcInnerRowHandlerUI._isInnerRow( $element ) ) {
-                tdcInnerRowHandlerUI._$breadcrumbRef.show();
+                tdcSidebar.$editInnerRow.show();
             } else {
-                tdcInnerRowHandlerUI._$breadcrumbRef.hide();
+                tdcSidebar.$editInnerRow.hide();
             }
         },
 

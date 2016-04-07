@@ -2,13 +2,68 @@
  * Created by ra on 3/23/2016.
  */
 
+/* global jQuery:{} */
+/* global Backbone:{} */
+/* global _:{} */
 
-var tdcSidebar = {};
+var tdcSidebar;
 
+(function( jQuery, _, undefined ) {
 
+    'use strict';
 
-(function(){
     tdcSidebar = {
+
+        $editRow: undefined,
+        $editColumn: undefined,
+        $editInnerRow: undefined,
+        $editInnerColumn: undefined,
+
+        $currentElement: undefined,
+        $inspector: undefined,
+
+        init: function() {
+
+            tdcSidebar.$editRow = jQuery( '#tdc-breadcrumb-row' );
+            tdcSidebar.$editColumn = jQuery( '#tdc-breadcrumb-column' );
+            tdcSidebar.$editInnerRow = jQuery( '#tdc-breadcrumb-inner-row' );
+            tdcSidebar.$editInnerColumn = jQuery( '#tdc-breadcrumb-inner-column' );
+
+            tdcSidebar.$currentElement = jQuery( '.tdc-current-element' );
+            tdcSidebar.$inspector = jQuery( '.tdc-inspector' );
+
+
+            tdcSidebar.$editRow.click(function() {
+                tdcSidebar.$currentElement.html( 'Row' );
+                tdcSidebar.$editRow.nextAll().hide();
+                tdcSidebar.$inspector.show();
+            });
+
+            tdcSidebar.$editColumn.click(function() {
+                tdcSidebar.$currentElement.html( 'Column' );
+                tdcSidebar.$editColumn.nextAll().hide();
+                tdcSidebar.$inspector.show();
+            });
+
+            tdcSidebar.$editInnerRow.click(function() {
+                tdcSidebar.$currentElement.html( 'Inner Row' );
+                tdcSidebar.$editInnerRow.nextAll().hide();
+                tdcSidebar.$inspector.show();
+            });
+
+            tdcSidebar.$editInnerColumn.click(function() {
+                tdcSidebar.$currentElement.html( 'Inner Column' );
+                tdcSidebar.$inspector.show();
+            });
+
+
+            jQuery( '.tdc-sidebar-element').each(function( index, element ) {
+                tdcSidebar._defineOperations( jQuery( element ) );
+            });
+
+            tdcSidebar.sidebarModal();
+            tdcSidebar.liveInspectorTabs();
+        },
 
 
 
@@ -28,30 +83,6 @@ var tdcSidebar = {};
                 jQuery('.tdc-sidebar-modal-inner-column').removeClass('tdc-modal-open');
             });
 
-            // Sidebar row modal window - open
-            jQuery('.tdc-edit-row').click(function(){
-                jQuery('.tdc-sidebar-modal-row').addClass('tdc-modal-open');
-            });
-
-            // Sidebar column modal window - open
-            jQuery('.tdc-edit-column').click(function(){
-                jQuery('.tdc-sidebar-modal-column').addClass('tdc-modal-open');
-            });
-
-            // Sidebar inner row modal window - open
-            jQuery('.tdc-edit-inner-row').click(function(){
-                jQuery('.tdc-sidebar-modal-inner-row').addClass('tdc-modal-open');
-            });
-
-            // Sidebar inner column modal window - open
-            jQuery('.tdc-edit-inner-column').click(function(){
-                jQuery('.tdc-sidebar-modal-inner-column').addClass('tdc-modal-open');
-            });
-
-            jQuery( '.tdc-sidebar-element').each(function( index, element ) {
-
-                tdcSidebar._defineOperations( jQuery( element ) );
-            });
         },
 
 
@@ -114,6 +145,6 @@ var tdcSidebar = {};
 
     };
 
-    tdcSidebar.sidebarModal();
-    tdcSidebar.liveInspectorTabs();
-})();
+    tdcSidebar.init();
+
+})( jQuery, _ );

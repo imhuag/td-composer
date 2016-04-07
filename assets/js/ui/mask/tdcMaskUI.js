@@ -9,11 +9,13 @@
 /* global tdcAdminWrapperUI:{} */
 /* global tdcAdminIFrameUI:{} */
 /* global tdcOperationUI:{} */
+/* global tdcSidebar:{} */
 
 /* global tdcRowHandlerUI:{} */
 /* global tdcColumnHandlerUI:{} */
 /* global tdcInnerRowHandlerUI:{} */
 /* global tdcInnerColumnHandlerUI:{} */
+
 
 
 
@@ -142,6 +144,8 @@ var tdcMaskUI;
         setBreadcrumb: function( $element ) {
             _.map( tdcMaskUI._handlers, function( handler, handlerId ) {
                 handler.setBreadcrumb( $element );
+                tdcSidebar.$currentElement.html( '' );
+                tdcSidebar.$inspector.show();
             });
         }
     };

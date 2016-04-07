@@ -320,6 +320,7 @@ var tdcElementUI;
                 //tdcDebug.log( 'click element' );
 
                 event.preventDefault();
+                event.stopPropagation();
 
                 tdcMaskUI.setBreadcrumb( $element );
 

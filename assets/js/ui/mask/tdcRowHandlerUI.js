@@ -7,7 +7,7 @@
 /* global _:{} */
 
 /* global tdcMaskUI:{} */
-
+/* global tdcSidebar:{} */
 
 /*
  * The mask handler object
@@ -48,8 +48,6 @@ var tdcRowHandlerUI;
 
         _$handlerEdit: undefined,
 
-        _$breadcrumbRef: undefined,
-
         // Initialization flag
         _isInitialized: false,
 
@@ -65,8 +63,8 @@ var tdcRowHandlerUI;
 
             // Create the handler jquery object and append it to the mask wrapper
             var $handlerWrapper = jQuery( '<div id="' + tdcRowHandlerUI._handlerCssClass + '"></div>'),
-                $handlerDrag = jQuery( '<div class="tdc-mask-handler">' + tdcRowHandlerUI._handlerText + '</div>' ),
-                $handlerEdit = jQuery( '<div class="tdc-mask-edit">edit</div>' );
+                $handlerDrag = jQuery( '<div class="tdc-mask-handler">&#10021;&nbsp;' + tdcRowHandlerUI._handlerText + '</div>' ),
+                $handlerEdit = jQuery( '<div class="tdc-mask-edit">&#10000;</div>' );
 
             $handlerWrapper.append( $handlerDrag );
             $handlerWrapper.append( $handlerEdit );
@@ -76,8 +74,6 @@ var tdcRowHandlerUI;
             tdcRowHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$wrapper.append( $handlerWrapper );
-
-            tdcRowHandlerUI._$breadcrumbRef = jQuery( '.tdc-breadcrumb-row:first' );
 
 
 
@@ -134,7 +130,6 @@ var tdcRowHandlerUI;
             tdcRowHandlerUI._$handlerEdit.click( function( event ) {
 
                 event.preventDefault();
-
                 tdcRowHandlerUI._triggerEvent( event );
 
                 //alert( 'edit row' );
@@ -207,11 +202,11 @@ var tdcRowHandlerUI;
             var $elementRow = tdcRowHandlerUI._checkRow( $element );
 
             if ( ! _.isUndefined( $elementRow ) ) {
-                tdcRowHandlerUI._$breadcrumbRef.show();
+                tdcSidebar.$editRow.show();
             } else if ( tdcRowHandlerUI._isRow( $element ) ) {
-                tdcRowHandlerUI._$breadcrumbRef.show();
+                tdcSidebar.$editRow.show();
             } else {
-                tdcRowHandlerUI._$breadcrumbRef.hide();
+                tdcSidebar.$editRow.hide();
             }
         },
 

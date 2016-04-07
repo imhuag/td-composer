@@ -7,6 +7,7 @@
 /* global _:{} */
 
 /* global tdcMaskUI:{} */
+/* global tdcSidebar:{} */
 
 
 /*
@@ -49,8 +50,6 @@ var tdcColumnHandlerUI;
 
         _$handlerEdit: undefined,
 
-        _$breadcrumbRef: undefined,
-
         // Initialization flag
         _isInitialized: false,
 
@@ -67,8 +66,8 @@ var tdcColumnHandlerUI;
 
             // Create the handler jquery object and append it to the mask wrapper
             var $handlerWrapper = jQuery( '<div id="' + tdcColumnHandlerUI._handlerCssClass + '"></div>'),
-                $handlerDrag = jQuery( '<div class="tdc-mask-handler">' + tdcColumnHandlerUI._handlerText + '</div>' ),
-                $handlerEdit = jQuery( '<div class="tdc-mask-edit">edit</div>' );
+                $handlerDrag = jQuery( '<div class="tdc-mask-handler">&#10021;&nbsp;' + tdcColumnHandlerUI._handlerText + '</div>' ),
+                $handlerEdit = jQuery( '<div class="tdc-mask-edit">&#10000;</div>' );
 
             $handlerWrapper.append( $handlerDrag );
             $handlerWrapper.append( $handlerEdit );
@@ -78,8 +77,6 @@ var tdcColumnHandlerUI;
             tdcColumnHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$wrapper.append( $handlerWrapper );
-
-            tdcColumnHandlerUI._$breadcrumbRef = jQuery( '.tdc-breadcrumb-column:first' );
 
 
 
@@ -204,15 +201,15 @@ var tdcColumnHandlerUI;
          *
          * @param $element
          */
-        setBreadcrumb: function( $element ) {tdcDebug.log( $element );
+        setBreadcrumb: function( $element ) {
             var $elementColumn = tdcColumnHandlerUI._checkColumn( $element );
 
             if ( ! _.isUndefined( $elementColumn ) ) {
-                tdcColumnHandlerUI._$breadcrumbRef.show();
+                tdcSidebar.$editColumn.show();
             } else if ( tdcColumnHandlerUI._isColumn( $element ) ) {
-                tdcColumnHandlerUI._$breadcrumbRef.show();
+                tdcSidebar.$editColumn.show();
             } else {
-                tdcColumnHandlerUI._$breadcrumbRef.hide();
+                tdcSidebar.$editColumn.hide();
             }
         },
 
