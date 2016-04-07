@@ -40,6 +40,8 @@ var tdcInnerColumnUI;
 
                     event.preventDefault();
 
+                    tdcMaskUI.setBreadcrumb( $element );
+
                 }).mousedown(function(event) {
                     //tdcDebug.log( 'inner column mouse down' );
 
@@ -53,8 +55,6 @@ var tdcInnerColumnUI;
                     tdcInnerColumnUI.positionInnerColumnPlaceholder( event );
 
                     tdcMaskUI.hide();
-
-                    tdcMaskUI.setBreadcrumb( $element );
 
                 }).mouseup(function( event ) {
 

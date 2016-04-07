@@ -136,9 +136,11 @@ var tdcInnerColumnHandlerUI;
 
             tdcInnerColumnHandlerUI._$handlerEdit.click( function( event ) {
 
-                event.preventDefault();
+                //event.preventDefault();
 
-                alert( 'edit inner column' );
+                tdcInnerColumnHandlerUI._triggerEvent( event );
+
+                //alert( 'edit inner column' );
 
             }).mousemove( function( event ) {
 

@@ -8,11 +8,15 @@
 
 /* global tdcAdminWrapperUI:{} */
 /* global tdcMaskUI:{} */
+
 /* global tdcRowUI:{} */
 /* global tdcColumnUI:{} */
 /* global tdcInnerRowUI:{} */
 /* global tdcInnerColumnUI:{} */
 /* global tdcElementUI:{} */
+
+/* global tdcRecycleUI:{} */
+
 /* global tdcDebug:{} */
 
 var tdcOperationUI;
@@ -55,6 +59,9 @@ var tdcOperationUI;
             tdcInnerRowUI.init();
             tdcInnerColumnUI.init();
             tdcElementUI.init();
+
+            tdcRecycleUI.init();
+
 
 
             tdcAdminWrapperUI.$mask = jQuery('<div id="' + tdcAdminWrapperUI.maskId + '"></div>');
@@ -513,7 +520,6 @@ var tdcOperationUI;
                 $tdcColumnParentOfDraggedElement;
 
 
-
             if ( ! _.isUndefined( $draggedElement ) &&
                 ! _.isUndefined( $currentElementOver ) &&
                 ! _.isUndefined( $placeholder ) ) {
@@ -592,10 +598,9 @@ var tdcOperationUI;
 
 
 
-
                 // Step 2 ----------
 
-                // If $draggedElement and $placeholder are siblings, do not continue
+                // If $draggedElement and $placeholder are siblings, and the $draggedElement is not recycled, do not continue
 
                 if ( ! _.isUndefined( $draggedElementContainer ) && $draggedElementContainer.length ) {
 
@@ -606,12 +611,11 @@ var tdcOperationUI;
                     //tdcDebug.log( indexDraggedElement );
                     //tdcDebug.log( indexPlaceholder );
 
-                    if ( -1 !== indexPlaceholder && 1 === Math.abs( indexDraggedElement - indexPlaceholder ) ) {
-
-                        //tdcDebug.log( '$placeholder and $draggedElement: siblings' );
+                    if ( $currentElementOver !== tdcAdminWrapperUI.$recycle && -1 !== indexPlaceholder && 1 === Math.abs( indexDraggedElement - indexPlaceholder ) ) {
 
                         return;
                     }
+
 
 
 
@@ -624,7 +628,7 @@ var tdcOperationUI;
 
                         var $emptyElement;
 
-                        if ( 1 === $draggedElementContainerChildren.length ) {
+                        if ( ( -1 === indexPlaceholder && 1 === $draggedElementContainerChildren.length ) || ( 2 === $draggedElementContainerChildren.length && -1 !== indexPlaceholder ) ) {
 
                             // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
                             var structureClass = '';
@@ -646,6 +650,27 @@ var tdcOperationUI;
                         }
                     }
                 }
+
+
+
+
+
+
+                // Remove the ('tdc-element' or the 'tdc-element-inner-row') element from the structure data
+                // Just call the changeData and do not continue. The changeData function will do the job
+                if ( ( wasElementDragged || wasInnerRowDragged ) && $currentElementOver === tdcAdminWrapperUI.$recycle ) {
+
+                    tdcIFrameData.changeData({
+                        wasSidebarElementDragged: wasSidebarElementDragged,
+                        wasElementDragged: wasElementDragged,
+                        wasInnerColumnDragged: wasInnerColumnDragged,
+                        wasInnerRowDragged: wasInnerRowDragged,
+                        wasColumnDragged: wasColumnDragged,
+                        wasRowDragged: wasRowDragged
+                    });
+                    return;
+                }
+
 
 
 

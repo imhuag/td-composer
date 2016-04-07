@@ -137,7 +137,9 @@ var tdcColumnHandlerUI;
 
                 event.preventDefault();
 
-                alert( 'edit column' );
+                tdcColumnHandlerUI._triggerEvent( event );
+
+                //alert( 'edit column' );
 
             }).mousemove( function( event ) {
 
@@ -202,7 +204,7 @@ var tdcColumnHandlerUI;
          *
          * @param $element
          */
-        setBreadcrumb: function( $element ) {
+        setBreadcrumb: function( $element ) {tdcDebug.log( $element );
             var $elementColumn = tdcColumnHandlerUI._checkColumn( $element );
 
             if ( ! _.isUndefined( $elementColumn ) ) {

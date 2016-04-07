@@ -138,7 +138,9 @@ var tdcInnerRowHandlerUI;
 
                 event.preventDefault();
 
-                alert( 'edit inner row' );
+                tdcInnerRowHandlerUI._triggerEvent( event );
+
+                //alert( 'edit inner row' );
 
             }).mousemove( function( event ) {
 

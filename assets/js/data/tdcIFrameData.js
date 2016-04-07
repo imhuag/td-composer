@@ -9,6 +9,7 @@
 /* global tdcJobManager:{} */
 /* global tdcShortcodeParser:{} */
 /* global tdcOperationUI:{} */
+/* global tdcAdminWrapperUI:{} */
 
 var tdcIFrameData,
     tdcDebug;
@@ -211,6 +212,7 @@ var tdcIFrameData,
 
                 initialize: function() {
                     this.listenTo( this.model, 'change:html', this.render );
+                    this.listenTo( this.model, 'remove', this.remove );
                 },
 
                 render: function( model, value, options) {
@@ -464,6 +466,57 @@ var tdcIFrameData,
 
 
         /**
+         * Remove the model by id.
+         * It looks for the model into the entire collection recursively.
+         * If no collection is specified, the entire backbone structure data is used.
+         *
+         * @param modelId
+         * @param collection
+         * @returns {*}
+         */
+        removeModelById: function( modelId, collection ) {
+
+            var model = tdcIFrameData.getModel( modelId, collection );
+
+            if ( _.isUndefined( model ) ) {
+                return false;
+            }
+
+            var parentModel = model.get( 'parentModel' );
+
+            if ( _.isUndefined( parentModel ) ) {
+                tdcIFrameData.tdcRows.remove( model );
+            } else {
+                parentModel.get( 'childCollection' ).remove( model );
+            }
+        },
+
+
+
+
+
+        /**
+         * Remove the model.
+         *
+         * @param model
+         * @returns {*}
+         */
+        removeModel: function( model ) {
+
+            var parentModel = model.get( 'parentModel' );
+
+            if ( _.isUndefined( parentModel ) ) {
+                tdcIFrameData.tdcRows.remove( model );
+            } else {
+                parentModel.get( 'childCollection' ).remove( model );
+            }
+        },
+
+
+
+
+
+        /**
          * Helper function used to check if a model of the current structure data, respects the shortcode levels
          *
          * @param model - backbone model - The current model
@@ -477,26 +530,27 @@ var tdcIFrameData,
                 return;
             }
 
+            var parentModel = model.get( 'parentModel' );
 
             // not rows as the first elements
-            if ( 0 === model.level && !_.isUndefined( model.parentModel ) ) {
+            if ( 0 === model.level && !_.isUndefined( parentModel ) ) {
 
                 data.error = 'Not rows as the first elements!';
                 return;
             }
 
             // elements do not respect the shortcode levels: 0 -> 1 -> 2 ...
-            if ( !_.isUndefined( model.parentModel ) &&
-                parseInt( model.parentModel.get( 'level' ), 10 ) >= parseInt( model.level, 10 ) ) {
+            if ( !_.isUndefined( parentModel ) &&
+                parseInt( parentModel.get( 'level' ), 10 ) >= parseInt( model.level, 10 ) ) {
 
                 data.error = 'Elements does not respect the shortcode levels!';
                 return;
             }
 
             // elements respect the shortcode levels: the difference to just 1, and higher than 1 when parentModel is column (level 2) and element is block (level 4)
-            if ( !_.isUndefined( model.parentModel ) &&
-                parseInt( model.level, 10 ) - parseInt( model.parentModel.get( 'level'), 10 ) > 1 &&
-                2 !== parseInt( model.parentModel.get( 'level' ), 10) &&
+            if ( !_.isUndefined( parentModel ) &&
+                parseInt( model.level, 10 ) - parseInt( parentModel.get( 'level'), 10 ) > 1 &&
+                2 !== parseInt( parentModel.get( 'level' ), 10) &&
                 4 !== parseInt( model.level, 10 ) ) {
 
                 data.error = 'Elements respect the shortcode levels, but the difference higher than 1 is not allowed here!';
@@ -639,7 +693,7 @@ var tdcIFrameData,
             }
 
             var $draggedElement = tdcOperationUI.getDraggedElement(),
-                newPosition = $draggedElement.prev().length,
+                newPosition = $draggedElement.prevAll().length,
                 destinationModel,
                 destinationChildCollection,
                 destinationColParam;
@@ -742,6 +796,21 @@ var tdcIFrameData,
 
                     tdcDebug.log('case 1');
 
+
+
+                    // If the element is recycled, just remove the model from data structure
+                    if ( tdcOperationUI.getCurrentElementOver() === tdcAdminWrapperUI.$recycle ) {
+
+                        tdcDebug.log('element recycled');
+
+                        tdcIFrameData.removeModel( elementModel );
+                        tdcDebug.log( tdcIFrameData.tdcRows );
+                        return;
+                    }
+
+
+
+
                     sourceModel = elementModel.get('parentModel');
                     destinationModel = tdcIFrameData._getDestinationModel(['.tdc-inner-column', '.tdc-column']);
 
@@ -753,7 +822,7 @@ var tdcIFrameData,
                     if ( sourceModel.cid === destinationModel.cid ) {
 
                         sourceChildCollection = sourceModel.get('childCollection');
-                        sourceChildCollection.remove(elementModel);
+                        sourceChildCollection.remove(elementModel, {silent: true} );
                         sourceChildCollection.add(elementModel, {at: newPosition});
 
                     } else {
@@ -773,7 +842,7 @@ var tdcIFrameData,
 
                         sourceChildCollection = sourceModel.get('childCollection');
 
-                        sourceChildCollection.remove(elementModel);
+                        sourceChildCollection.remove(elementModel, {silent: true} );
                         destinationChildCollection.add(elementModel, {at: newPosition});
 
                         elementModel.set('parentModel', destinationModel);
@@ -786,6 +855,20 @@ var tdcIFrameData,
 
                     tdcDebug.log('case 2');
 
+
+
+                    // If the element is recycled, just remove the model from data structure
+                    if ( tdcOperationUI.getCurrentElementOver() === tdcAdminWrapperUI.$recycle ) {
+                        tdcDebug.log('inner row recycled');
+
+                        tdcIFrameData.removeModel( elementModel );
+                        tdcDebug.log( tdcIFrameData.tdcRows );
+                        return;
+                    }
+
+
+
+
                     sourceModel = elementModel.get('parentModel');
                     destinationModel = tdcIFrameData._getDestinationModel(['.tdc-column']);
 
@@ -796,12 +879,10 @@ var tdcIFrameData,
                     if (sourceModel.cid === destinationModel.cid) {
 
                         sourceChildCollection = sourceModel.get('childCollection');
-                        sourceChildCollection.remove(elementModel);
+                        sourceChildCollection.remove(elementModel, {silent: true} );
                         sourceChildCollection.add(elementModel, {at: newPosition});
 
                     } else {
-
-                        //tdcIFrameData._changeInnerRowData( elementModel, sourceModel, destinationModel, newPosition );
 
                         // Change the model structure
                         // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
@@ -815,7 +896,7 @@ var tdcIFrameData,
 
                         // Move the entire structure
                         sourceChildCollection = sourceModel.get('childCollection');
-                        sourceChildCollection.remove(elementModel);
+                        sourceChildCollection.remove(elementModel, {silent: true} );
                         destinationChildCollection.add(elementModel, {at: newPosition});
                         elementModel.set('parentModel', destinationModel);
                     }
@@ -826,15 +907,18 @@ var tdcIFrameData,
 
                     sourceModel = elementModel.get('parentModel');
                     sourceChildCollection = sourceModel.get('childCollection');
-                    sourceChildCollection.remove(elementModel);
+                    sourceChildCollection.remove(elementModel, {silent: true} );
                     sourceChildCollection.add(elementModel, {at: newPosition});
 
                 } else if (whatWasDragged.wasRowDragged) {
 
                     tdcDebug.log('case 4');
 
-                    tdcIFrameData.tdcRows.remove(elementModel);
+                    tdcIFrameData.tdcRows.remove(elementModel, {silent: true} );
                     tdcIFrameData.tdcRows.add(elementModel, {at: newPosition});
+
+                    tdcDebug.log( 'newPosition: ' + newPosition );
+                    tdcDebug.log( $draggedElement );
                 }
             }
 
@@ -847,7 +931,7 @@ var tdcIFrameData,
 
         _getColParam: function( model ) {
             var modelAttrs = model.get( 'attrs' ),
-                colParam = 1;
+                colParam = 3;
 
             if ( _.has( modelAttrs, 'width' ) ) {
                 colParam = modelAttrs.width;

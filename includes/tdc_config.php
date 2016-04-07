@@ -38,6 +38,8 @@ class tdc_config {
 		'tdcElementsUI'         => '/assets/js/ui/tdcElementsUI.js',
 		'tdcElementUI'          => '/assets/js/ui/tdcElementUI.js',
 
+		'tdcRecycleUI'          => '/assets/js/ui/tdcRecycleUI.js',
+
 		'tdcMaskUI'                 => '/assets/js/ui/mask/tdcMaskUI.js',
 		'tdcRowHandlerUI'           => '/assets/js/ui/mask/tdcRowHandlerUI.js',
 		'tdcColumnHandlerUI'        => '/assets/js/ui/mask/tdcColumnHandlerUI.js',

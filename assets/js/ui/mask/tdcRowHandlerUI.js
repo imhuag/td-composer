@@ -135,7 +135,9 @@ var tdcRowHandlerUI;
 
                 event.preventDefault();
 
-                alert( 'edit row' );
+                tdcRowHandlerUI._triggerEvent( event );
+
+                //alert( 'edit row' );
 
             }).mousemove( function( event ) {
 

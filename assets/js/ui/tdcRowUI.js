@@ -40,6 +40,8 @@ var tdcRowUI;
 
                     event.preventDefault();
 
+                    tdcMaskUI.setBreadcrumb( $element );
+
                 }).mousedown(function( event ) {
                     //tdcDebug.log( 'row mouse down' );
 
@@ -53,8 +55,6 @@ var tdcRowUI;
                     tdcRowUI.positionRowPlaceholder( event );
 
                     tdcMaskUI.hide();
-
-                    tdcMaskUI.setBreadcrumb( $element );
 
                 }).mouseup(function( event ) {
 

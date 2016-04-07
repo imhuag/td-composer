@@ -158,6 +158,14 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 
 
+		<div class="tdc-sidebar-bottom">
+			<div id="tdc-recycle">
+				Recycle
+			</div>
+		</div>
+
+
+
 		<!-- modal window -->
 		<div class="tdc-sidebar-modal tdc-sidebar-modal-elements">
 			<div class="tdc-sidebar-modal-title">

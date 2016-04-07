@@ -22,6 +22,8 @@ var tdcAdminWrapperUI;
         $placeholder: undefined,
         $helper: undefined,
 
+        $recycle: undefined,
+
 
         _initialized: false,
 
@@ -38,6 +40,8 @@ var tdcAdminWrapperUI;
 
             tdcAdminWrapperUI.$helper = jQuery('<div id="' + tdcAdminWrapperUI.helperId + '"></div>');
             tdcAdminWrapperUI.$placeholder = jQuery('<div id="' + tdcAdminWrapperUI.placeholderId + '"></div>');
+
+            tdcAdminWrapperUI.$recycle = jQuery( '#tdc-recycle' );
 
 
             jQuery('body').append( tdcAdminWrapperUI.$helper );

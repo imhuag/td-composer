@@ -321,6 +321,8 @@ var tdcElementUI;
 
                 event.preventDefault();
 
+                tdcMaskUI.setBreadcrumb( $element );
+
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'element mouse down' );
 
@@ -336,8 +338,6 @@ var tdcElementUI;
 
                 tdcMaskUI.hide();
 
-                tdcMaskUI.setBreadcrumb( $element );
-
             }).mouseup(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element'
@@ -349,7 +349,8 @@ var tdcElementUI;
                     tdcOperationUI.deactiveDraggedElement();
                     tdcOperationUI.hideHelper();
 
-                    tdcAdminIFrameUI.currentElementOver = undefined;
+                    // @todo The current element over must be undefined?
+                    //tdcOperationUI.setCurrentElementOver( undefined );
                     tdcElementUI.positionElementPlaceholder( event );
                 }
                 tdcMaskUI.setCurrentElement( $element );
@@ -459,7 +460,8 @@ var tdcElementUI;
                     tdcOperationUI.deactiveDraggedElement();
                     tdcOperationUI.hideHelper();
 
-                    tdcAdminIFrameUI.currentElementOver = undefined;
+                    // @todo The current element over must be undefined?
+                    //tdcOperationUI.setCurrentElementOver( undefined );
                     tdcElementUI.positionElementPlaceholder( event );
 
                 } else {

@@ -56,10 +56,10 @@ var tdcMaskUI;
 
             tdcMaskUI.$wrapper.append( jQuery( '<div id="tdc-mask-content"></div>' ) );
 
-            tdcInnerColumnHandlerUI.init();
-            tdcInnerRowHandlerUI.init();
-            tdcColumnHandlerUI.init();
             tdcRowHandlerUI.init();
+            tdcColumnHandlerUI.init();
+            tdcInnerRowHandlerUI.init();
+            tdcInnerColumnHandlerUI.init();
 
             tdcMaskUI._isInitialized = true;
         },

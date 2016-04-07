@@ -38,6 +38,8 @@ var tdcInnerRowUI;
 
                     event.preventDefault();
 
+                    tdcMaskUI.setBreadcrumb( $element );
+
                 }).mousedown(function( event ) {
                     //tdcDebug.log( 'inner row mouse down' );
 
@@ -52,8 +54,6 @@ var tdcInnerRowUI;
 
                     tdcMaskUI.hide();
 
-                    tdcMaskUI.setBreadcrumb( $element );
-
                 }).mouseup(function( event ) {
                     //tdcDebug.log( 'inner row element mouse up' );
 
@@ -64,7 +64,7 @@ var tdcInnerRowUI;
 
                 }).mousemove(function( event ) {
 
-                    // Respond only if dragged element is 'tdc-inner-row'
+                    // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
                     if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
                         //tdcDebug.log( 'inner row element mouse move' );
 
@@ -79,7 +79,7 @@ var tdcInnerRowUI;
 
                 }).mouseenter(function(event) {
 
-                    // Respond only if dragged element is 'tdc-inner-row'
+                    // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
                     if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
                         //tdcDebug.log('inner row mouse enter');
 
@@ -91,7 +91,7 @@ var tdcInnerRowUI;
 
                 }).mouseleave(function(event) {
 
-                    // Respond only if dragged element is 'tdc-inner-row'
+                    // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
                     if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
                         //tdcDebug.log('inner row mouse leave');
 
@@ -103,7 +103,7 @@ var tdcInnerRowUI;
 
                 }).on( 'fakemouseenterevent', function(event) {
 
-                    // Respond only if dragged element is 'tdc-inner-row'
+                    // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
                     if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
                         //tdcDebug.log( 'tdc-inner-row FAKE MOUSE ENTER EVENT' );
 
