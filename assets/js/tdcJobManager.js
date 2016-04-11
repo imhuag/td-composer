@@ -33,8 +33,8 @@ var tdcJobManager = {};
             this.shortcode = '';
             this.columns = 0;
             this.liveViewId = '';
-            this.success = '';
-            this.error = '';
+            this.success_callback = '';
+            this.error_callback = '';
         },
 
 
@@ -92,8 +92,7 @@ var tdcJobManager = {};
                     }
 
                     if (tdcJobManager._isJobCallbackReplyValid(job.liveViewId, jobRequest.jobId) === true) {
-                        job.success(jobRequest);
-                        return;
+                        job.success_callback(jobRequest);
                     }
 
                     //console.log();
@@ -101,7 +100,7 @@ var tdcJobManager = {};
 
                 // this callback is called when any error is encountered. (including status codes like 404, 500 etc)
                 error: function(MLHttpRequest, textStatus, errorThrown){
-                    job.error(newJobRequest, 'tdcJobManager.addJob - Error callback - textStatus: ' + textStatus + ' errorThrown: ' + errorThrown);
+                    job.error_callback(newJobRequest, 'tdcJobManager.addJob - Error callback - textStatus: ' + textStatus + ' errorThrown: ' + errorThrown);
                 }
             });
         },
