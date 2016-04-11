@@ -31,8 +31,18 @@ class tdc_ajax {
 		td_util::vc_set_column_number($request->get_param('columns'));
 
 
+		/*
+			we need to call the shortcode with output buffering because our style generator from our blocks just echoes it's generated
+			style. No bueno :(
+		*/
+		ob_start();
+		echo do_shortcode(stripslashes($request->get_param('shortcode')));
+		$reply_html = ob_get_clean();
 
-		$parameters['replyHtml'] = do_shortcode(stripslashes($request->get_param('shortcode')));
+
+
+
+		$parameters['replyHtml'] = $reply_html;
 
 
 
