@@ -29,7 +29,10 @@ class tdc_ajax {
 
 
 		td_util::vc_set_column_number($request->get_param('columns'));
-		$parameters['replyHtml'] = do_shortcode($request->get_param('shortcode'));
+
+
+
+		$parameters['replyHtml'] = do_shortcode(stripslashes($request->get_param('shortcode')));
 
 
 

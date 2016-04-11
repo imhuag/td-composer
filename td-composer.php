@@ -276,6 +276,12 @@ abstract class tdc {
 
 }
 
-//add_action('shutdown', function(){
-//	print_r(tdc_mapper::_debug_get_all());
-//});
+
+/*
+add_action('shutdown', function(){
+	//print_r(tdc_mapper::_debug_get_all());
+
+	//echo do_shortcode('[td_block_1 custom_title="Block title test 52"]');
+	//die;
+});
+*/
