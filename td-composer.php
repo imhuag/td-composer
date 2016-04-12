@@ -24,35 +24,27 @@ function tdc_plugin_init() {
 	require_once('includes/tdc_config.php');
 
 
-
-	if ( ! defined( 'TD_AURORA_VERSION' ) or TD_AURORA_VERSION !== TDC_VERSION ) {
-
+	// check if it's our theme
+	// @todo add check for aurora version - probabil sa fie mai mare decat versiunea 4
+	if ( ! defined( 'TD_AURORA_VERSION' ) /* or TD_AURORA_VERSION !== TDC_VERSION */ ) {
 		add_action( 'admin_notices', 'tdc_aurora_msg' );
-		/**
-		 * Admin notice function to inform user to active WooCommerce for properly using the TagDiv Question plugin.
-		 */
 		function tdc_aurora_msg() {
 			?>
-
 			<div class="error">
 				<p><?php echo '<strong>Please update the theme or the plugin to the same version of the Aurora plugin API. Now, the Theme Aurora version is: ' . TD_AURORA_VERSION . ' and plugin version: ' . TD_COMPOSER_VERSION . '!</strong>' ?></p>
 				<p><?php echo '<strong style="color:red">TagDiv Compose plugin is not active</strong> to prevent unexpected behaviours.' ?></p>
 				<p><?php echo 'File message: ' . __FILE__ ?></p>
 			</div>
-
-		<?php
+			<?php
 		}
-
 		// The plugin is deactivated if it's already active.
 		if ( is_plugin_active( plugin_basename( __FILE__ ) ) ) {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 		}
 
+		// stop the plugin - no more plugin code will run after this
 		return;
 	}
-
-
-
 
 
 
@@ -60,19 +52,14 @@ function tdc_plugin_init() {
 	function tdc_on_admin_head() {
 		ob_start();
 		?>
-
 		<script>
-
 			window.tdcAdminSettings = {
 				admin_url: '<?php echo admin_url()?>',
 				site_url: '<?php echo get_site_url() ?>'
 			}
-
 		</script>
-
 		<?php
 		$buffer = ob_get_clean();
-
 		echo $buffer;
 	}
 
@@ -80,7 +67,6 @@ function tdc_plugin_init() {
 	/**
 	 * Registers the js script:
 	 */
-
 	add_action( 'admin_enqueue_scripts', 'tdc_on_admin_enqueue_scripts' );
 	function tdc_on_admin_enqueue_scripts() {
 		tdc_util::enqueue_js_files_array(tdc_config::$js_files_for_wp_admin, array('jquery'));
