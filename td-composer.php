@@ -123,37 +123,10 @@ abstract class tdc {
 		require_once('includes/tdc_map.php');
 
 
-		add_action( 'wp_ajax_tdc_save_post', 'tdc_save_post' );
-		function tdc_save_post() {
-
-			$parameters = array();
-
-			$action = $_POST[ 'action' ];
-			$post_id = $_POST[ 'post_id' ];
-			$post_content = $_POST[ 'content' ];
-
-			if ( !isset($action) || 'tdc_save_post' !== $action || !isset($post_id) || !isset($post_content)) {
-
-				$parameters['errors'][] = 'Invalid data';
-
-			} else {
-				$data_post = array(
-					'ID'           => $post_id,
-					'post_content' => $post_content
-				);
-
-				$post_id = wp_update_post( $data_post, true );
-				if (is_wp_error($post_id)) {
-					$errors = $post_id->get_error_messages();
-
-					$parameters['errors'] = array();
-					foreach ($errors as $error) {
-						$parameters['errors'][] = $error;
-					}
-				}
-			}
-			die(json_encode($parameters));
-		}
+//		add_action( 'wp_ajax_tdc_save_post', 'tdc_save_post' );
+//		function tdc_save_post() {
+//
+//		}
 
 
 		if (!isset($_GET['td_action']) || !isset($_GET['post_id'])) {

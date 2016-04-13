@@ -46,7 +46,7 @@ var tdcSavePost;
                     dataType: 'json',
                     data: {
                         post_id: window.tdcPostSettings.postId,
-                        action: 'tdc_save_post',
+                        action: 'tdc_ajax_save_post',
                         content: tdcSavePost.content
                     }
                 }).done(function( data, textStatus, jqXHR ) {
