@@ -55,7 +55,8 @@ function tdc_plugin_init() {
 		<script>
 			window.tdcAdminSettings = {
 				admin_url: '<?php echo admin_url()?>',
-				site_url: '<?php echo get_site_url() ?>'
+				site_url: '<?php echo get_site_url() ?>',
+				wp_rest_nonce: '<?php echo wp_create_nonce( 'wp_rest' ) ?>'  // nonce used for cookie authentication
 			}
 		</script>
 		<?php

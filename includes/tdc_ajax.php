@@ -7,7 +7,7 @@
 
 
 // ajax: save post hook
-add_action('wp_ajax_tdc_ajax_save_post',        array('tdc_ajax', 'on_ajax_save_post'));
+//add_action('wp_ajax_tdc_ajax_save_post',        array('tdc_ajax', 'on_ajax_save_post'));
 
 
 add_action( 'rest_api_init', 'tdc_register_api_routes');
@@ -21,7 +21,10 @@ function tdc_register_api_routes() {
 	));
 
 
-
+	register_rest_route($namespace, '/save_post/', array(
+		'methods'  => 'POST',
+		'callback' => array ('tdc_ajax', 'on_ajax_save_post'),
+	));
 
 }
 
@@ -29,6 +32,11 @@ function tdc_register_api_routes() {
 
 class tdc_ajax {
 	static function on_ajax_render_shortcode (WP_REST_Request $request ) {
+		if (!current_user_can( 'edit_pages' )) {
+			//@todo - ceva eroare sa afisam aici
+			echo 'no permission';
+			die;
+		}
 
 
 		// get the $_POST parameters only
@@ -71,13 +79,20 @@ class tdc_ajax {
 
 
 
-	static function on_ajax_save_post() {
+	static function on_ajax_save_post(WP_REST_Request $request) {
 		if (!current_user_can( 'edit_pages' )) {
 			//@todo - ceva eroare sa afisam aici
+			echo 'no permission';
 			die;
 		}
 
 		$parameters = array();
+
+		// get the $_POST parameters only
+		//$parameters = $request->get_body_params();
+
+
+		//print_r($request);
 
 		$action = $_POST[ 'action' ];
 		$post_id = $_POST[ 'post_id' ];
