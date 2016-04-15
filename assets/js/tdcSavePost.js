@@ -42,11 +42,17 @@ var tdcSavePost;
                     timeout: 10000,
                     type: 'POST',
                     //url: window.tdcAdminSettings.site_url + '/wp-admin/post.php',
-                    url: ajaxurl,
+                    url: window.tdcAdminSettings.site_url + '/wp-json/td-composer/save_post?uuid=' + tdcJobManager._getUniqueID(),
+
+                    // add the nonce used for cookie authentication
+                    beforeSend: function ( xhr ) {
+                        xhr.setRequestHeader( 'X-WP-Nonce', window.tdcAdminSettings.wp_rest_nonce);
+                    },
+                    //url: ajaxurl,
                     dataType: 'json',
                     data: {
                         post_id: window.tdcPostSettings.postId,
-                        action: 'tdc_save_post',
+                        action: 'tdc_ajax_save_post',
                         content: tdcSavePost.content
                     }
                 }).done(function( data, textStatus, jqXHR ) {

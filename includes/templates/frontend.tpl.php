@@ -22,10 +22,16 @@ $post_ID = tdc_state::get_post_id();
 $post_url = tdc_state::get_post_url();
 $post_content = tdc_state::get_post_content();
 
+// check if we have a post set in the state.
+if (empty($post)) {
+	tdc_util::error(__FILE__, __FUNCTION__, 'Invalid post ID, or permission denied');
+	die;
+}
+
 
 
 add_thickbox();
-wp_enqueue_media( array( 'post' => $post_ID ) );
+wp_enqueue_media( array( 'post' => $post->ID ) );
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
@@ -33,9 +39,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<script type="text/javascript">
 
 		window.tdcPostSettings = {
-			postId: '<?php echo $post_ID; ?>',
-			postUrl: '<?php echo $post_url; ?>',
-			postContent: '<?php echo $post_content; ?>',
+			postId: '<?php echo $post->ID; ?>',
+			postUrl: '<?php echo get_permalink($post->ID); ?>',
+			postContent: '<?php echo $post->post_content; ?>',
 			mappedShortcodes: []
 		};
 

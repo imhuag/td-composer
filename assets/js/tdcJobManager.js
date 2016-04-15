@@ -33,8 +33,8 @@ var tdcJobManager = {};
             this.shortcode = '';
             this.columns = 0;
             this.liveViewId = '';
-            this.success = '';
-            this.error = '';
+            this.success_callback = '';
+            this.error_callback = '';
         },
 
 
@@ -69,6 +69,10 @@ var tdcJobManager = {};
                 timeout: 10000,
                 type: 'POST',
                 url: window.tdcAdminSettings.site_url + '/wp-json/td-composer/do_job?tmp_jobId=' + newJobRequest.jobId + '&tmp_liveViewId=' + newJobRequest.liveViewId + '&uuid=' + tdcJobManager._getUniqueID(),
+                // add the nonce used for cookie authentication
+                beforeSend: function ( xhr ) {
+                    xhr.setRequestHeader( 'X-WP-Nonce', window.tdcAdminSettings.wp_rest_nonce);
+                },
                 cache: false,
                 data: newJobRequest,
                 dataType: 'json',
@@ -92,8 +96,7 @@ var tdcJobManager = {};
                     }
 
                     if (tdcJobManager._isJobCallbackReplyValid(job.liveViewId, jobRequest.jobId) === true) {
-                        job.success(jobRequest);
-                        return;
+                        job.success_callback(jobRequest);
                     }
 
                     //console.log();
@@ -101,7 +104,7 @@ var tdcJobManager = {};
 
                 // this callback is called when any error is encountered. (including status codes like 404, 500 etc)
                 error: function(MLHttpRequest, textStatus, errorThrown){
-                    job.error(newJobRequest, 'tdcJobManager.addJob - Error callback - textStatus: ' + textStatus + ' errorThrown: ' + errorThrown);
+                    job.error_callback(newJobRequest, 'tdcJobManager.addJob - Error callback - textStatus: ' + textStatus + ' errorThrown: ' + errorThrown);
                 }
             });
         },

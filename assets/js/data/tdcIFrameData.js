@@ -119,7 +119,7 @@ var tdcIFrameData,
 
                         newJob.liveViewId = 'test';
 
-                        newJob.success = function( data ) {
+                        newJob.success_callback = function( data ) {
 
                             tdcDebug.log( data );
 
@@ -133,7 +133,7 @@ var tdcIFrameData,
                             }
                         };
 
-                        newJob.error = function( job, errorMsg ) {
+                        newJob.error_callback = function( job, errorMsg ) {
                             tdcDebug.log( errorMsg );
                             tdcDebug.log( job );
                         };
