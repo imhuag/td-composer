@@ -6,25 +6,50 @@
 
 
 class tdc_state {
-	private static $is_initialized = false;
+
+
+	/**
+	 * @var WP_Post
+	 */
 	private static $post;
-	private static $post_id;
-	private static $post_url;
-	private static $post_content;
 
 
+	/**
+	 * @var bool
+	 */
+	private static $is_live_editor_iframe = false;
 
 
+	/**
+	 * @var bool
+	 */
+	private static $is_live_editor_ajax = false;
 
-	public static function set_initialized($new_value) {
-		self::$is_initialized = $new_value;
+
+	/**
+	 * @param $new_state bool
+	 */
+	public static function set_is_live_editor_iframe($new_state) {
+		self::$is_live_editor_iframe = $new_state;
 	}
 
-	public static function is_initialized() {
-		return self::$is_initialized &&
-		       !empty(self::$post) &&
-		       !empty(self::$post_id) &&
-		       !empty(self::$post_url);
+	/**
+	 * @return bool
+	 */
+	public static function is_live_editor_iframe() {
+		return self::$is_live_editor_iframe;
+	}
+
+
+
+
+
+	public static function set_is_live_editor_ajax($new_state){
+		self::$is_live_editor_ajax = $new_state;
+	}
+
+	public static function is_live_editor_ajax() {
+		return self::$is_live_editor_ajax;
 	}
 
 
@@ -38,57 +63,18 @@ class tdc_state {
 	}
 
 	/**
-	 * @param mixed $post
+	 * @param WP_Post $post
 	 */
 	public static function set_post( $post ) {
+		// we can add here additional checks if needed
+		if (get_class($post) != 'WP_Post') {
+			tdc_util::error(__FILE__, __FUNCTION__, '$post is not a WP_Post class');
+			die;
+		}
 		self::$post = $post;
 	}
 
 
 
 
-	/**
-	 * @return mixed
-	 */
-	public static function get_post_id() {
-		return self::$post_id;
-	}
-
-	/**
-	 * @param mixed $post_id
-	 */
-	public static function set_post_id( $post_id ) {
-		self::$post_id = $post_id;
-	}
-
-
-
-	/**
-	 * @return mixed
-	 */
-	public static function get_post_url() {
-		return self::$post_url;
-	}
-
-	/**
-	 * @param mixed $post_url
-	 */
-	public static function set_post_url( $post_url ) {
-		self::$post_url = $post_url;
-	}
-
-
-	/**
-	 * @return mixed $post_content
-	 */
-	public static function get_post_content() {
-		return self::$post_content;
-	}
-
-	/**
-	 * @param $post_content
-	 */
-	public static function set_post_content( $post_content ) {
-		self::$post_content = $post_content;
-	}
 }

@@ -54,4 +54,15 @@ class tdc_util {
 			}
 		};
 	}
+
+
+
+
+	static function get_get_val($_get_name) {
+		if (isset($_GET[$_get_name])) {
+			return $_GET[$_get_name];
+		}
+
+		return false;
+	}
 }

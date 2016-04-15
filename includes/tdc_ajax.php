@@ -32,11 +32,15 @@ function tdc_register_api_routes() {
 
 class tdc_ajax {
 	static function on_ajax_render_shortcode (WP_REST_Request $request ) {
+
 		if (!current_user_can( 'edit_pages' )) {
 			//@todo - ceva eroare sa afisam aici
 			echo 'no permission';
 			die;
 		}
+
+		// change the main state
+		tdc_state::set_is_live_editor_ajax(true);
 
 
 		// get the $_POST parameters only
