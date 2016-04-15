@@ -151,7 +151,7 @@ var tdcAdminIFrameUI;
                             }
                             var $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + structureClass + '"></div>' );
 
-                            tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
+                            tdcElementUI.bindEmptyElement( $emptyElement );
 
                             $element.append( $emptyElement );
                         });

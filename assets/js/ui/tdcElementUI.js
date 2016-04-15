@@ -34,7 +34,7 @@ var tdcElementUI;
 
             tdcElementUI.tdcElement.each(function( index, element ) {
 
-                tdcElementUI.defineOperations( jQuery( element ) );
+                tdcElementUI.bindElement( jQuery( element ) );
             });
         },
 
@@ -314,7 +314,7 @@ var tdcElementUI;
         },
 
 
-        defineOperations: function( $element ) {
+        bindElement: function( $element ) {
 
             $element.click(function( event ) {
                 //tdcDebug.log( 'click element' );
@@ -322,7 +322,8 @@ var tdcElementUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                tdcMaskUI.setBreadcrumb( $element );
+
+                tdcMaskUI.setBreadcrumb( $element, tdcElementUI.getSidebarCurrentElementContent( $element ) );
 
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'element mouse down' );
@@ -434,7 +435,7 @@ var tdcElementUI;
         },
 
 
-        defineOperationsForEmptyElement: function( $element ) {
+        bindEmptyElement: function( $element ) {
 
             $element.click(function( event ) {
                 //tdcDebug.log( 'click empty element' );
@@ -457,6 +458,7 @@ var tdcElementUI;
                     //tdcDebug.log( 'empty element mouse up' );
 
                     event.preventDefault();
+                    event.stopPropagation();
 
                     tdcOperationUI.deactiveDraggedElement();
                     tdcOperationUI.hideHelper();
@@ -486,7 +488,7 @@ var tdcElementUI;
                     tdcElementUI.positionElementPlaceholder( event );
                 }
 
-            }).mouseenter(function( event ) {
+            }).mouseenter(function( event ) {//tdcDebug.log($element);
 
                 // Respond only if dragged element is 'tdc-element' or inner row
                 if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
@@ -565,6 +567,26 @@ var tdcElementUI;
             }
 
             return false;
+        },
+
+
+        /**
+         * Get the model custom title or, if it does not exist, the model tag
+         *
+         * @param $element
+         */
+        getSidebarCurrentElementContent: function( $element ) {
+            var sidebarCurrentElementContent;
+
+            var model = tdcIFrameData.getModel( $element.data( 'model_id' ) ),
+                modelAtts = model.get( 'attrs' );
+
+            if (_.has( modelAtts, 'custom_title' ) ) {
+                sidebarCurrentElementContent = modelAtts.custom_title;
+            } else {
+                sidebarCurrentElementContent = model.get( 'tag' );
+            }
+            return sidebarCurrentElementContent;
         }
     };
 

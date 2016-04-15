@@ -161,24 +161,6 @@ var tdcInnerColumnHandlerUI;
         },
 
 
-        ///**
-        // * Set the element ( 'tdc-inner-column' ) where this handler will send its proper events
-        // *
-        // * @param $element
-        // */
-        //setElement: function( $element ) {
-        //
-        //    var $elementInnerColumn = $element.closest( '.' + tdcInnerColumnHandlerUI._elementCssClass );
-        //    if ( $elementInnerColumn.length ) {
-        //        tdcInnerColumnHandlerUI.$elementInnerColumn = $elementInnerColumn;
-        //        tdcInnerColumnHandlerUI._$handlerWrapper.show();
-        //    } else {
-        //        tdcInnerColumnHandlerUI._$handlerWrapper.hide();
-        //    }
-        //},
-
-
-
         /**
          * Set the element ( 'tdc-inner-column' ) where this handler will send its proper events
          *
@@ -205,10 +187,8 @@ var tdcInnerColumnHandlerUI;
         setBreadcrumb: function( $element ) {
             var $elementInnerColumn = tdcInnerColumnHandlerUI._inInnerColumn( $element );
 
-            if ( ! _.isUndefined( $elementInnerColumn ) ) {
-                tdcSidebar.$editInnerColumn.show();
-            } else if ( tdcInnerColumnHandlerUI._isInnerColumn( $element ) ) {
-                tdcSidebar.$editInnerColumn.show();
+            if ( ! _.isUndefined( $elementInnerColumn ) || tdcInnerColumnHandlerUI._isInnerColumn( $element ) ) {
+                tdcSidebar.activeBreadcrumItem( tdcSidebar.$editInnerColumn );
             } else {
                 tdcSidebar.$editInnerColumn.hide();
             }

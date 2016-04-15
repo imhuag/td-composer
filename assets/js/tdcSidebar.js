@@ -25,44 +25,62 @@ var tdcSidebar;
         init: function() {
 
             tdcSidebar.$editRow = jQuery( '#tdc-breadcrumb-row' );
+            tdcSidebar.$editRow.data( 'name', 'Row' );
             tdcSidebar.$editColumn = jQuery( '#tdc-breadcrumb-column' );
+            tdcSidebar.$editColumn.data( 'name', 'Column' );
             tdcSidebar.$editInnerRow = jQuery( '#tdc-breadcrumb-inner-row' );
+            tdcSidebar.$editInnerRow.data( 'name', 'Inner Row' );
             tdcSidebar.$editInnerColumn = jQuery( '#tdc-breadcrumb-inner-column' );
+            tdcSidebar.$editInnerColumn.data( 'name', 'Inner Column' );
 
             tdcSidebar.$currentElement = jQuery( '.tdc-current-element' );
             tdcSidebar.$inspector = jQuery( '.tdc-inspector' );
 
 
             tdcSidebar.$editRow.click(function() {
-                tdcSidebar.$currentElement.html( 'Row' );
-                tdcSidebar.$editRow.nextAll().hide();
-                tdcSidebar.$inspector.show();
+                tdcSidebar.activeBreadcrumItem( tdcSidebar.$editRow );
             });
 
             tdcSidebar.$editColumn.click(function() {
-                tdcSidebar.$currentElement.html( 'Column' );
-                tdcSidebar.$editColumn.nextAll().hide();
-                tdcSidebar.$inspector.show();
+                tdcSidebar.activeBreadcrumItem( tdcSidebar.$editColumn );
             });
 
             tdcSidebar.$editInnerRow.click(function() {
-                tdcSidebar.$currentElement.html( 'Inner Row' );
-                tdcSidebar.$editInnerRow.nextAll().hide();
-                tdcSidebar.$inspector.show();
+                tdcSidebar.activeBreadcrumItem( tdcSidebar.$editInnerRow );
             });
 
             tdcSidebar.$editInnerColumn.click(function() {
-                tdcSidebar.$currentElement.html( 'Inner Column' );
-                tdcSidebar.$inspector.show();
+                tdcSidebar.activeBreadcrumItem( tdcSidebar.$editInnerColumn );
             });
 
 
             jQuery( '.tdc-sidebar-element').each(function( index, element ) {
-                tdcSidebar._defineOperations( jQuery( element ) );
+                tdcSidebar._bindElement( jQuery( element ) );
             });
 
             tdcSidebar.sidebarModal();
             tdcSidebar.liveInspectorTabs();
+        },
+
+
+
+        activeBreadcrumItem: function( $item ) {
+            tdcSidebar.setCurrentElementContent( $item.data( 'name' ) );
+            $item.show();
+            $item.nextAll().hide();
+            tdcSidebar.$inspector.show();
+        },
+
+
+
+        setCurrentElementContent: function( content ) {
+            tdcSidebar.$currentElement.html( content );
+        },
+
+
+
+        closeModal: function() {
+            jQuery( '.tdc-sidebar-modal-elements' ).removeClass( 'tdc-modal-open' );
         },
 
 
@@ -87,7 +105,7 @@ var tdcSidebar;
 
 
 
-        _defineOperations: function( $element ) {
+        _bindElement: function( $element ) {
 
             $element.click(function( event ) {
                 //tdcDebug.log( 'click sidebar element' );

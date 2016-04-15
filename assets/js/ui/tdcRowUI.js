@@ -29,112 +29,114 @@ var tdcRowUI;
 
         init: function() {
 
-            tdcRowUI.tdcRow = tdcOperationUI.iframeContents.find( '.tdc-row' );
+            tdcRowUI.tdcRow = tdcOperationUI.iframeContents.find('.tdc-row');
 
-            tdcRowUI.tdcRow.each(function( index, element ) {
+            tdcRowUI.tdcRow.each(function (index, element) {
+                tdcRowUI.bindRow( jQuery( element ) );
+            });
+        },
 
-                var $element = jQuery( element );
+        bindRow: function( $element ) {
 
-                $element.click( function( event ) {
-                    //tdcDebug.log( 'click row' );
+            $element.click( function( event ) {
+                //tdcDebug.log( 'click row' );
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                tdcMaskUI.setBreadcrumb( $element );
+
+            }).mousedown(function( event ) {
+                //tdcDebug.log( 'row mouse down' );
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                tdcOperationUI.activeDraggedElement( jQuery( this ) );
+                tdcOperationUI.showHelper( event );
+
+                tdcOperationUI.setCurrentElementOver( $element );
+                tdcRowUI.positionRowPlaceholder( event );
+
+                tdcMaskUI.hide();
+
+            }).mouseup(function( event ) {
+
+                // Respond only if dragged element is 'tdc-row'
+                if ( tdcOperationUI.isRowDragged() ) {
+                    //tdcDebug.log( 'row mouse up' );
+
+                    event.preventDefault();
+
+                    tdcOperationUI.deactiveDraggedElement();
+                    tdcOperationUI.hideHelper();
+                }
+
+            }).mousemove(function( event ) {
+
+                // Respond only if dragged element is 'tdc-row'
+                if ( tdcOperationUI.isRowDragged() ) {
+                    //tdcDebug.log( 'row mouse move' );
 
                     event.preventDefault();
                     event.stopPropagation();
 
-                    tdcMaskUI.setBreadcrumb( $element );
-
-                }).mousedown(function( event ) {
-                    //tdcDebug.log( 'row mouse down' );
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    tdcOperationUI.activeDraggedElement( jQuery( this ) );
                     tdcOperationUI.showHelper( event );
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcRowUI.positionRowPlaceholder( event );
+                }
 
-                    tdcMaskUI.hide();
+            }).mouseenter(function( event ) {
 
-                }).mouseup(function( event ) {
+                // Respond only if dragged element is 'tdc-row'
+                if ( tdcOperationUI.isRowDragged() ) {
+                    //tdcDebug.log('row mouse enter');
 
-                    // Respond only if dragged element is 'tdc-row'
-                    if ( tdcOperationUI.isRowDragged() ) {
-                        //tdcDebug.log( 'row mouse up' );
+                    event.preventDefault();
 
-                        event.preventDefault();
+                    tdcOperationUI.setCurrentElementOver( $element );
+                    tdcRowUI.positionRowPlaceholder( event );
+                }
 
-                        tdcOperationUI.deactiveDraggedElement();
-                        tdcOperationUI.hideHelper();
-                    }
+            }).mouseleave(function( event ) {
 
-                }).mousemove(function( event ) {
+                // Respond only if dragged element is 'tdc-row'
+                if ( tdcOperationUI.isRowDragged() ) {
+                    //tdcDebug.log('row mouse leave');
 
-                    // Respond only if dragged element is 'tdc-row'
-                    if ( tdcOperationUI.isRowDragged() ) {
-                        //tdcDebug.log( 'row mouse move' );
+                    event.preventDefault();
 
-                        event.preventDefault();
-                        event.stopPropagation();
+                    tdcOperationUI.setCurrentElementOver( undefined );
+                    tdcRowUI.positionRowPlaceholder( event );
+                }
 
-                        tdcOperationUI.showHelper( event );
+            }).on( 'fakemouseenterevent', function( event ) {
 
+                // Respond only if dragged element is 'tdc-row'
+                if ( tdcOperationUI.isRowDragged() ) {
+                    //tdcDebug.log( 'tdc-row FAKE MOUSE ENTER EVENT' );
+
+                    var outerHeight = $element.outerHeight( true );
+                    var outerWidth = $element.outerWidth();
+
+                    var offset = $element.offset();
+
+                    //tdcDebug.log( offset.left + ' : ' + event.pageX + ' : ' + (offset.left + outerWidth) );
+                    //tdcDebug.log( offset.top + ' : ' + event.pageY + ' : ' + (offset.top + outerHeight) );
+
+                    if ( ( parseInt( offset.left ) <= parseInt( event.pageX ) ) && ( parseInt( event.pageX ) <= parseInt( offset.left + outerWidth ) ) &&
+                        ( parseInt( offset.top ) <= parseInt( event.pageY ) ) && ( parseInt( event.pageY ) <= parseInt( offset.top + outerHeight ) ) ) {
+
+                        //tdcDebug.log( '***********************' );
+
+                        // Set the 'currentElementOver' variable to the current element
                         tdcOperationUI.setCurrentElementOver( $element );
+
+                        // Position the placeholder
                         tdcRowUI.positionRowPlaceholder( event );
                     }
-
-                }).mouseenter(function( event ) {
-
-                    // Respond only if dragged element is 'tdc-row'
-                    if ( tdcOperationUI.isRowDragged() ) {
-                        //tdcDebug.log('row mouse enter');
-
-                        event.preventDefault();
-
-                        tdcOperationUI.setCurrentElementOver( $element );
-                        tdcRowUI.positionRowPlaceholder( event );
-                    }
-
-                }).mouseleave(function( event ) {
-
-                    // Respond only if dragged element is 'tdc-row'
-                    if ( tdcOperationUI.isRowDragged() ) {
-                        //tdcDebug.log('row mouse leave');
-
-                        event.preventDefault();
-
-                        tdcOperationUI.setCurrentElementOver( undefined );
-                        tdcRowUI.positionRowPlaceholder( event );
-                    }
-
-                }).on( 'fakemouseenterevent', function( event ) {
-
-                    // Respond only if dragged element is 'tdc-row'
-                    if ( tdcOperationUI.isRowDragged() ) {
-                        //tdcDebug.log( 'tdc-row FAKE MOUSE ENTER EVENT' );
-
-                        var outerHeight = $element.outerHeight( true );
-                        var outerWidth = $element.outerWidth();
-
-                        var offset = $element.offset();
-
-                        //tdcDebug.log( offset.left + ' : ' + event.pageX + ' : ' + (offset.left + outerWidth) );
-                        //tdcDebug.log( offset.top + ' : ' + event.pageY + ' : ' + (offset.top + outerHeight) );
-
-                        if ( ( parseInt( offset.left ) <= parseInt( event.pageX ) ) && ( parseInt( event.pageX ) <= parseInt( offset.left + outerWidth ) ) &&
-                            ( parseInt( offset.top ) <= parseInt( event.pageY ) ) && ( parseInt( event.pageY ) <= parseInt( offset.top + outerHeight ) ) ) {
-
-                            //tdcDebug.log( '***********************' );
-
-                            // Set the 'currentElementOver' variable to the current element
-                            tdcOperationUI.setCurrentElementOver( $element );
-
-                            // Position the placeholder
-                            tdcRowUI.positionRowPlaceholder( event );
-                        }
-                    }
-                });
+                }
             });
         },
 

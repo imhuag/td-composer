@@ -29,137 +29,143 @@ var tdcColumnUI;
 
         init: function() {
 
-            tdcColumnUI.tdcColumn = tdcOperationUI.iframeContents.find( '.tdc-column' );
+            tdcColumnUI.tdcColumn = tdcOperationUI.iframeContents.find('.tdc-column');
 
-            tdcColumnUI.tdcColumn.each(function( index, element ) {
+            tdcColumnUI.tdcColumn.each(function (index, element) {
+                tdcColumnUI.bindColumn(jQuery(element));
+            });
+        },
 
-                var $element = jQuery( element );
+        bindColumn: function( $element ) {
 
-                $element.click(function( event ) {
-                    //tdcDebug.log( 'click column' );
+            // Unbind any event.
+            // This allows us to reuse the 'bindColumn' method for the same elements
+            $element.unbind();
+
+            $element.click(function( event ) {
+                //tdcDebug.log( 'click column' );
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                tdcMaskUI.setBreadcrumb( $element );
+
+            }).mousedown(function( event ) {
+                //tdcDebug.log( 'column mouse down' );
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                tdcOperationUI.activeDraggedElement( jQuery( this ) );
+                tdcOperationUI.showHelper( event );
+
+                //setVerticalPlaceholder();
+
+                tdcOperationUI.setCurrentElementOver( $element );
+                tdcColumnUI.positionColumnPlaceholder( event );
+
+                tdcMaskUI.hide();
+
+            }).mouseup(function( event ) {
+
+                // Respond only if dragged element is 'tdc-column'
+                if ( tdcOperationUI.isColumnDragged( $element ) ) {
+                    //tdcDebug.log( 'column mouse up' );
+
+                    event.preventDefault();
+
+                    tdcOperationUI.deactiveDraggedElement();
+                    tdcOperationUI.hideHelper();
+
+                    tdcOperationUI.setCurrentElementOver( undefined );
+                    tdcColumnUI.positionColumnPlaceholder( event );
+                }
+
+            }).mousemove(function( event ) {
+
+                // Respond only if dragged element is 'tdc-column'
+                if ( tdcOperationUI.isColumnDragged( $element ) ) {
+                    //tdcDebug.log( 'column mouse move' );
 
                     event.preventDefault();
                     event.stopPropagation();
 
-                    tdcMaskUI.setBreadcrumb( $element );
-
-                }).mousedown(function( event ) {
-                    //tdcDebug.log( 'column mouse down' );
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    tdcOperationUI.activeDraggedElement( jQuery( this ) );
                     tdcOperationUI.showHelper( event );
-
-                    //setVerticalPlaceholder();
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcColumnUI.positionColumnPlaceholder( event );
+                }
 
-                    tdcMaskUI.hide();
+            }).mouseenter(function( event ) {
 
-                }).mouseup(function( event ) {
+                // Respond only if dragged element is 'tdc-column'
+                if ( tdcOperationUI.isColumnDragged( $element ) ) {
+                    //tdcDebug.log( 'column mouse enter' );
 
-                    // Respond only if dragged element is 'tdc-column'
-                    if ( tdcOperationUI.isColumnDragged( $element ) ) {
-                        //tdcDebug.log( 'column mouse up' );
+                    event.preventDefault();
 
-                        event.preventDefault();
+                    tdcOperationUI.setCurrentElementOver( $element );
+                    tdcColumnUI.positionColumnPlaceholder( event );
+                }
 
-                        tdcOperationUI.deactiveDraggedElement();
-                        tdcOperationUI.hideHelper();
+            }).mouseleave(function(event) {
 
-                        tdcOperationUI.setCurrentElementOver( undefined );
-                        tdcColumnUI.positionColumnPlaceholder( event );
+                // Respond only if dragged element is 'tdc-column'
+                if ( tdcOperationUI.isColumnDragged( $element ) ) {
+                    //tdcDebug.log( 'column mouse leave' );
+
+                    event.preventDefault();
+
+                    tdcOperationUI.setCurrentElementOver( undefined );
+                    tdcColumnUI.positionColumnPlaceholder( event );
+                }
+
+            }).on( 'fakemouseenterevent', function(event) {
+
+                // Respond only if dragged element is 'tdc-column'
+                if ( tdcOperationUI.isColumnDragged( $element ) ) {
+                    //tdcDebug.log( 'tdc-column FAKE MOUSE ENTER EVENT' );
+
+                    var list_tdc_elements = $element.find( '.tdc-elements:first' );
+
+                    if ( ! list_tdc_elements.length ) {
+                        return;
                     }
 
-                }).mousemove(function( event ) {
+                    var outerHeight = list_tdc_elements.outerHeight( true );
+                    var outerWidth = list_tdc_elements.outerWidth();
 
-                    // Respond only if dragged element is 'tdc-column'
-                    if ( tdcOperationUI.isColumnDragged( $element ) ) {
-                        //tdcDebug.log( 'column mouse move' );
+                    var offset = $element.offset();
 
-                        event.preventDefault();
-                        event.stopPropagation();
+                    // Being floated, all prev columns width must be considered when working with the offset().left
+                    var extraLeft = 0;
+                    var prevColumns = $element.prevAll( '.tdc-column' );
 
-                        tdcOperationUI.showHelper( event );
+                    if ( prevColumns.length ) {
+                        prevColumns.each( function (index, element) {
+                            extraLeft += parseInt( jQuery(element).find( '.tdc-elements:first').width() );
+                        });
+                    }
 
+                    extraLeft += offset.left;
+
+
+                    //tdcDebug.log( extraLeft + ' : ' + event.pageX + ' : ' + ( extraLeft + outerWidth ) );
+                    //tdcDebug.log( offset.top + ' : ' + event.pageY + ' : ' + ( offset.top + outerHeight ) );
+
+
+                    if ( ( parseInt( extraLeft ) <= parseInt( event.pageX ) ) && ( parseInt( event.pageX ) <= parseInt( extraLeft + outerWidth ) ) &&
+                        ( parseInt( offset.top ) <= parseInt( event.pageY ) ) && ( parseInt( event.pageY ) <= parseInt( offset.top + outerHeight ) ) ) {
+
+                        //tdcDebug.log( '***********************' );
+
+                        // Set the 'current_element_over' variable to the current element
                         tdcOperationUI.setCurrentElementOver( $element );
+
+                        // Position the placeholder
                         tdcColumnUI.positionColumnPlaceholder( event );
                     }
-
-                }).mouseenter(function( event ) {
-
-                    // Respond only if dragged element is 'tdc-column'
-                    if ( tdcOperationUI.isColumnDragged( $element ) ) {
-                        //tdcDebug.log( 'column mouse enter' );
-
-                        event.preventDefault();
-
-                        tdcOperationUI.setCurrentElementOver( $element );
-                        tdcColumnUI.positionColumnPlaceholder( event );
-                    }
-
-                }).mouseleave(function(event) {
-
-                    // Respond only if dragged element is 'tdc-column'
-                    if ( tdcOperationUI.isColumnDragged( $element ) ) {
-                        //tdcDebug.log( 'column mouse leave' );
-
-                        event.preventDefault();
-
-                        tdcOperationUI.setCurrentElementOver( undefined );
-                        tdcColumnUI.positionColumnPlaceholder( event );
-                    }
-
-                }).on( 'fakemouseenterevent', function(event) {
-
-                    // Respond only if dragged element is 'tdc-column'
-                    if ( tdcOperationUI.isColumnDragged( $element ) ) {
-                        //tdcDebug.log( 'tdc-column FAKE MOUSE ENTER EVENT' );
-
-                        var list_tdc_elements = $element.find( '.tdc-elements:first' );
-
-                        if ( ! list_tdc_elements.length ) {
-                            return;
-                        }
-
-                        var outerHeight = list_tdc_elements.outerHeight( true );
-                        var outerWidth = list_tdc_elements.outerWidth();
-
-                        var offset = $element.offset();
-
-                        // Being floated, all prev columns width must be considered when working with the offset().left
-                        var extraLeft = 0;
-                        var prevColumns = $element.prevAll( '.tdc-column' );
-
-                        if ( prevColumns.length ) {
-                            prevColumns.each( function (index, element) {
-                                extraLeft += parseInt( jQuery(element).find( '.tdc-elements:first').width() );
-                            });
-                        }
-
-                        extraLeft += offset.left;
-
-
-                        //tdcDebug.log( extraLeft + ' : ' + event.pageX + ' : ' + ( extraLeft + outerWidth ) );
-                        //tdcDebug.log( offset.top + ' : ' + event.pageY + ' : ' + ( offset.top + outerHeight ) );
-
-
-                        if ( ( parseInt( extraLeft ) <= parseInt( event.pageX ) ) && ( parseInt( event.pageX ) <= parseInt( extraLeft + outerWidth ) ) &&
-                            ( parseInt( offset.top ) <= parseInt( event.pageY ) ) && ( parseInt( event.pageY ) <= parseInt( offset.top + outerHeight ) ) ) {
-
-                            //tdcDebug.log( '***********************' );
-
-                            // Set the 'current_element_over' variable to the current element
-                            tdcOperationUI.setCurrentElementOver( $element );
-
-                            // Position the placeholder
-                            tdcColumnUI.positionColumnPlaceholder( event );
-                        }
-                    }
-                });
+                }
             });
         },
 

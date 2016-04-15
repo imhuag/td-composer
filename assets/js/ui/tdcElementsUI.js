@@ -30,12 +30,12 @@ var tdcElementsUI;
 
             tdcElementsUI.tdcElements.each(function( index, element ) {
 
-                tdcElementsUI.defineOperations( jQuery( element ) );
+                tdcElementsUI.bindElementList( jQuery( element ) );
             });
         },
 
 
-        defineOperations: function( $element ) {
+        bindElementList: function( $element ) {
 
 
             $element.mousemove(function( event ) {

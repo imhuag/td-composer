@@ -129,7 +129,7 @@ html.tdc-active #wpadminbar {
 
 // This is to be sure that tdc-elements are not outside of its 'before' pseudo element
 .tdc-elements {
-  overflow: hidden;
+  //overflow: hidden; // do not delete it
 }
 
 
@@ -217,7 +217,7 @@ html.tdc-active #wpadminbar {
   left: 0;
   top: 0;
   width: 0;
-  height: 0;
+  min-height: 50px; // the height of an empty element
 }
 
 #tdc-mask-content {

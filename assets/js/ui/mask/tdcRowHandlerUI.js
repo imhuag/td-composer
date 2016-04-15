@@ -157,24 +157,6 @@ var tdcRowHandlerUI;
         },
 
 
-        ///**
-        // * Set the element ( 'tdc-row' ) where this handler will send its proper events
-        // *
-        // * @param $element
-        // */
-        //setElement: function( $element ) {
-        //
-        //    var $elementRow = $element.closest( '.' + tdcRowHandlerUI._elementCssClass );
-        //    if ( $elementRow.length ) {
-        //        tdcRowHandlerUI.$elementRow = $elementRow;
-        //        tdcRowHandlerUI._$handlerWrapper.show();
-        //    } else {
-        //        tdcRowHandlerUI._$handlerWrapper.hide();
-        //    }
-        //},
-
-
-
         /**
          * Set the element ( 'tdc-row' ) where this handler will send its proper events
          *
@@ -201,10 +183,8 @@ var tdcRowHandlerUI;
         setBreadcrumb: function( $element ) {
             var $elementRow = tdcRowHandlerUI._checkRow( $element );
 
-            if ( ! _.isUndefined( $elementRow ) ) {
-                tdcSidebar.$editRow.show();
-            } else if ( tdcRowHandlerUI._isRow( $element ) ) {
-                tdcSidebar.$editRow.show();
+            if ( ! _.isUndefined( $elementRow ) || tdcRowHandlerUI._isRow( $element ) ) {
+                tdcSidebar.activeBreadcrumItem( tdcSidebar.$editRow );
             } else {
                 tdcSidebar.$editRow.hide();
             }

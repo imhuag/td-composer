@@ -187,10 +187,8 @@ var tdcInnerRowHandlerUI;
         setBreadcrumb: function( $element ) {
             var $elementInnerRow = tdcInnerRowHandlerUI._checkInnerRow( $element );
 
-            if ( ! _.isUndefined( $elementInnerRow ) ) {
-                tdcSidebar.$editInnerRow.show();
-            } else if ( tdcInnerRowHandlerUI._isInnerRow( $element ) ) {
-                tdcSidebar.$editInnerRow.show();
+            if ( ! _.isUndefined( $elementInnerRow ) || tdcInnerRowHandlerUI._isInnerRow( $element ) ) {
+                tdcSidebar.activeBreadcrumItem( tdcSidebar.$editInnerRow );
             } else {
                 tdcSidebar.$editInnerRow.hide();
             }

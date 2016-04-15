@@ -141,11 +141,23 @@ var tdcMaskUI;
         },
 
 
-        setBreadcrumb: function( $element ) {
+        /**
+         * Calls the handler setBreadcrumb
+         *
+         * @param $element - the 'tdc-row', 'tdc-column', 'tdc-element-inner-row', 'tdc-inner-column' or the 'tdc-element' element
+         * @param sidebarCurrentElementContent - optional - the html content of the sidebar current element
+         */
+        setBreadcrumb: function( $element, sidebarCurrentElementContent ) {
             _.map( tdcMaskUI._handlers, function( handler, handlerId ) {
                 handler.setBreadcrumb( $element );
-                tdcSidebar.$currentElement.html( '' );
-                tdcSidebar.$inspector.show();
+
+                // Set html content of the sidebar current element
+                if ( ! _.isUndefined( sidebarCurrentElementContent ) ) {
+                    tdcSidebar.setCurrentElementContent( sidebarCurrentElementContent );
+                }
+
+                // Close the sidebar modal 'Add Elements'
+                tdcSidebar.closeModal();
             });
         }
     };

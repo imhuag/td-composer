@@ -537,7 +537,7 @@ var tdcOperationUI;
                 // Step 1 ----------
 
                 var wasSidebarElementDragged = tdcOperationUI.isSidebarElementDragged(),
-                    wasElementDragged = false,
+                    wasElementDragged = tdcOperationUI.isElementDragged(),
                     wasInnerColumnDragged = false,
                     wasInnerRowDragged = false,
                     wasColumnDragged = false,
@@ -546,16 +546,10 @@ var tdcOperationUI;
                     // The container of the $draggedElement
                     $draggedElementContainer;
 
-                if ( ! wasSidebarElementDragged ) {
-                    wasElementDragged = tdcOperationUI.isElementDragged();
+                if ( wasElementDragged ) {
+                    $draggedElementContainer = $draggedElement.closest( '.tdc-elements' );
 
-                    if ( wasElementDragged ) {
-                        $draggedElementContainer = $draggedElement.closest( '.tdc-elements' );
-                    }
-                }
-
-
-                if ( ! wasElementDragged ) {
+                } else {
                     wasInnerColumnDragged = tdcOperationUI.isInnerColumnDragged();
 
                     if ( wasInnerColumnDragged ) {
@@ -601,8 +595,9 @@ var tdcOperationUI;
                 // Step 2 ----------
 
                 // If $draggedElement and $placeholder are siblings, and the $draggedElement is not recycled, do not continue
+                // Also, do nothing in this step if a sidebar element is dragged
 
-                if ( ! _.isUndefined( $draggedElementContainer ) && $draggedElementContainer.length ) {
+                if ( ! wasSidebarElementDragged && ! _.isUndefined( $draggedElementContainer ) && $draggedElementContainer.length ) {
 
                     var $draggedElementContainerChildren = $draggedElementContainer.children(),
                         indexDraggedElement = $draggedElementContainerChildren.index( $draggedElement ),
@@ -624,11 +619,13 @@ var tdcOperationUI;
                     // An empty element is added to the remaining '.tdc-elements' list, to allow drag&drop operations over it
                     // At drop, any empty element is removed from the target list
 
-                    if ( ( wasElementDragged || wasInnerRowDragged ) )  {
+                    //if ( wasElementDragged || wasInnerRowDragged || wasRowDragged )  {
+                    if ( wasElementDragged || wasInnerRowDragged )  {
 
                         var $emptyElement;
 
                         if ( ( -1 === indexPlaceholder && 1 === $draggedElementContainerChildren.length ) || ( 2 === $draggedElementContainerChildren.length && -1 !== indexPlaceholder ) ) {
+
 
                             // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
                             var structureClass = '';
@@ -644,7 +641,7 @@ var tdcOperationUI;
                             }
                             $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + structureClass + '"></div>' );
 
-                            tdcElementUI.defineOperationsForEmptyElement( $emptyElement );
+                            tdcElementUI.bindEmptyElement( $emptyElement );
 
                             $draggedElementContainer.append( $emptyElement );
                         }
@@ -658,6 +655,7 @@ var tdcOperationUI;
 
                 // Remove the ('tdc-element' or the 'tdc-element-inner-row') element from the structure data
                 // Just call the changeData and do not continue. The changeData function will do the job
+                //if ( ( wasElementDragged || wasInnerRowDragged || wasRowDragged ) && $currentElementOver === tdcAdminWrapperUI.$recycle ) {
                 if ( ( wasElementDragged || wasInnerRowDragged ) && $currentElementOver === tdcAdminWrapperUI.$recycle ) {
 
                     tdcIFrameData.changeData({
@@ -680,9 +678,21 @@ var tdcOperationUI;
                 // Step 4 ----------
                 // The placeholder is replaced by the dragged element
 
+                // For sidebar dragged elements, there is need a copy of the $draggedElement, otherwise we can't use jquery replaceWith ($draggedElement is removed from sidebar)
                 if ( wasSidebarElementDragged ) {
+
+                    var cssClass = '';
+
+                    if ( wasElementDragged ) {
+                        cssClass = 'tdc-element';
+                    } else if ( wasInnerRowDragged ) {
+                        cssClass = 'tdc-element-inner-row';
+                    } else if ( wasRowDragged ){
+                        cssClass = 'tdc-row';
+                    }
+
                     // Copy a shallow clone of the $draggedElement
-                    var $fakeDraggedElement = jQuery( '<div class="tdc-element">' + $draggedElement.html() + '</div>' );
+                    var $fakeDraggedElement = jQuery( '<div class="' + cssClass + '">' + $draggedElement.html() + '</div>' );
                     $fakeDraggedElement.data( 'shortcodeName', $draggedElement.data( 'shortcodeName' ) );
 
                     tdcOperationUI.setDraggedElement( $fakeDraggedElement );

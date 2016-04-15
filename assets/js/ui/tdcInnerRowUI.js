@@ -27,13 +27,21 @@ var tdcInnerRowUI;
 
         init: function() {
 
-            tdcInnerRowUI.tdcElementInnerRow = tdcOperationUI.iframeContents.find( '.tdc-element-inner-row' );
+            tdcInnerRowUI.tdcElementInnerRow = tdcOperationUI.iframeContents.find('.tdc-element-inner-row');
 
-            tdcInnerRowUI.tdcElementInnerRow.each( function( index, element ) {
+            tdcInnerRowUI.tdcElementInnerRow.each(function (index, element) {
+                tdcInnerRowUI.bindInnerRow(jQuery(element));
+            });
+        },
 
-                var $element = jQuery( element );
+        bindInnerRow: function( $element ) {
 
-                $element.click(function( event ) {
+            // Unbind any event.
+            // This allows us to reuse the 'bindInnerRow' method for the same elements
+            $element.unbind();
+
+
+            $element.click(function( event ) {
                     //tdcDebug.log( 'click inner row' );
 
                     event.preventDefault();
@@ -129,7 +137,6 @@ var tdcInnerRowUI;
                         }
                     }
                 });
-            });
 
         },
 

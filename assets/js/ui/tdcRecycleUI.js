@@ -23,6 +23,8 @@ var tdcRecycleUI;
 
     tdcRecycleUI = {
 
+        _bufferContent: {},
+
         _activeClass: 'active',
 
         _isInitialized: false,
@@ -39,8 +41,8 @@ var tdcRecycleUI;
 
             tdcAdminWrapperUI.$recycle.mouseup(function( event ) {
 
-                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row', and not 'tdc-sidebar-element'
-                if ( ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) && ! tdcOperationUI.isSidebarElementDragged() ) {
+                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row' or 'tdc-row', and not 'tdc-sidebar-element'
+                if ( ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isRowDragged() ) && ! tdcOperationUI.isSidebarElementDragged() ) {
                     //tdcDebug.log( 'recycle mouse up' );
 
                     event.preventDefault();
@@ -52,8 +54,8 @@ var tdcRecycleUI;
 
             }).mouseenter(function(event) {
 
-                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row', and not 'tdc-sidebar-element'
-                if ( ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) && ! tdcOperationUI.isSidebarElementDragged() ) {
+                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row' or 'tdc-row', and not 'tdc-sidebar-element'
+                if ( ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isRowDragged() ) && ! tdcOperationUI.isSidebarElementDragged() ) {
                     //tdcDebug.log('recycle mouse enter');
 
                     event.preventDefault();
@@ -64,8 +66,8 @@ var tdcRecycleUI;
 
             }).mouseleave(function(event) {
 
-                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row', and not 'tdc-sidebar-element'
-                if ( ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) && ! tdcOperationUI.isSidebarElementDragged() ) {
+                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row' or 'tdc-row', and not 'tdc-sidebar-element'
+                if ( ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isRowDragged() ) && ! tdcOperationUI.isSidebarElementDragged() ) {
                     //tdcDebug.log('recycle mouse leave');
 
                     event.preventDefault();
