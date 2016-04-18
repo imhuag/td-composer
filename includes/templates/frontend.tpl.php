@@ -10,17 +10,10 @@
  * frontend.tpl.php can't be used without 'tdc' class
  */
 
-if (!tdc_state::is_initialized()) {
-	return;
-}
-
 
 global $post;
 
 $post = tdc_state::get_post();
-$post_ID = tdc_state::get_post_id();
-$post_url = tdc_state::get_post_url();
-$post_content = tdc_state::get_post_content();
 
 // check if we have a post set in the state.
 if (empty($post)) {
