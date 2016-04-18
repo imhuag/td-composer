@@ -17,6 +17,9 @@
 /* global tdcElementsUI:{} */
 /* global tdcElementUI:{} */
 
+// duplicate declarations
+/* jshint -W004 */
+
 var tdcIFrameData,
     tdcDebug;
 
@@ -195,17 +198,27 @@ var tdcIFrameData,
             tdcIFrameData.TdcLiveView = Backbone.View.extend({
 
                 initialize: function() {
-                    this.listenTo( this.model, 'change:html', this.render );
-                    this.listenTo( this.model, 'remove', this.remove );
+                    this.listenTo( this.model, 'change:html', this.customRender );
+                    this.listenTo( this.model, 'remove', this.customRemove );
                 },
 
-                render: function( model, value, options) {
+                customRemove: function( model, value, options ) {
+
+                    // It does not allow removing the '#tdc-rows' element when it is the $el element
+                    if ( this.$el.attr( 'id' ) === 'tdc-rows' ) {
+                        this.$el.html( '' );
+                        return;
+                    }
+                    this.remove();
+                },
+
+                customRender: function( model, value, options) {
 
                     tdcDebug.log( 'render' );
 
                     if ( this.model.has( 'html' ) && !_.isUndefined( this.model.get( 'html' ) ) ) {
 
-                        this.el.innerHTML = this.model.get( 'html' );
+                        this.$el.html( this.model.get( 'html' ) );
 
 
 
@@ -216,28 +229,25 @@ var tdcIFrameData,
                             // Reset the flag
                             this.model.set( 'bindNewContent', false );
 
-                            var $el = jQuery(this.el);
-
-
                             // Do the job for 'tdc-element-inner-row'
-                            if ( $el.hasClass( 'tdc-element-inner-row' ) ) {
+                            if ( this.$el.hasClass( 'tdc-element-inner-row' ) ) {
 
                                 // Bind the events for the new inner row
-                                tdcInnerRowUI.bindInnerRow( $el );
+                                tdcInnerRowUI.bindInnerRow( this.$el );
 
-                                var $tdcInnerColumn = $el.find( '.tdc-inner-column');
+                                var $tdcInnerColumn = this.$el.find( '.tdc-inner-column');
 
                                 if ( $tdcInnerColumn.length ) {
 
                                     // Set the data 'model_id' for the element of the 'liveView' backbone view
-                                    $tdcInnerColumn.data( 'model_id', this.model.get( 'childCollection').at(0).cid );
+                                    $tdcInnerColumn.data( 'model_id', this.model.get( 'childCollection' ).at(0).cid );
 
-                                    $tdcInnerColumn.wrapAll('<div class="tdc-inner-columns"></div>');
+                                    $tdcInnerColumn.wrapAll( '<div class="tdc-inner-columns"></div>' );
 
                                     // Bind the events for the new inner column
                                     tdcInnerColumnUI.bindInnerColumn( $tdcInnerColumn );
 
-                                    var $tdcInnerColumnWpbWrapper = $tdcInnerColumn.find('.wpb_wrapper');
+                                    var $tdcInnerColumnWpbWrapper = $tdcInnerColumn.find( '.wpb_wrapper' );
 
                                     if ( $tdcInnerColumnWpbWrapper.length ) {
                                         var $tdcElementsInnerColumn = jQuery('<div class="tdc-elements"></div>');
@@ -252,24 +262,24 @@ var tdcIFrameData,
                                     }
                                 }
 
-                            } else if ( $el.hasClass( 'tdc-row' ) ) {
+                            } else if ( this.$el.hasClass( 'tdc-row' ) ) {
 
                                 // Bind the events for the new row
-                                tdcRowUI.bindRow( $el );
+                                tdcRowUI.bindRow( this.$el );
 
-                                var $tdcColumn = $el.find( '.tdc-column');
+                                var $tdcColumn = this.$el.find( '.tdc-column' );
 
                                 if ( $tdcColumn.length ) {
 
                                     // Set the data 'model_id' for the element of the 'liveView' backbone view
-                                    $tdcColumn.data( 'model_id', this.model.get( 'childCollection').at(0).cid );
+                                    $tdcColumn.data( 'model_id', this.model.get( 'childCollection' ).at(0).cid );
 
-                                    $tdcColumn.wrapAll('<div class="tdc-columns"></div>');
+                                    $tdcColumn.wrapAll( '<div class="tdc-columns"></div>' );
 
                                     // Bind the events for the new column
                                     tdcColumnUI.bindColumn( $tdcColumn );
 
-                                    var $tdcColumnWpbWrapper = $tdcColumn.find('.wpb_wrapper');
+                                    var $tdcColumnWpbWrapper = $tdcColumn.find( '.wpb_wrapper' );
 
                                     if ( $tdcColumnWpbWrapper.length ) {
                                         var $tdcElementsColumn = jQuery( '<div class="tdc-elements"></div>' );
@@ -284,30 +294,30 @@ var tdcIFrameData,
                                     }
                                 }
 
-                            } else if ( $el.attr( 'id', 'tdc-rows' ) ) {
+                            } else if ( this.$el.attr( 'id', 'tdc-rows' ) ) {
 
                                 // Bind the events for the new row
 
-                                var $tdcRow = $el.find( '.tdc-row:first' );
+                                var $tdcRow = this.$el.find( '.tdc-row:first' );
 
                                 // Set the data 'model_id' for the element of the 'liveView' backbone view
                                 $tdcRow.data( 'model_id', this.model.cid );
 
                                 tdcRowUI.bindRow( $tdcRow );
 
-                                var $tdcColumn = $tdcRow.find( '.tdc-column');
+                                var $tdcColumn = $tdcRow.find( '.tdc-column' );
 
                                 if ( $tdcColumn.length ) {
 
                                     // Set the data 'model_id' for the element of the 'liveView' backbone view
-                                    $tdcColumn.data( 'model_id', this.model.get( 'childCollection').at(0).cid );
+                                    $tdcColumn.data( 'model_id', this.model.get( 'childCollection' ).at(0).cid );
 
-                                    $tdcColumn.wrapAll('<div class="tdc-columns"></div>');
+                                    $tdcColumn.wrapAll( '<div class="tdc-columns"></div>' );
 
                                     // Bind the events for the new column
                                     tdcColumnUI.bindColumn( $tdcColumn );
 
-                                    var $tdcColumnWpbWrapper = $tdcColumn.find('.wpb_wrapper');
+                                    var $tdcColumnWpbWrapper = $tdcColumn.find( '.wpb_wrapper' );
 
                                     if ( $tdcColumnWpbWrapper.length ) {
                                         var $tdcElementsColumn = jQuery( '<div class="tdc-elements"></div>' );
@@ -780,9 +790,9 @@ var tdcIFrameData,
         /**
          * Important! This function should be called only by 'stop' sortable handler
          * Case A (the sidebar element was dragged)
-         *      Case A.1. Row dragged
+         *      Case A.1. Element dragged
          *      Case A.2. Inner row dragged
-         *      Case A.3. Element dragged
+         *      Case A.3. Row dragged
          * Case B
          *      Steps:
          *          Step 1. Get the model of the draggable element
@@ -796,7 +806,7 @@ var tdcIFrameData,
          *
          * @param whatWasDragged object
          */
-        changeData: function( whatWasDragged ) { tdcDebug.log( '*********************' );
+        changeData: function( whatWasDragged ) {
 
             if ( ! tdcIFrameData._isInitialized ) {
                 return;
@@ -813,61 +823,62 @@ var tdcIFrameData,
 
                 // Case A
 
-                if ( whatWasDragged.wasRowDragged ) {
+                if ( whatWasDragged.wasElementDragged ) {
 
                     // Case A.1
 
-                    // Dragging a new row, a new destination model is created and added into the tdcIFrameData.tdcRows
+                    destinationModel = tdcIFrameData._getDestinationModel(['.tdc-inner-column', '.tdc-column']);
 
-                    // Define the row model
-                    var rowModel = new tdcIFrameData.TdcModel({
-                        'content': '',
-                        'attrs': {},
-                        'tag': 'vc_row',
-                        'type': 'closed',
-                        'level': 1,
-                        'parentModel': undefined
-                    }),
+                    if (_.isUndefined(destinationModel)) {
+                        alert('changeData Error: Destination model not in structure data!');
+                        return;
+                    }
 
-                    // Define the row liveView
-                    rowView = new tdcIFrameData.TdcLiveView({
-                        model: rowModel,
-                        el: $draggedElement[0]
-                    }),
+                    destinationColParam = tdcIFrameData._getColParam(destinationModel);
 
-                    // Define the column model
-                    columnModel = new tdcIFrameData.TdcModel({
-                        'content': '',
-                        'attrs': {},
-                        'tag': 'vc_column',
-                        'type': 'closed',
-                        'level': 2,
-                        'parentModel': rowModel
-                    }),
+                    // Change the model structure
+                    // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
+                    // In this case, we initialize it at an empty collection
+                    if (destinationModel.has( 'childCollection' ) ) {
+                        destinationChildCollection = destinationModel.get( 'childCollection' );
+                    } else {
+                        destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
+                        destinationChildCollection = destinationModel.get( 'childCollection' );
+                    }
 
-                    // Define the column liveView
-                    columnView = new tdcIFrameData.TdcLiveView({
-                        model: columnModel,
-                        el: $draggedElement[0]
-                    });
+                    var shortcodeName = $draggedElement.data( 'shortcodeName' ),
+                        shortcodeTitle = $draggedElement.html(),
+
+                    // Define the model
+                        elementModel = new tdcIFrameData.TdcModel({
+                            'content': '',
+                            'attrs': {
+                                'ajax_pagination': 'next_prev',
+                                'custom_title': shortcodeTitle
+                            },
+                            'tag': shortcodeName,
+                            'type': 'single',
+                            'level': 4,
+                            'parentModel': destinationModel
+                        }),
+
+                    // Devine the liveView
+                        elementView = new tdcIFrameData.TdcLiveView({
+                            model: elementModel,
+                            el: $draggedElement[0]
+                        });
+
+                    tdcElementUI.bindElement( $draggedElement );
 
                     // Set the data model id to the liveView jquery element
-                    $draggedElement.data( 'model_id', rowModel.cid );
+                    $draggedElement.data('model_id', elementModel.cid);
 
-                    tdcIFrameData.tdcRows.add( rowModel, {at: newPosition});
+                    destinationChildCollection.add(elementModel, {at: newPosition});
 
-                    var childCollectionRow = new tdcIFrameData.TdcCollection();
-                    childCollectionRow.add( columnModel );
-                    rowModel.set( 'childCollection', childCollectionRow );
-
-                    var childCollectionColumn = new tdcIFrameData.TdcCollection();
-                    columnModel.set( 'childCollection', childCollectionColumn );
-
+                    elementModel.set('parentModel', destinationModel);
 
                     // Get the shortcode rendered
-                    //rowModel.getShortcodeRender( destinationColParam, true );
-                    rowModel.getShortcodeRender( 1, true );
-
+                    elementModel.getShortcodeRender( destinationColParam, false );
 
                 } else if ( whatWasDragged.wasInnerRowDragged ) {
 
@@ -941,62 +952,56 @@ var tdcIFrameData,
                     innerRowModel.getShortcodeRender( destinationColParam, true );
 
 
-                } else if ( whatWasDragged.wasElementDragged ) {
+                } else if ( whatWasDragged.wasRowDragged ) {
 
                     // Case A.3
 
-                    destinationModel = tdcIFrameData._getDestinationModel(['.tdc-inner-column', '.tdc-column']);
+                    // Dragging a new row, a new destination model is created and added into the tdcIFrameData.tdcRows
 
-                    if (_.isUndefined(destinationModel)) {
-                        alert('changeData Error: Destination model not in structure data!');
-                        return;
-                    }
-
-                    destinationColParam = tdcIFrameData._getColParam(destinationModel);
-
-                    // Change the model structure
-                    // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
-                    // In this case, we initialize it at an empty collection
-                    if (destinationModel.has( 'childCollection' ) ) {
-                        destinationChildCollection = destinationModel.get( 'childCollection' );
-                    } else {
-                        destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
-                        destinationChildCollection = destinationModel.get( 'childCollection' );
-                    }
-
-                    var shortcodeName = $draggedElement.data( 'shortcodeName' ),
-                        shortcodeTitle = $draggedElement.html(),
-
-                    // Define the model
-                        elementModel = new tdcIFrameData.TdcModel({
+                    // Define the row model
+                    var rowModel = new tdcIFrameData.TdcModel({
                             'content': '',
-                            'attrs': {
-                                'ajax_pagination': 'next_prev',
-                                'custom_title': shortcodeTitle
-                            },
-                            'tag': shortcodeName,
-                            'type': 'single',
-                            'level': 4,
-                            'parentModel': destinationModel
+                            'attrs': {},
+                            'tag': 'vc_row',
+                            'type': 'closed',
+                            'level': 1,
+                            'parentModel': undefined
                         }),
 
-                    // Devine the liveView
-                        elementView = new tdcIFrameData.TdcLiveView({
-                            model: elementModel,
+                    // Define the row liveView
+                        rowView = new tdcIFrameData.TdcLiveView({
+                            model: rowModel,
                             el: $draggedElement[0]
-                        });
+                        }),
 
-                    tdcElementUI.bindElement( $draggedElement );
+                    // Define the column model
+                        columnModel = new tdcIFrameData.TdcModel({
+                            'content': '',
+                            'attrs': {},
+                            'tag': 'vc_column',
+                            'type': 'closed',
+                            'level': 2,
+                            'parentModel': rowModel
+                    });
 
                     // Set the data model id to the liveView jquery element
-                    $draggedElement.data('model_id', elementModel.cid);
+                    $draggedElement.data( 'model_id', rowModel.cid );
 
-                    destinationChildCollection.add(elementModel, {at: newPosition});
+                    tdcIFrameData.tdcRows.add( rowModel, {at: newPosition});
 
-                    elementModel.set('parentModel', destinationModel);
+                    var childCollectionRow = new tdcIFrameData.TdcCollection();
+                    childCollectionRow.add( columnModel );
+                    rowModel.set( 'childCollection', childCollectionRow );
+
+                    var childCollectionColumn = new tdcIFrameData.TdcCollection();
+                    columnModel.set( 'childCollection', childCollectionColumn );
+
 
                     // Get the shortcode rendered
-                    elementModel.getShortcodeRender( destinationColParam, false );
+                    //rowModel.getShortcodeRender( destinationColParam, true );
+                    rowModel.getShortcodeRender( 1, true );
+
+
                 }
 
             } else {
@@ -1035,7 +1040,7 @@ var tdcIFrameData,
                 var sourceModel,
                     sourceChildCollection;
 
-                if (whatWasDragged.wasElementDragged) {
+                if ( whatWasDragged.wasElementDragged ) {
 
                     tdcDebug.log('case 1');
 
@@ -1054,19 +1059,19 @@ var tdcIFrameData,
 
 
 
-                    sourceModel = elementModel.get('parentModel');
-                    destinationModel = tdcIFrameData._getDestinationModel(['.tdc-inner-column', '.tdc-column']);
+                    sourceModel = elementModel.get( 'parentModel' );
+                    destinationModel = tdcIFrameData._getDestinationModel( ['.tdc-inner-column', '.tdc-column'] );
 
-                    if (_.isUndefined(destinationModel)) {
+                    if ( _.isUndefined( destinationModel ) ) {
                         alert( 'changeData Error: Destination model not in structure data!' );
                         return;
                     }
 
                     if ( sourceModel.cid === destinationModel.cid ) {
 
-                        sourceChildCollection = sourceModel.get('childCollection');
-                        sourceChildCollection.remove(elementModel, {silent: true} );
-                        sourceChildCollection.add(elementModel, {at: newPosition});
+                        sourceChildCollection = sourceModel.get( 'childCollection' );
+                        sourceChildCollection.remove( elementModel, {silent: true} );
+                        sourceChildCollection.add( elementModel, {at: newPosition} );
 
                     } else {
 
@@ -1076,25 +1081,25 @@ var tdcIFrameData,
                         // Change the model structure
                         // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
                         // In this case, we initialize it at an empty collection
-                        if (destinationModel.has('childCollection')) {
-                            destinationChildCollection = destinationModel.get('childCollection');
+                        if ( destinationModel.has( 'childCollection' ) ) {
+                            destinationChildCollection = destinationModel.get( 'childCollection' );
                         } else {
-                            destinationModel.set('childCollection', new tdcIFrameData.TdcCollection());
-                            destinationChildCollection = destinationModel.get('childCollection');
+                            destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
+                            destinationChildCollection = destinationModel.get( 'childCollection' );
                         }
 
-                        sourceChildCollection = sourceModel.get('childCollection');
+                        sourceChildCollection = sourceModel.get( 'childCollection' );
 
-                        sourceChildCollection.remove(elementModel, {silent: true} );
-                        destinationChildCollection.add(elementModel, {at: newPosition});
+                        sourceChildCollection.remove( elementModel, {silent: true} );
+                        destinationChildCollection.add( elementModel, {at: newPosition} );
 
-                        elementModel.set('parentModel', destinationModel);
+                        elementModel.set( 'parentModel', destinationModel );
 
                         // Get the shortcode rendered
                         elementModel.getShortcodeRender( destinationColParam, false );
                     }
 
-                } else if (whatWasDragged.wasInnerRowDragged) {
+                } else if ( whatWasDragged.wasInnerRowDragged ) {
 
                     tdcDebug.log('case 2');
 
@@ -1112,108 +1117,105 @@ var tdcIFrameData,
 
 
 
-                    sourceModel = elementModel.get('parentModel');
-                    destinationModel = tdcIFrameData._getDestinationModel(['.tdc-column']);
+                    sourceModel = elementModel.get( 'parentModel' );
+                    destinationModel = tdcIFrameData._getDestinationModel( ['.tdc-column'] );
 
-                    if (_.isUndefined(destinationModel)) {
+                    if ( _.isUndefined( destinationModel ) ) {
                         return;
                     }
 
-                    if (sourceModel.cid === destinationModel.cid) {
+                    if ( sourceModel.cid === destinationModel.cid ) {
 
-                        sourceChildCollection = sourceModel.get('childCollection');
-                        sourceChildCollection.remove(elementModel, {silent: true} );
-                        sourceChildCollection.add(elementModel, {at: newPosition});
+                        sourceChildCollection = sourceModel.get( 'childCollection' );
+                        sourceChildCollection.remove( elementModel, {silent: true} );
+                        sourceChildCollection.add( elementModel, {at: newPosition} );
 
                     } else {
 
                         // Change the model structure
                         // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
                         // In this case, we initialize it at an empty collection
-                        if (destinationModel.has('childCollection')) {
-                            destinationChildCollection = destinationModel.get('childCollection');
+                        if ( destinationModel.has( 'childCollection' ) ) {
+                            destinationChildCollection = destinationModel.get( 'childCollection' );
                         } else {
-                            destinationModel.set('childCollection', new tdcIFrameData.TdcCollection());
-                            destinationChildCollection = destinationModel.get('childCollection');
+                            destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
+                            destinationChildCollection = destinationModel.get( 'childCollection' );
                         }
 
                         // Move the entire structure
-                        sourceChildCollection = sourceModel.get('childCollection');
-                        sourceChildCollection.remove(elementModel, {silent: true} );
-                        destinationChildCollection.add(elementModel, {at: newPosition});
-                        elementModel.set('parentModel', destinationModel);
+                        sourceChildCollection = sourceModel.get( 'childCollection' );
+                        sourceChildCollection.remove( elementModel, {silent: true} );
+                        destinationChildCollection.add( elementModel, {at: newPosition} );
+                        elementModel.set( 'parentModel', destinationModel );
                     }
 
-                } else if (whatWasDragged.wasInnerColumnDragged || whatWasDragged.wasColumnDragged) {
+                } else if ( whatWasDragged.wasInnerColumnDragged || whatWasDragged.wasColumnDragged ) {
 
-                    tdcDebug.log('case 3');
+                    tdcDebug.log( 'case 3' );
 
-                    sourceModel = elementModel.get('parentModel');
-                    sourceChildCollection = sourceModel.get('childCollection');
-                    sourceChildCollection.remove(elementModel, {silent: true} );
-                    sourceChildCollection.add(elementModel, {at: newPosition});
+                    sourceModel = elementModel.get( 'parentModel' );
+                    sourceChildCollection = sourceModel.get( 'childCollection' );
+                    sourceChildCollection.remove( elementModel, {silent: true} );
+                    sourceChildCollection.add( elementModel, {at: newPosition} );
 
-                } else if (whatWasDragged.wasRowDragged) {
+                } else if ( whatWasDragged.wasRowDragged ) {
 
-                    tdcDebug.log('case 4');
+                    tdcDebug.log( 'case 4' );
 
-                    //// If the element is recycled, just remove the model from data structure
-                    //if ( tdcOperationUI.getCurrentElementOver() === tdcAdminWrapperUI.$recycle ) {
-                    //
-                    //    tdcDebug.log('row recycled');
-                    //
-                    //    tdcIFrameData.removeModel( elementModel );
-                    //    tdcDebug.log( tdcIFrameData.tdcRows );
-                    //
-                    //    // Add a new empty row if all rows have been deleted
-                    //    if ( ! tdcIFrameData.tdcRows.length ) {
-                    //
-                    //        // Define the row model
-                    //        var rowModel = new tdcIFrameData.TdcModel({
-                    //            'content': '',
-                    //            'attrs': {},
-                    //            'tag': 'vc_row',
-                    //            'type': 'closed',
-                    //            'level': 1,
-                    //            'parentModel': undefined
-                    //        }),
-                    //
-                    //        // Define the row liveView
-                    //        rowView = new tdcIFrameData.TdcLiveView({
-                    //            model: rowModel,
-                    //            el: tdcIFrameData.iframeContents.find( '#tdc-rows' )[0]
-                    //        }),
-                    //
-                    //        // Define the column model
-                    //        columnModel = new tdcIFrameData.TdcModel({
-                    //            'content': '',
-                    //            'attrs': {},
-                    //            'tag': 'vc_column',
-                    //            'type': 'closed',
-                    //            'level': 2,
-                    //            'parentModel': rowModel
-                    //        });
-                    //
-                    //        // Set the data model id to the liveView jquery element
-                    //        //$draggedElement.data( 'model_id', rowModel.cid );
-                    //
-                    //        tdcIFrameData.tdcRows.add( rowModel, {at: 0});
-                    //
-                    //        var childCollectionRow = new tdcIFrameData.TdcCollection();
-                    //        childCollectionRow.add( columnModel );
-                    //        rowModel.set( 'childCollection', childCollectionRow );
-                    //
-                    //        var childCollectionColumn = new tdcIFrameData.TdcCollection();
-                    //        columnModel.set( 'childCollection', childCollectionColumn );
-                    //
-                    //
-                    //        // Get the shortcode rendered
-                    //        //rowModel.getShortcodeRender( destinationColParam, true );
-                    //        rowModel.getShortcodeRender( 1, true );
-                    //    }
-                    //
-                    //    return;
-                    //}
+                    // If the element is recycled, just remove the model from data structure
+                    if ( tdcOperationUI.getCurrentElementOver() === tdcAdminWrapperUI.$recycle ) {
+
+                        tdcDebug.log('row recycled');
+
+                        tdcIFrameData.removeModel( elementModel );
+                        tdcDebug.log( tdcIFrameData.tdcRows );
+
+                        // Add a new empty row if all rows have been deleted
+                        if ( ! tdcIFrameData.tdcRows.length ) {
+
+                            // Define the row model
+                            var rowModel = new tdcIFrameData.TdcModel({
+                                'content': '',
+                                'attrs': {},
+                                'tag': 'vc_row',
+                                'type': 'closed',
+                                'level': 1,
+                                'parentModel': undefined
+                            }),
+
+                            // Define the row liveView
+                            rowView = new tdcIFrameData.TdcLiveView({
+                                model: rowModel,
+                                el: tdcIFrameData.iframeContents.find( '#tdc-rows' )[0]
+                            }),
+
+                            // Define the column model
+                            columnModel = new tdcIFrameData.TdcModel({
+                                'content': '',
+                                'attrs': {},
+                                'tag': 'vc_column',
+                                'type': 'closed',
+                                'level': 2,
+                                'parentModel': rowModel
+                            });
+
+                            tdcIFrameData.tdcRows.add( rowModel, {at: 0} );
+
+                            var childCollectionRow = new tdcIFrameData.TdcCollection();
+                            childCollectionRow.add( columnModel );
+                            rowModel.set( 'childCollection', childCollectionRow );
+
+                            var childCollectionColumn = new tdcIFrameData.TdcCollection();
+                            columnModel.set( 'childCollection', childCollectionColumn );
+
+
+                            // Get the shortcode rendered
+                            //rowModel.getShortcodeRender( destinationColParam, true );
+                            rowModel.getShortcodeRender( 1, true );
+                        }
+
+                        return;
+                    }
 
                     tdcIFrameData.tdcRows.remove( elementModel, {silent: true} );
                     tdcIFrameData.tdcRows.add( elementModel, {at: newPosition} );

@@ -619,8 +619,7 @@ var tdcOperationUI;
                     // An empty element is added to the remaining '.tdc-elements' list, to allow drag&drop operations over it
                     // At drop, any empty element is removed from the target list
 
-                    //if ( wasElementDragged || wasInnerRowDragged || wasRowDragged )  {
-                    if ( wasElementDragged || wasInnerRowDragged )  {
+                    if ( wasElementDragged || wasInnerRowDragged || wasRowDragged )  {
 
                         var $emptyElement;
 
@@ -655,8 +654,7 @@ var tdcOperationUI;
 
                 // Remove the ('tdc-element' or the 'tdc-element-inner-row') element from the structure data
                 // Just call the changeData and do not continue. The changeData function will do the job
-                //if ( ( wasElementDragged || wasInnerRowDragged || wasRowDragged ) && $currentElementOver === tdcAdminWrapperUI.$recycle ) {
-                if ( ( wasElementDragged || wasInnerRowDragged ) && $currentElementOver === tdcAdminWrapperUI.$recycle ) {
+                if ( ( wasElementDragged || wasInnerRowDragged || wasRowDragged ) && $currentElementOver === tdcAdminWrapperUI.$recycle ) {
 
                     tdcIFrameData.changeData({
                         wasSidebarElementDragged: wasSidebarElementDragged,
