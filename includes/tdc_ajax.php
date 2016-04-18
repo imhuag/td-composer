@@ -61,7 +61,7 @@ class tdc_ajax {
 
 
 
-
+		//$parameters['replyJs'] = td_global_blocks::get_on_ajax_block_js_callback();
 		$parameters['replyHtml'] = $reply_html;
 
 

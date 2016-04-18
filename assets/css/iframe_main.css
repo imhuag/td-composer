@@ -29,9 +29,6 @@ html.tdc-active #wpadminbar {
   pointer-events: none;
   cursor: move;
 }
-.tdc-elements {
-  overflow: hidden;
-}
 .tdc-element-empty {
   border: 1px solid yellow;
   width: 100%;
@@ -79,7 +76,7 @@ html.tdc-active #wpadminbar {
   left: 0;
   top: 0;
   width: 0;
-  height: 0;
+  min-height: 50px;
 }
 #tdc-mask-content {
   width: 100%;

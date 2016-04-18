@@ -131,6 +131,13 @@ var tdcIFrameData,
                                 model.set( 'bindNewContent', bindNewContent );
                                 model.set( 'html', data.replyHtml );
                             }
+
+
+                            if ( _.has( data, 'replyJs' ) ) {
+                                var tdOldBlockUid = 'my local var var';
+                                eval (data.replyJs);
+
+                            }
                         };
 
                         newJob.error_callback = function( job, errorMsg ) {
