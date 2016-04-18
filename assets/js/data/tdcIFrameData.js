@@ -98,7 +98,7 @@ var tdcIFrameData,
             tdcIFrameData.TdcModel = Backbone.Model.extend({
 
                 // Get the shortcode rendered
-                getShortcodeRender: function( columns, bindNewContent ) {
+                getShortcodeRender: function( columns, draggedElementId, bindNewContent ) {
 
                     var model = this;
 
@@ -878,7 +878,8 @@ var tdcIFrameData,
                     elementModel.set('parentModel', destinationModel);
 
                     // Get the shortcode rendered
-                    elementModel.getShortcodeRender( destinationColParam, false );
+                    elementModel.getShortcodeRender( destinationColParam, whatWasDragged.draggedElementId, false );
+
 
                 } else if ( whatWasDragged.wasInnerRowDragged ) {
 
@@ -949,7 +950,7 @@ var tdcIFrameData,
 
 
                     // Get the shortcode rendered
-                    innerRowModel.getShortcodeRender( destinationColParam, true );
+                    innerRowModel.getShortcodeRender( destinationColParam, whatWasDragged.draggedElementId, true );
 
 
                 } else if ( whatWasDragged.wasRowDragged ) {
@@ -999,7 +1000,7 @@ var tdcIFrameData,
 
                     // Get the shortcode rendered
                     //rowModel.getShortcodeRender( destinationColParam, true );
-                    rowModel.getShortcodeRender( 1, true );
+                    rowModel.getShortcodeRender( 1, whatWasDragged.draggedElementId, true );
 
 
                 }
@@ -1096,7 +1097,7 @@ var tdcIFrameData,
                         elementModel.set( 'parentModel', destinationModel );
 
                         // Get the shortcode rendered
-                        elementModel.getShortcodeRender( destinationColParam, false );
+                        elementModel.getShortcodeRender( destinationColParam, whatWasDragged.draggedElementId, false );
                     }
 
                 } else if ( whatWasDragged.wasInnerRowDragged ) {
@@ -1211,7 +1212,7 @@ var tdcIFrameData,
 
                             // Get the shortcode rendered
                             //rowModel.getShortcodeRender( destinationColParam, true );
-                            rowModel.getShortcodeRender( 1, true );
+                            rowModel.getShortcodeRender( 1, whatWasDragged.draggedElementId, true );
                         }
 
                         return;

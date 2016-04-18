@@ -592,6 +592,21 @@ var tdcOperationUI;
 
 
 
+                // Get the dragged element id
+                var draggedElementId = '',
+                    $tdBlockInner = $draggedElement.find( '.td_block_inner');
+
+                if ( $tdBlockInner.length ) {
+                    draggedElementId = $tdBlockInner.attr( 'id' );
+                }
+
+
+
+
+
+
+
+
                 // Step 2 ----------
 
                 // If $draggedElement and $placeholder are siblings, and the $draggedElement is not recycled, do not continue
@@ -662,7 +677,9 @@ var tdcOperationUI;
                         wasInnerColumnDragged: wasInnerColumnDragged,
                         wasInnerRowDragged: wasInnerRowDragged,
                         wasColumnDragged: wasColumnDragged,
-                        wasRowDragged: wasRowDragged
+                        wasRowDragged: wasRowDragged,
+
+                        draggedElementId: draggedElementId
                     });
                     return;
                 }
@@ -764,7 +781,9 @@ var tdcOperationUI;
                     wasInnerColumnDragged: wasInnerColumnDragged,
                     wasInnerRowDragged: wasInnerRowDragged,
                     wasColumnDragged: wasColumnDragged,
-                    wasRowDragged: wasRowDragged
+                    wasRowDragged: wasRowDragged,
+
+                    draggedElementId: draggedElementId
                 });
             }
         }
