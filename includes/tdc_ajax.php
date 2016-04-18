@@ -31,6 +31,8 @@ function tdc_register_api_routes() {
 
 
 class tdc_ajax {
+	static $_td_block__get_block_js_buffer = '';
+
 	static function on_ajax_render_shortcode (WP_REST_Request $request ) {
 
 		if (!current_user_can( 'edit_pages' )) {
@@ -51,6 +53,15 @@ class tdc_ajax {
 		td_util::vc_set_column_number($request->get_param('columns'));
 
 
+		add_action('td_block__get_block_js', 'tdc_on_td_block__get_block_js', 10, 1);
+		/**
+		 * @param $by_ref_block_obj td_block
+		 */
+		function tdc_on_td_block__get_block_js($by_ref_block_obj) {
+			tdc_ajax::$_td_block__get_block_js_buffer = $by_ref_block_obj->js_callback_ajax();
+		}
+
+
 		/*
 			we need to call the shortcode with output buffering because our style generator from our blocks just echoes it's generated
 			style. No bueno :(
@@ -60,8 +71,10 @@ class tdc_ajax {
 		$reply_html = ob_get_clean();
 
 
+		if (!empty(self::$_td_block__get_block_js_buffer)) {
+			$parameters['replyJsForEval'] = self::$_td_block__get_block_js_buffer;
+		}
 
-		//$parameters['replyJs'] = td_global_blocks::get_on_ajax_block_js_callback();
 		$parameters['replyHtml'] = $reply_html;
 
 

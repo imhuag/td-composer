@@ -136,9 +136,9 @@ var tdcIFrameData,
                             }
 
 
-                            if ( _.has( data, 'replyJs' ) ) {
-                                var tdOldBlockUid = 'my local var var';
-                                eval (data.replyJs);
+                            if ( _.has( data, 'replyJsForEval' ) ) {
+                                var tdOldBlockUid = draggedElementId;
+                                eval(data.replyJsForEval);
 
                             }
                         };
