@@ -592,6 +592,21 @@ var tdcOperationUI;
 
 
 
+                // Get the dragged element id
+                var draggedElementId = '',
+                    $tdBlockInner = $draggedElement.find( '.td_block_inner');
+
+                if ( $tdBlockInner.length ) {
+                    draggedElementId = $tdBlockInner.attr( 'id' );
+                }
+
+
+
+
+
+
+
+
                 // Step 2 ----------
 
                 // If $draggedElement and $placeholder are siblings, and the $draggedElement is not recycled, do not continue
@@ -619,8 +634,7 @@ var tdcOperationUI;
                     // An empty element is added to the remaining '.tdc-elements' list, to allow drag&drop operations over it
                     // At drop, any empty element is removed from the target list
 
-                    //if ( wasElementDragged || wasInnerRowDragged || wasRowDragged )  {
-                    if ( wasElementDragged || wasInnerRowDragged )  {
+                    if ( wasElementDragged || wasInnerRowDragged || wasRowDragged )  {
 
                         var $emptyElement;
 
@@ -655,8 +669,7 @@ var tdcOperationUI;
 
                 // Remove the ('tdc-element' or the 'tdc-element-inner-row') element from the structure data
                 // Just call the changeData and do not continue. The changeData function will do the job
-                //if ( ( wasElementDragged || wasInnerRowDragged || wasRowDragged ) && $currentElementOver === tdcAdminWrapperUI.$recycle ) {
-                if ( ( wasElementDragged || wasInnerRowDragged ) && $currentElementOver === tdcAdminWrapperUI.$recycle ) {
+                if ( ( wasElementDragged || wasInnerRowDragged || wasRowDragged ) && $currentElementOver === tdcAdminWrapperUI.$recycle ) {
 
                     tdcIFrameData.changeData({
                         wasSidebarElementDragged: wasSidebarElementDragged,
@@ -664,7 +677,9 @@ var tdcOperationUI;
                         wasInnerColumnDragged: wasInnerColumnDragged,
                         wasInnerRowDragged: wasInnerRowDragged,
                         wasColumnDragged: wasColumnDragged,
-                        wasRowDragged: wasRowDragged
+                        wasRowDragged: wasRowDragged,
+
+                        draggedElementId: draggedElementId
                     });
                     return;
                 }
@@ -766,7 +781,9 @@ var tdcOperationUI;
                     wasInnerColumnDragged: wasInnerColumnDragged,
                     wasInnerRowDragged: wasInnerRowDragged,
                     wasColumnDragged: wasColumnDragged,
-                    wasRowDragged: wasRowDragged
+                    wasRowDragged: wasRowDragged,
+
+                    draggedElementId: draggedElementId
                 });
             }
         }
