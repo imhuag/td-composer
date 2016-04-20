@@ -13,6 +13,15 @@ document.documentElement.className += ' tdc_active ';
 
     'use strict';
 
+    //console.log(tdPullDown);
+
+
 
 
 })();
+
+
+
+function gggg() {
+    alert('YES IT WORKS');
+}

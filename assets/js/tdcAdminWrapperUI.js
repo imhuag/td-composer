@@ -12,7 +12,7 @@ var tdcAdminWrapperUI;
 
     tdcAdminWrapperUI = {
 
-        _tdcJqObjWrapper: undefined,
+
         //_tdcJqObjSettings: undefined,
         //_tdcJqObjElements: undefined,  //@todo
         //_tdcJqObjInspector: undefined,
@@ -29,7 +29,6 @@ var tdcAdminWrapperUI;
 
 
         init: function() {
-            tdcAdminWrapperUI._tdcJqObjWrapper = jQuery( '#tdc-live-iframe-wrapper');
 
             tdcAdminWrapperUI._tdcJqObjElements = jQuery( '.tdc-sidebar-elements' );
 

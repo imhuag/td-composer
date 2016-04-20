@@ -64,6 +64,7 @@ var tdcJobManager = {};
          * @param  job tdcJobManager.job()
          */
         addJob: function (job) {
+
             var newJobRequest = new tdcJobManager.jobRequest(job);
             jQuery.ajax({
                 timeout: 10000,
@@ -96,6 +97,7 @@ var tdcJobManager = {};
                     }
 
                     if (tdcJobManager._isJobCallbackReplyValid(job.liveViewId, jobRequest.jobId) === true) {
+
                         job.success_callback(jobRequest);
                     }
 

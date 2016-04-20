@@ -137,7 +137,11 @@ var tdcIFrameData,
 
 
                             if ( _.has( data, 'replyJsForEval' ) ) {
-                                var tdOldBlockUid = draggedElementId;
+                                var tdcIframeWindow = tdcAdminIFrameUI.getIframeWindow();
+                                var tdcOldBlockUid = draggedElementId;
+
+
+
                                 eval(data.replyJsForEval);
 
                             }
