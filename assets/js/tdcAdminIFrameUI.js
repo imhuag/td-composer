@@ -40,7 +40,15 @@ var tdcAdminIFrameUI;
                 return;
             }
 
-            var tdcLiveIframe = jQuery( '<iframe id="tdc-live-iframe" src="' + tdcAdminIFrameUI._tdcPostSettings.postUrl + '?td_action=tdc_edit&post_id=' + tdcAdminIFrameUI._tdcPostSettings.postId + '" ' +
+            var url = tdcAdminIFrameUI._tdcPostSettings.postUrl;
+
+            if ( url.indexOf( '?' ) < 0 ) {
+                url += '?td_action=tdc_edit&post_id=' + tdcAdminIFrameUI._tdcPostSettings.postId;
+            } else {
+                url += '&td_action=tdc_edit&post_id=' + tdcAdminIFrameUI._tdcPostSettings.postId;
+            }
+
+            var tdcLiveIframe = jQuery( '<iframe id="tdc-live-iframe" src="' + url + '" ' +
                 'scrolling="auto" style="width: 100%; height: 100%"></iframe>' )
                 .css({
                     height: jQuery(window).innerHeight()
