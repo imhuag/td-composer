@@ -42,101 +42,106 @@ var tdcInnerRowUI;
 
 
             $element.click(function( event ) {
-                    //tdcDebug.log( 'click inner row' );
+                //tdcDebug.log( 'click inner row' );
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                tdcMaskUI.setBreadcrumb( $element );
+
+            }).mousedown(function( event ) {
+                //tdcDebug.log( 'inner row mouse down' );
+
+                // Consider only the left button
+                if ( 1 !== event.which ) {
+                    return;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                tdcOperationUI.activeDraggedElement( jQuery( this ) );
+                tdcOperationUI.showHelper( event );
+
+                tdcOperationUI.setCurrentElementOver( $element );
+                tdcInnerRowUI.positionInnerRowPlaceholder( event );
+
+                tdcMaskUI.hide();
+
+            }).mouseup(function( event ) {
+                //tdcDebug.log( 'inner row element mouse up' );
+
+                event.preventDefault();
+
+                tdcOperationUI.deactiveDraggedElement();
+                tdcOperationUI.hideHelper();
+
+            }).mousemove(function( event ) {
+
+                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
+                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
+                    //tdcDebug.log( 'inner row element mouse move' );
 
                     event.preventDefault();
                     event.stopPropagation();
 
-                    tdcMaskUI.setBreadcrumb( $element );
-
-                }).mousedown(function( event ) {
-                    //tdcDebug.log( 'inner row mouse down' );
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    tdcOperationUI.activeDraggedElement( jQuery( this ) );
-                    tdcOperationUI.showHelper( event );
+                    tdcOperationUI.showHelper(event);
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcInnerRowUI.positionInnerRowPlaceholder( event );
+                }
 
-                    tdcMaskUI.hide();
+            }).mouseenter(function(event) {
 
-                }).mouseup(function( event ) {
-                    //tdcDebug.log( 'inner row element mouse up' );
+                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
+                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
+                    //tdcDebug.log('inner row mouse enter');
 
                     event.preventDefault();
 
-                    tdcOperationUI.deactiveDraggedElement();
-                    tdcOperationUI.hideHelper();
+                    tdcOperationUI.setCurrentElementOver( $element );
+                    tdcInnerRowUI.positionInnerRowPlaceholder( event );
+                }
 
-                }).mousemove(function( event ) {
+            }).mouseleave(function(event) {
 
-                    // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
-                    if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
-                        //tdcDebug.log( 'inner row element mouse move' );
+                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
+                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
+                    //tdcDebug.log('inner row mouse leave');
 
-                        event.preventDefault();
-                        event.stopPropagation();
+                    event.preventDefault();
 
-                        tdcOperationUI.showHelper(event);
+                    tdcOperationUI.setCurrentElementOver( undefined );
+                    tdcInnerRowUI.positionInnerRowPlaceholder( event );
+                }
 
+            }).on( 'fakemouseenterevent', function(event) {
+
+                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
+                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
+                    //tdcDebug.log( 'tdc-inner-row FAKE MOUSE ENTER EVENT' );
+
+                    var outerHeight = $element.outerHeight(true);
+                    var outerWidth = $element.outerWidth();
+
+                    var offset = $element.offset();
+
+                    //tdcDebug.log( offset.left + ' : ' + event.pageX + ' : ' + (offset.left + outerWidth) );
+                    //tdcDebug.log( offset.top + ' : ' + event.pageY + ' : ' + (offset.top + outerHeight) );
+
+                    if ( ( parseInt( offset.left ) <= parseInt( event.pageX ) ) && ( parseInt( event.pageX ) <= parseInt( offset.left + outerWidth ) ) &&
+                        ( parseInt( offset.top ) <= parseInt( event.pageY ) ) && ( parseInt( event.pageY ) <= parseInt( offset.top + outerHeight ) ) ) {
+
+                        //tdcDebug.log( '***********************' );
+
+                        // Set the 'currentElementOver' variable to the current element
                         tdcOperationUI.setCurrentElementOver( $element );
+
+                        // Position the placeholder
                         tdcInnerRowUI.positionInnerRowPlaceholder( event );
                     }
-
-                }).mouseenter(function(event) {
-
-                    // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
-                    if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
-                        //tdcDebug.log('inner row mouse enter');
-
-                        event.preventDefault();
-
-                        tdcOperationUI.setCurrentElementOver( $element );
-                        tdcInnerRowUI.positionInnerRowPlaceholder( event );
-                    }
-
-                }).mouseleave(function(event) {
-
-                    // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
-                    if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
-                        //tdcDebug.log('inner row mouse leave');
-
-                        event.preventDefault();
-
-                        tdcOperationUI.setCurrentElementOver( undefined );
-                        tdcInnerRowUI.positionInnerRowPlaceholder( event );
-                    }
-
-                }).on( 'fakemouseenterevent', function(event) {
-
-                    // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
-                    if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
-                        //tdcDebug.log( 'tdc-inner-row FAKE MOUSE ENTER EVENT' );
-
-                        var outerHeight = $element.outerHeight(true);
-                        var outerWidth = $element.outerWidth();
-
-                        var offset = $element.offset();
-
-                        //tdcDebug.log( offset.left + ' : ' + event.pageX + ' : ' + (offset.left + outerWidth) );
-                        //tdcDebug.log( offset.top + ' : ' + event.pageY + ' : ' + (offset.top + outerHeight) );
-
-                        if ( ( parseInt( offset.left ) <= parseInt( event.pageX ) ) && ( parseInt( event.pageX ) <= parseInt( offset.left + outerWidth ) ) &&
-                            ( parseInt( offset.top ) <= parseInt( event.pageY ) ) && ( parseInt( event.pageY ) <= parseInt( offset.top + outerHeight ) ) ) {
-
-                            //tdcDebug.log( '***********************' );
-
-                            // Set the 'currentElementOver' variable to the current element
-                            tdcOperationUI.setCurrentElementOver( $element );
-
-                            // Position the placeholder
-                            tdcInnerRowUI.positionInnerRowPlaceholder( event );
-                        }
-                    }
-                });
+                }
+            });
 
         },
 

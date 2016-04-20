@@ -49,6 +49,11 @@ var tdcRowUI;
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'row mouse down' );
 
+                // Consider only the left button
+                if ( 1 !== event.which ) {
+                    return;
+                }
+
                 event.preventDefault();
                 event.stopPropagation();
 

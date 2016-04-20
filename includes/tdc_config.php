@@ -15,7 +15,9 @@ class tdc_config {
 
 
 	static $js_files_for_wp_admin = array (
-		'tdc_init' => '/assets/js/wp-admin/tdcInit.js'
+		'tdcDebug'              => '/assets/js/tdcDebug.js',
+		'tdcShortcodeParser'    => '/assets/js/tdcShortcodeParser.js',
+		'tdcInit'               => '/assets/js/wp-admin/tdcInit.js',
 	);
 
 

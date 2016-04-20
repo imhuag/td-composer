@@ -115,6 +115,11 @@ var tdcSidebar;
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'sidebar element mouse down' );
 
+                // Consider only the left button
+                if ( 1 !== event.which ) {
+                    return;
+                }
+
                 event.preventDefault();
 
                 tdcOperationUI.activeDraggedElement( $element );
