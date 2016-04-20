@@ -19,6 +19,7 @@ var tdcAdminIFrameUI;
 
     tdcAdminIFrameUI = {
 
+
         _$liveIframeWindowObject: undefined,
 
 
@@ -30,7 +31,19 @@ var tdcAdminIFrameUI;
 
         init: function() {
 
-            var $liveIframe = jQuery('<iframe id="tdc-live-iframe" src="' + window.tdcPostSettings.postUrl + '?td_action=tdc_edit&post_id=' + window.tdcPostSettings.postId + '" scrolling="auto" style="width: 100%; height: 100%"></iframe>')
+            var url = window.tdcPostSettings.postUrl;
+
+            if ( url.indexOf( '?' ) < 0 ) {
+                url += '?td_action=tdc_edit&post_id=' + window.tdcPostSettings.postId;
+            } else {
+                url += '&td_action=tdc_edit&post_id=' + window.tdcPostSettings.postId;
+            }
+
+
+
+
+            var $liveIframe = jQuery( '<iframe id="tdc-live-iframe" src="' + url + '" ' +
+                'scrolling="auto" style="width: 100%; height: 100%"></iframe>' )
                 .css({
                     height: jQuery(window).innerHeight()
                 })
