@@ -9,6 +9,7 @@ class tdc_state {
 
 
 	/**
+	 * the current post that we're editing
 	 * @var WP_Post
 	 */
 	private static $post;
@@ -26,6 +27,9 @@ class tdc_state {
 	private static $is_live_editor_ajax = false;
 
 
+	//private static $
+
+
 	/**
 	 * @param $new_state bool
 	 */
@@ -34,6 +38,7 @@ class tdc_state {
 	}
 
 	/**
+	 * Returns true if we are in the first loaded iframe. Note that ajax requests do not toggle this to true
 	 * @return bool
 	 */
 	public static function is_live_editor_iframe() {
@@ -41,13 +46,18 @@ class tdc_state {
 	}
 
 
-
-
-
+	/**
+	 * @param $new_state
+	 */
 	public static function set_is_live_editor_ajax($new_state){
 		self::$is_live_editor_ajax = $new_state;
 	}
 
+
+	/**
+	 * return true if we are in an ajax request done by the composer. It does not return true if we are in the iframe (ex not ajax)
+	 * @return bool
+	 */
 	public static function is_live_editor_ajax() {
 		return self::$is_live_editor_ajax;
 	}
@@ -56,6 +66,7 @@ class tdc_state {
 
 
 	/**
+	 * Returns the current post/page/CTP that we are editing
 	 * @return mixed
 	 */
 	public static function get_post() {
@@ -63,6 +74,7 @@ class tdc_state {
 	}
 
 	/**
+	 * Sets the current post/page/CTP that we are editing
 	 * @param WP_Post $post
 	 */
 	public static function set_post( $post ) {

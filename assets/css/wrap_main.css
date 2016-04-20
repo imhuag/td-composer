@@ -64,6 +64,7 @@
 .tdc-current-element {
   font-size: 15px;
   margin-top: 2px;
+  padding: 0 12px 8px;
   color: #000000;
 }
 /*
@@ -105,7 +106,7 @@
   inspector + tabs
 */
 .tdc-inspector {
-  padding-top: 16px;
+  padding-top: 4px;
   background-color: #FFFFFF;
   display: none;
 }
@@ -160,6 +161,16 @@
 .tdc-sidebar-bottom.active {
   background-color: #b554c2;
 }
+.tdc-breadcrumbs-path {
+  min-height: 20px;
+}
+#tdc-breadcrumb-row,
+#tdc-breadcrumb-column,
+#tdc-breadcrumb-inner-row,
+#tdc-breadcrumb-inner-column {
+  display: none;
+  float: left;
+}
 body.tdc #adminmenuback,
 body.tdc #adminmenuwrap,
 body.tdc #local-storage-notice,
@@ -207,19 +218,6 @@ body.tdc #wpbody-content {
   z-index: 2;
   pointer-events: none;
   color: #FFFFFF;
-}
-.tdc-breadcrumbs-path {
-  min-height: 20px;
-}
-#tdc-breadcrumb-row,
-#tdc-breadcrumb-column,
-#tdc-breadcrumb-inner-row,
-#tdc-breadcrumb-inner-column {
-  display: none;
-  float: left;
-}
-.tdc-current-element {
-  clear: both;
 }
 .minimize {
   transform: scale(0.175);
