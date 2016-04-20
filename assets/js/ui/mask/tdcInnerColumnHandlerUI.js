@@ -83,6 +83,11 @@ var tdcInnerColumnHandlerUI;
 
             tdcInnerColumnHandlerUI._$handlerDrag.mousedown( function( event ) {
 
+                // Consider only the left button
+                if ( 1 !== event.which ) {
+                    return;
+                }
+
                 // Send the event to its 'tdc-inner-column' element
                 tdcInnerColumnHandlerUI._triggerEvent( event );
 

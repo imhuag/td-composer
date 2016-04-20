@@ -84,6 +84,11 @@ var tdcColumnHandlerUI;
 
             tdcColumnHandlerUI._$handlerDrag.mousedown( function( event ) {
 
+                // Consider only the left button
+                if ( 1 !== event.which ) {
+                    return;
+                }
+
                 // Send the event to its 'tdc-column' element
                 tdcColumnHandlerUI._triggerEvent( event );
 

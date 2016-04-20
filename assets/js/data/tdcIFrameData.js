@@ -360,7 +360,7 @@ var tdcIFrameData,
                 // We need to clone it (it's used later) because it will be changed during the tdcShortcodeParser.init call
                 tdcIFrameData._shortcodeParserSettingsClone = _.clone( tdcIFrameData._shortcodeParserSettings );
 
-                tdcDebug.log(tdcIFrameData._shortcodeParserSettings);
+                //tdcDebug.log(tdcIFrameData._shortcodeParserSettings);
 
                 tdcShortcodeParser.init( tdcIFrameData._shortcodeParserSettings );
 

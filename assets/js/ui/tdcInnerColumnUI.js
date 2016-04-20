@@ -53,6 +53,11 @@ var tdcInnerColumnUI;
             }).mousedown(function(event) {
                 //tdcDebug.log( 'inner column mouse down' );
 
+                // Consider only the left button
+                if ( 1 !== event.which ) {
+                    return;
+                }
+
                 event.preventDefault();
                 event.stopPropagation();
 
