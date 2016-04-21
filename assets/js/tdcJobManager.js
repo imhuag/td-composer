@@ -1,5 +1,6 @@
 /**
  * Created by ra on 3/3/2016.
+ * Send new jobs to the server. It provides two callbacks that allows the @tdcIFrameData to process the reply
  */
 
 
@@ -168,50 +169,3 @@ var tdcJobManager = {};
 
 
 
-
-//
-//function ra() {
-//
-//    var i = 0;
-//    var liveViewId = 'job_view_1';
-//
-//    for (i = 0; i < 50; i++) {
-//
-//
-//
-//        var newJob = new tdcJobManager.job();
-//        newJob.shortcode = '[td_block_1]';
-//        newJob.columns = '3';
-//        newJob.liveViewId = liveViewId;
-//        newJob.success = function (jobRequest) {
-//            console.log(jobRequest);
-//            //alert('ra');
-//        };
-//
-//
-//        newJob.error = function (job, errorMsg) {
-//            console.log(errorMsg);
-//            console.log(job);
-//            //alert('ra');
-//        };
-//
-//
-//        tdcJobManager.addJob(newJob);
-//
-//
-//        if (liveViewId === 'job_view_1') {
-//            liveViewId = 'job_view_2';
-//        } else {
-//            liveViewId = 'job_view_1';
-//        }
-//
-//
-//    }
-//
-//
-//
-//
-//
-//    return 'xxx';
-//
-//}

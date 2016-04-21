@@ -98,7 +98,7 @@ var tdcIFrameData,
             tdcIFrameData.TdcModel = Backbone.Model.extend({
 
                 // Get the shortcode rendered
-                getShortcodeRender: function( columns, draggedElementId, bindNewContent ) {
+                getShortcodeRender: function( columns, draggedBlockUid, bindNewContent ) {
 
                     var model = this;
 
@@ -137,8 +137,11 @@ var tdcIFrameData,
 
 
                             if ( _.has( data, 'replyJsForEval' ) ) {
-                                var tdcIframeWindow = tdcAdminIFrameUI.getIframeWindow();
-                                var tdcOldBlockUid = draggedElementId;
+
+                                var tdcEvalGlobal = {
+                                    iFrameWindowObj: tdcAdminIFrameUI.getIframeWindow(),
+                                    oldBlockUid: draggedBlockUid
+                                };
 
 
 
@@ -889,7 +892,7 @@ var tdcIFrameData,
                     elementModel.set('parentModel', destinationModel);
 
                     // Get the shortcode rendered
-                    elementModel.getShortcodeRender( destinationColParam, whatWasDragged.draggedElementId, false );
+                    elementModel.getShortcodeRender( destinationColParam, whatWasDragged.draggedBlockUid, false );
 
 
                 } else if ( whatWasDragged.wasInnerRowDragged ) {
@@ -961,7 +964,7 @@ var tdcIFrameData,
 
 
                     // Get the shortcode rendered
-                    innerRowModel.getShortcodeRender( destinationColParam, whatWasDragged.draggedElementId, true );
+                    innerRowModel.getShortcodeRender( destinationColParam, whatWasDragged.draggedBlockUid, true );
 
 
                 } else if ( whatWasDragged.wasRowDragged ) {
@@ -1011,7 +1014,7 @@ var tdcIFrameData,
 
                     // Get the shortcode rendered
                     //rowModel.getShortcodeRender( destinationColParam, true );
-                    rowModel.getShortcodeRender( 1, whatWasDragged.draggedElementId, true );
+                    rowModel.getShortcodeRender( 1, whatWasDragged.draggedBlockUid, true );
 
 
                 }
@@ -1108,7 +1111,7 @@ var tdcIFrameData,
                         elementModel.set( 'parentModel', destinationModel );
 
                         // Get the shortcode rendered
-                        elementModel.getShortcodeRender( destinationColParam, whatWasDragged.draggedElementId, false );
+                        elementModel.getShortcodeRender( destinationColParam, whatWasDragged.draggedBlockUid, false );
                     }
 
                 } else if ( whatWasDragged.wasInnerRowDragged ) {
@@ -1223,7 +1226,7 @@ var tdcIFrameData,
 
                             // Get the shortcode rendered
                             //rowModel.getShortcodeRender( destinationColParam, true );
-                            rowModel.getShortcodeRender( 1, whatWasDragged.draggedElementId, true );
+                            rowModel.getShortcodeRender( 1, whatWasDragged.draggedBlockUid, true );
                         }
 
                         return;

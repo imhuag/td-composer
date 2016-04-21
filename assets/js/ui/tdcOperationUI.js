@@ -593,11 +593,11 @@ var tdcOperationUI;
 
 
                 // Get the dragged element id
-                var draggedElementId = '',
+                var draggedBlockUid = '',
                     $tdBlockInner = $draggedElement.find( '.td_block_inner');
 
                 if ( $tdBlockInner.length ) {
-                    draggedElementId = $tdBlockInner.attr( 'id' );
+                    draggedBlockUid = $tdBlockInner.attr( 'id' );
                 }
 
 
@@ -679,7 +679,7 @@ var tdcOperationUI;
                         wasColumnDragged: wasColumnDragged,
                         wasRowDragged: wasRowDragged,
 
-                        draggedElementId: draggedElementId
+                        draggedBlockUid: draggedBlockUid
                     });
                     return;
                 }
@@ -783,7 +783,7 @@ var tdcOperationUI;
                     wasColumnDragged: wasColumnDragged,
                     wasRowDragged: wasRowDragged,
 
-                    draggedElementId: draggedElementId
+                    draggedBlockUid: draggedBlockUid
                 });
             }
         }
