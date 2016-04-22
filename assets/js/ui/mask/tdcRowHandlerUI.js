@@ -63,8 +63,8 @@ var tdcRowHandlerUI;
 
             // Create the handler jquery object and append it to the mask wrapper
             var $handlerWrapper = jQuery( '<div id="' + tdcRowHandlerUI._handlerCssClass + '"></div>'),
-                $handlerDrag = jQuery( '<div class="tdc-mask-handler">&#10021;&nbsp;' + tdcRowHandlerUI._handlerText + '</div>' ),
-                $handlerEdit = jQuery( '<div class="tdc-mask-edit">&#10000;</div>' );
+                $handlerDrag = jQuery( '<div class="tdc-mask-handler-drag">&#10021;&nbsp;' + tdcRowHandlerUI._handlerText + '</div>' ),
+                $handlerEdit = jQuery( '<div class="tdc-mask-handler-edit">&#10000;</div>' );
 
             $handlerWrapper.append( $handlerDrag );
             $handlerWrapper.append( $handlerEdit );
@@ -73,7 +73,7 @@ var tdcRowHandlerUI;
             tdcRowHandlerUI._$handlerEdit = $handlerEdit;
             tdcRowHandlerUI._$handlerWrapper = $handlerWrapper;
 
-            tdcMaskUI.$wrapper.append( $handlerWrapper );
+            tdcMaskUI.$handler.append( $handlerWrapper );
 
 
 
@@ -120,11 +120,13 @@ var tdcRowHandlerUI;
             tdcRowHandlerUI._$handlerWrapper.mouseenter(function( event ) {
 
                 event.preventDefault();
+                tdcMaskUI.setCurrentContainer( tdcRowHandlerUI.$elementRow );
                 tdcMaskUI.show();
 
             }).mouseleave( function( event ) {
 
                 event.preventDefault();
+                tdcMaskUI.setCurrentContainer( undefined );
                 tdcMaskUI.hide();
             });
 
@@ -136,8 +138,6 @@ var tdcRowHandlerUI;
 
                 event.preventDefault();
                 tdcRowHandlerUI._triggerEvent( event );
-
-                //alert( 'edit row' );
 
             }).mousemove( function( event ) {
 
@@ -169,7 +169,7 @@ var tdcRowHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementRow = tdcRowHandlerUI._checkRow( $element );
+            var $elementRow = tdcRowHandlerUI.inRow( $element );
 
             if ( ! _.isUndefined( $elementRow ) ) {
                 tdcRowHandlerUI.$elementRow = $elementRow;
@@ -186,12 +186,14 @@ var tdcRowHandlerUI;
          * @param $element
          */
         setBreadcrumb: function( $element ) {
-            var $elementRow = tdcRowHandlerUI._checkRow( $element );
+            var $elementRow = tdcRowHandlerUI.inRow( $element );
 
-            if ( ! _.isUndefined( $elementRow ) || tdcRowHandlerUI._isRow( $element ) ) {
-                tdcSidebar.activeBreadcrumItem( tdcSidebar.$editRow );
+            if ( ! _.isUndefined( $elementRow ) || tdcRowHandlerUI.isRow( $element ) ) {
+                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editRow, tdcRowHandlerUI.$elementRow );
+                tdcSidebar.setCurrentRow( tdcRowHandlerUI.$elementRow );
             } else {
                 tdcSidebar.$editRow.hide();
+                tdcSidebar.setCurrentRow( undefined );
             }
         },
 
@@ -203,7 +205,7 @@ var tdcRowHandlerUI;
          * @returns {*}
          * @private
          */
-        _checkRow: function( $element ) {
+        inRow: function( $element ) {
             var $elementRow = $element.closest( '.' + tdcRowHandlerUI._elementCssClass );
             if ( $elementRow.length ) {
                 return $elementRow;
@@ -216,9 +218,8 @@ var tdcRowHandlerUI;
          *
          * @param $element
          * @returns {*}
-         * @private
          */
-        _isRow: function( $element ) {
+        isRow: function( $element ) {
             return $element.hasClass( tdcRowHandlerUI._elementCssClass );
         },
 

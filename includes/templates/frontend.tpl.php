@@ -73,7 +73,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<!-- the inspector -->
 		<div class="tdc-inspector">
-			<div class="tdc-current-element">
+			<div class="tdc-current-element-title">
 			</div>
 			<div class="tdc-tabs">
 				<a href="#" data-tab-id="td-tab-id-1" class="tdc-tab-active">General</a>
