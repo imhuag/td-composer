@@ -19,36 +19,30 @@ var tdcAdminIFrameUI;
 
     tdcAdminIFrameUI = {
 
-        // Flag used by any function other than 'init'
-        _initialized: false,
+
+        _$liveIframeWindowObject: undefined,
+
+
+        getIframeWindow: function() {
+            return tdcAdminIFrameUI._$liveIframeWindowObject;
+        },
+
+
 
         init: function() {
 
-            // Do nothing if it's already initialized
-            if ( tdcAdminIFrameUI._initialized ) {
-                return;
-            }
-
-            tdcAdminIFrameUI._tdcPostSettings = window.tdcPostSettings;
-
-
-            if ( undefined === tdcAdminIFrameUI._tdcPostSettings || ! tdcAdminWrapperUI._tdcJqObjWrapper.length ) {
-
-                // Here there will be a debug console window call
-                alert('something wrong');
-
-                return;
-            }
-
-            var url = tdcAdminIFrameUI._tdcPostSettings.postUrl;
+            var url = window.tdcPostSettings.postUrl;
 
             if ( url.indexOf( '?' ) < 0 ) {
-                url += '?td_action=tdc_edit&post_id=' + tdcAdminIFrameUI._tdcPostSettings.postId;
+                url += '?td_action=tdc_edit&post_id=' + window.tdcPostSettings.postId;
             } else {
-                url += '&td_action=tdc_edit&post_id=' + tdcAdminIFrameUI._tdcPostSettings.postId;
+                url += '&td_action=tdc_edit&post_id=' + window.tdcPostSettings.postId;
             }
 
-            var tdcLiveIframe = jQuery( '<iframe id="tdc-live-iframe" src="' + url + '" ' +
+
+
+
+            var $liveIframe = jQuery( '<iframe id="tdc-live-iframe" src="' + url + '" ' +
                 'scrolling="auto" style="width: 100%; height: 100%"></iframe>' )
                 .css({
                     height: jQuery(window).innerHeight()
@@ -59,6 +53,11 @@ var tdcAdminIFrameUI;
 
                     var iframeContents = jQuery(this).contents();
 
+
+
+                    tdcAdminIFrameUI._$liveIframeWindowObject = jQuery(this).get(0).contentWindow;
+
+                    //jQuery(this)[0].contentWindow.gggg();
 
                     /**
                      * Add wrappers around all shortcode dom elements
@@ -170,14 +169,22 @@ var tdcAdminIFrameUI;
 
 
                     tdcIFrameData.init( iframeContents );
-
                     tdcOperationUI.init( iframeContents );
                 });
 
-            tdcAdminWrapperUI._tdcJqObjWrapper.append( tdcLiveIframe );
 
-            // This should be marked as false if something wrong
-            tdcAdminIFrameUI._initialized = true;
+
+
+
+            // append the iFrame!
+            var tdcJqObjWrapper = jQuery( '#tdc-live-iframe-wrapper');
+            if (tdcJqObjWrapper.length === 0) {
+                // die
+                throw "#tdc-live-iframe-wrapper not found in document! We need that to add the iframe with append";
+            }
+            tdcJqObjWrapper.append( $liveIframe );
+
+
         }
 
     };

@@ -1,68 +1,25 @@
 /**
  * Created by tagdiv on 18.02.2016.
+ * This is the main file, it is loaded in the wrapper document. It is not loaded in the iFrame!
+ * It will initialize the iFrame and after that the whole editor starts
  */
 
 /* global jQuery:{} */
-/* global Backbone:{} */
-/* global _:{} */
-
-/* global tdcJobManager:{} */
-/* global tdcShortcodeParser:{} */
-/* global tdcAdminWrapperUI:{} */
 
 
 /* global tdcAdminIFrameUI */
 
-var tdcMain,
-    tdcAdminStructure,
-    tdcDebug;
+var tdcMain = {};
 
-(function(jQuery, backbone, _, undefined) {
-
+(function() {
     'use strict';
-
-
-    //var TdcRow,
-    //    TdcColumn,
-    //    TdcInnerRow,
-    //    TdcInnerColumn,
-    //
-    //    TdcRows,
-    //    TdcColumns,
-    //    TdcInnerColumns,
-
-    var TdcModel,
-        TdcCollection,
-        TdcLiveView,
-
-    // The general rows backbone collection
-        tdcRows;
-
-
     tdcMain = {
 
         init: function() {
+            // init the iframe, from there on we start
             tdcAdminIFrameUI.init();
-
-            //tdcMain._defineStructuredData();
-            //tdcMain._initStructuredData();
-            //
-            ////console.log( JSON.stringify( tdc_rows ) );
-            //tdcDebug.log( tdcRows.models );
-        },
-
-
-
+        }
 
     };
-
-
-
-
-
     tdcMain.init();
-
-
-
-
-})(jQuery, Backbone, _);
+})();

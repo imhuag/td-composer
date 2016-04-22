@@ -137,7 +137,7 @@ if (!empty($td_action)) {
 			/**
 			 * iframe enqueue scripts
 			 */
-			add_action( 'wp_enqueue_scripts', 'on_wp_enqueue_scripts_iframe');
+			add_action( 'wp_enqueue_scripts', 'on_wp_enqueue_scripts_iframe', 1010); // load them last
 			function on_wp_enqueue_scripts_iframe() {
 				tdc_util::enqueue_js_files_array(tdc_config::$js_files_for_iframe, array(
 					'jquery',
