@@ -136,13 +136,13 @@ var tdcSidebar;
 
             tdcSidebar._$rowColumns = tdcSidebar.$inspector.find( 'select[name=tdc-row-column]' );
             tdcSidebar._$rowColumns.change(function( event ) {
-                alert(1);
+                //alert(1);
             });
 
 
             tdcSidebar._$innerRowInnerColumns = tdcSidebar.$inspector.find( 'select[name=tdc-inner-row-inner-column]' );
             tdcSidebar._$innerRowInnerColumns.change(function( event ) {
-                alert(2);
+                //alert(2);
             });
 
 
