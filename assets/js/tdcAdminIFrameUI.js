@@ -80,6 +80,10 @@ var tdcAdminIFrameUI;
                             jQuery( el ).find( '.tdc-inner-row').wrap( '<div class="tdc-element-inner-row"></div>');
 
                             jQuery( el ).find( '.td_block_wrap').wrap( '<div class="tdc-element"></div>' );
+
+                            // wrap the reclama / a-d-s
+                            //jQuery( el ).find( '.td-a-rec').wrap( '<div class="tdc-element"></div>' );
+
                         });
 
 
