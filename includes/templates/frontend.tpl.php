@@ -204,20 +204,21 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 						if ( in_array( $mapped_shortcode['base'],
 							array(
-								'td_block_big_grid_slide',      // issues
-								'td_block_trending_now',
-								'td_block_video_youtube',
-								'td_block_video_vimeo',
-								'td_block_ad_box',              // issues
-								'td_block_authors',
-								'td_block_homepage_full_1',     // issues
-								'td_block_popular_categories',
-								'td_block_slide',               // issues
-								'td_block_text_with_title',
-								'td_block_weather',
-								'td_block_exchange',
-								'td_block_instagram',
-								'td_block_social_counter') ) ) {
+								'td_block_big_grid_slide',      // s-ar putea sa mearga cu render pe td_block_big_grid_2 in loc la slide
+								'td_block_trending_now',        // trebuie refactorizat
+								'td_block_video_youtube',       // lipsesc wrappers + ceva js custom
+								'td_block_video_vimeo',         // lipsesc wrappers + ceva js custom
+								'td_block_ad_box',              // issues - lipseste wrapper-ul - probabil din cauza la adblock
+								//'td_block_authors',
+								'td_block_homepage_full_1',     // issues - lipsesc wraperele pe content-ul injectat + nu se poate muta
+								//'td_block_popular_categories',
+								'td_block_slide',               // issues - trebuie facut sa scoata doar 1 slide fara script!
+								//'td_block_text_with_title',
+								//'td_block_weather',             // animation sprite item + weather item
+								//'td_block_exchange',
+								//'td_block_instagram',
+								//'td_block_social_counter'
+							) ) ) {
 
 							echo '<div style="color: #FF0000" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
 							?>

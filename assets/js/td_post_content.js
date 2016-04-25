@@ -21,7 +21,3 @@ document.documentElement.className += ' tdc_active ';
 })();
 
 
-
-function gggg() {
-    alert('YES IT WORKS');
-}
