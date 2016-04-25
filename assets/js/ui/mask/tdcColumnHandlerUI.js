@@ -66,8 +66,8 @@ var tdcColumnHandlerUI;
 
             // Create the handler jquery object and append it to the mask wrapper
             var $handlerWrapper = jQuery( '<div id="' + tdcColumnHandlerUI._handlerCssClass + '"></div>'),
-                $handlerDrag = jQuery( '<div class="tdc-mask-handler">&#10021;&nbsp;' + tdcColumnHandlerUI._handlerText + '</div>' ),
-                $handlerEdit = jQuery( '<div class="tdc-mask-edit">&#10000;</div>' );
+                $handlerDrag = jQuery( '<div class="tdc-mask-handler-drag">&#10021;&nbsp;' + tdcColumnHandlerUI._handlerText + '</div>' ),
+                $handlerEdit = jQuery( '<div class="tdc-mask-handler-edit">&#10000;</div>' );
 
             $handlerWrapper.append( $handlerDrag );
             $handlerWrapper.append( $handlerEdit );
@@ -76,7 +76,7 @@ var tdcColumnHandlerUI;
             tdcColumnHandlerUI._$handlerEdit = $handlerEdit;
             tdcColumnHandlerUI._$handlerWrapper = $handlerWrapper;
 
-            tdcMaskUI.$wrapper.append( $handlerWrapper );
+            tdcMaskUI.$handler.append( $handlerWrapper );
 
 
 
@@ -123,11 +123,13 @@ var tdcColumnHandlerUI;
             tdcColumnHandlerUI._$handlerWrapper.mouseenter(function( event ) {
 
                 event.preventDefault();
+                tdcMaskUI.setCurrentContainer( tdcColumnHandlerUI.$elementColumn );
                 tdcMaskUI.show();
 
             }).mouseleave( function( event ) {
 
                 event.preventDefault();
+                tdcMaskUI.setCurrentContainer( undefined );
                 tdcMaskUI.hide();
             });
 
@@ -138,10 +140,7 @@ var tdcColumnHandlerUI;
             tdcColumnHandlerUI._$handlerEdit.click( function( event ) {
 
                 event.preventDefault();
-
                 tdcColumnHandlerUI._triggerEvent( event );
-
-                //alert( 'edit column' );
 
             }).mousemove( function( event ) {
 
@@ -173,7 +172,7 @@ var tdcColumnHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementColumn = tdcColumnHandlerUI._checkColumn( $element );
+            var $elementColumn = tdcColumnHandlerUI.inColumn( $element );
 
             if ( ! _.isUndefined( $elementColumn ) ) {
                 tdcColumnHandlerUI.$elementColumn = $elementColumn;
@@ -190,12 +189,14 @@ var tdcColumnHandlerUI;
          * @param $element
          */
         setBreadcrumb: function( $element ) {
-            var $elementColumn = tdcColumnHandlerUI._checkColumn( $element );
+            var $elementColumn = tdcColumnHandlerUI.inColumn( $element );
 
-            if ( ! _.isUndefined( $elementColumn ) || tdcColumnHandlerUI._isColumn( $element ) ) {
-                tdcSidebar.activeBreadcrumItem( tdcSidebar.$editColumn );
+            if ( ! _.isUndefined( $elementColumn ) || tdcColumnHandlerUI.isColumn( $element ) ) {
+                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editColumn, tdcColumnHandlerUI.$elementColumn );
+                tdcSidebar.setCurrentColumn( tdcColumnHandlerUI.$elementColumn );
             } else {
                 tdcSidebar.$editColumn.hide();
+                tdcSidebar.setCurrentColumn( undefined );
             }
         },
 
@@ -205,9 +206,8 @@ var tdcColumnHandlerUI;
          *
          * @param $element
          * @returns {*}
-         * @private
          */
-        _isColumn: function( $element ) {
+        isColumn: function( $element ) {
             return $element.hasClass( tdcColumnHandlerUI._elementCssClass );
         },
 
@@ -217,9 +217,8 @@ var tdcColumnHandlerUI;
          *
          * @param $element
          * @returns {*}
-         * @private
          */
-        _checkColumn: function( $element ) {
+        inColumn: function( $element ) {
             var $elementColumn = $element.closest( '.' + tdcColumnHandlerUI._elementCssClass );
             if ( $elementColumn.length ) {
                 return $elementColumn;

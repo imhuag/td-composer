@@ -324,6 +324,7 @@ var tdcElementUI;
 
 
                 tdcMaskUI.setBreadcrumb( $element, tdcElementUI.getSidebarCurrentElementContent( $element ) );
+                tdcSidebar.setCurrentElement( $element );
 
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'element mouse down' );
@@ -591,11 +592,13 @@ var tdcElementUI;
             var model = tdcIFrameData.getModel( $element.data( 'model_id' ) ),
                 modelAtts = model.get( 'attrs' );
 
-            if (_.has( modelAtts, 'custom_title' ) ) {
+            //if (_.has( modelAtts, 'custom_title' ) ) {
+            if (_.has( modelAtts, 'custom_title' ) && ! _.isUndefined( modelAtts.custom_title ) && '' !== modelAtts.custom_title ) {
                 sidebarCurrentElementContent = modelAtts.custom_title;
             } else {
                 sidebarCurrentElementContent = model.get( 'tag' );
             }
+
             return sidebarCurrentElementContent;
         }
     };

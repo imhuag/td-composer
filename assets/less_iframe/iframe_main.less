@@ -221,11 +221,14 @@ html.tdc-active #wpadminbar {
 }
 
 #tdc-mask-content {
-  width: 100%;
-  height: 100%;
+  width: 0;
+  height: 0;
   background-color: #2a5a7e;
   opacity: 0.7;
   pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 #tdc-mask-row,
@@ -234,7 +237,6 @@ html.tdc-active #wpadminbar {
 #tdc-mask-inner-column {
   width: 120px;
   height: 20px;
-  padding: 1px 3px;
   position: absolute;
   pointer-events: all;
 }
@@ -267,15 +269,23 @@ html.tdc-active #wpadminbar {
   left: 120px;
 }
 
-.tdc-mask-edit {
+.tdc-mask-handler-edit {
   float: right;
-  width: 15px;
+  padding: 0 3px;
   cursor: pointer;
   text-align: center;
 }
 
-.tdc-mask-handler {
+.tdc-mask-handler-drag {
   float: left;
-  width: 95px;
+  width: 103px;
+  padding-left: 3px;
   cursor: move;
+}
+
+#tdc-mask-handler {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
 }

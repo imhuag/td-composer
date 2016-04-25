@@ -65,8 +65,8 @@ var tdcInnerColumnHandlerUI;
 
             // Create the handler jquery object and append it to the mask wrapper
             var $handlerWrapper = jQuery( '<div id="' + tdcInnerColumnHandlerUI._handlerCssClass + '"></div>'),
-                $handlerDrag = jQuery( '<div class="tdc-mask-handler">&#10021;&nbsp;' + tdcInnerColumnHandlerUI._handlerText + '</div>' ),
-                $handlerEdit = jQuery( '<div class="tdc-mask-edit">&#10000;</div>' );
+                $handlerDrag = jQuery( '<div class="tdc-mask-handler-drag">&#10021;&nbsp;' + tdcInnerColumnHandlerUI._handlerText + '</div>' ),
+                $handlerEdit = jQuery( '<div class="tdc-mask-handler-edit">&#10000;</div>' );
 
             $handlerWrapper.append( $handlerDrag );
             $handlerWrapper.append( $handlerEdit );
@@ -75,7 +75,7 @@ var tdcInnerColumnHandlerUI;
             tdcInnerColumnHandlerUI._$handlerEdit = $handlerEdit;
             tdcInnerColumnHandlerUI._$handlerWrapper = $handlerWrapper;
 
-            tdcMaskUI.$wrapper.append( $handlerWrapper );
+            tdcMaskUI.$handler.append( $handlerWrapper );
 
 
 
@@ -122,11 +122,13 @@ var tdcInnerColumnHandlerUI;
             tdcInnerColumnHandlerUI._$handlerWrapper.mouseenter(function( event ) {
 
                 event.preventDefault();
+                tdcMaskUI.setCurrentContainer( tdcInnerColumnHandlerUI.$elementInnerColumn );
                 tdcMaskUI.show();
 
             }).mouseleave( function( event ) {
 
                 event.preventDefault();
+                tdcMaskUI.setCurrentContainer( undefined );
                 tdcMaskUI.hide();
             });
 
@@ -138,10 +140,7 @@ var tdcInnerColumnHandlerUI;
             tdcInnerColumnHandlerUI._$handlerEdit.click( function( event ) {
 
                 //event.preventDefault();
-
                 tdcInnerColumnHandlerUI._triggerEvent( event );
-
-                //alert( 'edit inner column' );
 
             }).mousemove( function( event ) {
 
@@ -153,6 +152,7 @@ var tdcInnerColumnHandlerUI;
                 event.preventDefault();
                 tdcMaskUI.show();
             });
+
 
 
             // The final step of initialization is to add the handler object to the mask handlers and to mark it has initialized
@@ -173,7 +173,7 @@ var tdcInnerColumnHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementInnerColumn = tdcInnerColumnHandlerUI._inInnerColumn( $element );
+            var $elementInnerColumn = tdcInnerColumnHandlerUI.inInnerColumn( $element );
 
             if ( ! _.isUndefined( $elementInnerColumn ) ) {
                 tdcInnerColumnHandlerUI.$elementInnerColumn = $elementInnerColumn;
@@ -190,12 +190,14 @@ var tdcInnerColumnHandlerUI;
          * @param $element
          */
         setBreadcrumb: function( $element ) {
-            var $elementInnerColumn = tdcInnerColumnHandlerUI._inInnerColumn( $element );
+            var $elementInnerColumn = tdcInnerColumnHandlerUI.inInnerColumn( $element );
 
-            if ( ! _.isUndefined( $elementInnerColumn ) || tdcInnerColumnHandlerUI._isInnerColumn( $element ) ) {
-                tdcSidebar.activeBreadcrumItem( tdcSidebar.$editInnerColumn );
+            if ( ! _.isUndefined( $elementInnerColumn ) || tdcInnerColumnHandlerUI.isInnerColumn( $element ) ) {
+                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editInnerColumn, tdcInnerColumnHandlerUI.$elementInnerColumn );
+                tdcSidebar.setCurrentInnerColumn( tdcInnerColumnHandlerUI.$elementInnerColumn );
             } else {
                 tdcSidebar.$editInnerColumn.hide();
+                tdcSidebar.setCurrentInnerColumn( undefined );
             }
         },
 
@@ -207,7 +209,7 @@ var tdcInnerColumnHandlerUI;
          * @returns {*}
          * @private
          */
-        _inInnerColumn: function( $element ) {
+        inInnerColumn: function( $element ) {
             var $elementInnerColumn = $element.closest( '.' + tdcInnerColumnHandlerUI._elementCssClass );
             if ( $elementInnerColumn.length ) {
                 return $elementInnerColumn;
@@ -220,9 +222,8 @@ var tdcInnerColumnHandlerUI;
          *
          * @param $element
          * @returns {*}
-         * @private
          */
-        _isInnerColumn: function( $element ) {
+        isInnerColumn: function( $element ) {
             return $element.hasClass( tdcInnerColumnHandlerUI._elementCssClass );
         },
 
