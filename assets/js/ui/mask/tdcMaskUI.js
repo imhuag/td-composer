@@ -106,7 +106,50 @@ var tdcMaskUI;
 
         tdcMaskUI.$currentContainer = $currentContainer;
 
-        tdcMaskUI.setContentPosition();
+        if ( ! _.isUndefined( tdcMaskUI.$currentContainer ) ) {
+
+            var $refObj,
+                refObjOffset,
+                top,
+                left,
+                width,
+                height;
+
+            if ( tdcColumnHandlerUI.isColumn( tdcMaskUI.$currentContainer ) || tdcInnerColumnHandlerUI.isInnerColumn( tdcMaskUI.$currentContainer ) ) {
+
+                $refObj = tdcMaskUI.$currentContainer.find( '.tdc-elements:first' );
+
+            } else if ( tdcRowHandlerUI.isRow( tdcMaskUI.$currentContainer ) || tdcInnerRowHandlerUI.isInnerRow( tdcMaskUI.$currentContainer ) ) {
+
+                $refObj = tdcMaskUI.$currentContainer;
+            }
+
+            refObjOffset = $refObj.offset();
+
+            top = refObjOffset.top;
+            left = refObjOffset.left;
+            width = $refObj.outerWidth();
+            height = $refObj.outerHeight( true );
+
+            tdcMaskUI.$content.css({
+                top: top,
+                left: left,
+                width: width,
+                height: height
+            });
+
+            tdcMaskUI.$content.show();
+
+        } else {
+            tdcMaskUI.$content.css({
+                top: '',
+                left: '',
+                width: '',
+                height: ''
+            });
+
+            tdcMaskUI.$content.hide();
+        }
     },
 
 
@@ -237,51 +280,6 @@ var tdcMaskUI;
             // Close the sidebar modal 'Add Elements'
             tdcSidebar.closeModal();
         });
-    },
-
-
-    setContentPosition: function() {
-
-        if ( ! _.isUndefined( tdcMaskUI.$currentContainer ) ) {
-
-            var $refObj,
-                refObjOffset,
-                top,
-                left,
-                width,
-                height;
-
-            if ( tdcColumnHandlerUI.isColumn( tdcMaskUI.$currentContainer ) || tdcInnerColumnHandlerUI.isInnerColumn( tdcMaskUI.$currentContainer ) ) {
-
-                $refObj = tdcMaskUI.$currentContainer.find( '.tdc-elements:first' );
-
-            } else if ( tdcRowHandlerUI.isRow( tdcMaskUI.$currentContainer ) || tdcInnerRowHandlerUI.isInnerRow( tdcMaskUI.$currentContainer ) ) {
-
-                $refObj = tdcMaskUI.$currentContainer;
-            }
-
-            refObjOffset = $refObj.offset();
-
-            top = refObjOffset.top;
-            left = refObjOffset.left;
-            width = $refObj.outerWidth();
-            height = $refObj.outerHeight( true );
-
-            tdcMaskUI.$content.css({
-                top: top,
-                left: left,
-                width: width,
-                height: height
-            });
-
-        } else {
-            tdcMaskUI.$content.css({
-                top: '',
-                left: '',
-                width: '',
-                height: ''
-            });
-        }
     }
 };
 

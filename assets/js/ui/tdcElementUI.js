@@ -325,6 +325,7 @@ var tdcElementUI;
 
                 tdcMaskUI.setBreadcrumb( $element, tdcElementUI.getSidebarCurrentElementContent( $element ) );
                 tdcSidebar.setCurrentElement( $element );
+                tdcSidebar._showInspector();
 
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'element mouse down' );
