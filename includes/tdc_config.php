@@ -64,7 +64,8 @@ class tdc_config {
 
 
 	static $js_files_for_iframe = array (
-		'td_post_content' => '/assets/js/td_post_content.js',
+		'tdcComposerBlocksApi' => '/assets/js/iframe/tdcComposerBlocksApi.js',
+		'tdcDebug'              => '/assets/js/tdcDebug.js',  //inject tdcDebug in the iframe also
 	);
 
 }

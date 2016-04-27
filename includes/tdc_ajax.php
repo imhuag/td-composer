@@ -53,27 +53,35 @@ class tdc_ajax {
 		td_util::vc_set_column_number($request->get_param('columns'));
 
 
-		add_action('td_block__get_block_js', 'tdc_on_td_block__get_block_js', 10, 1);
 		/**
-		 * @param $by_ref_block_obj td_block
+		 * hook td_block__get_block_js so we can receive the JS for EVAL form the block when do_shortcode is called below
 		 */
+		add_action('td_block__get_block_js', 'tdc_on_td_block__get_block_js', 10, 1);
+		/** @param $by_ref_block_obj td_block */
 		function tdc_on_td_block__get_block_js($by_ref_block_obj) {
-			tdc_ajax::$_td_block__get_block_js_buffer = $by_ref_block_obj->js_callback_ajax();
+			tdc_ajax::$_td_block__get_block_js_buffer .= $by_ref_block_obj->js_tdc_callback_ajax();
 		}
 
 
 		/*
-			we need to call the shortcode with output buffering because our style generator from our blocks just echoes it's generated
-			style. No bueno :(
+			- we need to call the shortcode with output buffering because our style generator from our blocks just echoes it's generated
+				style. No bueno :(
+			- when the do_shortcode runs, our blocks usually call @see td_block->get_block_js(). get_block_js() calls the do_action for td_block__get_block_js hook.
+				we hook td_block__get_block_js above to read that reply
+			- that reply usually contains the JS for EVAL
 		*/
 		ob_start();
-		echo do_shortcode(stripslashes($request->get_param('shortcode')));
+		echo do_shortcode(stripslashes($request->get_param('shortcode')));  // do shortcode usually renders with the blocks td_block->render method
 		$reply_html = ob_get_clean();
 
 
+		// read the buffer that was set by the 'td_block__get_block_js' hook above
 		if (!empty(self::$_td_block__get_block_js_buffer)) {
 			$parameters['replyJsForEval'] = self::$_td_block__get_block_js_buffer;
 		}
+
+
+
 
 		$parameters['replyHtml'] = $reply_html;
 

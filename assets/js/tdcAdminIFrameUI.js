@@ -29,6 +29,11 @@ var tdcAdminIFrameUI;
 
 
 
+        evalInIframe: function (jsCode) {
+            tdcAdminIFrameUI.getIframeWindow().eval(jsCode);
+        },
+
+
         init: function() {
 
             var url = window.tdcPostSettings.postUrl;
