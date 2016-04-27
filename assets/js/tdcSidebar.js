@@ -29,6 +29,11 @@ var tdcSidebar;
         $currentElementTitle: undefined,
         $inspector: undefined,
 
+        // Row - Columns settings
+        _$rowColumns: undefined,
+        // Inner Row - Inner Columns settings
+        _$innerRowInnerColumns: undefined,
+
         init: function() {
 
             tdcSidebar.$editRow = jQuery( '#tdc-breadcrumb-row' );
@@ -48,19 +53,18 @@ var tdcSidebar;
 
 
             tdcSidebar.$editRow.click(function() {
-                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editRow );
+                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editRow, tdcSidebar._$currentRow );
 
             }).mouseenter(function( event ) {
 
                 if ( ! _.isUndefined( tdcSidebar._$currentElement ) ) {
                     tdcMaskUI.setCurrentElement( tdcSidebar._$currentElement );
-
-                    if ( ! _.isUndefined( tdcSidebar._$currentRow ) ) {
-                        tdcMaskUI.setCurrentContainer( tdcSidebar._$currentRow );
-                    }
+                    tdcMaskUI.$wrapper.hide();
                 }
-                //tdcMaskUI.show();
-                tdcMaskUI.$wrapper.hide();
+
+                if ( ! _.isUndefined( tdcSidebar._$currentRow ) ) {
+                    tdcMaskUI.setCurrentContainer( tdcSidebar._$currentRow );
+                }
 
             }).mouseleave(function( event ) {
                 tdcMaskUI.hide();
@@ -68,19 +72,18 @@ var tdcSidebar;
 
 
             tdcSidebar.$editColumn.click(function() {
-                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editColumn );
+                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editColumn, tdcSidebar._$currentColumn );
 
             }).mouseenter(function( event ) {
 
                 if ( ! _.isUndefined( tdcSidebar._$currentElement ) ) {
                     tdcMaskUI.setCurrentElement( tdcSidebar._$currentElement );
-
-                    if ( ! _.isUndefined( tdcSidebar._$currentColumn ) ) {
-                        tdcMaskUI.setCurrentContainer( tdcSidebar._$currentColumn );
-                    }
+                    tdcMaskUI.$wrapper.hide();
                 }
-                //tdcMaskUI.show();
-                tdcMaskUI.$wrapper.hide();
+
+                if ( ! _.isUndefined( tdcSidebar._$currentColumn ) ) {
+                    tdcMaskUI.setCurrentContainer( tdcSidebar._$currentColumn );
+                }
 
             }).mouseleave(function( event ) {
                 tdcMaskUI.hide();
@@ -88,19 +91,18 @@ var tdcSidebar;
 
 
             tdcSidebar.$editInnerRow.click(function() {
-                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editInnerRow );
+                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editInnerRow, tdcSidebar._$currentInnerRow );
 
             }).mouseenter(function( event ) {
 
                 if ( ! _.isUndefined( tdcSidebar._$currentElement ) ) {
                     tdcMaskUI.setCurrentElement( tdcSidebar._$currentElement );
-
-                    if ( ! _.isUndefined( tdcSidebar._$currentInnerRow ) ) {
-                        tdcMaskUI.setCurrentContainer( tdcSidebar._$currentInnerRow );
-                    }
+                    tdcMaskUI.$wrapper.hide();
                 }
-                //tdcMaskUI.show();
-                tdcMaskUI.$wrapper.hide();
+
+                if ( ! _.isUndefined( tdcSidebar._$currentInnerRow ) ) {
+                    tdcMaskUI.setCurrentContainer( tdcSidebar._$currentInnerRow );
+                }
 
             }).mouseleave(function( event ) {
                 tdcMaskUI.hide();
@@ -108,19 +110,18 @@ var tdcSidebar;
 
 
             tdcSidebar.$editInnerColumn.click(function() {
-                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editInnerColumn );
+                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editInnerColumn, tdcSidebar._$currentInnerColumn );
 
             }).mouseenter(function( event ) {
 
                 if ( ! _.isUndefined( tdcSidebar._$currentElement ) ) {
                     tdcMaskUI.setCurrentElement( tdcSidebar._$currentElement );
-
-                    if ( ! _.isUndefined( tdcSidebar._$currentInnerColumn ) ) {
-                        tdcMaskUI.setCurrentContainer( tdcSidebar._$currentInnerColumn );
-                    }
+                    tdcMaskUI.$wrapper.hide();
                 }
-                //tdcMaskUI.show();
-                tdcMaskUI.$wrapper.hide();
+
+                if ( ! _.isUndefined( tdcSidebar._$currentInnerColumn ) ) {
+                    tdcMaskUI.setCurrentContainer( tdcSidebar._$currentInnerColumn );
+                }
 
             }).mouseleave(function( event ) {
                 tdcMaskUI.hide();
@@ -130,6 +131,20 @@ var tdcSidebar;
             jQuery( '.tdc-sidebar-element').each(function( index, element ) {
                 tdcSidebar._bindElement( jQuery( element ) );
             });
+
+
+
+            tdcSidebar._$rowColumns = tdcSidebar.$inspector.find( 'select[name=tdc-row-column]' );
+            tdcSidebar._$rowColumns.change(function( event ) {
+                //alert(1);
+            });
+
+
+            tdcSidebar._$innerRowInnerColumns = tdcSidebar.$inspector.find( 'select[name=tdc-inner-row-inner-column]' );
+            tdcSidebar._$innerRowInnerColumns.change(function( event ) {
+                //alert(2);
+            });
+
 
             tdcSidebar.sidebarModal();
             tdcSidebar.liveInspectorTabs();
@@ -141,11 +156,7 @@ var tdcSidebar;
             tdcSidebar.setCurrentElementContent( $item.data( 'name' ) );
             $item.show();
             $item.nextAll().hide();
-            tdcSidebar.$inspector.show();
-
-            if ( ! _.isUndefined( $currentContainer ) ) {
-                tdcSidebar.setInspector( $currentContainer );
-            }
+            tdcSidebar._showLayoutInspector( $currentContainer );
         },
 
 
@@ -243,11 +254,6 @@ var tdcSidebar;
 
 
 
-        setInspector: function() {
-
-        },
-
-
         setCurrentElement: function( $currentElement ) {
             tdcSidebar._$currentElement = $currentElement;
         },
@@ -285,7 +291,183 @@ var tdcSidebar;
         },
         getCurrentInnerColumn: function() {
             return tdcSidebar._$currentInnerColumn;
+        },
+
+
+
+        _showInspector: function() {
+
+            if ( ! _.isUndefined( tdcSidebar._$currentElement ) ) {
+
+                tdcSidebar.$inspector.find( '.tdc-tabs > a' ).each( function( index, element ) {
+
+                    var $element = jQuery( element ),
+                        $tabContent = tdcSidebar.$inspector.find( '#' + $element.data( 'tab-id' ) );
+
+                    if ( 0 === index ) {
+                        $element.show();
+                        $element.addClass( 'tdc-tab-active' );
+                        $tabContent.addClass( 'tdc-tab-content-visible' );
+                    } else {
+                        if ( $element.hasClass( 'tdc-layout' ) ) {
+                            $element.hide();
+                        } else {
+                            $element.show();
+                        }
+                        $element.removeClass( 'tdc-tab-active' );
+                        $tabContent.removeClass( 'tdc-tab-content-visible' );
+                    }
+                });
+            }
+
+            tdcSidebar.$inspector.show();
+        },
+
+
+
+        _showLayoutInspector: function( $currentContainer ) {
+
+            //tdcDebug.log( '_showLayoutInspector' );
+
+            var classLayout;
+
+            if ( ! _.isUndefined( $currentContainer ) ) {
+
+                if ( tdcRowHandlerUI.isRow( $currentContainer ) ) {
+                    classLayout = 'tdc-layout-row';
+                    tdcSidebar._setRowColumnSettings( $currentContainer );
+
+                } else if ( tdcColumnHandlerUI.isColumn( $currentContainer ) ) {
+                    classLayout = 'tdc-layout-column';
+
+                } else if ( tdcInnerRowHandlerUI.isInnerRow( $currentContainer ) ) {
+                    classLayout = 'tdc-layout-inner-row';
+                    tdcSidebar._setInnerRowInnerColumnSettings( $currentContainer );
+
+                } else if ( tdcInnerColumnHandlerUI.isInnerColumn( $currentContainer ) ) {
+                    classLayout = 'tdc-layout-inner-column';
+                }
+            }
+
+            tdcSidebar.$inspector.find( '.tdc-tabs > a' ).each( function( index, element ) {
+
+                var $element = jQuery( element ),
+                    $tabContent = tdcSidebar.$inspector.find( '#' + $element.data( 'tab-id' ) );
+
+                //tdcDebug.log( classLayout );
+
+                if ( _.isUndefined( classLayout ) ) {
+                    if ( 0 === index ) {
+                        $element.show();
+                        $element.addClass( 'tdc-tab-active' );
+                        $tabContent.addClass( 'tdc-tab-content-visible' );
+                    } else {
+                        if ( $element.hasClass( 'tdc-layout' ) ) {
+                            $element.hide();
+                        } else {
+                            $element.show();
+                        }
+                        $element.removeClass( 'tdc-tab-active' );
+                        $tabContent.removeClass( 'tdc-tab-content-visible' );
+                    }
+                } else {
+                    if ( $element.hasClass( classLayout ) ) {
+                        $element.show();
+                        $element.addClass( 'tdc-tab-active' );
+                        $tabContent.addClass( 'tdc-tab-content-visible' );
+                    } else {
+                        $element.hide();
+                        $element.removeClass( 'tdc-tab-active' );
+                        $tabContent.removeClass( 'tdc-tab-content-visible' );
+                    }
+                }
+            });
+
+            tdcSidebar.$inspector.show();
+        },
+
+
+
+        _setInnerRowInnerColumnSettings: function( $currentContainer ) {
+
+            var modelId = $currentContainer.data( 'model_id' );
+
+            if ( ! _.isUndefined( modelId ) ) {
+                var model = tdcIFrameData.getModel( modelId );
+
+                if ( ! _.isUndefined( model ) ) {
+                    var childCollection = model.get( 'childCollection' );
+
+                    if ( ! _.isUndefined( childCollection ) ) {
+
+                        //tdcDebug.log( childCollection );
+
+                        var width = '';
+                        _.map( childCollection.models, function( val, key ) {
+
+                            var attrs = val.get( 'attrs' );
+                            if ( _.has( attrs, 'width' ) ) {
+                                if ( ! width.length ) {
+                                    width += attrs.width.replace( '/', '');
+                                } else {
+                                    width += '_' + attrs.width.replace( '/', '');
+                                }
+                            }
+                        });
+
+                        tdcDebug.log( width );
+
+                        if ( width.length ) {
+                            tdcSidebar._$innerRowInnerColumns.val( width );
+                        } else {
+                            tdcSidebar._$innerRowInnerColumns.val( '11' );
+                        }
+                    }
+                }
+            }
+        },
+
+
+
+        _setRowColumnSettings: function( $currentContainer ) {
+
+            var modelId = $currentContainer.data( 'model_id' );
+
+            if ( ! _.isUndefined( modelId ) ) {
+                var model = tdcIFrameData.getModel( modelId );
+
+                if ( ! _.isUndefined( model ) ) {
+                    var childCollection = model.get( 'childCollection' );
+
+                    if ( ! _.isUndefined( childCollection ) ) {
+
+                        //tdcDebug.log( childCollection );
+
+                        var width = '';
+                        _.map( childCollection.models, function( val, key ) {
+
+                            var attrs = val.get( 'attrs' );
+                            if ( _.has( attrs, 'width' ) ) {
+                                if ( ! width.length ) {
+                                    width += attrs.width.replace( '/', '');
+                                } else {
+                                    width += '_' + attrs.width.replace( '/', '');
+                                }
+                            }
+                        });
+
+                        //tdcDebug.log( width );
+
+                        if ( width.length ) {
+                            tdcSidebar._$rowColumns.val( width );
+                        } else {
+                            tdcSidebar._$rowColumns.val( '11' );
+                        }
+                    }
+                }
+            }
         }
+
 
     };
 

@@ -76,81 +76,78 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="tdc-current-element-title">
 			</div>
 			<div class="tdc-tabs">
-				<a href="#" data-tab-id="td-tab-id-1" class="tdc-tab-active">General</a>
-				<a href="#" data-tab-id="td-tab-id-2">Filter</a>
-				<a href="#" data-tab-id="td-tab-id-3">Ajax filter</a>
-				<a href="#" data-tab-id="td-tab-id-4">Pagination</a>
+				<a href="#" data-tab-id="td-tab-general" class="tdc-tab-active">General</a>
+				<a href="#" data-tab-id="td-tab-filter">Filter</a>
+				<a href="#" data-tab-id="td-tab-ajax-filter">Ajax filter</a>
+				<a href="#" data-tab-id="td-tab-pagination">Pagination</a>
+				<a href="#" data-tab-id="td-tab-row" class="tdc-layout tdc-layout-row">Settings Row</a>
+				<a href="#" data-tab-id="td-tab-column" class="tdc-layout tdc-layout-column">Settings Column</a>
+				<a href="#" data-tab-id="td-tab-inner-row" class="tdc-layout tdc-layout-inner-row">Settings Inner Row</a>
+				<a href="#" data-tab-id="td-tab-inner-column" class="tdc-layout tdc-layout-inner-column">Settings Inner Column</a>
 			</div>
 			<div class="tdc-tab-content-wrap">
-				<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-id-1">
+				<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-general">
 					<!-- tab 1 -->
 
+					GENERAL
+				</div>
+				<div class="tdc-tab-content" id="td-tab-filter">
+					<!-- tab 1 -->
 
-					<div class="tdc-property-wrap tdc-property-textfield">
-						<div class="tdc-property-title">My control title:</div>
-						<div class="tdc-property">
-							<input name="my_name" type="text" value="Block title"/>
-						</div>
-					</div>
+					FILTER
+				</div>
+				<div class="tdc-tab-content" id="td-tab-ajax-filter">
+					<!-- tab 1 -->
 
+					AJAX FILTER
+				</div>
+				<div class="tdc-tab-content" id="td-tab-pagination">
+					<!-- tab 1 -->
 
-					<!-- textfield -->
-					<div class="tdc-property-wrap tdc-property-textfield">
-						<div class="tdc-property-title">My random shit:</div>
-						<div class="tdc-property">
-							<input name="my_name" type="text" value="Block title"/>
-						</div>
-					</div>
+					PAGINATION
+				</div>
+				<div class="tdc-tab-content" id="td-tab-row">
+					<!-- tab 1 -->
 
-
-					<!-- dropdown -->
 					<div class="tdc-property-wrap tdc-property-dropdown">
-						<div class="tdc-property-title">My prop:</div>
+						<div class="tdc-property-title">Columns:</div>
 						<div class="tdc-property">
-							<select name="category_id" data-option=""><option class="" value="">- All categories -</option><option class="988" value="988">Fashion</option><option class="2" value="2">Featured</option><option class="982" value="982">Lifestyle</option><option class="984" value="984"> - Health</option><option class="985" value="985"> - Music</option><option class="986" value="986"> - Recipes</option><option class="983" value="983"> - Travel</option><option class="990" value="990">Music</option><option class="991" value="991">Photography</option><option class="989" value="989">Sport</option><option class="1" value="1">Uncategorized</option><option class="987" value="987">World</option></select>
+							<select name="tdc-row-column" data-option="">
+								<option class="" value="11">1/1</option>
+								<option class="" value="23_13">2/3 + 1/3</option>
+								<option class="" value="13_23">1/3 + 2/3</option>
+								<option class="" value="13_13_13">1/3 + 1/3 + 1/3</option>
+							</select>
 						</div>
 					</div>
 
+				</div>
+				<div class="tdc-tab-content" id="td-tab-column">
+					<!-- tab 1 -->
 
+					column settings
+				</div>
+				<div class="tdc-tab-content" id="td-tab-inner-row">
+					<!-- tab 1 -->
 
-					<!-- colorpicker -->
-					<?php
-					$widget_color_picker_id = tdc_util::generate_unique_id();
-					?>
-					<div class="tdc-property-wrap tdc-property-colorpicker">
-						<div class="tdc-property-title">My colorpicker:</div>
+					<div class="tdc-property-wrap tdc-property-dropdown">
+						<div class="tdc-property-title">Columns:</div>
 						<div class="tdc-property">
-							<input id="<?php echo $widget_color_picker_id ?>" name="my_name" type="text" value="#dd3333"/>
+							<select name="tdc-inner-row-inner-column" data-option="">
+								<option class="" value="11">1/1</option>
+								<option class="" value="12_12">1/2 + 1/2</option>
+								<option class="" value="23_13">2/3 + 1/3</option>
+								<option class="" value="13_23">1/3 + 2/3</option>
+								<option class="" value="13_13_13">1/3 + 1/3 + 1/3</option>
+							</select>
 						</div>
 					</div>
-					<script>
-						jQuery( document ).ready(function() {
-							jQuery("#<?php echo $widget_color_picker_id ?>").cs_wpColorPicker();
-						});
-					</script>
-
-
-
-
 
 				</div>
-				<div class="tdc-tab-content" id="td-tab-id-2">
+				<div class="tdc-tab-content" id="td-tab-inner-column">
 					<!-- tab 1 -->
 
-					Leberkas shank venison meatball turducken frankfurter tenderloin shoulder. Leberkas turkey spare ribs shankle ribeye sausage. Frankfurter pork ribeye tenderloin filet mignon jerky boudin pig tri-tip chuck brisket jowl. Pork chop flank tri-tip tenderloin kevin pork loin landjaeger biltong, turkey alcatra pastrami ham hock swine drumstick jowl. Salami alcatra chuck biltong, leberkas ham hock chicken ground round andouille pancetta beef bacon short ribs strip steak shoulder. Sausage doner strip steak filet mignon. Pork chop bresaola bacon hamburger boudin filet mignon capicola kielbasa pig venison short loin cupim jerky shoulder.
-					Salami porchetta leberkas, pancetta ground round frankfurter shoulder tenderloin andouille shankle ham picanha. Sausage shoulder short ribs, brisket cupim tri-tip hamburger beef. Kielbasa shank pastrami, landjaeger rump leberkas ribeye ham venison tri-tip tenderloin. Jerky chicken ham andouille, jowl sausage venison salami. Spare ribs pork chop pork loin, prosciutto beef ribs tri-tip capicola salami. Porchetta t-bone meatball salami filet mignon short ribs.
-				</div>
-				<div class="tdc-tab-content" id="td-tab-id-3">
-					<!-- tab 1 -->
-
-					Salami porchetta leberkas, pancetta ground round frankfurter shoulder tenderloin andouille shankle ham picanha. Sausage shoulder short ribs, brisket cupim tri-tip hamburger beef. Kielbasa shank pastrami, landjaeger rump leberkas ribeye ham venison tri-tip tenderloin. Jerky chicken ham andouille, jowl sausage venison salami. Spare ribs pork chop pork loin, prosciutto beef ribs tri-tip capicola salami. Porchetta t-bone meatball salami filet mignon short ribs.
-					Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!
-				</div>
-				<div class="tdc-tab-content" id="td-tab-id-4">
-					<!-- tab 1 -->
-
-					Turkey prosciutto short loin chicken pork loin turducken. Doner beef turducken, biltong pastrami pork prosciutto short ribs tri-tip frankfurter brisket leberkas. Hamburger doner venison tongue chicken shank pig sirloin corned beef filet mignon rump alcatra. Frankfurter venison porchetta strip steak short ribs.
-					Swine prosciutto picanha, flank corned beef meatloaf turkey chicken hamburger short loin. Salami meatball prosciutto tongue pork. Pork chop biltong boudin bresaola, tail tongue pancetta prosciutto sausage. Pork belly landjaeger cupim cow shoulder, tail tenderloin. Brisket picanha pork porchetta flank chicken ham bresaola capicola beef cupim jowl short loin. Turkey biltong spare ribs corned beef, shoulder pancetta filet mignon hamburger meatball.
+					inner column settings
 				</div>
 			</div>
 		</div>
