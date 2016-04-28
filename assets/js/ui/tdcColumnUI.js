@@ -27,9 +27,13 @@ var tdcColumnUI;
 
 
 
-        init: function() {
+        init: function( $content ) {
 
-            tdcColumnUI.tdcColumn = tdcOperationUI.iframeContents.find('.tdc-column');
+            if ( _.isUndefined( $content ) ) {
+                $content = tdcOperationUI.iframeContents;
+            }
+
+            tdcColumnUI.tdcColumn = $content.find('.tdc-column');
 
             tdcColumnUI.tdcColumn.each(function (index, element) {
                 tdcColumnUI.bindColumn(jQuery(element));

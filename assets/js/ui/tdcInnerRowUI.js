@@ -25,9 +25,15 @@ var tdcInnerRowUI;
         // The 'tdc-element-inner-row' elements
         tdcElementInnerRow: undefined,
 
-        init: function() {
 
-            tdcInnerRowUI.tdcElementInnerRow = tdcOperationUI.iframeContents.find('.tdc-element-inner-row');
+
+        init: function( $content ) {
+
+            if ( _.isUndefined( $content ) ) {
+                $content = tdcOperationUI.iframeContents;
+            }
+
+            tdcInnerRowUI.tdcElementInnerRow = $content.find('.tdc-element-inner-row');
 
             tdcInnerRowUI.tdcElementInnerRow.each(function (index, element) {
                 tdcInnerRowUI.bindInnerRow(jQuery(element));

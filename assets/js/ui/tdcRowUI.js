@@ -27,9 +27,13 @@ var tdcRowUI;
 
 
 
-        init: function() {
+        init: function( $content ) {
 
-            tdcRowUI.tdcRow = tdcOperationUI.iframeContents.find('.tdc-row');
+            if ( _.isUndefined( $content ) ) {
+                $content = tdcOperationUI.iframeContents;
+            }
+
+            tdcRowUI.tdcRow = $content.find('.tdc-row');
 
             tdcRowUI.tdcRow.each(function (index, element) {
                 tdcRowUI.bindRow( jQuery( element ) );

@@ -98,7 +98,7 @@ var tdcIFrameData,
             tdcIFrameData.TdcModel = Backbone.Model.extend({
 
                 // Get the shortcode rendered
-                getShortcodeRender: function( columns, draggedBlockUid, bindNewContent ) {
+                getShortcodeRender: function( columns, draggedBlockUid, bindNewContent, liveViewId ) {
 
                     var model = this;
 
@@ -120,7 +120,7 @@ var tdcIFrameData,
                         newJob.shortcode = data.getShortcode;
                         newJob.columns = columns;
 
-                        newJob.liveViewId = 'test';
+                        newJob.liveViewId = liveViewId;
 
                         newJob.success_callback = function( data ) {
 
@@ -132,6 +132,7 @@ var tdcIFrameData,
                                 //var $dataReplyHtml = jQuery( data.replyHtml );
 
                                 model.set( 'bindNewContent', bindNewContent );
+                                model.set( 'shortcode', newJob.shortcode );
                                 model.set( 'html', data.replyHtml );
                             }
 
@@ -308,7 +309,7 @@ var tdcIFrameData,
                                     }
                                 }
 
-                            } else if ( this.$el.attr( 'id', 'tdc-rows' ) ) {
+                            } else if ( 'tdc-rows' === this.$el.attr( 'id' ) ) {
 
                                 // Bind the events for the new row
 
@@ -345,6 +346,87 @@ var tdcIFrameData,
                                         tdcElementUI.bindEmptyElement( $emptyElementColumn );
                                     }
                                 }
+
+
+
+                            // A new 'tdc-column' has been added inside of the 'tdc-column-temp' temporary element
+                            } else if ( this.$el.hasClass( 'tdc-column-temp' ) ) {
+
+                                var $tdcColumn = this.$el.find( '.tdc-column' );
+
+                                // Set the column data 'model_id' with the data 'model_id' of the temp column
+                                $tdcColumn.data( 'model_id', this.$el.data( 'model_id' ) );
+
+                                // Remove the temp column
+                                $tdcColumn.unwrap();
+
+                                // Bind the events for the new column
+                                tdcColumnUI.bindColumn( $tdcColumn );
+
+                                // Add the empty element
+                                var $tdcColumnWpbWrapper = $tdcColumn.find( '.wpb_wrapper' );
+
+                                if ( $tdcColumnWpbWrapper.length ) {
+                                    var $tdcElementsColumn = jQuery( '<div class="tdc-elements"></div>' );
+                                    tdcElementsUI.bindElementList( $tdcElementsColumn );
+
+                                    var $emptyElementColumn = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + ' tdc-element-column"></div>' );
+                                    $tdcElementsColumn.append( $emptyElementColumn );
+
+                                    $tdcColumnWpbWrapper.append( $tdcElementsColumn );
+
+                                    tdcElementUI.bindEmptyElement( $emptyElementColumn );
+                                }
+
+
+
+                            // A new content has been added to an existing 'tdc-column' referenced by the $el of the view
+                            } else if ( this.$el.hasClass( 'tdc-column' ) ) {
+
+                                // We have the new 'tdc-column' inside of the old 'tdc-column'
+                                // The old 'tdc-column' will be removed
+
+                                var $tdcColumn = this.$el.find( '.tdc-column' ),
+                                    modelId = this.$el.data( 'model_id' ),
+                                    model = tdcIFrameData.getModel( modelId ),
+                                    childCollection = model.get( 'childCollection' );
+
+                                // Set the column data 'model_id' with the data 'model_id' of the temp column
+                                $tdcColumn.data( 'model_id', modelId );
+
+                                // Add wrappers to the existing 'tdc-column' element
+                                window.addWrappers( this.$el );
+
+                                var shortcode = model.get( 'shortcode' ),
+                                    parentModel = model.get( 'parentModel' );
+
+                                if ( true === tdcIFrameData._initNewContentStructureData( 1, shortcode, parentModel ) ) {
+
+                                    //tdcDebug.log( tdcIFrameData.tdcRows );
+                                    //tdcDebug.log( $tdcColumn );
+
+                                    var errors = {};
+
+                                    tdcIFrameData.bindViewsModelsWrappers( errors, model.get( 'childCollection' ), $tdcColumn, 2 );
+
+                                    if (!_.isEmpty(errors)) {
+                                        for (var prop in errors) {
+                                            tdcDebug.log(errors[prop]);
+                                        }
+
+                                        alert('Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...');
+                                        return;
+                                    }
+                                }
+
+                                tdcColumnUI.init( this.$el );
+                                tdcInnerRowUI.init( this.$el );
+                                tdcInnerColumnUI.init( this.$el );
+                                tdcElementUI.init( this.$el );
+
+                                // Remove the old 'tdc-column'
+                                // Important! The operation must be the last one, because till now its usage is as a content
+                                $tdcColumn.unwrap();
                             }
                         }
                     }
@@ -375,6 +457,25 @@ var tdcIFrameData,
             }
 
             return tdcIFrameData._postOriginalContentJSON;
+        },
+
+
+
+
+
+
+
+
+
+        _getContentJSON: function( level, shortcode ) {
+
+            var contentJSON;
+
+            if ( ! _.isUndefined( window.tdcPostSettings ) ) {
+                contentJSON = tdcShortcodeParser.parse( level, shortcode );
+            }
+
+            return contentJSON;
         },
 
 
@@ -434,28 +535,82 @@ var tdcIFrameData,
 
 
 
+
+
+
+        _initNewContentStructureData: function( startLevel, shortcode, model ) {
+
+            var content = tdcIFrameData._getContentJSON( startLevel, shortcode );
+
+            //tdcDebug.log( content );
+
+            if ( content.length ) {
+
+                var errors = {};
+
+                _.each( content, function( element, index, list ) {
+                    tdcIFrameData._getData( undefined, model , element, errors, 1 );
+                });
+
+                if ( !_.isEmpty( errors ) ) {
+                    tdcDebug.log( errors );
+
+                    alert( 'Errors happened during _initNewContentStructureData() -> _getData()! Errors in console ...' );
+                    return false;
+                }
+
+
+                var data = {
+                    error: undefined,
+                    shortcode: undefined
+                };
+
+                tdcIFrameData.checkCurrentData( data );
+
+                if ( !_.isUndefined( data.error ) ) {
+                    tdcDebug.log( data.error );
+
+                    alert( 'Errors happened during _initNewContentStructureData() -> checkCurrentData()! Errors in console ...' );
+                    return false;
+                }
+            }
+            return true;
+        },
+
+
+
+
+
+
         /**
          * Initialize the backbone tdcRows collection.
          * Collects all errors happened during the initialization process.
          *
-         * @param collection
+         * @param collection - can be undefined. At every step, for not undefined collection, created models are added to this parameter collection
          * @param parentModel
          * @param element
          * @param errors
+         * @param startLevel
          * @private
          */
-        _getData: function( collection, parentModel, element, errors ) {
+        _getData: function( collection, parentModel, element, errors, startLevel ) {
 
             var model,
                 errorInfo;
 
 
-            for ( var prop in tdcIFrameData._shortcodeParserSettingsClone ) {
+            for ( var level in tdcIFrameData._shortcodeParserSettingsClone ) {
+
+                // Do nothing for 'level' below the 'startLevel'
+                // This helps us to step over some _shortcodeParserSettingsClone[ level ], usually for getting data from the new added content
+                if ( ! _.isUndefined( startLevel ) && ( parseInt( startLevel, 10 ) > level ) ) {
+                    continue;
+                }
 
                 if ( ! _.isUndefined( element.shortcode) &&
                     _.isObject( element.shortcode ) &&
                     _.has( element.shortcode, 'tag' ) &&
-                    _.indexOf( tdcIFrameData._shortcodeParserSettingsClone[ prop ], element.shortcode.tag ) !== -1 ) {
+                    _.indexOf( tdcIFrameData._shortcodeParserSettingsClone[ level ], element.shortcode.tag ) !== -1 ) {
 
 
                     //
@@ -466,23 +621,23 @@ var tdcIFrameData,
 
 
                     // not rows as the first elements
-                    if ( parseInt( prop, 10 )  > 0  && _.isUndefined( parentModel ) ) {
+                    if ( parseInt( level, 10 )  > 0  && _.isUndefined( parentModel ) ) {
 
                         errorInfo = 'Not rows as the first elements!';
                     }
 
                     // elements do not respect the shortcode levels: 0 -> 1 -> 2 ...
                     if ( !_.isUndefined( parentModel ) &&
-                        parseInt( parentModel.get( 'level' ), 10 ) >= parseInt( prop, 10 ) ) {
+                        parseInt( parentModel.get( 'level' ), 10 ) >= parseInt( level, 10 ) ) {
 
                         errorInfo = 'Elements does not respect the shortcode levels!';
                     }
 
                     // elements respect the shortcode levels: the difference to just 1, and higher than 1 when parentModel is column (level 2) and element is block (level 4)
                     if ( !_.isUndefined( parentModel ) &&
-                        parseInt( prop, 10 ) - parseInt( parentModel.get( 'level'), 10 ) > 1 &&
+                        parseInt( level, 10 ) - parseInt( parentModel.get( 'level'), 10 ) > 1 &&
                         2 !== parseInt( parentModel.get( 'level' ), 10) &&
-                        4 !== parseInt( prop, 10 ) ) {
+                        4 !== parseInt( level, 10 ) ) {
 
                         errorInfo = 'Elements respect the shortcode levels, but the difference higher than 1 is not allowed here!';
                     }
@@ -502,7 +657,7 @@ var tdcIFrameData,
                         'attrs' : element.shortcode.attrs.named,
                         'tag' : element.shortcode.tag,
                         'type' : element.shortcode.type,
-                        'level' : parseInt( prop, 10 ),
+                        'level' : parseInt( level, 10 ),
                         'parentModel': parentModel,
 
                         // Flag used by the liveViews to bind events for the new content (content from the server)
@@ -534,7 +689,9 @@ var tdcIFrameData,
             // Important! We should not have the case when the model is not set, because the JSON data is obtained using shortcode parser setting
             // The previous checks were added as a supplementary check level over the JSON data builder.
             if ( ! _.isUndefined( model ) ) {
-                collection.add(model);
+                if ( ! _.isUndefined( collection ) ) {
+                    collection.add(model);
+                }
                 return;
             }
 
@@ -979,7 +1136,7 @@ var tdcIFrameData,
                             'attrs': {},
                             'tag': 'vc_row',
                             'type': 'closed',
-                            'level': 1,
+                            'level': 0,
                             'parentModel': undefined
                         }),
 
@@ -995,7 +1152,7 @@ var tdcIFrameData,
                             'attrs': {},
                             'tag': 'vc_column',
                             'type': 'closed',
-                            'level': 2,
+                            'level': 1,
                             'parentModel': rowModel
                     });
 
@@ -1194,7 +1351,7 @@ var tdcIFrameData,
                                 'attrs': {},
                                 'tag': 'vc_row',
                                 'type': 'closed',
-                                'level': 1,
+                                'level': 0,
                                 'parentModel': undefined
                             }),
 
@@ -1210,7 +1367,7 @@ var tdcIFrameData,
                                 'attrs': {},
                                 'tag': 'vc_column',
                                 'type': 'closed',
-                                'level': 2,
+                                'level': 1,
                                 'parentModel': rowModel
                             });
 
@@ -1480,11 +1637,7 @@ var tdcIFrameData,
          * Bind models to views.
          * @param error
          */
-        bindViewsModelsWrappers: function( errors, collection, jqDOMElement, level ) {
-
-            if ( tdcIFrameData._isInitialized ) {
-                return;
-            }
+        bindViewsModelsWrappers: function( errors, collection, jqDOMElement, level ) {tdcDebug.log( jqDOMElement );
 
             if ( ! _.isEmpty( errors ) ) {
                 return;
@@ -1641,7 +1794,7 @@ var tdcIFrameData,
 
                     //tdcDebug.log( model.cid );
 
-                    // Set the html attribute for the model (its changed is captured by view)
+                    // Set the html attribute for the model (its changes are captured by view)
                     model.set( 'html', element.innerHTML );
 
                     // Create the view

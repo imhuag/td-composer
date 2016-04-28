@@ -34,6 +34,13 @@ var tdcSidebar;
         // Inner Row - Inner Columns settings
         _$innerRowInnerColumns: undefined,
 
+
+        _rowColumnsPrevVal: undefined,
+        _innerRowInnerColumnsPrevVal: undefined,
+
+
+
+
         init: function() {
 
             tdcSidebar.$editRow = jQuery( '#tdc-breadcrumb-row' );
@@ -135,14 +142,18 @@ var tdcSidebar;
 
 
             tdcSidebar._$rowColumns = tdcSidebar.$inspector.find( 'select[name=tdc-row-column]' );
+            tdcSidebar._rowColumnsPrevVal = tdcSidebar._$rowColumns.val();
             tdcSidebar._$rowColumns.change(function( event ) {
-                //alert(1);
+                tdcSidebar.changeRowColumns( tdcSidebar._rowColumnsPrevVal, jQuery(this).val() );
+                tdcSidebar._rowColumnsPrevVal = jQuery(this).val();
             });
 
 
             tdcSidebar._$innerRowInnerColumns = tdcSidebar.$inspector.find( 'select[name=tdc-inner-row-inner-column]' );
+            tdcSidebar._innerRowInnerColumnsPrevVal = tdcSidebar._$innerRowInnerColumns.val();
             tdcSidebar._$innerRowInnerColumns.change(function( event ) {
-                //alert(2);
+                tdcSidebar.changeInnerRowInnerColumns( tdcSidebar._innerRowInnerColumnsPrevVal, jQuery(this).val() );
+                tdcSidebar._innerRowInnerColumnsPrevVal = jQuery(this).val();
             });
 
 
@@ -466,6 +477,148 @@ var tdcSidebar;
                     }
                 }
             }
+        },
+
+
+
+
+        changeRowColumns: function( oldValue, newValue ) {
+
+            if ( '11' === oldValue ) {
+
+                // 1 column -> 2 columns
+                // Steps:
+                //  1. A new column is added. All elements remains in their existing first column
+                //  2. We must see what we have initially in that first column: 13_13_13, 23_13, 13_23 or 11. The new 23_13 will be 12 + 12 + 11
+                //      A. 13_13_13 : All elements are 13
+                //      B. 23_13 : All elements are 23 and 13
+                //      C. 13_23 : All elements are 13 and 23
+                //      D. 11 : All elements are 11
+                //  For these (A, B, C and D), all elements will become 12 and will be added to the first 23 column. The last 13 column remains empty.
+                if ( '23_13' === newValue ) {
+
+
+
+                    var rowModelId = tdcSidebar._$currentRow.data( 'model_id' );
+
+                    var rowModel = tdcIFrameData.getModel( rowModelId );
+
+                    var $tdcColumns = tdcSidebar._$currentRow.find( '.tdc-columns' );
+
+                    // Temporary columns are added. They will be replaced by the new columns
+                    var $tempColumn = jQuery( '<div class="tdc-column-temp"></div>' );
+
+                    $tdcColumns.append( $tempColumn );
+
+                    // Define the first column model
+                    var columnModel = new tdcIFrameData.TdcModel({
+                        'content': '',
+                        'attrs': {
+                            width: '1/3'
+                        },
+                        'tag': 'vc_column',
+                        'type': 'closed',
+                        'level': 1,
+                        'parentModel': rowModel
+                    }),
+
+                    // Define the first column liveView
+                    columnView = new tdcIFrameData.TdcLiveView({
+                        model: columnModel,
+                        el: $tempColumn[0]
+                    });
+
+                    // Set the data model id to the liveView jquery element
+                    $tempColumn.data( 'model_id', columnModel.cid );
+
+                    var childCollectionRow = rowModel.get( 'childCollection' );
+
+                    // Get the existing model and change its 'width' attribute
+                    var firstModel = childCollectionRow.at( 0 );
+
+                    var attrs = firstModel.get( 'attrs' );
+
+                    attrs.width = '2/3';
+
+                    firstModel.set( 'attrs', attrs );
+
+                    _.map( childCollectionRow.models, function( val1, key1 ) {
+                        var existingColumnModel = val1,
+                            childCollection = existingColumnModel.get( 'childCollection' );
+
+                        existingColumnModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
+                    });
+
+                    // Add the new models to the collection
+                    childCollectionRow.add( columnModel );
+
+                    columnModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
+
+                    // Get the shortcode rendered
+                    columnModel.getShortcodeRender( 1, null, true, columnView.cid );
+
+
+
+
+
+                // 1 column -> 2 columns
+                } else if ( '13_23' === newValue ) {
+
+
+                // 1 column -> 3 columns
+                } else if ( '13_13_13' === newValue ) {
+
+                }
+
+            } else if ( '23_13' === oldValue ) {
+
+                // 2 columns -> 1 column
+                if ( '11' === newValue ) {
+
+
+                // 2 columns -> 2 columns
+                } else if ( '13_23' === newValue ) {
+
+
+                // 2 columns -> 3 columns
+                } else if ( '13_13_13' === newValue ) {
+
+                }
+
+            } else if ( '13_23' === oldValue ) {
+
+                // 2 column -> 1 column
+                if ( '11' === newValue ) {
+
+                // 2 column -> 2 columns
+                } else if ( '23_13' === newValue ) {
+
+                // 2 column -> 3 columns
+                } else if ( '13_13_13' === newValue ) {
+
+                }
+
+            } else if ( '13_13_13' === oldValue ) {
+
+                // 3 column -> 1 column
+                if ( '11' === newValue ) {
+
+
+                // 3 column -> 2 columns
+                } else if ( '23_13' === newValue ) {
+
+
+                // 3 column -> 2 columns
+                } else if ( '13_23' === newValue ) {
+
+                }
+            }
+        },
+
+
+
+        changeInnerRowInnerColumns: function( oldValue, innerValue ) {
+
         }
 
 
