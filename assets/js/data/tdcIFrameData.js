@@ -137,16 +137,27 @@ var tdcIFrameData,
                             }
 
 
+                            var iFrameWindowObj = tdcAdminIFrameUI.getIframeWindow();
+
+                            // !!! This also fires the deleteCallback for draggedBlockUid
+                            iFrameWindowObj.tdcComposerBlocksApi.deleteItem(draggedBlockUid);
+
+
                             if ( _.has( data, 'replyJsForEval' ) ) {
 
-                                var tdcEvalGlobal = {
-                                    iFrameWindowObj: tdcAdminIFrameUI.getIframeWindow(),
+                                //var tdcEvalGlobal = {
+                                //    //iFrameWindowObj: iFrameWindowObj,
+                                //    oldBlockUid: draggedBlockUid
+                                //};
+
+                                iFrameWindowObj.tdcEvalGlobal = {
+                                    //iFrameWindowObj: iFrameWindowObj,
                                     oldBlockUid: draggedBlockUid
                                 };
 
+                                tdcAdminIFrameUI.evalInIframe(data.replyJsForEval);
 
-
-                                eval(data.replyJsForEval);
+                                //eval(data.replyJsForEval);
 
                             }
                         };
@@ -1221,6 +1232,8 @@ var tdcIFrameData,
                     // If the element is recycled, just remove the model from data structure
                     if ( tdcOperationUI.getCurrentElementOver() === tdcAdminWrapperUI.$recycle ) {
 
+                        // !!! This also fires the deleteCallback for whatWasDragged.draggedBlockUid
+                        tdcAdminIFrameUI.getIframeWindow().tdcComposerBlocksApi.deleteItem(whatWasDragged.draggedBlockUid);
                         tdcDebug.log('element recycled');
 
                         tdcIFrameData.removeModel( elementModel );

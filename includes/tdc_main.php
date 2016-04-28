@@ -32,7 +32,7 @@ require_once('tdc_map.php');
 
 
 /**
- * WP-admin section
+ * WP-admin - add js in header on all the admin pages (wp-admin and the iframe Wrapper. Does not run in the iframe)
  */
 add_action( 'admin_head', 'tdc_on_admin_head' );
 function tdc_on_admin_head() {
@@ -49,6 +49,36 @@ function tdc_on_admin_head() {
 	$buffer = ob_get_clean();
 	echo $buffer;
 }
+
+
+/**
+ * WP-admin - Edit page with tagDiv composer
+ */
+add_action('admin_bar_menu', 'tdc_on_admin_bar_menu', 100);
+function tdc_on_admin_bar_menu() {
+	global $wp_admin_bar, $post;
+	//print_r($wp_admin_bar);
+	//die;
+
+	if (!current_user_can('edit_pages') || !is_admin_bar_showing() || !is_page()) {
+		return;
+	}
+
+
+	$wp_admin_bar->add_menu(array(
+		'id'   => 'tdc_edit',
+		'meta' => array (
+			'title' => 'Edit with TD Composer'
+		),
+
+		'title' => 'Edit with TD Composer',
+		'href' => admin_url('post.php?post_id=' . $post->ID . '&td_action=tdc')
+	));
+
+}
+
+
+
 
 
 /**

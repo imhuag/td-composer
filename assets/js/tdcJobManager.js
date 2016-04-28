@@ -66,6 +66,8 @@ var tdcJobManager = {};
          */
         addJob: function (job) {
 
+            tdcDebug.groupCollapsed('%c tdcJobManager.addJob - view more', 'background-color:#2489c2; color:white');
+
             var newJobRequest = new tdcJobManager.jobRequest(job);
             jQuery.ajax({
                 timeout: 10000,
@@ -102,12 +104,14 @@ var tdcJobManager = {};
                         job.success_callback(jobRequest);
                     }
 
+                    tdcDebug.groupEnd();
                     //console.log();
                 },
 
                 // this callback is called when any error is encountered. (including status codes like 404, 500 etc)
                 error: function(MLHttpRequest, textStatus, errorThrown){
                     job.error_callback(newJobRequest, 'tdcJobManager.addJob - Error callback - textStatus: ' + textStatus + ' errorThrown: ' + errorThrown);
+                    tdcDebug.groupEnd();
                 }
             });
         },

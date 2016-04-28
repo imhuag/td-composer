@@ -1,8 +1,13 @@
 /**
  * Created by tagdiv on 09.03.2016.
+ * Simple Debug class with logging
+ * WARNING! this file should be self contained, it is also used in the iframe
  */
 
 /* global jQuery:{} */
+
+/* global console:{} */
+/* global tdcAdminIFrameUI:{} */
 
 var tdcDebug;
 
@@ -25,6 +30,62 @@ var tdcDebug;
                 console.log( msg );
             }
         },
+
+
+        /**
+         * dumps in the console all the 'items' that are used in the theme
+         * @internal for internal debuging ONLY! Does not work in iFrame, only in the wrapper
+         */
+        dumpAllItems: function () {
+            var iFrameWindowObj = tdcAdminIFrameUI.getIframeWindow();
+
+            //console.groupCollapsed("All items dump:");
+            console.group("All items dump:");
+                console.log('%c tdPullDown.items ', 'background: #222; color: white');
+                console.log(iFrameWindowObj.tdPullDown.items);
+
+                console.log('%c tdAnimationSprite.items ', 'background: #222; color: white');
+                console.log(iFrameWindowObj.tdAnimationSprite.items);
+
+                console.log('%c tdWeather.items ', 'background: #222; color: white');
+                console.log(iFrameWindowObj.tdWeather.items);
+            console.groupEnd();
+        },
+
+
+        group: function (groupName, css) {
+            if ( tdcDebug._debug === false) {
+                return;
+            }
+            if (console.group) {
+                console.group(groupName, css);
+            } else {
+                console.log(groupName);
+            }
+        },
+
+        groupCollapsed: function (groupName, css) {
+            if ( tdcDebug._debug === false) {
+                return;
+            }
+            if (console.groupCollapsed) {
+                console.groupCollapsed(groupName, css);
+            } else {
+                console.log(groupName);
+            }
+        },
+
+
+        groupEnd: function () {
+            if ( tdcDebug._debug === false) {
+                return;
+            }
+            if (console.groupEnd) {
+                console.groupEnd();
+            }
+        },
+
+
 
         logWindow: function( msg ) {
 
