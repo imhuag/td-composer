@@ -1,0 +1,21 @@
+Client-server communication specs:
+Short description of all the comunication between client and server in td-composer V1.0
+by: Radu O
+
+
+To refresh an element from the server:
+The element it's basically deleted and recreated from scratch with each 'refresh'.
+
+	Client side:
+ 		- To refresh an element when it's dragged from one column to another we use tdcJobManager.addJob.
+ 		- On the job's success callback:
+ 			- we first execute the delete callback of the iFrameWindowObj.tdcComposerBlocksApi for the deleted element
+ 			- we update the model's HTML for that specific shortcode
+ 			- the backbone model will take care to update the ui in the browser when it's HTML property is changed
+ 	Server side:
+ 		- the php endpoint is in tdc_ajax::on_ajax_render_shortcode
+ 		- the php end point, at first hooks 'td_block__get_block_js' and there it receives each instance of the block as it runs from do_shortcodes.
+ 		  	When we have the instance on that hook, we call for each block $this->js_tdc_callback_ajax():
+ 			- this method returns all the javascript that has to be injected and evaluated in the iFrame.
+ 			- this method also includes the iFrameWindowObj.tdcComposerBlocksApi.item object with the delete callback set
+
