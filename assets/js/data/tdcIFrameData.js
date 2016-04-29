@@ -69,18 +69,18 @@ var tdcIFrameData,
 
                 var errors = {};
 
-                tdcIFrameData.bindViewsModelsWrappers(errors);
+                tdcIFrameData.bindViewsModelsWrappers( errors );
 
-                if (!_.isEmpty(errors)) {
-                    for (var prop in errors) {
-                        tdcDebug.log(errors[prop]);
+                if ( ! _.isEmpty( errors ) ) {
+                    for ( var prop in errors ) {
+                        tdcDebug.log( errors[ prop ] );
                     }
 
                     alert('Errors happened during tdcIframeData.init() -> bindViewsModelsWrappers()! Errors in console ...');
                     return;
                 }
 
-                tdcDebug.log(tdcIFrameData.tdcRows.models);
+                tdcDebug.log( tdcIFrameData.tdcRows.models );
 
                 tdcIFrameData._isInitialized = true;
             }
@@ -414,18 +414,23 @@ var tdcIFrameData,
                                 if ( true === tdcIFrameData._initNewContentStructureData( 1, shortcode, parentModel ) ) {
 
                                     //tdcDebug.log( tdcIFrameData.tdcRows );
-                                    //tdcDebug.log( $tdcColumn );
+
+                                    // The childCollection of the model object has been modified
+                                    // Do not continue if it is undefined, otherwise continue and bind views to models
+                                    if ( _.isUndefined( childCollection ) ) {
+                                        return;
+                                    }
 
                                     var errors = {};
 
-                                    tdcIFrameData.bindViewsModelsWrappers( errors, model.get( 'childCollection' ), $tdcColumn, 2 );
+                                    tdcIFrameData.bindViewsModelsWrappers( errors, childCollection , $tdcColumn, 2 );
 
-                                    if (!_.isEmpty(errors)) {
-                                        for (var prop in errors) {
-                                            tdcDebug.log(errors[prop]);
+                                    if ( !_.isEmpty( errors ) ) {
+                                        for ( var prop in errors ) {
+                                            tdcDebug.log( errors[ prop ] );
                                         }
 
-                                        alert('Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...');
+                                        alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
                                         return;
                                     }
                                 }
@@ -1648,9 +1653,13 @@ var tdcIFrameData,
          * Create views.
          * Bind views to DOM elements.
          * Bind models to views.
+         * The models are added to the collection param, if the collection param is specified and not undefined. Otherwise the collection is initialized with the tdcIFrameData.tdcRows
+         * The computing starts from the level param, if this param is specified and not undefined. Otherwise from level initialized with the top most level - 0.
          * @param error
          */
-        bindViewsModelsWrappers: function( errors, collection, jqDOMElement, level ) {tdcDebug.log( jqDOMElement );
+        bindViewsModelsWrappers: function( errors, collection, jqDOMElement, level ) {
+
+            //tdcDebug.log( jqDOMElement );
 
             if ( ! _.isEmpty( errors ) ) {
                 return;
@@ -1760,7 +1769,7 @@ var tdcIFrameData,
 
                         // Stop if models number doesn't match the DOM elements number
                         if ( collection.models.length !== jqDOMElements.length ) {
-
+                            alert ( collection.models.length + ' : ' + jqDOMElements.length );
                             errors[ _.keys(errors).length ] = {
                                 collection: collection,
                                 jqDOMElements: jqDOMElements,
@@ -1817,9 +1826,9 @@ var tdcIFrameData,
                     });
 
                     // Go deeper to the children, if the jq dom element is not tdc-element and the model has collection
-                    if ( ! $element.hasClass( 'tdc-element') && model.has( 'childCollection' ) ) {
+                    if ( ! $element.hasClass( 'tdc-element' ) && model.has( 'childCollection' ) ) {
 
-                        tdcIFrameData.bindViewsModelsWrappers( errors, model.get( 'childCollection'), $element, level );
+                        tdcIFrameData.bindViewsModelsWrappers( errors, model.get( 'childCollection' ), $element, level );
                     }
                 });
 
