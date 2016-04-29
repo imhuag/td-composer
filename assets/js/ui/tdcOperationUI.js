@@ -54,11 +54,11 @@ var tdcOperationUI;
             tdcOperationUI.iframeContents = iframeContents;
 
 
-            tdcRowUI.init();
-            tdcColumnUI.init();
-            tdcInnerRowUI.init();
-            tdcInnerColumnUI.init();
-            tdcElementUI.init();
+            tdcRowUI.init( tdcOperationUI.iframeContents );
+            tdcColumnUI.init( tdcOperationUI.iframeContents );
+            tdcInnerRowUI.init( tdcOperationUI.iframeContents );
+            tdcInnerColumnUI.init( tdcOperationUI.iframeContents );
+            tdcElementUI.init( tdcOperationUI.iframeContents );
 
             tdcRecycleUI.init();
 

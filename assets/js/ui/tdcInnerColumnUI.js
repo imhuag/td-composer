@@ -27,9 +27,13 @@ var tdcInnerColumnUI;
 
 
 
-        init: function() {
+        init: function( $content ) {
 
-            tdcInnerColumnUI.tdcInnerColumn = tdcOperationUI.iframeContents.find( '.tdc-inner-column' );
+            if ( _.isUndefined( $content ) ) {
+                $content = tdcOperationUI.iframeContents;
+            }
+
+            tdcInnerColumnUI.tdcInnerColumn = $content.find( '.tdc-inner-column' );
 
             tdcInnerColumnUI.tdcInnerColumn.each(function( index, element ) {
                 tdcInnerColumnUI.bindInnerColumn( jQuery( element ) );

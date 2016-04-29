@@ -28,9 +28,13 @@ var tdcElementUI;
 
 
 
-        init: function() {
+        init: function( $content ) {
 
-            tdcElementUI.tdcElement = tdcOperationUI.iframeContents.find( '.tdc-element' );
+            if ( _.isUndefined( $content ) ) {
+                $content = tdcOperationUI.iframeContents;
+            }
+
+            tdcElementUI.tdcElement = $content.find( '.tdc-element' );
 
             tdcElementUI.tdcElement.each(function( index, element ) {
 

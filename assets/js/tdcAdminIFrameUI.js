@@ -67,7 +67,7 @@ var tdcAdminIFrameUI;
                     /**
                      * Add wrappers around all shortcode dom elements
                      */
-                    var addWrappers = function() {
+                    window.addWrappers = function( iframeContents ) {
                         iframeContents.find( '.tdc-row' )
                             .wrapAll( '<div id="tdc-rows"></div>' )
                             .each(function( index, el ) {
@@ -173,7 +173,7 @@ var tdcAdminIFrameUI;
                         });
                     };
 
-                    addWrappers();
+                    window.addWrappers( iframeContents );
 
 
 
