@@ -1,5 +1,6 @@
 /**
  * Created by ra on 3/22/2016.
+ * This is the
  */
 
 /* global jQuery:{} */
@@ -19,16 +20,32 @@ var tdcAdminIFrameUI;
 
     tdcAdminIFrameUI = {
 
+        // the iFrame window object (AKA iframe global scope)
+        _liveIframeWindowObject: undefined,
 
-        _$liveIframeWindowObject: undefined,
+        // jQuery iFrame object
+        _$liveIframe: undefined,
 
 
+
+
+
+        /**
+         * Get the iFrame window object if available. If the iframe was not loaded, this should stop execution with a fatal error
+         * @returns {window} object
+         */
         getIframeWindow: function() {
-            return tdcAdminIFrameUI._$liveIframeWindowObject;
+            if (_.isUndefined(tdcAdminIFrameUI._liveIframeWindowObject)) {
+                throw "tdcAdminIFrameUI._liveIframeWindowObject is undefined. AKA: The iFrame window object is undefined. The iFrame was probably not added to the page!"
+            }
+            return tdcAdminIFrameUI._liveIframeWindowObject;
         },
 
 
-
+        /**
+         * Injects and runs JS code in the iframe via EVAL()
+         * @param jsCode string JavaScript code
+         */
         evalInIframe: function (jsCode) {
             tdcAdminIFrameUI.getIframeWindow().eval(jsCode);
         },
@@ -47,8 +64,7 @@ var tdcAdminIFrameUI;
 
 
 
-            var $liveIframe = jQuery( '<iframe id="tdc-live-iframe" src="' + url + '" ' +
-                'scrolling="auto" style="width: 100%; height: 100%"></iframe>' )
+            tdcAdminIFrameUI._$liveIframe = jQuery( '<iframe id="tdc-live-iframe" src="' + url + '" scrolling="auto" style="width: 100%; height: 100%"></iframe>' )
                 .css({
                     height: jQuery(window).innerHeight()
                 })
@@ -60,7 +76,7 @@ var tdcAdminIFrameUI;
 
 
 
-                    tdcAdminIFrameUI._$liveIframeWindowObject = jQuery(this).get(0).contentWindow;
+                    tdcAdminIFrameUI._liveIframeWindowObject = jQuery(this).get(0).contentWindow;
 
                     //jQuery(this)[0].contentWindow.gggg();
 
@@ -191,7 +207,7 @@ var tdcAdminIFrameUI;
                 // die
                 throw "#tdc-live-iframe-wrapper not found in document! We need that to add the iframe with append";
             }
-            tdcJqObjWrapper.append( $liveIframe );
+            tdcJqObjWrapper.append( tdcAdminIFrameUI._$liveIframe );
 
 
         }

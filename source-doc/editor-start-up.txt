@@ -1,0 +1,15 @@
+How the editor starts:
+Here we describe how td-composer starts. That happens when you click the edit with td composer link when you edit a post.
+by: Ra
+
+- click on edit with td-composer
+- tdcMain.js via tdcMain.init(); starts the app
+- the first thing that loads is the tdcAdminIFrameUI.js VIA tdcAdminIFrameUI.init() this script adds the live editor iFrame
+to the page and when that iFrame is fully loaded (including images) it starts to initialize the other classes.
+
+[iFrame onload]
+- we add the wrappers to all the elements
+- tdcIFrameData.init( iframeContents );
+- tdcOperationUI.init( iframeContents );
+
+

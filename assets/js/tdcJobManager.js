@@ -66,7 +66,7 @@ var tdcJobManager = {};
          */
         addJob: function (job) {
 
-            tdcDebug.groupCollapsed('%c tdcJobManager.addJob - view more', 'background-color:#2489c2; color:white');
+            tdcDebug.groupCollapsed('%c tdcJobManager.addJob', 'background-color:#2489c2; color:white');
 
             var newJobRequest = new tdcJobManager.jobRequest(job);
             jQuery.ajax({

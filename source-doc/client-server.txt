@@ -1,6 +1,6 @@
 Client-server communication specs:
 Short description of all the comunication between client and server in td-composer V1.0
-by: Radu O
+by: Ra
 
 
 To refresh an element from the server:
