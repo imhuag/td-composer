@@ -42,7 +42,9 @@ function tdc_on_admin_head() {
 		window.tdcAdminSettings = {
 			admin_url: '<?php echo admin_url()?>',
 			site_url: '<?php echo get_site_url() ?>',
-			wp_rest_nonce: '<?php echo wp_create_nonce( 'wp_rest' ) ?>'  // nonce used for cookie authentication
+			wp_rest_nonce: '<?php echo wp_create_nonce( 'wp_rest' ) ?>',  // nonce used for cookie authentication
+			wp_rest_url: '<?php echo rest_url(); ?>',
+			permalink_structure: '<?php echo get_option( 'permalink_structure' ); ?>'
 		}
 	</script>
 	<?php

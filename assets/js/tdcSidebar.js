@@ -545,7 +545,7 @@ var tdcSidebar;
                     _.map( childCollectionRow.models, function( val1, key1 ) {
                         var existingColumnModel = val1,
                             childCollection = existingColumnModel.get( 'childCollection' );
-
+                        //@todo parametru al 4-lea nu e folosit?  Math.random() + Math.random() + Math.random()
                         existingColumnModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
                     });
 
@@ -555,7 +555,7 @@ var tdcSidebar;
                     columnModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
 
                     // Get the shortcode rendered
-                    columnModel.getShortcodeRender( 1, null, true, columnView.cid );
+                    columnModel.getShortcodeRender( 1, null, true, columnView.cid ); //@todo issue: parametrul al 4-lea nu e folosit?
 
 
 

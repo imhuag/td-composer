@@ -41,8 +41,10 @@ var tdcSavePost;
                 jQuery.ajax({
                     timeout: 10000,
                     type: 'POST',
-                    //url: window.tdcAdminSettings.site_url + '/wp-admin/post.php',
-                    url: window.tdcAdminSettings.site_url + '/wp-json/td-composer/save_post?uuid=' + tdcJobManager._getUniqueID(),
+
+                    // uuid is for browser cache busting
+                    url: tdcUtil.getRestEndPoint('td-composer/save_post', 'uuid=' + tdcJobManager._getUniqueID()),
+
 
                     // add the nonce used for cookie authentication
                     beforeSend: function ( xhr ) {

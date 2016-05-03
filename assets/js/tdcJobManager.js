@@ -72,7 +72,10 @@ var tdcJobManager = {};
             jQuery.ajax({
                 timeout: 10000,
                 type: 'POST',
-                url: window.tdcAdminSettings.site_url + '/wp-json/td-composer/do_job?tmp_jobId=' + newJobRequest.jobId + '&tmp_liveViewId=' + newJobRequest.liveViewId + '&uuid=' + tdcJobManager._getUniqueID(),
+
+                // the tmp_ query parameters and the uuid are for cache busting and for easier debug-ing. We ONLY USE post variables.
+                url: tdcUtil.getRestEndPoint('td-composer/do_job', 'tmp_jobId=' + newJobRequest.jobId + '&tmp_liveViewId=' + newJobRequest.liveViewId + '&uuid=' + tdcJobManager._getUniqueID()),
+                //url: window.tdcAdminSettings.site_url + '/wp-json/td-composer/do_job?tmp_jobId=' + newJobRequest.jobId + '&tmp_liveViewId=' + newJobRequest.liveViewId + '&uuid=' + tdcJobManager._getUniqueID(),
                 // add the nonce used for cookie authentication
                 beforeSend: function ( xhr ) {
                     xhr.setRequestHeader( 'X-WP-Nonce', window.tdcAdminSettings.wp_rest_nonce);
