@@ -183,7 +183,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 							echo '<div class="tdc-sidebar-element tdc-row" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
 							?>
 								<script>
-									window.tdcPostSettings.mappedShortcodes.push( <?php echo '\'' . $mapped_shortcode['base'] . '\'' ?> );
+									//window.tdcPostSettings.mappedShortcodes.push( <?php echo '\'' . $mapped_shortcode['base'] . '\'' ?> );
 								</script>
 							<?php
 							continue;
@@ -193,7 +193,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 							echo '<div class="tdc-sidebar-element tdc-element-inner-row" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
 							?>
 								<script>
-									window.tdcPostSettings.mappedShortcodes.push( <?php echo '\'' . $mapped_shortcode['base'] . '\'' ?> );
+									//window.tdcPostSettings.mappedShortcodes.push( <?php echo '\'' . $mapped_shortcode['base'] . '\'' ?> );
 								</script>
 							<?php
 							continue;

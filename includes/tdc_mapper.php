@@ -13,6 +13,7 @@ class tdc_mapper {
 	/**
 	 * Mapper function - it registers a new shortcode in tagDiv Composer. Please note that you still have to manually register the shortcode
 	 * in WordPress
+	 * This does not use the 'map_in_visual_composer' attribute. We map anything that is sent here! the atribute is used in tdc_map.php
 	 * @param $attributes
 	 */
 	static function map($attributes) {
@@ -24,6 +25,8 @@ class tdc_mapper {
 		if (isset(self::$mapped_shortcodes[$attributes['base']])) {
 			tdc_util::error(__FILE__, __FUNCTION__, 'Shortcode ' . $attributes['base'] . ' already mapped, please use the update method to update it!', $attributes);
 		}
+
+
 
 		self::$mapped_shortcodes[$attributes['base']] = $attributes;
 	}

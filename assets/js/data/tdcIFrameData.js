@@ -98,6 +98,7 @@ var tdcIFrameData,
             tdcIFrameData.TdcModel = Backbone.Model.extend({
 
                 // Get the shortcode rendered
+                //@todo cleanup liveViewId a devenit draggedBlockUid. liveViewId nu mai e folosit.
                 getShortcodeRender: function( columns, draggedBlockUid, bindNewContent, liveViewId ) {
 
                     var model = this;
@@ -120,7 +121,7 @@ var tdcIFrameData,
                         newJob.shortcode = data.getShortcode;
                         newJob.columns = columns;
 
-                        newJob.liveViewId = liveViewId;
+                        newJob.liveViewId = draggedBlockUid;
 
                         newJob.success_callback = function( data ) {
 

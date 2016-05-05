@@ -60,7 +60,7 @@ var tdcInit = {};
                     }
                 });
 
-                tdcInit._url = window.tdcAdminSettings.admin_url + 'post.php?post_id=' + tdcInit.$postId.val() + '&td_action=tdc';
+                tdcInit._url = window.tdcAdminSettings.adminUrl + 'post.php?post_id=' + tdcInit.$postId.val() + '&td_action=tdc';
 
                 jQuery( '<a onclick="return tdcInit.savePost( event )" href="' + tdcInit._url + '">TagDiv Composer</a>').insertAfter( 'div#titlediv' );
             }

@@ -59,6 +59,7 @@ class tdc_ajax {
 		add_action('td_block__get_block_js', 'tdc_on_td_block__get_block_js', 10, 1);
 		/** @param $by_ref_block_obj td_block */
 		function tdc_on_td_block__get_block_js($by_ref_block_obj) {
+			// APPEND to the buffer for eval(). We may do eval on multiple shortcodes and we must gather all the js form all the blocks
 			tdc_ajax::$_td_block__get_block_js_buffer .= $by_ref_block_obj->js_tdc_callback_ajax();
 		}
 
@@ -68,7 +69,7 @@ class tdc_ajax {
 				style. No bueno :(
 			- when the do_shortcode runs, our blocks usually call @see td_block->get_block_js(). get_block_js() calls the do_action for td_block__get_block_js hook.
 				we hook td_block__get_block_js above to read that reply
-			- that reply usually contains the JS for EVAL
+			- that reply contains the JS for EVAL
 		*/
 		ob_start();
 		echo do_shortcode(stripslashes($request->get_param('shortcode')));  // do shortcode usually renders with the blocks td_block->render method
