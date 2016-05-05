@@ -149,8 +149,7 @@ var tdcSidebar;
                 var rowModelId = tdcSidebar._$currentRow.data( 'model_id' ),
                     rowModel = tdcIFrameData.getModel( rowModelId );
 
-                tdcSidebar.changeRowColumns( rowModel, tdcSidebar._rowColumnsPrevVal, jQuery(this).val() );
-
+                tdcSidebar.changeColumns( rowModel, tdcSidebar._rowColumnsPrevVal, jQuery(this).val() );
                 tdcSidebar._rowColumnsPrevVal = jQuery(this).val();
             });
 
@@ -158,7 +157,14 @@ var tdcSidebar;
             tdcSidebar._$innerRowInnerColumns = tdcSidebar.$inspector.find( 'select[name=tdc-inner-row-inner-column]' );
             tdcSidebar._innerRowInnerColumnsPrevVal = tdcSidebar._$innerRowInnerColumns.val();
             tdcSidebar._$innerRowInnerColumns.change(function( event ) {
-                tdcSidebar.changeInnerRowInnerColumns( tdcSidebar._innerRowInnerColumnsPrevVal, jQuery(this).val() );
+
+                var rowModelId = tdcSidebar._$currentRow.data( 'model_id' ),
+                    rowModel = tdcIFrameData.getModel( rowModelId ),
+
+                    innerRowModelId = tdcSidebar._$currentInnerRow.data( 'model_id' ),
+                    innerRowModel = tdcIFrameData.getModel( innerRowModelId );
+
+                tdcSidebar.changeInnerColumns( innerRowModel, tdcSidebar._$rowColumns.val(), tdcSidebar._innerRowInnerColumnsPrevVal, jQuery(this).val() );
                 tdcSidebar._innerRowInnerColumnsPrevVal = jQuery(this).val();
             });
 
@@ -489,45 +495,45 @@ var tdcSidebar;
 
 
 
-        changeRowColumns: function( rowModel, oldValue, newValue ) {
+        changeColumns: function( rowModel, columnOldWidth, columnNewWidth ) {
 
-            if ( '11' === oldValue ) {
+            if ( '11' === columnOldWidth ) {
 
                 // 1 column -> 2 columns
                 // 1 column -> 2 columns
                 // 1 column -> 3 columns
-                if ( '23_13' === newValue || '13_23' === newValue || '13_13_13' === newValue ) {
-                    tdcIFrameData.changeRowModel( rowModel, oldValue, newValue );
-                    rowModel.getShortcodeRender(1, null, true, Math.random() + Math.random() + Math.random());
+                if ( '23_13' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) {
+                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
+                    rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
                 }
 
-            } else if ( '23_13' === oldValue ) {
+            } else if ( '23_13' === columnOldWidth ) {
 
                 // 2 columns -> 1 column
                 // 2 columns -> 2 columns
                 // 2 columns -> 3 columns
-                if ( '11' === newValue || '13_23' === newValue || '13_13_13' === newValue ) {
-                    tdcIFrameData.changeRowModel( rowModel, oldValue, newValue );
+                if ( '11' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) {
+                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
                     rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
                 }
 
-            } else if ( '13_23' === oldValue ) {
+            } else if ( '13_23' === columnOldWidth ) {
 
                 // 2 column -> 1 column
                 // 2 column -> 2 columns
                 // 2 column -> 3 columns
-                if ( '11' === newValue || '23_13' === newValue || '13_13_13' === newValue ) {
-                    tdcIFrameData.changeRowModel( rowModel, oldValue, newValue );
+                if ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_13_13' === columnNewWidth ) {
+                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
                     rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
                 }
 
-            } else if ( '13_13_13' === oldValue ) {
+            } else if ( '13_13_13' === columnOldWidth ) {
 
                 // 3 column -> 1 column
                 // 3 column -> 2 columns
                 // 3 column -> 2 columns
-                if ( '11' === newValue || '23_13' === newValue || '13_23' === newValue ) {
-                    tdcIFrameData.changeRowModel( rowModel, oldValue, newValue );
+                if ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_23' === columnNewWidth ) {
+                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
                     rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
                 }
             }
@@ -535,8 +541,61 @@ var tdcSidebar;
 
 
 
-        changeInnerRowInnerColumns: function( oldValue, innerValue ) {
 
+
+
+        changeInnerColumns: function( innerRowModel, columnWidth, innerColumnOldWidth, innerColumnNewWidth ) {
+
+            //if ( '11' === innerColumnOldWidth ) {
+            //
+            //    // 1 column -> 2 columns
+            //    // 1 column -> 2 columns
+            //    // 1 column -> 3 columns
+            //    if ( '23_13' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) {
+            //        tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
+            //        rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
+            //    }
+            //
+            //} else if ( '12_12' === innerColumnOldWidth ) {
+            //
+            //    // 2 columns -> 1 column
+            //    // 2 columns -> 2 columns
+            //    // 2 columns -> 3 columns
+            //    if ( '11' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) {
+            //        tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
+            //        rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
+            //    }
+            //
+            //} else if ( '23_13' === innerColumnOldWidth ) {
+            //
+            //    // 2 columns -> 1 column
+            //    // 2 columns -> 2 columns
+            //    // 2 columns -> 3 columns
+            //    if ( '11' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) {
+            //        tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
+            //        rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
+            //    }
+            //
+            //} else if ( '13_23' === innerColumnOldWidth ) {
+            //
+            //    // 2 column -> 1 column
+            //    // 2 column -> 2 columns
+            //    // 2 column -> 3 columns
+            //    if ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_13_13' === columnNewWidth ) {
+            //        tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
+            //        rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
+            //    }
+            //
+            //} else if ( '13_13_13' === innerColumnOldWidth ) {
+            //
+            //    // 3 column -> 1 column
+            //    // 3 column -> 2 columns
+            //    // 3 column -> 2 columns
+            //    if ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_23' === columnNewWidth ) {
+            //        tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
+            //        rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
+            //    }
+            //}
         }
 
 

@@ -308,22 +308,21 @@ var tdcIFrameData,
                                     //tdcDebug.log( tdcIFrameData.tdcRows );
 
                                     // The childCollection of the model object has been modified
-                                    // Do not continue if it is undefined, otherwise continue and bind views to models
-                                    if ( _.isUndefined( childCollection ) ) {
-                                        return;
-                                    }
+                                    // Do nothing if it is undefined, otherwise continue and bind views to models
+                                    if ( ! _.isUndefined( childCollection ) ) {
 
-                                    var errors = {};
+                                        var errors = {};
 
-                                    tdcIFrameData.bindViewsModelsWrappers( errors, childCollection , $tdcRow, 1 );
+                                        tdcIFrameData.bindViewsModelsWrappers( errors, childCollection , $tdcRow, 1 );
 
-                                    if ( !_.isEmpty( errors ) ) {
-                                        for ( var prop in errors ) {
-                                            tdcDebug.log( errors[ prop ] );
+                                        if ( !_.isEmpty( errors ) ) {
+                                            for ( var prop in errors ) {
+                                                tdcDebug.log( errors[ prop ] );
+                                            }
+
+                                            alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
+                                            return;
                                         }
-
-                                        alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
-                                        return;
                                     }
                                 }
 
@@ -335,8 +334,11 @@ var tdcIFrameData,
 
                                 // Remove the old 'tdc-row'
                                 // Important! The operation must be the last one, because till now its usage is as a content
-                                $tdcRow.unwrap();
+                                this.$el.parent().append( $tdcRow );
+                                this.$el.remove();
+                                this.$el = $tdcRow;
 
+                                tdcSidebar.setCurrentRow( $tdcRow );
 
                             } else if ( 'tdc-rows' === this.$el.attr( 'id' ) ) {
 
@@ -1886,48 +1888,6 @@ var tdcIFrameData,
 
                     if ( '23' === newWidthColumn ) {
 
-                        //if ( '' === oldInnerColumnWidth ) {
-                        //
-                        //    // Do not change inner column width
-                        //
-                        //} else if ( ( '1/3' === oldInnerColumnWidth ) || ( '2/3' === oldInnerColumnWidth ) ) {
-                        //
-                        //    if ( 2 > indexInnerColumn ) {
-                        //
-                        //        var cloneAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
-                        //
-                        //        cloneAttrsElementInnerColumn.width = '1/2';
-                        //
-                        //        elementInnerColumn.set( 'attrs', cloneAttrsElementInnerColumn );
-                        //
-                        //    } else {
-                        //
-                        //        // Move the elements of the extra inner columns, and finally remove the inner column model
-                        //
-                        //        var childCollectionInnerColumn = elementInnerColumn.get( 'childCollection' );
-                        //
-                        //        if ( _.isUndefined( childCollectionInnerColumn ) || ! childCollectionInnerColumn.length ) {
-                        //            childCollectionInnerRow.remove( elementInnerColumn );
-                        //            return;
-                        //        }
-                        //
-                        //        var secondInnerColumn = childCollectionInnerRow.at( 1 ),
-                        //            childCollectionSecondInnerColumn = secondInnerColumn.get( 'childCollection' );
-                        //
-                        //        _.each( childCollectionInnerColumn.models, function( elementChildInnerColumn, indexInnerColumn, listInnerColumn ) {
-                        //            childCollectionSecondInnerColumn.add( elementChildInnerColumn );
-                        //            elementChildInnerColumn.set( 'parentModel', secondInnerColumn );
-                        //        });
-                        //
-                        //        childCollectionInnerRow.remove( elementInnerColumn );
-                        //    }
-                        //}
-
-
-
-
-
-
                         // Here the 'innerRowSettings' flag must be '', '23_13', '13_23' or '13_13_13'. Any other value is not valid
 
                         if ( '23_13' === innerRowSettings ) {
@@ -2051,39 +2011,7 @@ var tdcIFrameData,
 
                     } else if ( '13' === newWidthColumn ) {
 
-                        //// All existing inner columns are merged with the first inner column (Move their elements to the inner column, and finally remove the inner column model)
-                        //// The first inner column will have full width
-                        //
-                        //var cloneAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
-                        //
-                        //delete cloneAttrsElementInnerColumn.width;
-                        //
-                        //elementInnerColumn.set( 'attrs', cloneAttrsElementInnerColumn );
-                        //
-                        //var childCollectionInnerColumn = elementInnerColumn.get( 'childCollection' );
-                        //
-                        //if ( _.isUndefined( childCollectionInnerColumn ) || ! childCollectionInnerColumn.length ) {
-                        //    childCollectionInnerRow.remove( elementInnerColumn );
-                        //    return;
-                        //}
-                        //
-                        //var firstInnerColumn = childCollectionInnerRow.at( 0 ),
-                        //    childCollectionFirstInnerColumn = firstInnerColumn.get( 'childCollection' );
-                        //
-                        //_.each( childCollectionInnerColumn.models, function( elementChildInnerColumn, indexInnerColumn, listInnerColumn ) {
-                        //    childCollectionFirstInnerColumn.add( elementChildInnerColumn );
-                        //    elementChildInnerColumn.set( 'parentModel', firstInnerColumn );
-                        //});
-                        //
-                        //if ( indexInnerColumn > 0 ) {
-                        //    childCollectionInnerRow.remove( elementInnerColumn );
-                        //}
-
-
-
-
                         // Here it doesn't matter what value has the 'innerRowSettings' flag. All inner columns are merged
-
                         // Merge the inner columns to the first inner column
 
                         if ( childCollectionInnerRow.models.length ) {
@@ -2868,6 +2796,19 @@ var tdcIFrameData,
             });
 
             tdcDebug.log( tdcIFrameData.tdcRows.models );
+        },
+
+
+
+
+
+        changeInnerRowModel: function( innerRowModel, oldWidth, newWidth ) {
+
+            if ( _.isUndefined( innerRowModel ) || _.isUndefined( oldWidth ) || _.isUndefined( newWidth ) ) {
+                return;
+            }
+
+            var childCollectionInnerRow = innerRowModel.get( 'childCollection' );
         }
 
     };

@@ -65,7 +65,7 @@ var tdcOperationUI;
 
 
             tdcAdminWrapperUI.$mask = jQuery('<div id="' + tdcAdminWrapperUI.maskId + '"></div>');
-            tdcOperationUI.iframeContents.find('body').append( tdcAdminWrapperUI.$mask );
+            tdcOperationUI.iframeContents.find( 'body' ).append( tdcAdminWrapperUI.$mask );
             tdcMaskUI.init( tdcAdminWrapperUI.$mask );
 
 
