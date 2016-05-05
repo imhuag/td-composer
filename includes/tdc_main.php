@@ -49,7 +49,7 @@ function tdc_on_admin_head() {
 	ob_start();
 	?>
 	<script>
-		window.tdcAdminSettings = <?php echo json_encode($tdc_admin_settings, JSON_PRETTY_PRINT);?>;
+		window.tdcAdminSettings = <?php echo json_encode( $tdc_admin_settings );?>;
 	</script>
 	<?php
 	$buffer = ob_get_clean();
