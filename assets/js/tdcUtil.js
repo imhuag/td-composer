@@ -22,12 +22,12 @@ var tdcUtil = {};
          * @returns {string}
          */
         getRestEndPoint: function (restEndPoint, queryString) {
-            if ( _.isEmpty(window.tdcAdminSettings.permalink_structure) ) {
+            if ( _.isEmpty(window.tdcAdminSettings.permalinkStructure) ) {
                 // no permalinks
-                return window.tdcAdminSettings.wp_rest_url + restEndPoint + '&' + queryString;
+                return window.tdcAdminSettings.wpRestUrl + restEndPoint + '&' + queryString;
             } else {
                 // we have permalinks enabled
-                return window.tdcAdminSettings.wp_rest_url + restEndPoint + '?' + queryString;
+                return window.tdcAdminSettings.wpRestUrl + restEndPoint + '?' + queryString;
             }
         }
     }

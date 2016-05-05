@@ -78,7 +78,7 @@ var tdcJobManager = {};
                 //url: window.tdcAdminSettings.site_url + '/wp-json/td-composer/do_job?tmp_jobId=' + newJobRequest.jobId + '&tmp_liveViewId=' + newJobRequest.liveViewId + '&uuid=' + tdcJobManager._getUniqueID(),
                 // add the nonce used for cookie authentication
                 beforeSend: function ( xhr ) {
-                    xhr.setRequestHeader( 'X-WP-Nonce', window.tdcAdminSettings.wp_rest_nonce);
+                    xhr.setRequestHeader( 'X-WP-Nonce', window.tdcAdminSettings.wpRestNonce);
                 },
                 cache: false,
                 data: newJobRequest,

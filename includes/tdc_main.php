@@ -39,11 +39,11 @@ function tdc_on_admin_head() {
 
 	// the settings that we load in wp-admin and wrapper. We need json to be sure we don't get surprises with the encoding/escaping
 	$tdc_admin_settings = array(
-		'admin_url' => admin_url(),
-		'site_url' => get_site_url(),
-		'wp_rest_nonce' => wp_create_nonce('wp_rest'),
-		'wp_rest_url' => rest_url(),
-		'permalink_structure' => get_option('permalink_structure')
+		'adminUrl' => admin_url(),
+		'wpRestNonce' => wp_create_nonce('wp_rest'),
+		'wpRestUrl' => rest_url(),
+		'permalinkStructure' => get_option('permalink_structure'),
+		'mappedShortcodes' => tdc_mapper::get_mapped_shortcodes() // get ALL the mapped shortcodes / we should turn off pretty print
 	);
 
 	ob_start();
