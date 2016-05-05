@@ -28,6 +28,9 @@ wp_enqueue_media( array( 'post' => $post->ID ) );
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
+
+
+//@todo - refactorizare aici json_encode
 ?>
 	<script type="text/javascript">
 
@@ -35,7 +38,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			postId: '<?php echo $post->ID; ?>',
 			postUrl: '<?php echo get_permalink($post->ID); ?>',
 			postContent: '<?php echo $post->post_content; ?>',
-			mappedShortcodes: []
 		};
 
 	</script>
@@ -181,21 +183,11 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 						if ( 'vc_row' === $mapped_shortcode['base'] ) {
 							echo '<div class="tdc-sidebar-element tdc-row" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
-							?>
-								<script>
-									//window.tdcPostSettings.mappedShortcodes.push( <?php echo '\'' . $mapped_shortcode['base'] . '\'' ?> );
-								</script>
-							<?php
 							continue;
 						}
 
 						if ( 'vc_row_inner' === $mapped_shortcode['base'] ) {
 							echo '<div class="tdc-sidebar-element tdc-element-inner-row" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
-							?>
-								<script>
-									//window.tdcPostSettings.mappedShortcodes.push( <?php echo '\'' . $mapped_shortcode['base'] . '\'' ?> );
-								</script>
-							<?php
 							continue;
 						}
 
@@ -218,21 +210,11 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 							) ) ) {
 
 							echo '<div style="color: #FF0000" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
-							?>
-								<script>
-									window.tdcPostSettings.mappedShortcodes.push( <?php echo '\'' . $mapped_shortcode['base'] . '\'' ?> );
-								</script>
-							<?php
 							continue;
 						}
 
 						if ( isset($mapped_shortcode['map_in_visual_composer']) && true === $mapped_shortcode['map_in_visual_composer'] ) {
 							echo '<div class="tdc-sidebar-element tdc-element" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
-							?>
-								<script>
-									window.tdcPostSettings.mappedShortcodes.push( <?php echo '\'' . $mapped_shortcode['base'] . '\'' ?> );
-								</script>
-							<?php
 						}
 					}
 

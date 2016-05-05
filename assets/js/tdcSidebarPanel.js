@@ -17,7 +17,7 @@ var tdcSidebarPanel = {};
 
 
 
-        render: function () {
+        render: function (params, atts) {
 
         },
 
