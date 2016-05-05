@@ -43,13 +43,7 @@ var tdcIFrameData,
         _shortcodeParserSettingsClone: undefined,
 
 
-        _shortcodeParserSettings: {
-            0: ['vc_row'],
-            1: ['vc_column'],
-            2: ['vc_row_inner'],     // 2+4
-            3: ['vc_column_inner'],
-            4: [] // @todo These will be completed by the mapped shortcodes
-        },
+
 
         _isInitialized: false,
 
@@ -461,14 +455,30 @@ var tdcIFrameData,
 
             if ( _.isUndefined( tdcIFrameData._postOriginalContentJSON ) && ! _.isUndefined( window.tdcPostSettings ) ) {
 
-                tdcIFrameData._shortcodeParserSettings[4] = window.tdcPostSettings.mappedShortcodes;
+
+                // get the mapped shortcodes as an array and remove the vc_row, vc_column etc from them
+                var level4_Shortcodes = Object.keys(window.tdcAdminSettings.mappedShortcodes);
+                level4_Shortcodes = level4_Shortcodes.filter( function( el ) { // remove the vc_row, vc_column and other shortcodes from level 4
+                    return ['vc_row', 'vc_column', 'vc_row_inner', 'vc_column_inner'].indexOf( el ) < 0;
+                } );
+
+
+                // build the levels WARNING!!!! tdcShortcodeParser modifies this structure it marges 2+4
+                var shortcodeParserLevels = {
+                    0: ['vc_row'],
+                    1: ['vc_column'],
+                    2: ['vc_row_inner'],
+                    3: ['vc_column_inner'],
+                    4: level4_Shortcodes
+                };
+
 
                 // We need to clone it (it's used later) because it will be changed during the tdcShortcodeParser.init call
-                tdcIFrameData._shortcodeParserSettingsClone = _.clone( tdcIFrameData._shortcodeParserSettings );
+                tdcIFrameData._shortcodeParserSettingsClone = shortcodeParserLevels;
 
-                //tdcDebug.log(tdcIFrameData._shortcodeParserSettings);
 
-                tdcShortcodeParser.init( tdcIFrameData._shortcodeParserSettings );
+                // tdcShortcodeParser no longer modifies the LEVELs
+                tdcShortcodeParser.init( shortcodeParserLevels );
 
                 tdcIFrameData._postOriginalContentJSON = tdcShortcodeParser.parse( 0, window.tdcPostSettings.postContent );
             }

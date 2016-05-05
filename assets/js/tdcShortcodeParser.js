@@ -5,7 +5,7 @@
 
 
 /* global wp:false - this parser requiers the wp.shortcode parser from wordpress core @see wp.shortcode */
-
+/* global _ */
 
 /*
 
@@ -41,7 +41,7 @@ var tdcShortcodeParser = {};
          * init the object - see the levels object above
          */
         init: function (levels) {
-            tdcShortcodeParser.levels = levels;
+            tdcShortcodeParser.levels = _.clone(levels);
 
             // add 4 to 2 precendece
             tdcShortcodeParser.levels[2] = tdcShortcodeParser.levels[2].concat(tdcShortcodeParser.levels[4]);
