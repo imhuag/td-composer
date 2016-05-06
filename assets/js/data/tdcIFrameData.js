@@ -257,35 +257,82 @@ var tdcIFrameData,
 
                                 //alert( 'class tdc-element-inner-row' );
 
-                                // Bind the events for the new inner row
-                                tdcInnerRowUI.bindInnerRow( this.$el );
 
-                                var $tdcInnerColumn = this.$el.find( '.tdc-inner-column');
 
-                                if ( $tdcInnerColumn.length ) {
 
-                                    // Set the data 'model_id' for the element of the 'liveView' backbone view
-                                    $tdcInnerColumn.data( 'model_id', this.model.get( 'childCollection' ).at(0).cid );
+                                //// Bind the events for the new inner row
+                                //tdcInnerRowUI.bindInnerRow( this.$el );
+                                //
+                                //var $tdcInnerColumn = this.$el.find( '.tdc-inner-column');
+                                //
+                                //if ( $tdcInnerColumn.length ) {
+                                //
+                                //    // Set the data 'model_id' for the element of the 'liveView' backbone view
+                                //    $tdcInnerColumn.data( 'model_id', this.model.get( 'childCollection' ).at(0).cid );
+                                //
+                                //    $tdcInnerColumn.wrapAll( '<div class="tdc-inner-columns"></div>' );
+                                //
+                                //    // Bind the events for the new inner column
+                                //    tdcInnerColumnUI.bindInnerColumn( $tdcInnerColumn );
+                                //
+                                //    var $tdcInnerColumnWpbWrapper = $tdcInnerColumn.find( '.wpb_wrapper' );
+                                //
+                                //    if ( $tdcInnerColumnWpbWrapper.length ) {
+                                //        var $tdcElementsInnerColumn = jQuery('<div class="tdc-elements"></div>');
+                                //        tdcElementsUI.bindElementList( $tdcElementsInnerColumn );
+                                //
+                                //        var $emptyElementInnerColumn = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + ' tdc-element-inner-column"></div>' );
+                                //        $tdcElementsInnerColumn.append( $emptyElementInnerColumn );
+                                //
+                                //        $tdcInnerColumnWpbWrapper.append( $tdcElementsInnerColumn );
+                                //
+                                //        tdcElementUI.bindEmptyElement( $emptyElementInnerColumn );
+                                //    }
+                                //}
 
-                                    $tdcInnerColumn.wrapAll( '<div class="tdc-inner-columns"></div>' );
 
-                                    // Bind the events for the new inner column
-                                    tdcInnerColumnUI.bindInnerColumn( $tdcInnerColumn );
+                                var modelId = this.$el.data( 'model_id' ),
+                                    model = tdcIFrameData.getModel( modelId ),
+                                    childCollection = model.get( 'childCollection' );
 
-                                    var $tdcInnerColumnWpbWrapper = $tdcInnerColumn.find( '.wpb_wrapper' );
+                                // Add wrappers to the existing 'tdc-column' element
+                                window.addWrappers( this.$el );
 
-                                    if ( $tdcInnerColumnWpbWrapper.length ) {
-                                        var $tdcElementsInnerColumn = jQuery('<div class="tdc-elements"></div>');
-                                        tdcElementsUI.bindElementList( $tdcElementsInnerColumn );
+                                var shortcode = model.get( 'shortcode' ),
+                                    parentModel = model.get( 'parentModel' );
 
-                                        var $emptyElementInnerColumn = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + ' tdc-element-inner-column"></div>' );
-                                        $tdcElementsInnerColumn.append( $emptyElementInnerColumn );
+                                if ( true === tdcIFrameData._initNewContentStructureData( 2, shortcode, parentModel ) ) {
 
-                                        $tdcInnerColumnWpbWrapper.append( $tdcElementsInnerColumn );
+                                    tdcDebug.log( tdcIFrameData.tdcRows );
 
-                                        tdcElementUI.bindEmptyElement( $emptyElementInnerColumn );
+                                    // The childCollection of the model object has been modified
+                                    // Do nothing if it is undefined, otherwise continue and bind views to models
+                                    if ( ! _.isUndefined( childCollection ) ) {
+
+                                        var errors = {};
+
+                                        tdcIFrameData.bindViewsModelsWrappers( errors, childCollection , this.$el, 3 );
+
+                                        if ( !_.isEmpty( errors ) ) {
+                                            for ( var prop in errors ) {
+                                                tdcDebug.log( errors[ prop ] );
+                                            }
+
+                                            alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
+                                            return;
+                                        }
                                     }
                                 }
+
+                                tdcInnerRowUI.init( this.$el );
+                                tdcInnerColumnUI.init( this.$el );
+                                tdcElementUI.init( this.$el );
+
+                                //tdcDebug.log( tdcSidebar.getCurrentInnerRow() );
+                                //tdcDebug.log( this.$el );
+                                //
+                                //tdcSidebar.setCurrentInnerRow( jQuery( this.$el ) );
+
 
                             } else if ( this.$el.hasClass( 'tdc-row' ) ) {
 
@@ -469,6 +516,7 @@ var tdcIFrameData,
                             //    // Remove the old 'tdc-column'
                             //    // Important! The operation must be the last one, because till now its usage is as a content
                             //    $tdcColumn.unwrap();
+
                             }
                         }
                     }
@@ -1564,7 +1612,7 @@ var tdcIFrameData,
          * Bind views to DOM elements.
          * Bind models to views.
          * The models are added to the collection param, if the collection param is specified and not undefined. Otherwise the collection is initialized with the tdcIFrameData.tdcRows
-         * The computing starts from the level param, if this param is specified and not undefined. Otherwise from level initialized with the top most level - 0.
+         * The computing starts from the level param, if this param is specified and not undefined. Otherwise from level initialized with the top most level 0.
          * @param error
          */
         bindViewsModelsWrappers: function( errors, collection, jqDOMElement, level ) {
