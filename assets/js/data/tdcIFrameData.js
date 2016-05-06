@@ -1834,38 +1834,6 @@ var tdcIFrameData,
 
 
 
-
-
-
-
-                //
-                //
-                //
-                //
-                //_.each( childCollectionInnerRow.models, function( elementInnerColumn, indexInnerColumn, listInnerColumn ) {
-                //
-                //    var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
-                //
-                //    if ( ! _.isUndefined( attrsElementInnerColumn ) && _.isObject( attrsElementInnerColumn ) ) {
-                //
-                //        var oldInnerColumnWidth = '';
-                //
-                //        if ( _.has( attrsElementInnerColumn, 'width' ) ) {
-                //            oldInnerColumnWidth = attrsElementInnerColumn.width;
-                //        }
-                //
-                //
-                //    }
-                //});
-
-
-
-
-
-
-
-
-
                 if ( '11' === oldWidthColumn ) {
 
 
@@ -1987,12 +1955,16 @@ var tdcIFrameData,
                                     firstInnerColumnModel.set( 'childCollection', childCollectionFirstInnerColumnModel );
                                 }
 
+                                var lastIndexInnerColumn = 0;
+
                                 _.each( childCollectionInnerRow.models, function( elementInnerColumn, indexInnerColumn, listInnerColumn ) {
 
                                     // Skip the first inner column model
                                     if ( 0 === indexInnerColumn ) {
                                         return;
                                     }
+
+                                    lastIndexInnerColumn = indexInnerColumn;
 
                                     var childCollectionElementInnerColumnModel = elementInnerColumn.get( 'childCollection' );
 
@@ -2003,9 +1975,14 @@ var tdcIFrameData,
                                             childCollectionFirstInnerColumnModel.add( elementChildInnerColumn );
                                         });
                                     }
-
-                                    childCollectionInnerRow.remove( elementInnerColumn );
                                 });
+
+                                // We can't remove elements inside of the collection iteration.
+                                // That's why we need to do it after the iteration has finished.
+                                while ( lastIndexInnerColumn > 0 ) {
+                                    childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    lastIndexInnerColumn--;
+                                }
                             }
                         }
 
@@ -2135,12 +2112,16 @@ var tdcIFrameData,
                                     firstInnerColumnModel.set( 'childCollection', childCollectionFirstInnerColumnModel );
                                 }
 
+                                var lastIndexInnerColumn = 0;
+
                                 _.each( childCollectionInnerRow.models, function( elementInnerColumn, indexInnerColumn, listInnerColumn ) {
 
                                     // Skip the first inner column model
                                     if ( 0 === indexInnerColumn ) {
                                         return;
                                     }
+
+                                    lastIndexInnerColumn = indexInnerColumn;
 
                                     var childCollectionElementInnerColumnModel = elementInnerColumn.get( 'childCollection' );
 
@@ -2151,12 +2132,16 @@ var tdcIFrameData,
                                             childCollectionFirstInnerColumnModel.add( elementChildInnerColumn );
                                         });
                                     }
-
-                                    childCollectionInnerRow.remove( elementInnerColumn );
                                 });
+
+                                // We can't remove elements inside of the collection iteration.
+                                // That's why we need to do it after the iteration has finished.
+                                while ( lastIndexInnerColumn > 0 ) {
+                                    childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    lastIndexInnerColumn--;
+                                }
                             }
                         }
-
 
                     } else if ( '13' === newWidthColumn ) {
 
@@ -2177,12 +2162,16 @@ var tdcIFrameData,
                                 firstInnerColumnModel.set( 'childCollection', childCollectionFirstInnerColumnModel );
                             }
 
+                            var lastIndexInnerColumn = 0;
+
                             _.each( childCollectionInnerRow.models, function( elementInnerColumn, indexInnerColumn, listInnerColumn ) {
 
                                 // Skip the first inner column model
                                 if ( 0 === indexInnerColumn ) {
                                     return;
                                 }
+
+                                lastIndexInnerColumn = indexInnerColumn;
 
                                 var childCollectionElementInnerColumnModel = elementInnerColumn.get( 'childCollection' );
 
@@ -2193,22 +2182,31 @@ var tdcIFrameData,
                                         childCollectionFirstInnerColumnModel.add( elementChildInnerColumn );
                                     });
                                 }
-
-                                childCollectionInnerRow.remove( elementInnerColumn );
                             });
+
+                            // We can't remove elements inside of the collection iteration.
+                            // That's why we need to do it after the iteration has finished.
+                            while ( lastIndexInnerColumn > 0 ) {
+                                childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                lastIndexInnerColumn--;
+                            }
                         }
 
                     }
 
                 } else if ( '13' === oldWidthColumn ) {
 
-                    if ( '11' === newWidthColumn ) {
+                    if ( '11' === newWidthColumn ) { alert( innerRowSettings );
 
                         // Normally, for this case we should do nothing. It's supposed that we have just one inner column (full width)
                         //
                         // Important! Anyway, we'll do a test to ensure that the innerRowSettings will be '', '23_13', '13_23' or '13_13_13'
+                        // If the innerRowSettings is '12_12', it will become 13_13_13
+                        //  - the first inner column (12) adapts itself to be a 13 inner column
+                        //  - the second inner column (12) adapts itself to be a 13 inner column
+                        //  - the third inner column (13) is new added
 
-                        if ( '' === innerRowSettings || ( '23_13' !== innerRowSettings && '13_23' !== innerRowSettings && '13_13_13' !== innerRowSettings ) ) {
+                        if ( '' === innerRowSettings || ( '12_12' !== innerRowSettings && '23_13' !== innerRowSettings && '13_23' !== innerRowSettings && '13_13_13' !== innerRowSettings ) ) {
 
                             if ( childCollectionInnerRow.models.length ) {
                                 var firstInnerColumnModel = childCollectionInnerRow.at( 0 ),
@@ -2225,12 +2223,16 @@ var tdcIFrameData,
                                     firstInnerColumnModel.set( 'childCollection', childCollectionFirstInnerColumnModel );
                                 }
 
+                                var lastIndexInnerColumn = 0;
+
                                 _.each( childCollectionInnerRow.models, function( elementInnerColumn, indexInnerColumn, listInnerColumn ) {
 
                                     // Skip the first inner column model
                                     if ( 0 === indexInnerColumn ) {
                                         return;
                                     }
+
+                                    lastIndexInnerColumn = indexInnerColumn;
 
                                     var childCollectionElementInnerColumnModel = elementInnerColumn.get( 'childCollection' );
 
@@ -2241,9 +2243,48 @@ var tdcIFrameData,
                                             childCollectionFirstInnerColumnModel.add( elementChildInnerColumn );
                                         });
                                     }
-
-                                    childCollectionInnerRow.remove( elementInnerColumn );
                                 });
+
+                                // We can't remove elements inside of the collection iteration.
+                                // That's why we need to do it after the iteration has finished.
+                                while ( lastIndexInnerColumn > 0 ) {
+                                    childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    lastIndexInnerColumn--;
+                                }
+                            }
+
+                        } else if ( '12_12' === innerRowSettings ) {
+
+                            // The innerRowSettings is '12_12', it will become 13_13_13
+                            //  - the first inner column (12) adapts itself to be a 13 inner column
+                            //  - the second inner column (12) adapts itself to be a 13 inner column
+                            //  - the third inner column (13) is new added
+
+                            if ( childCollectionInnerRow.models.length ) {
+                                var firstInnerColumnModel = childCollectionInnerRow.at( 0 ),
+                                    secondInnerColumnModel = childCollectionInnerRow.at( 1 ),
+
+                                    attrsFirstInnerColumnModel = firstInnerColumnModel.get( 'attrs' ),
+                                    attrsSecondInnerColumnModel = secondInnerColumnModel.get( 'attrs' );
+
+                                attrsFirstInnerColumnModel.width = '1/3';
+                                attrsSecondInnerColumnModel.width = '1/3';
+
+                                firstInnerColumnModel.set( 'attrs', attrsFirstInnerColumnModel );
+                                secondInnerColumnModel.set( 'attrs', attrsSecondInnerColumnModel );
+
+                                childCollectionInnerRow.add(
+                                    new tdcIFrameData.TdcModel({
+                                        'content': '',
+                                        'tag': 'vc_column_inner',
+                                        'attrs': {
+                                            width: '1/3'
+                                        },
+                                        'type': 'closed',
+                                        'level': 1,
+                                        'parentModel': columnModel
+                                    })
+                                );
                             }
                         }
 
@@ -2271,12 +2312,16 @@ var tdcIFrameData,
                                     firstInnerColumnModel.set( 'childCollection', childCollectionFirstInnerColumnModel );
                                 }
 
+                                var lastIndexInnerColumn = 0;
+
                                 _.each( childCollectionInnerRow.models, function( elementInnerColumn, indexInnerColumn, listInnerColumn ) {
 
                                     // Skip the first inner column model
                                     if ( 0 === indexInnerColumn ) {
                                         return;
                                     }
+
+                                    lastIndexInnerColumn = indexInnerColumn;
 
                                     var childCollectionElementInnerColumnModel = elementInnerColumn.get( 'childCollection' );
 
@@ -2287,15 +2332,18 @@ var tdcIFrameData,
                                             childCollectionFirstInnerColumnModel.add( elementChildInnerColumn );
                                         });
                                     }
-
-                                    childCollectionInnerRow.remove( elementInnerColumn );
                                 });
+
+                                // We can't remove elements inside of the collection iteration.
+                                // That's why we need to do it after the iteration has finished.
+                                while ( lastIndexInnerColumn > 0 ) {
+                                    childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    lastIndexInnerColumn--;
+                                }
                             }
                         }
                     }
                 }
-
-
             });
         },
 
@@ -2314,11 +2362,6 @@ var tdcIFrameData,
             _.each( childCollectionRow.models, function( elementColumn, indexColumn, listColumn ) {
 
                 var childCollectionElementColumn = elementColumn.get( 'childCollection' );
-
-                // Do nothing for empty columns
-                //if ( _.isUndefined( childCollectionElementColumn ) || ! childCollectionElementColumn.length ) {
-                //    return;
-                //}
 
                 // From 1 column to 2 columns (11 to 23_13 or 11 to 13_23) or 3 columns (11 to 13_13_13)
                 if ( '11' === oldWidth ) {
@@ -2809,6 +2852,696 @@ var tdcIFrameData,
             }
 
             var childCollectionInnerRow = innerRowModel.get( 'childCollection' );
+
+            _.each( childCollectionInnerRow.models, function( elementInnerColumn, indexInnerColumn, listInnerColumn ) {
+
+                var childCollectionElementInnerColumn = elementInnerColumn.get('childCollection');
+
+                // From 1 inner column to 2 inner columns (11 to 12_12, 11 to 23_13 or 11 to 13_23) or to 3 inner columns (11 to 13_13_13)
+                if ( '11' === oldWidth ) {
+
+                    var newInnerColumnModel = new tdcIFrameData.TdcModel({
+                        'content': '',
+                        'tag': 'vc_column_inner',
+                        'type': 'closed',
+                        'level': 1,
+                        'parentModel': innerRowModel
+                    });
+
+                    if ( '12_12' === newWidth ) {
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '1/2'
+                                };
+                                elementInnerColumn.set('attrs', attrsElementColumn);
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '1/2';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                            newInnerColumnModel.set( 'attrs', {
+                                width: '1/2'
+                            });
+                            childCollectionInnerRow.add( newInnerColumnModel );
+                        }
+
+                    } else if ( '23_13' === newWidth ) {
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '2/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '2/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                            newInnerColumnModel.set( 'attrs', {
+                                width: '1/3'
+                            });
+                            childCollectionInnerRow.add( newInnerColumnModel );
+                        }
+
+                    } else if ( '13_23' === newWidth ) {
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '1/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '1/3';
+                                elementInnerColumn.set('attrs', newAttrsElementInnerColumn );
+                            }
+
+                            newInnerColumnModel.set( 'attrs', {
+                                width: '2/3'
+                            });
+                            childCollectionInnerRow.add( newInnerColumnModel );
+                        }
+
+                    } else if ( '13_13_13' === newWidth ) {
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '1/3'
+                                };
+                                elementInnerColumn.set('attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '1/3';
+                                elementInnerColumn.set('attrs', newAttrsElementInnerColumn );
+                            }
+
+                            newInnerColumnModel.set( 'attrs', {
+                                width: '1/3'
+                            });
+
+                            childCollectionInnerRow.add( newInnerColumnModel );
+
+                            var thirdInnerColumnModel = new tdcIFrameData.TdcModel({
+                                'content': '',
+                                'tag': 'vc_column_inner',
+                                'attrs': {
+                                    width: '1/3'
+                                },
+                                'type': 'closed',
+                                'level': 1,
+                                'parentModel': innerRowModel
+                            });
+                            childCollectionInnerRow.add( thirdInnerColumnModel );
+                        }
+                    }
+
+                // From 2 inner columns to 1 inner column (12_12 to 11), to 2 inner columns (12_12 to 23_13 or 12_12 to 13_23) or to 3 inner columns (12_12 to 13_13_13)
+                } else if ( '12_12' === oldWidth ) {
+
+                    if ( '11' === newWidth ) {
+
+                        // The second inner column (12) moves all its children to the first inner column (12), then it is removed.
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( ! _.isUndefined( attrsElementInnerColumn ) ) {
+
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                delete newAttrsElementInnerColumn.width;
+
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 1 === indexInnerColumn ) {
+
+                            var firstInnerColumnModel = childCollectionInnerRow.at( 0 ),
+                                childCollectionFirstInnerColumnModel = firstInnerColumnModel.get( 'childCollection' );
+
+                            if ( _.isUndefined( childCollectionFirstInnerColumnModel ) ) {
+                                childCollectionFirstInnerColumnModel = new tdcIFrameData.TdcCollection();
+                                firstInnerColumnModel.set( 'childCollection', childCollectionFirstInnerColumnModel );
+                            }
+
+                            if ( !_.isUndefined( childCollectionElementInnerColumn ) ) {
+                                _.each( childCollectionElementInnerColumn.models, function( elementChildColumn, indexChildColumn, listChildColumn ) {
+                                    elementChildColumn.set( 'parentModel', firstInnerColumnModel );
+                                    childCollectionFirstInnerColumnModel.add( elementChildColumn );
+                                });
+                            }
+
+                            childCollectionInnerRow.remove( elementInnerColumn );
+                        }
+
+                    } else if ( '23_13' === newWidth ) {
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '2/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '2/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 1 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '1/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '1/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+                        }
+
+                    } else if ( '13_23' === newWidth ) {
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '1/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '1/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 1 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '2/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '2/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+                        }
+
+                    } else if ( '13_13_13' === newWidth ) {
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '1/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '1/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 1 === indexInnerColumn ) {
+
+                            var thirdInnerColumnModel = new tdcIFrameData.TdcModel({
+                                'content': '',
+                                'tag': 'vc_column_inner',
+                                'attrs': {
+                                    width: '1/3'
+                                },
+                                'type': 'closed',
+                                'level': 1,
+                                'parentModel': innerRowModel
+                            });
+
+                            childCollectionInnerRow.add( thirdInnerColumnModel );
+                        }
+                    }
+
+                // From 2 inner columns to 1 inner column (23_13 to 11), to 2 inner columns (23_13 to 12_12 or 23_13 to 13_23) or to 3 inner columns (23_13 to 13_13_13)
+                } else if ( '23_13' === oldWidth ) {
+
+                    if ( '11' === newWidth ) {
+
+                        // The second inner column (13) moves all its children to the first inner column (23), then it is removed.
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( ! _.isUndefined( attrsElementInnerColumn ) ) {
+
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                delete newAttrsElementInnerColumn.width;
+
+                                elementInnerColumn.set('attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 1 === indexInnerColumn ) {
+
+                            var firstInnerColumnModel = childCollectionInnerRow.at(0),
+                                childCollectionFirstInnerColumnModel = firstInnerColumnModel.get( 'childCollection' );
+
+                            if ( _.isUndefined( childCollectionFirstInnerColumnModel ) ) {
+                                childCollectionFirstInnerColumnModel = new tdcIFrameData.TdcCollection();
+                                firstInnerColumnModel.set( 'childCollection', childCollectionFirstInnerColumnModel );
+                            }
+
+                            if ( ! _.isUndefined( childCollectionElementInnerColumn ) ) {
+                                _.each( childCollectionElementInnerColumn.models, function( elementChildInnerColumn, indexChildInnerColumn, listChildInnerColumn ) {
+                                    elementChildColumn.set('parentModel', firstInnerColumnModel );
+                                    childCollectionFirstInnerColumnModel.add( elementChildInnerColumn );
+                                });
+                            }
+
+                            childCollectionInnerRow.remove( elementInnerColumn );
+                        }
+
+                    } else if ( '12_12' === newWidth ) {
+
+                        // The first inner column (23) adapts itself for a 12 inner column
+                        // The second inner column (13) adapts itself for a 12 inner column
+
+                        var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                        if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                            attrsElementInnerColumn = {
+                                width: '1/2'
+                            };
+                            elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                        } else {
+                            var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                            newAttrsElementInnerColumn.width = '1/2';
+                            elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                        }
+
+                    } else if ( '13_23' === newWidth ) {
+
+                        // The first inner column (23) adapts itself for a 13 inner column
+                        // The second inner column (13) adapts itself for a 23 inner column
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '1/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '1/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 1 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '2/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '2/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+                        }
+
+                    } else if ( '13_13_13' === newWidth ) {
+
+                        // The first inner column (23) adapts itself for a 13 inner column
+                        // The second inner column (13) remains at it is
+                        // The third inner column (13) is added
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '1/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '1/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 1 === indexInnerColumn ) {
+
+                            var thirdInnerColumnModel = new tdcIFrameData.TdcModel({
+                                'content': '',
+                                'tag': 'vc_column_inner',
+                                'attrs': {
+                                    width: '1/3'
+                                },
+                                'type': 'closed',
+                                'level': 1,
+                                'parentModel': innerRowModel
+                            });
+
+                            childCollectionInnerRow.add( thirdInnerColumnModel );
+                        }
+                    }
+
+                } else if ( '13_23' === oldWidth ) {
+
+                    // The second inner column (23) moves all its children to the first 13 inner column, then it is removed.
+
+                    if ( '11' === newWidth ) {
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( ! _.isUndefined( attrsElementInnerColumn ) ) {
+
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                delete newAttrsElementInnerColumn.width;
+
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 1 === indexInnerColumn ) {
+
+                            var firstInnerColumnModel = childCollectionInnerRow.at( 0 ),
+                                childCollectionFirstInnerColumnModel = firstInnerColumnModel.get( 'childCollection' );
+
+                            if ( _.isUndefined( childCollectionFirstInnerColumnModel ) ) {
+                                childCollectionFirstInnerColumnModel = new tdcIFrameData.TdcCollection();
+                                firstInnerColumnModel.set( 'childCollection', childCollectionFirstInnerColumnModel );
+                            }
+
+                            if ( ! _.isUndefined( childCollectionElementInnerColumn ) ) {
+                                _.each( childCollectionElementInnerColumn.models, function( elementChildInnerColumn, indexChildColumn, listChildColumn ) {
+                                    elementChildInnerColumn.set( 'parentModel', firstInnerColumnModel );
+                                    childCollectionFirstInnerColumnModel.add( elementChildInnerColumn );
+                                });
+                            }
+
+                            childCollectionInnerRow.remove( elementInnerColumn );
+                        }
+
+                    } else if ( '12_12' === newWidth ) {
+
+                        // The first inner column (23) adapts itself for a 12 inner column
+                        // The second inner column (13) adapts itself for a 12 inner column
+
+                        var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                        if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                            attrsElementInnerColumn = {
+                                width: '1/2'
+                            };
+                            elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                        } else {
+                            var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                            newAttrsElementInnerColumn.width = '1/2';
+                            elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                        }
+
+                    } else if ( '23_13' === newWidth ) {
+
+                        // The first inner column (13) adapts itself for a 23 inner column
+                        // The second inner column (23) adapts itself for a 13 inner column
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '2/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '2/3';
+                                elementInnerColumn.set('attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 1 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '1/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '1/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+                        }
+
+                    } else if ( '13_13_13' === newWidth ) {
+
+                        // The first inner column (13) remains as it is
+                        // The second inner column (23) adapts itself for a 13 inner column
+                        // The third inner column (13) is new added
+
+                        if ( 1 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '1/3'
+                                };
+                            } else {
+                                attrsElementInnerColumn.width = '1/3';
+                            }
+                            elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+
+                            var thirdInnerColumnModel = new tdcIFrameData.TdcModel({
+                                'content': '',
+                                'tag': 'vc_column_inner',
+                                'attrs': {
+                                    width: '1/3'
+                                },
+                                'type': 'closed',
+                                'level': 1,
+                                'parentModel': innerRowModel
+                            });
+                            childCollectionInnerRow.add( thirdInnerColumnModel );
+                        }
+                    }
+
+                } else if ( '13_13_13' === oldWidth ) {
+
+                    if ( '11' === newWidth ) {
+
+                        // The first inner column (13) adapts itself for a 11 inner column
+                        // The second inner column (13) moves all its children to the first inner column (13), then it is removed.
+                        // The third inner column (13) moves all its children to the first inner column (13), then it is removed.
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( ! _.isUndefined( attrsElementInnerColumn ) ) {
+
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                delete newAttrsElementInnerColumn.width;
+
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else {
+
+                            var firstInnerColumnModel = childCollectionInnerRow.at(0),
+                                childCollectionFirstInnerColumnModel = firstInnerColumnModel.get( 'childCollection' );
+
+                            if ( _.isUndefined( childCollectionFirstInnerColumnModel ) ) {
+                                childCollectionFirstInnerColumnModel = new tdcIFrameData.TdcCollection();
+                                firstInnerColumnModel.set( 'childCollection', childCollectionFirstInnerColumnModel );
+                            }
+
+                            if ( ! _.isUndefined( childCollectionElementInnerColumn ) ) {
+                                _.each( childCollectionElementInnerColumn.models, function( elementChildInnerColumn, indexChildColumn, listChildColumn ) {
+                                    elementChildInnerColumn.set( 'parentModel', firstInnerColumnModel );
+                                    childCollectionFirstInnerColumnModel.add( elementChildInnerColumn );
+                                });
+                            }
+
+                            if ( 2  === indexInnerColumn ) {
+                                var secondInnerColumnModel = childCollectionInnerRow.at( 1 ),
+                                    thirdInnerColumnModel = childCollectionInnerRow.at( 2 );
+
+                                childCollectionInnerRow.remove( secondInnerColumnModel );
+                                childCollectionInnerRow.remove( thirdInnerColumnModel );
+                            }
+                        }
+
+                    } else if ( '12_12' === newWidth ) {
+
+                        // The first inner column (13) adapts itself for a 12 inner column
+                        // The second inner column (13) adapts itself for a 12 inner column
+                        // The third inner column (13) moves its children to the second inner column, and then it is removed
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '2/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '2/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+
+                        } else if ( indexInnerColumn === 2 ) {
+
+                            var firstInnerColumnModel = childCollectionInnerRow.at( 0 ),
+                                secondInnerColumnModel = childCollectionInnerRow.at( 1 ),
+                                childCollectionSecondInnerColumnModel = secondInnerColumnModel.get( 'childCollection' );
+
+                            if ( _.isUndefined( childCollectionSecondInnerColumnModel ) ) {
+                                childCollectionSecondInnerColumnModel = new tdcIFrameData.TdcCollection();
+                                secondInnerColumnModel.set( 'childCollection', childCollectionSecondInnerColumnModel );
+                            }
+
+                            if ( ! _.isUndefined( childCollectionElementInnerColumn ) ) {
+                                _.each( childCollectionElementInnerColumn.models, function( elementChildInnerColumn, indexChildColumn, listChildColumn ) {
+                                    elementChildInnerColumn.set( 'parentModel', secondInnerColumnModel );
+                                    childCollectionSecondInnerColumnModel.add( elementChildInnerColumn );
+                                });
+                            }
+
+                            childCollectionInnerRow.remove( elementInnerColumn );
+                        }
+
+                    } else if ( '23_13' === newWidth ) {
+
+                        // The first inner column (13) adapts itself for a 23 inner column
+                        // The second inner column (13) remains at it is
+                        // The third inner column (13) moves its children to the second inner column, and then it is removed
+
+                        if ( 0 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '2/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '2/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 2 === indexInnerColumn ) {
+
+                            var firstInnerColumnModel = childCollectionInnerRow.at( 0 ),
+                                secondInnerColumnModel = childCollectionInnerRow.at( 1 ),
+                                childCollectionSecondInnerColumnModel = secondInnerColumnModel.get( 'childCollection' );
+
+                            if ( _.isUndefined( childCollectionSecondInnerColumnModel ) ) {
+                                childCollectionSecondInnerColumnModel = new tdcIFrameData.TdcCollection();
+                                secondInnerColumnModel.set( 'childCollection', childCollectionSecondInnerColumnModel );
+                            }
+
+                            if ( ! _.isUndefined( childCollectionElementInnerColumn ) ) {
+                                _.each( childCollectionElementInnerColumn.models, function( elementChildInnerColumn, indexChildColumn, listChildColumn ) {
+                                    elementChildInnerColumn.set( 'parentModel', secondInnerColumnModel );
+                                    childCollectionSecondInnerColumnModel.add( elementChildInnerColumn );
+                                });
+                            }
+
+                            childCollectionInnerRow.remove( elementInnerColumn );
+                        }
+
+                    } else if ( '13_23' === newWidth ) {
+
+                        // The first inner column (13) remains as it is
+                        // The second inner column (13) adapts itself for a 23 inner column
+                        // The third inner column (13) moves its children to the second inner column, and then it is removed
+
+                        if ( 1 === indexInnerColumn ) {
+
+                            var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
+
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
+                                attrsElementInnerColumn = {
+                                    width: '2/3'
+                                };
+                                elementInnerColumn.set( 'attrs', attrsElementInnerColumn );
+                            } else {
+                                var newAttrsElementInnerColumn = _.clone( attrsElementInnerColumn );
+                                newAttrsElementInnerColumn.width = '2/3';
+                                elementInnerColumn.set( 'attrs', newAttrsElementInnerColumn );
+                            }
+
+                        } else if ( 2 === indexInnerColumn ) {
+
+                            var secondInnerColumnModel = childCollectionInnerRow.at( 1 ),
+                                childCollectionSecondInnerColumnModel = secondInnerColumnModel.get( 'childCollection' );
+
+                            if ( _.isUndefined( childCollectionSecondInnerColumnModel ) ) {
+                                childCollectionSecondInnerColumnModel = new tdcIFrameData.TdcCollection();
+                                secondInnerColumnModel.set( 'childCollection', childCollectionSecondInnerColumnModel );
+                            }
+
+                            if ( ! _.isUndefined( childCollectionElementInnerColumn ) ) {
+                                _.each( childCollectionElementInnerColumn.models, function( elementChildInnerColumn, indexChildColumn, listChildColumn ) {
+                                    elementChildInnerColumn.set( 'parentModel', secondInnerColumnModel );
+                                    childCollectionSecondInnerColumnModel.add( elementChildInnerColumn );
+                                });
+                            }
+
+                            childCollectionInnerRow.remove( elementInnerColumn );
+                        }
+                    }
+                }
+            });
         }
 
     };
