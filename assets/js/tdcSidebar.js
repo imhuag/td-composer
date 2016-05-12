@@ -282,19 +282,16 @@ var tdcSidebar;
 
 
         setCurrentElement: function( $currentElement ) {
+            tdcSidebar._$currentElement = $currentElement;
 
+            if (_.isUndefined($currentElement)) {
+                return;
+            }
+
+            // bind the sidebar panel to the model only if
             var modelId = $currentElement.data( 'model_id' );
             var model = tdcIFrameData.getModel( modelId );
-
-
-            // bind the panel to the model
             tdcSidebarPanel.bind(model);
-
-
-
-
-
-            tdcSidebar._$currentElement = $currentElement;
 
         },
         getCurrentElement: function() {
@@ -305,12 +302,13 @@ var tdcSidebar;
         setCurrentRow: function( $currentRow ) {
             tdcSidebar._$currentRow = $currentRow;
 
-
-            var modelId = $currentRow.data( 'model_id' );
-            var model = tdcIFrameData.getModel( modelId );
-
+            if (_.isUndefined($currentRow)) {
+                return;
+            }
 
             // bind the panel to the model
+            var modelId = $currentRow.data( 'model_id' );
+            var model = tdcIFrameData.getModel( modelId );
             tdcSidebarPanel.bind(model);
         },
         getCurrentRow: function() {
@@ -328,6 +326,15 @@ var tdcSidebar;
 
         setCurrentInnerRow: function( $currentInnerRow ) {
             tdcSidebar._$currentInnerRow = $currentInnerRow;
+
+
+            if (_.isUndefined($currentInnerRow)) {
+                return;
+            }
+            // bind the panel to the model
+            var modelId = $currentInnerRow.data( 'model_id' );
+            var model = tdcIFrameData.getModel( modelId );
+            tdcSidebarPanel.bind(model);
         },
         getCurrentInnerRow: function() {
             return tdcSidebar._$currentInnerRow;
