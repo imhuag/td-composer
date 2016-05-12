@@ -149,17 +149,23 @@ var tdcSidebar;
                 var rowModelId = tdcSidebar._$currentRow.data( 'model_id' ),
                     rowModel = tdcIFrameData.getModel( rowModelId );
 
-                tdcSidebar.changeRowColumns( rowModel, tdcSidebar._rowColumnsPrevVal, jQuery(this).val() );
-
+                tdcSidebar.changeColumns( rowModel, tdcSidebar._rowColumnsPrevVal, jQuery(this).val() );
                 tdcSidebar._rowColumnsPrevVal = jQuery(this).val();
             });
 
 
             tdcSidebar._$innerRowInnerColumns = tdcSidebar.$inspector.find( 'select[name=tdc-inner-row-inner-column]' );
             tdcSidebar._innerRowInnerColumnsPrevVal = tdcSidebar._$innerRowInnerColumns.val();
+
             tdcSidebar._$innerRowInnerColumns.change(function( event ) {
-                tdcSidebar.changeInnerRowInnerColumns( tdcSidebar._innerRowInnerColumnsPrevVal, jQuery(this).val() );
+
+                var innerRowModelId = tdcSidebar._$currentInnerRow.data( 'model_id' ),
+                    innerRowModel = tdcIFrameData.getModel( innerRowModelId );
+
+                tdcIFrameData.changeInnerRowModel( innerRowModel, tdcSidebar._innerRowInnerColumnsPrevVal, jQuery(this).val() );
                 tdcSidebar._innerRowInnerColumnsPrevVal = jQuery(this).val();
+
+                innerRowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
             });
 
 
@@ -437,34 +443,79 @@ var tdcSidebar;
             if ( ! _.isUndefined( modelId ) ) {
                 var model = tdcIFrameData.getModel( modelId );
 
-                if ( ! _.isUndefined( model ) ) {
-                    var childCollection = model.get( 'childCollection' );
+                if ( _.isUndefined( model ) ) {
+                    // The following error should not exist. The structure data should have consistency!
+                    alert('tdcSidebar._setInnerRowInnerColumnSettings Error: Model not in structure data!');
+                }
 
-                    if ( ! _.isUndefined( childCollection ) ) {
+                var modelTag = model.get( 'tag' );
 
-                        //tdcDebug.log( childCollection );
+                if ( 'vc_row_inner' !== modelTag ) {
+                    // The following error should not exist. The structure data should have consistency!
+                    alert('tdcSidebar._setInnerRowInnerColumnSettings Error: Model is not an inner row!');
+                    return;
+                }
 
-                        var width = '';
-                        _.map( childCollection.models, function( val, key ) {
+                var childCollection = model.get( 'childCollection' );
 
-                            var attrs = val.get( 'attrs' );
-                            if ( _.has( attrs, 'width' ) ) {
-                                if ( ! width.length ) {
-                                    width += attrs.width.replace( '/', '');
-                                } else {
-                                    width += '_' + attrs.width.replace( '/', '');
-                                }
+                if ( ! _.isUndefined( childCollection ) ) {
+
+                    //tdcDebug.log( childCollection );
+
+                    var width = '';
+                    _.map( childCollection.models, function( val, key ) {
+
+                        var attrs = val.get( 'attrs' );
+                        if ( _.has( attrs, 'width' ) ) {
+                            if ( ! width.length ) {
+                                width += attrs.width.replace( '/', '' );
+                            } else {
+                                width += '_' + attrs.width.replace( '/', '' );
                             }
-                        });
-
-                        tdcDebug.log( width );
-
-                        if ( width.length ) {
-                            tdcSidebar._$innerRowInnerColumns.val( width );
-                        } else {
-                            tdcSidebar._$innerRowInnerColumns.val( '11' );
                         }
+                    });
+
+                    //tdcDebug.log( width );
+
+                    if ( width.length ) {
+                        tdcSidebar._$innerRowInnerColumns.val( width );
+                    } else {
+                        // Default value
+                        tdcSidebar._$innerRowInnerColumns.val( '11' );
                     }
+
+                    var columnModel = model.get( 'parentModel' ),
+                        attrsColumnModel = columnModel.get( 'attrs' ),
+                        columnWidth = '';
+
+                    if ( _.has( attrsColumnModel, 'width' ) ) {
+                        columnWidth = attrsColumnModel.width.replace( '/', '' );
+                    }
+
+                    switch ( columnWidth ) {
+                        case '' :
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').hide();
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').show();
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').show();
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').show();
+                            break;
+
+                        case '13' :
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').hide();
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').hide();
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').hide();
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').hide();
+                            break;
+
+                        case '23' :
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').show();
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').hide();
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').hide();
+                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').hide();
+                            break;
+                    }
+
+                    tdcSidebar._innerRowInnerColumnsPrevVal = tdcSidebar._$innerRowInnerColumns.val();
                 }
             }
         },
@@ -478,35 +529,47 @@ var tdcSidebar;
             if ( ! _.isUndefined( modelId ) ) {
                 var model = tdcIFrameData.getModel( modelId );
 
-                if ( ! _.isUndefined( model ) ) {
-                    var childCollection = model.get( 'childCollection' );
+                if ( _.isUndefined( model ) ) {
+                    // The following error should not exist. The structure data should have consistency!
+                    alert('tdcSidebar._setRowColumnSettings Error: Model not in structure data!');
+                }
 
-                    if ( ! _.isUndefined( childCollection ) ) {
+                var modelTag = model.get( 'tag' );
 
-                        //tdcDebug.log( childCollection );
+                if ( 'vc_row' !== modelTag ) {
+                    // The following error should not exist. The structure data should have consistency!
+                    alert('tdcSidebar._setRowColumnSettings Error: Model is not a row!');
+                    return;
+                }
 
-                        var width = '';
-                        _.map( childCollection.models, function( val, key ) {
+                var childCollection = model.get( 'childCollection' );
 
-                            var attrs = val.get( 'attrs' );
-                            if ( _.has( attrs, 'width' ) ) {
-                                if ( ! width.length ) {
-                                    width += attrs.width.replace( '/', '');
-                                } else {
-                                    width += '_' + attrs.width.replace( '/', '');
-                                }
+                if ( ! _.isUndefined( childCollection ) ) {
+
+                    //tdcDebug.log( childCollection );
+
+                    var width = '';
+                    _.map( childCollection.models, function( val, key ) {
+
+                        var attrs = val.get( 'attrs' );
+                        if ( _.has( attrs, 'width' ) ) {
+                            if ( ! width.length ) {
+                                width += attrs.width.replace( '/', '');
+                            } else {
+                                width += '_' + attrs.width.replace( '/', '');
                             }
-                        });
-
-                        //tdcDebug.log( width );
-
-                        if ( width.length ) {
-                            tdcSidebar._$rowColumns.val( width );
-                        } else {
-                            tdcSidebar._$rowColumns.val( '11' );
                         }
-                        tdcSidebar._rowColumnsPrevVal = tdcSidebar._$rowColumns.val();
+                    });
+
+                    //tdcDebug.log( width );
+
+                    if ( width.length ) {
+                        tdcSidebar._$rowColumns.val( width );
+                    } else {
+                        // Default value
+                        tdcSidebar._$rowColumns.val( '11' );
                     }
+                    tdcSidebar._rowColumnsPrevVal = tdcSidebar._$rowColumns.val();
                 }
             }
         },
@@ -514,54 +577,48 @@ var tdcSidebar;
 
 
 
-        changeRowColumns: function( rowModel, oldValue, newValue ) {
+        changeColumns: function( rowModel, columnOldWidth, columnNewWidth ) {
 
-            if ( '11' === oldValue ) {
+            if ( '11' === columnOldWidth ) {
 
                 // 1 column -> 2 columns
                 // 1 column -> 2 columns
                 // 1 column -> 3 columns
-                if ( '23_13' === newValue || '13_23' === newValue || '13_13_13' === newValue ) {
-                    tdcIFrameData.changeRowModel( rowModel, oldValue, newValue );
-                    rowModel.getShortcodeRender(1, null, true, Math.random() + Math.random() + Math.random());
+                if ( '23_13' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) {
+                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
+                    rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
                 }
 
-            } else if ( '23_13' === oldValue ) {
+            } else if ( '23_13' === columnOldWidth ) {
 
                 // 2 columns -> 1 column
                 // 2 columns -> 2 columns
                 // 2 columns -> 3 columns
-                if ( '11' === newValue || '13_23' === newValue || '13_13_13' === newValue ) {
-                    tdcIFrameData.changeRowModel( rowModel, oldValue, newValue );
+                if ( '11' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) {
+                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
                     rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
                 }
 
-            } else if ( '13_23' === oldValue ) {
+            } else if ( '13_23' === columnOldWidth ) {
 
                 // 2 column -> 1 column
                 // 2 column -> 2 columns
                 // 2 column -> 3 columns
-                if ( '11' === newValue || '23_13' === newValue || '13_13_13' === newValue ) {
-                    tdcIFrameData.changeRowModel( rowModel, oldValue, newValue );
+                if ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_13_13' === columnNewWidth ) {
+                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
                     rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
                 }
 
-            } else if ( '13_13_13' === oldValue ) {
+            } else if ( '13_13_13' === columnOldWidth ) {
 
                 // 3 column -> 1 column
                 // 3 column -> 2 columns
                 // 3 column -> 2 columns
-                if ( '11' === newValue || '23_13' === newValue || '13_23' === newValue ) {
-                    tdcIFrameData.changeRowModel( rowModel, oldValue, newValue );
+                if ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_23' === columnNewWidth ) {
+                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
                     rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
                 }
             }
-        },
-
-
-
-        changeInnerRowInnerColumns: function( oldValue, innerValue ) {
-
         }
 
 
