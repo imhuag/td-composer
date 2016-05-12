@@ -77,17 +77,19 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="tdc-inspector">
 			<div class="tdc-current-element-title">
 			</div>
-			<div class="tdc-tabs">
-				<a href="#" data-tab-id="td-tab-general" class="tdc-tab-active">General</a>
-				<a href="#" data-tab-id="td-tab-filter">Filter</a>
-				<a href="#" data-tab-id="td-tab-ajax-filter">Ajax filter</a>
-				<a href="#" data-tab-id="td-tab-pagination">Pagination</a>
-				<a href="#" data-tab-id="td-tab-row" class="tdc-layout tdc-layout-row">Settings Row</a>
-				<a href="#" data-tab-id="td-tab-column" class="tdc-layout tdc-layout-column">Settings Column</a>
-				<a href="#" data-tab-id="td-tab-inner-row" class="tdc-layout tdc-layout-inner-row">Settings Inner Row</a>
-				<a href="#" data-tab-id="td-tab-inner-column" class="tdc-layout tdc-layout-inner-column">Settings Inner Column</a>
-			</div>
-			<div class="tdc-tab-content-wrap">
+
+			<div class="tdc-tabs-wrapper">
+				<div class="tdc-tabs">
+					<a href="#" data-tab-id="td-tab-general" class="tdc-tab-active">General</a>
+					<a href="#" data-tab-id="td-tab-filter">Filter</a>
+					<a href="#" data-tab-id="td-tab-ajax-filter">Ajax filter</a>
+					<a href="#" data-tab-id="td-tab-pagination">Pagination</a>
+					<a href="#" data-tab-id="td-tab-row" class="tdc-layout tdc-layout-row">Settings Row</a>
+					<a href="#" data-tab-id="td-tab-column" class="tdc-layout tdc-layout-column">Settings Column</a>
+					<a href="#" data-tab-id="td-tab-inner-row" class="tdc-layout tdc-layout-inner-row">Settings Inner Row</a>
+					<a href="#" data-tab-id="td-tab-inner-column" class="tdc-layout tdc-layout-inner-column">Settings Inner Column</a>
+				</div>
+				<div class="tdc-tab-content-wrap">
 				<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-general">
 					<!-- tab 1 -->
 
@@ -151,6 +153,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 					inner column settings
 				</div>
+			</div>
 			</div>
 		</div>
 

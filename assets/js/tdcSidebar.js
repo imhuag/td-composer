@@ -185,6 +185,9 @@ var tdcSidebar;
 
 
         setCurrentElementContent: function( content ) {
+
+
+
             tdcSidebar.$currentElementTitle.html( content );
         },
 
@@ -255,7 +258,8 @@ var tdcSidebar;
 
         liveInspectorTabs: function () {
 
-            jQuery('.tdc-tabs a').on('click', function(){
+            jQuery('body').on('click', '.tdc-tabs a', function() {
+
                 if (jQuery(this).hasClass('tdc-tab-active') === true) {
                     return;
                 }
@@ -279,6 +283,16 @@ var tdcSidebar;
 
         setCurrentElement: function( $currentElement ) {
             tdcSidebar._$currentElement = $currentElement;
+
+            if (_.isUndefined($currentElement)) {
+                return;
+            }
+
+            // bind the sidebar panel to the model only if
+            var modelId = $currentElement.data( 'model_id' );
+            var model = tdcIFrameData.getModel( modelId );
+            tdcSidebarPanel.bind(model);
+
         },
         getCurrentElement: function() {
             return tdcSidebar._$currentElement;
@@ -287,6 +301,15 @@ var tdcSidebar;
 
         setCurrentRow: function( $currentRow ) {
             tdcSidebar._$currentRow = $currentRow;
+
+            if (_.isUndefined($currentRow)) {
+                return;
+            }
+
+            // bind the panel to the model
+            var modelId = $currentRow.data( 'model_id' );
+            var model = tdcIFrameData.getModel( modelId );
+            tdcSidebarPanel.bind(model);
         },
         getCurrentRow: function() {
             return tdcSidebar._$currentRow;
@@ -303,6 +326,15 @@ var tdcSidebar;
 
         setCurrentInnerRow: function( $currentInnerRow ) {
             tdcSidebar._$currentInnerRow = $currentInnerRow;
+
+
+            if (_.isUndefined($currentInnerRow)) {
+                return;
+            }
+            // bind the panel to the model
+            var modelId = $currentInnerRow.data( 'model_id' );
+            var model = tdcIFrameData.getModel( modelId );
+            tdcSidebarPanel.bind(model);
         },
         getCurrentInnerRow: function() {
             return tdcSidebar._$currentInnerRow;

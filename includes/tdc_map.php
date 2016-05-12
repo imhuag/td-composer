@@ -39,10 +39,27 @@ tdc_mapper::map(array(
 	'category' => __('Content', 'td_composer'),
 	'description' => __('some desc', 'td_composer'),
 	'params' => array(
+
+
+
+		// internal modifier - does not update atts
+		array (
+			'param_name' => 'tdc_row_columns_modifier',
+			'heading' => 'Transform this row',
+			'type' => 'dropdown',
+			'value' => array (
+				'1/1' => '11',
+				'2/3 + 1/3' => '23_13',
+				'1/3 + 2/3' => '13_23',
+				'1/3 + 1/3 + 1/3' => '13_13_13'
+			),
+			'class' => 'tdc-row-col-dropdown'
+		),
+
 		array(
+			'param_name' => 'css',
 			'type' => 'css_editor',
 			'heading' => __('CSS box', 'td_composer'),
-			'param_name' => 'css',
 			'group' => __('Design Options', 'td_composer'),
 		),
 	)
@@ -78,11 +95,27 @@ tdc_mapper::map(
 		'icon' => 'icon-wpb-row',
 		'description' => __('Place content elements inside the inner row', 'td_composer'),
 		'params' => array(
+
+			// internal modifier - does not update atts
+			array (
+				'param_name' => 'tdc_inner_row_columns_modifier',
+				'heading' => 'Transform this inner row',
+				'type' => 'dropdown',
+				'value' => array (
+					'1/1' => '11',
+					'1/2 + 1/2' => '12_12',
+					'2/3 + 1/3' => '23_13',
+					'1/3 + 2/3' => '13_23',
+					'1/3 + 1/3 + 1/3' => '13_13_13'
+				)
+			),
+
 			array(
 				'type' => 'css_editor',
 				'heading' => __('CSS box', 'td_composer'),
 				'param_name' => 'css',
 				'group' => __('Design Options', 'td_composer'),
+				'class' => 'tdc-innerRow-col-dropdown'
 			),
 		)
 	)

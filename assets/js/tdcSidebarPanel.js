@@ -4,6 +4,12 @@
  */
 
 
+/* global jQuery:{} */
+/* global Backbone:{} */
+/* global _:{} */
+
+/* tdcAdminSettings */
+
 var tdcSidebarPanel = {};
 
 
@@ -12,25 +18,255 @@ var tdcSidebarPanel = {};
 
 
     tdcSidebarPanel = {
-        item: {},
-        items: [],
+
+        _defaultGroupName: 'General', // where to put params that don't have a group
+
+
+        bind: function (model) {
 
 
 
-        render: function (params, atts) {
+
+            // model.attributes.attrs
+            //var mappedShortCode = window.tdcAdminSettings.mappedShortcodes[model.attributes.attrs];
+
+
+            // get the mapped shortcode for this model
+            var mappedShortCode = window.tdcAdminSettings.mappedShortcodes[model.attributes.tag];
+
+
+
+            // step 0 - delete the old panel. HTML + items
+            tdcSidebarPanel._deletePanel();
+
+
+
+            // step 1 - make the tabs
+            var allGroupNames = [];
+            for (var cnt = 0; cnt < mappedShortCode.params.length; cnt++) {
+                var currentTabName = tdcSidebarPanel._defaultGroupName;
+                if (!_.isEmpty(mappedShortCode.params[cnt].group)) {
+                    currentTabName = mappedShortCode.params[cnt].group;
+                }
+                allGroupNames.push(currentTabName);
+            }
+            allGroupNames = _.uniq(allGroupNames); // make the tabs unique. First occurrence remains in the array.
+
+
+            var buffy = '';
+
+
+
+
+
+
+
+
+
+            // tabs - top
+            buffy += '<div class="tdc-tabs">';
+                for (cnt = 0; cnt < allGroupNames.length; cnt++) {
+                    if (cnt === 0) {
+                        buffy += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '" class="tdc-tab-active">' + allGroupNames[cnt] + '</a>';
+                    } else {
+                        buffy += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">' + allGroupNames[cnt] + '</a>';
+                    }
+
+                }
+            buffy += '</div>';
+
+
+            // tabs - content
+            buffy += '<div class="tdc-tab-content-wrap">';
+                for (cnt = 0; cnt < allGroupNames.length; cnt++) {
+                    if (cnt === 0) {
+                        buffy += '<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">';
+                    } else {
+                        buffy += '<div class="tdc-tab-content" id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">';
+                    }
+
+                        // tab content
+                        buffy += tdcSidebarPanel._bindGroupAndGetHtml(allGroupNames[cnt], mappedShortCode, model);
+
+
+                    buffy += '</div>'; // close tab content wrap
+                }
+            buffy += '</div>';
+
+            jQuery('.tdc-inspector .tdc-tabs-wrapper').html(buffy);
+
+
+
+            // step 2 - distribute content to the tabs
+
+
+
+
+
+
+
+            //console.log(buffy);
+
+            //console.log(mappedShortCode);
+        },
+
+
+
+        _bindGroupAndGetHtml: function (groupName, mappedShortCode,  model) {
+            var buffy = '';
+
+            for (var cnt = 0; cnt < mappedShortCode.params.length; cnt++) {
+
+                if (groupName === tdcSidebarPanel._defaultGroupName) { // default group, check for empty
+                    if (_.isEmpty(mappedShortCode.params[cnt].group)) {
+                        buffy += tdcSidebarPanel._bindParamAndGetHtml(mappedShortCode.params[cnt], model);
+                    }
+                } else { // all other groups, check by name
+                    if (mappedShortCode.params[cnt].group === groupName) {
+                        buffy += tdcSidebarPanel._bindParamAndGetHtml(mappedShortCode.params[cnt], model);
+                    }
+                }
+            }
+            return buffy;
+        },
+
+
+        _bindParamAndGetHtml: function (mappedParameter, model) {
+            //console.log(model.attributes.attrs);
+
+
+            switch(mappedParameter.type) {
+                case 'colorpicker':
+                    return tdcSidebarPanel.addColorpicker(mappedParameter, model);
+
+                case 'dropdown':
+                    return tdcSidebarPanel.addDropDown(mappedParameter, model);
+
+
+                default:
+                    return mappedParameter.param_name + ' - ' + mappedParameter.type + '<br>';
+            }
+
+
+            //console .log(mappedParameter);
+        },
+
+
+
+
+        _deletePanel: function () {
+            console.log('clear  _deletePanel ');
+            jQuery('.tdc-inspector .tdc-tabs-wrapper').empty();
+        },
+
+
+
+        _getCurrentValue: function () {
 
         },
 
-        deleteAllItems: function () {
 
+        /**
+         * Adds classes the the wrap of a property in a panel
+         * @param mappedParameter
+         * @returns {string}
+         * @private
+         */
+        _getParameterClasses: function (mappedParameter) {
+           var mappedClasses = 'tdc-property-wrap';
+
+            // add the autogenerated tdc-property-PROPERTY_TYPE
+            mappedClasses += ' tdc-property-' + mappedParameter.type;
+
+            // add the mapped 'class'
+            if (!_.isUndefined(mappedParameter.class)) {
+                mappedClasses +=  ' ' + mappedParameter.class;
+            }
+
+            return mappedClasses;
+        },
+
+
+        /**
+         * returns the current value of a parameter. If it's not set by the user in the shortcode's atts, we will return the
+         * default mapped value
+         * @param mappedParameter
+         * @param model
+         * @returns {*}
+         * @private
+         */
+        _getParameterCurrentValue: function (mappedParameter, model) {
+            if (_.isEmpty(model.attributes.attrs[mappedParameter.param_name])) {
+                return mappedParameter.value; // return the 'default' value
+            }
+
+            return model.attributes.attrs[mappedParameter.param_name];
         },
 
 
 
-        _addItem: function () {
+        addColorpicker: function (mappedParameter, model) {
+            console.log('---------------');
+            console.log(mappedParameter);
+            console.log(model);
+            console.log('---------------');
+
+
+
+            var buffy = '';
+            var colorPickerId = _.uniqueId();
+            buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
+                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
+                buffy += '<div class="tdc-property">';
+                    buffy += '<input id="' + colorPickerId + '" name="my_name" type="text" value="' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '"/>';
+                buffy += '</div>';
+            buffy += '</div>';
+
+
+            setTimeout(function() {
+                jQuery("#" + colorPickerId).cs_wpColorPicker();
+            }, 1000);
+
+
+
+            return buffy;
+
 
         },
 
+
+        addDropDown: function (mappedParameter, model) {
+            var buffy = '';
+
+            //console.log('---------------');
+            //console.log(mappedParameter);
+            //console.log(model);
+            //console.log('---------------');
+
+            // make the selectOptions
+            var selectOptions = '';
+            var keys = Object.keys(mappedParameter.value);
+            for (var i = 0; i < keys.length; i++) {
+                var value = mappedParameter.value[keys[i]];
+                selectOptions += '<option value="' + value + '">' + keys[i] + '</option>';
+            }
+
+
+
+
+            buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
+                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
+                buffy += '<div class="tdc-property">';
+                    buffy += '<select>';
+                        buffy += selectOptions;
+                    buffy += '</select>';
+                buffy += '</div>';
+            buffy += '</div>';
+
+
+
+            return buffy;
+        },
 
 
 
