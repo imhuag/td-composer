@@ -33,7 +33,7 @@ var tdcRowUI;
                 $content = tdcOperationUI.iframeContents;
             }
 
-            tdcRowUI.tdcRow = $content.find('.tdc-row');
+            tdcRowUI.tdcRow = $content.find( '.tdc-row' );
 
             tdcRowUI.tdcRow.each(function (index, element) {
                 tdcRowUI.bindRow( jQuery( element ) );
@@ -41,6 +41,11 @@ var tdcRowUI;
         },
 
         bindRow: function( $element ) {
+
+            // Unbind any event.
+            // This allows us to reuse the 'bindRow' method for the same elements
+            $element.unbind();
+
 
             $element.click( function( event ) {
                 //tdcDebug.log( 'click row' );

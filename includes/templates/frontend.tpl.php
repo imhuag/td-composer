@@ -182,12 +182,12 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					foreach ($mapped_shortcodes as $mapped_shortcode ) {
 
 						if ( 'vc_row' === $mapped_shortcode['base'] ) {
-							echo '<div class="tdc-sidebar-element tdc-row" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
+							echo '<div class="tdc-sidebar-element tdc-row-temp" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
 							continue;
 						}
 
 						if ( 'vc_row_inner' === $mapped_shortcode['base'] ) {
-							echo '<div class="tdc-sidebar-element tdc-element-inner-row" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
+							echo '<div class="tdc-sidebar-element tdc-element-inner-row-temp" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
 							continue;
 						}
 

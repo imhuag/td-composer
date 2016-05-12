@@ -354,7 +354,7 @@ var tdcElementUI;
             }).mouseup(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element'
-                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
                     //tdcDebug.log( 'element mouse up' );
 
                     event.preventDefault();
@@ -371,7 +371,7 @@ var tdcElementUI;
             }).mousemove(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element' or inner row
-                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
                     //tdcDebug.log( 'element mouse move' );
 
                     event.preventDefault();
@@ -386,7 +386,7 @@ var tdcElementUI;
             }).mouseenter(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element' or inner row
-                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
                     //tdcDebug.log( 'element mouse enter' );
 
                     event.preventDefault();
@@ -401,7 +401,7 @@ var tdcElementUI;
             }).mouseleave(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element' or inner row
-                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
                     //tdcDebug.log( 'element mouse leave' );
 
                     event.preventDefault();
@@ -416,7 +416,7 @@ var tdcElementUI;
             }).on( 'fakemouseenterevent', function(event) {
 
                 // Respond only if dragged element is 'tdc-element' or inner row
-                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
                     //tdcDebug.log( 'element FAKE MOUSE ENTER EVENT' );
 
                     event.preventDefault();
@@ -470,7 +470,7 @@ var tdcElementUI;
             }).mouseup(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element'
-                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
                     //tdcDebug.log( 'empty element mouse up' );
 
                     event.preventDefault();
@@ -492,7 +492,7 @@ var tdcElementUI;
                 // Respond only if dragged element is 'tdc-element' or inner row
                 //console.log( tdcOperationUI.getDraggedElement() );
                 //console.log( $element );
-                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
                     //tdcDebug.log( 'empty element mouse move' );
 
                     event.preventDefault();
@@ -507,7 +507,7 @@ var tdcElementUI;
             }).mouseenter(function( event ) {//tdcDebug.log($element);
 
                 // Respond only if dragged element is 'tdc-element' or inner row
-                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
                     //tdcDebug.log( 'empty element mouse enter' );
 
                     event.preventDefault();
@@ -522,7 +522,7 @@ var tdcElementUI;
             }).mouseleave(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element' or inner row
-                if ( tdcOperationUI.isElementDragged() || ( tdcOperationUI.isInnerRowDragged() && $element.hasClass( 'tdc-element-column' ) ) ) {
+                if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
                     //tdcDebug.log( 'empty element mouse leave' );
 
                     event.preventDefault();
