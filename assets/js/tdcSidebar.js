@@ -179,6 +179,9 @@ var tdcSidebar;
 
 
         setCurrentElementContent: function( content ) {
+
+
+
             tdcSidebar.$currentElementTitle.html( content );
         },
 
@@ -249,7 +252,8 @@ var tdcSidebar;
 
         liveInspectorTabs: function () {
 
-            jQuery('.tdc-tabs a').on('click', function(){
+            jQuery('body').on('click', '.tdc-tabs a', function() {
+
                 if (jQuery(this).hasClass('tdc-tab-active') === true) {
                     return;
                 }
@@ -272,7 +276,20 @@ var tdcSidebar;
 
 
         setCurrentElement: function( $currentElement ) {
+
+            var modelId = $currentElement.data( 'model_id' );
+            var model = tdcIFrameData.getModel( modelId );
+
+
+            // bind the panel to the model
+            tdcSidebarPanel.bind(model);
+
+
+
+
+
             tdcSidebar._$currentElement = $currentElement;
+
         },
         getCurrentElement: function() {
             return tdcSidebar._$currentElement;
@@ -281,6 +298,14 @@ var tdcSidebar;
 
         setCurrentRow: function( $currentRow ) {
             tdcSidebar._$currentRow = $currentRow;
+
+
+            var modelId = $currentRow.data( 'model_id' );
+            var model = tdcIFrameData.getModel( modelId );
+
+
+            // bind the panel to the model
+            tdcSidebarPanel.bind(model);
         },
         getCurrentRow: function() {
             return tdcSidebar._$currentRow;
