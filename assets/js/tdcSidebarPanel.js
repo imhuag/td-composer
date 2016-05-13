@@ -22,8 +22,17 @@ var tdcSidebarPanel = {};
         _defaultGroupName: 'General', // where to put params that don't have a group
 
 
-        bind: function (model) {
+        init: function () {
 
+
+
+            jQuery('body').on('change', '.tdc-row-col-dropdown select', function() {
+                //alert('ra');
+            });
+        },
+
+        bind: function (model) {
+            return;
 
 
 
@@ -155,6 +164,7 @@ var tdcSidebarPanel = {};
 
 
         _deletePanel: function () {
+            return;
             console.log('clear  _deletePanel ');
             jQuery('.tdc-inspector .tdc-tabs-wrapper').empty();
         },
@@ -204,6 +214,10 @@ var tdcSidebarPanel = {};
         },
 
 
+        _getParameterDomName: function (mappedParameter) {
+            return 'tdc-param-' + mappedParameter.param_name;
+        },
+
 
         addColorpicker: function (mappedParameter, model) {
             console.log('---------------');
@@ -218,7 +232,7 @@ var tdcSidebarPanel = {};
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
                 buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
                 buffy += '<div class="tdc-property">';
-                    buffy += '<input id="' + colorPickerId + '" name="my_name" type="text" value="' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '"/>';
+                    buffy += '<input id="' + colorPickerId + '" name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '" type="text" value="' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '"/>';
                 buffy += '</div>';
             buffy += '</div>';
 
@@ -292,4 +306,6 @@ var tdcSidebarPanel = {};
 
     };
 
+
+    tdcSidebarPanel.init();
 })();
