@@ -204,21 +204,21 @@ var tdcAdminIFrameUI;
 
                         // all tdc-inner-rows
                         // all tdc-elements
-                        //iframeContents.find( '.tdc-column' ).each(function( index, el ) {
-                        //    //jQuery( el ).find( '.tdc-inner-row').wrapAll( '<div class="tdc-inner-rows"></div>');
-                        //    //jQuery( el ).find( '.tdc-inner-rows').wrapAll( '<div class="tdc-element-inner-row"></div>');
-                        //
-                        //    jQuery( el ).find( '.tdc-inner-row').wrap( '<div class="tdc-element-inner-row"></div>');
-                        //
-                        //    jQuery( el ).find( '.td_block_wrap').wrap( '<div class="tdc-element"></div>' );
-                        //
-                        //    // wrap the reclama / a-d-s
-                        //    //jQuery( el ).find( '.td-a-rec').wrap( '<div class="tdc-element"></div>' );
-                        //
-                        //});
+                        iframeContents.find( '.tdc-column' ).each(function( index, el ) {
+                            //jQuery( el ).find( '.tdc-inner-row').wrapAll( '<div class="tdc-inner-rows"></div>');
+                            //jQuery( el ).find( '.tdc-inner-rows').wrapAll( '<div class="tdc-element-inner-row"></div>');
 
-                        iframeContents.find( '.tdc-inner-row' ).wrap( '<div class="tdc-element-inner-row"></div>' );
+                            jQuery( el ).find( '.tdc-inner-row').wrap( '<div class="tdc-element-inner-row"></div>');
 
+                            //jQuery( el ).find( '.td_block_wrap').wrap( '<div class="tdc-element"></div>' );
+
+                            // wrap the reclama / a-d-s
+                            //jQuery( el ).find( '.td-a-rec').wrap( '<div class="tdc-element"></div>' );
+
+                        });
+
+                        //iframeContents.find( '.tdc-inner-row' ).wrap( '<div class="tdc-element-inner-row"></div>' );
+                        //
                         iframeContents.find( '.td_block_wrap' ).wrap( '<div class="tdc-element"></div>' );
 
 
@@ -249,26 +249,33 @@ var tdcAdminIFrameUI;
 
 
 
+
+                        jQuery( iframeContents ).find( '.tdc-element, .tdc-element-inner-row').each(function( index, el) {
+                            var tdcElement = jQuery( el );
+
+                            if ( tdcElement.length ) {
+                                tdcElement
+                                    .not( '.tdc-element-inner-column' )
+                                    .addClass( 'tdc-element-column' );
+                            }
+                        });
+
+
+
+
+
                         // all tdc-element not already moved to tdc-elements, moved to their new tdc-elements (columns can have their elements, which are not inside of an inner row > inner column)
                         iframeContents.find( '.tdc-column' ).each(function( index, el ) {
 
                             var tdcElement = jQuery( el).find( '.tdc-element, .tdc-element-inner-row' );
 
                             if ( tdcElement.length ) {
+
                                 tdcElement
                                     .not( '.tdc-element-inner-column' )
-                                    .addClass( 'tdc-element-column' )
                                     .wrapAll( '<div class="tdc-elements"></div>' );
 
-                                //tdcElement.attr( 'data-td_shorcode', 11);
-
-                                var td_block_wrap = tdcElement.find( '.td_block_wrap' );
-                                if ( td_block_wrap.length ) {
-
-                                }
-
                             } else {
-
                                 // add sortable area if empty columns
                                 var innerMostElement = jQuery( el ).find( '.wpb_wrapper' );
 
@@ -277,6 +284,13 @@ var tdcAdminIFrameUI;
                                 }
                             }
                         });
+
+
+
+
+
+
+
 
 
 
@@ -303,7 +317,6 @@ var tdcAdminIFrameUI;
                             $element.append( $emptyElement );
                         });
                     };
-
 
 
 

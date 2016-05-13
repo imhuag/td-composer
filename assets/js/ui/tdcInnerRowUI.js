@@ -33,10 +33,10 @@ var tdcInnerRowUI;
                 $content = tdcOperationUI.iframeContents;
             }
 
-            tdcInnerRowUI.tdcElementInnerRow = $content.find('.tdc-element-inner-row');
+            tdcInnerRowUI.tdcElementInnerRow = $content.find( '.tdc-element-inner-row' );
 
-            tdcInnerRowUI.tdcElementInnerRow.each(function (index, element) {
-                tdcInnerRowUI.bindInnerRow(jQuery(element));
+            tdcInnerRowUI.tdcElementInnerRow.each(function( index, element ) {
+                tdcInnerRowUI.bindInnerRow( jQuery( element ) );
             });
         },
 
@@ -84,8 +84,8 @@ var tdcInnerRowUI;
 
             }).mousemove(function( event ) {
 
-                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
-                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
+                // Respond only if dragged element is 'tdc-element', 'tdc-element-inner-row' or 'tdc-element-inner-row-temp'
+                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) {
                     //tdcDebug.log( 'inner row element mouse move' );
 
                     event.preventDefault();
@@ -99,8 +99,8 @@ var tdcInnerRowUI;
 
             }).mouseenter(function(event) {
 
-                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
-                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
+                // Respond only if dragged element is 'tdc-element', 'tdc-element-inner-row' or 'tdc-element-inner-row-temp'
+                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) {
                     //tdcDebug.log('inner row mouse enter');
 
                     event.preventDefault();
@@ -111,8 +111,8 @@ var tdcInnerRowUI;
 
             }).mouseleave(function(event) {
 
-                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
-                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
+                // Respond only if dragged element is 'tdc-element', 'tdc-element-inner-row' or 'tdc-element-inner-row-temp'
+                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) {
                     //tdcDebug.log('inner row mouse leave');
 
                     event.preventDefault();
@@ -123,8 +123,8 @@ var tdcInnerRowUI;
 
             }).on( 'fakemouseenterevent', function(event) {
 
-                // Respond only if dragged element is 'tdc-element' or 'tdc-element-inner-row'
-                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() ) {
+                // Respond only if dragged element is 'tdc-element', 'tdc-element-inner-row' or 'tdc-element-inner-row-temp'
+                if ( tdcOperationUI.isElementDragged() || tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) {
                     //tdcDebug.log( 'tdc-inner-row FAKE MOUSE ENTER EVENT' );
 
                     var outerHeight = $element.outerHeight(true);

@@ -114,7 +114,7 @@ var tdcOperationUI;
                     tdcElementUI.positionElementPlaceholder( event );
                 } else if ( tdcOperationUI.isInnerColumnDragged() ) {
                     tdcInnerColumnUI.positionInnerColumnPlaceholder( event );
-                } else if ( tdcOperationUI.isInnerRowDragged() ) {
+                } else if ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) {
                     tdcInnerRowUI.positionInnerRowPlaceholder( event );
                 } else if ( tdcOperationUI.isColumnDragged() ) {
                     tdcColumnUI.positionColumnPlaceholder( event );
@@ -376,7 +376,10 @@ var tdcOperationUI;
         isRowDragged: function() {
             var draggedElement = tdcOperationUI.getDraggedElement();
 
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-row' );
+            // 'tdc-row-temp' is the row of the sidebar
+            // This has been added to differentiate between the empty row template from the sidebar and an existing row template
+
+            return !_.isUndefined( draggedElement ) && ( draggedElement.hasClass( 'tdc-row' ) || draggedElement.hasClass( 'tdc-row-temp' ) ) ;
         },
 
 
@@ -407,8 +410,30 @@ var tdcOperationUI;
         isInnerRowDragged: function() {
             var draggedElement = tdcOperationUI.getDraggedElement();
 
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-element-inner-row' );
+            // 'tdc-element-inner-row-temp' is the inner row of the sidebar
+            // This has been added to differentiate between the empty inner row template from the sidebar and an existing inner row template
+
+            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-element-inner-row' ) ;
         },
+
+
+
+
+        /**
+         * Check the current element is a inner row
+         *
+         * @returns {boolean|*}
+         */
+        isTempInnerRowDragged: function() {
+            var draggedElement = tdcOperationUI.getDraggedElement();
+
+            // 'tdc-element-inner-row-temp' is the inner row of the sidebar
+            // This has been added to differentiate between the empty inner row template from the sidebar and an existing inner row template
+
+            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-element-inner-row-temp' );
+        },
+
+
 
 
         /**
@@ -540,6 +565,7 @@ var tdcOperationUI;
                     wasElementDragged = tdcOperationUI.isElementDragged(),
                     wasInnerColumnDragged = false,
                     wasInnerRowDragged = false,
+                    wasTempInnerRowDragged = false,
                     wasColumnDragged = false,
                     wasRowDragged = false,
 
@@ -559,13 +585,14 @@ var tdcOperationUI;
 
                 if ( ! wasInnerColumnDragged ) {
                     wasInnerRowDragged = tdcOperationUI.isInnerRowDragged();
+                    wasTempInnerRowDragged = tdcOperationUI.isTempInnerRowDragged();
 
-                    if ( wasInnerRowDragged ) {
+                    if ( wasInnerRowDragged || wasTempInnerRowDragged ) {
                         $draggedElementContainer = $draggedElement.closest( '.tdc-elements' );
                     }
                 }
 
-                if ( ! wasInnerRowDragged ) {
+                if ( ! wasInnerRowDragged && ! wasTempInnerRowDragged ) {
                     wasColumnDragged = tdcOperationUI.isColumnDragged();
 
                     if ( wasColumnDragged ) {
@@ -581,7 +608,7 @@ var tdcOperationUI;
                     }
                 }
 
-                if ( ! wasSidebarElementDragged && ! wasElementDragged && ! wasInnerColumnDragged && ! wasInnerRowDragged && ! wasColumnDragged && ! wasRowDragged ) {
+                if ( ! wasSidebarElementDragged && ! wasElementDragged && ! wasInnerColumnDragged && ! wasInnerRowDragged && ! wasTempInnerRowDragged && ! wasColumnDragged && ! wasRowDragged ) {
 
                     // @todo This check should be removed - the content should have consistency
                     alert( '_moveDraggedElement - Error: $draggedElement not valid!' );
@@ -634,7 +661,7 @@ var tdcOperationUI;
                     // An empty element is added to the remaining '.tdc-elements' list, to allow drag&drop operations over it
                     // At drop, any empty element is removed from the target list
 
-                    if ( wasElementDragged || wasInnerRowDragged || wasRowDragged )  {
+                    if ( wasElementDragged || wasInnerRowDragged || wasTempInnerRowDragged || wasRowDragged )  {
 
                         var $emptyElement;
 
@@ -676,6 +703,7 @@ var tdcOperationUI;
                         wasElementDragged: wasElementDragged,
                         wasInnerColumnDragged: wasInnerColumnDragged,
                         wasInnerRowDragged: wasInnerRowDragged,
+                        wasTempInnerRowDragged: wasTempInnerRowDragged,
                         wasColumnDragged: wasColumnDragged,
                         wasRowDragged: wasRowDragged,
 
@@ -700,6 +728,8 @@ var tdcOperationUI;
 
                     if ( wasElementDragged ) {
                         cssClass = 'tdc-element';
+                    } else if ( wasTempInnerRowDragged ) {
+                        cssClass = 'tdc-element-inner-row-temp';
                     } else if ( wasInnerRowDragged ) {
                         cssClass = 'tdc-element-inner-row';
                     } else if ( wasRowDragged ){
@@ -780,6 +810,7 @@ var tdcOperationUI;
                     wasElementDragged: wasElementDragged,
                     wasInnerColumnDragged: wasInnerColumnDragged,
                     wasInnerRowDragged: wasInnerRowDragged,
+                    wasTempInnerRowDragged: wasTempInnerRowDragged,
                     wasColumnDragged: wasColumnDragged,
                     wasRowDragged: wasRowDragged,
 

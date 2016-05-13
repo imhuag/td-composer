@@ -252,48 +252,68 @@ var tdcIFrameData,
 
 
 
-                            // Do the job for 'tdc-element-inner-row'
-                            if ( this.$el.hasClass( 'tdc-element-inner-row' ) ) {
-
-                                //alert( 'class tdc-element-inner-row' );
-
-
-
-
-                                //// Bind the events for the new inner row
-                                //tdcInnerRowUI.bindInnerRow( this.$el );
-                                //
-                                //var $tdcInnerColumn = this.$el.find( '.tdc-inner-column');
-                                //
-                                //if ( $tdcInnerColumn.length ) {
-                                //
-                                //    // Set the data 'model_id' for the element of the 'liveView' backbone view
-                                //    $tdcInnerColumn.data( 'model_id', this.model.get( 'childCollection' ).at(0).cid );
-                                //
-                                //    $tdcInnerColumn.wrapAll( '<div class="tdc-inner-columns"></div>' );
-                                //
-                                //    // Bind the events for the new inner column
-                                //    tdcInnerColumnUI.bindInnerColumn( $tdcInnerColumn );
-                                //
-                                //    var $tdcInnerColumnWpbWrapper = $tdcInnerColumn.find( '.wpb_wrapper' );
-                                //
-                                //    if ( $tdcInnerColumnWpbWrapper.length ) {
-                                //        var $tdcElementsInnerColumn = jQuery('<div class="tdc-elements"></div>');
-                                //        tdcElementsUI.bindElementList( $tdcElementsInnerColumn );
-                                //
-                                //        var $emptyElementInnerColumn = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + ' tdc-element-inner-column"></div>' );
-                                //        $tdcElementsInnerColumn.append( $emptyElementInnerColumn );
-                                //
-                                //        $tdcInnerColumnWpbWrapper.append( $tdcElementsInnerColumn );
-                                //
-                                //        tdcElementUI.bindEmptyElement( $emptyElementInnerColumn );
-                                //    }
-                                //}
-
+                            // Do the job for 'tdc-element-inner-row-temp'
+                            if ( this.$el.hasClass( 'tdc-element-inner-row-temp' ) ) {
 
                                 var modelId = this.$el.data( 'model_id' ),
                                     model = tdcIFrameData.getModel( modelId ),
                                     childCollection = model.get( 'childCollection' );
+
+                                this.$el.removeClass( 'tdc-element-inner-row-temp').addClass( 'tdc-element-inner-row' );
+
+                                // Add wrappers to the existing 'tdc-column' element
+                                window.addWrappers( this.$el );
+
+                                var shortcode = model.get( 'shortcode' ),
+                                    parentModel = model.get( 'parentModel' );
+
+                                if ( true === tdcIFrameData._initNewContentStructureData( 2, shortcode, parentModel ) ) {
+
+                                    //tdcDebug.log( tdcIFrameData.tdcRows );
+
+                                    // The childCollection of the model object has been modified
+                                    // Do nothing if it is undefined, otherwise continue and bind views to models
+                                    if ( ! _.isUndefined( childCollection ) ) {
+
+                                        var errors = {};
+
+                                        tdcIFrameData.bindViewsModelsWrappers( errors, childCollection, this.$el, 3 );
+
+                                        if ( !_.isEmpty( errors ) ) {
+                                            for ( var prop in errors ) {
+                                                tdcDebug.log( errors[ prop ] );
+                                            }
+
+                                            alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                tdcInnerRowUI.init( this.$el.parent() );
+                                tdcInnerColumnUI.init( this.$el );
+                                tdcElementUI.init( this.$el );
+
+                                tdcSidebar.setCurrentInnerRow( this.$el );
+
+
+
+
+                            // Do the job for an existing '.tdc-element-inner-row' element
+                            } else if ( this.$el.hasClass( 'tdc-element-inner-row' ) ) {
+
+                                var modelId = this.$el.data( 'model_id' );
+
+                                if ( _.isUndefined( modelId ) ) {
+                                    alert( 'not modelId' );
+                                    return;
+                                }
+
+
+                                var model = tdcIFrameData.getModel( modelId );
+
+                                // Set the inner row data 'model_id'
+                                //$tdcElementInnerRow.data( 'model_id', modelId );
 
                                 // Add wrappers to the existing 'tdc-column' element
                                 window.addWrappers( this.$el );
@@ -304,6 +324,8 @@ var tdcIFrameData,
                                 if ( true === tdcIFrameData._initNewContentStructureData( 2, shortcode, parentModel ) ) {
 
                                     tdcDebug.log( tdcIFrameData.tdcRows );
+
+                                    var childCollection = model.get( 'childCollection' );
 
                                     // The childCollection of the model object has been modified
                                     // Do nothing if it is undefined, otherwise continue and bind views to models
@@ -324,17 +346,25 @@ var tdcIFrameData,
                                     }
                                 }
 
+
                                 tdcInnerRowUI.init( this.$el );
                                 tdcInnerColumnUI.init( this.$el );
                                 tdcElementUI.init( this.$el );
 
-                                //tdcDebug.log( tdcSidebar.getCurrentInnerRow() );
-                                //tdcDebug.log( this.$el );
-                                //
-                                //tdcSidebar.setCurrentInnerRow( jQuery( this.$el ) );
+                                //tdcDebug.log( $tdcElementInnerRow );
+                                tdcDebug.log( this.$el );
+                                tdcDebug.log( this.$el.parent() );
+
+                                // Set the current inner row for the sidebar
+                                tdcSidebar.setCurrentInnerRow( this.$el );
 
 
+
+
+                            // Do the job for an existing '.tdc-row' element
                             } else if ( this.$el.hasClass( 'tdc-row' ) ) {
+
+                                // We'll have a new '.tdc-row' element (the renderer of the row that comes from the server) inside of the old '.tdc-row' (the existing dom element)
 
                                 var $tdcRow = this.$el.find( '.tdc-row' ),
                                     modelId = this.$el.data( 'model_id' ),
@@ -379,53 +409,125 @@ var tdcIFrameData,
                                 tdcInnerColumnUI.init( this.$el );
                                 tdcElementUI.init( this.$el );
 
-                                // Remove the old 'tdc-row'
+                                // Remove the old '.tdc-row'
                                 // Important! The operation must be the last one, because till now its usage is as a content
-                                this.$el.parent().append( $tdcRow );
-                                this.$el.remove();
+
+                                // The view $el is replaced by the $tdcRow insider element
+                                this.$el.replaceWith( $tdcRow );
+
+                                // From now, the $el of the view will reference the $tdcRow element
                                 this.$el = $tdcRow;
 
+                                // Set the current row for the sidebar
                                 tdcSidebar.setCurrentRow( $tdcRow );
 
+
+
+
+                            // The callback that will execute when a new empty row is added to the '#tdc-rows' empty element
                             } else if ( 'tdc-rows' === this.$el.attr( 'id' ) ) {
 
-                                //alert( 'id tdc-rows' );
+                                ////alert( 'id tdc-rows' );
+                                //
+                                //// Bind the events for the new row
+                                //
+                                //var $tdcRow = this.$el.find( '.tdc-row:first' );
+                                //
+                                //// Set the data 'model_id' for the element of the 'liveView' backbone view
+                                //$tdcRow.data( 'model_id', this.model.cid );
+                                //
+                                //tdcRowUI.bindRow( $tdcRow );
+                                //
+                                //var $tdcColumn = $tdcRow.find( '.tdc-column' );
+                                //
+                                //if ( $tdcColumn.length ) {
+                                //
+                                //    // Set the data 'model_id' for the element of the 'liveView' backbone view
+                                //    $tdcColumn.data( 'model_id', this.model.get( 'childCollection' ).at(0).cid );
+                                //
+                                //    $tdcColumn.wrapAll( '<div class="tdc-columns"></div>' );
+                                //
+                                //    // Bind the events for the new column
+                                //    tdcColumnUI.bindColumn( $tdcColumn );
+                                //
+                                //    var $tdcColumnWpbWrapper = $tdcColumn.find( '.wpb_wrapper' );
+                                //
+                                //    if ( $tdcColumnWpbWrapper.length ) {
+                                //        var $tdcElementsColumn = jQuery( '<div class="tdc-elements"></div>' );
+                                //        tdcElementsUI.bindElementList( $tdcElementsColumn );
+                                //
+                                //        var $emptyElementColumn = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + ' tdc-element-column"></div>' );
+                                //        $tdcElementsColumn.append( $emptyElementColumn );
+                                //
+                                //        $tdcColumnWpbWrapper.append( $tdcElementsColumn );
+                                //
+                                //        tdcElementUI.bindEmptyElement( $emptyElementColumn );
+                                //    }
+                                //}
 
-                                // Bind the events for the new row
+                                var $tdcRow = this.$el.find( '.tdc-row' ),
+                                    modelId = this.model.cid,
+                                    model = tdcIFrameData.getModel( modelId ),
+                                    childCollection = model.get( 'childCollection' );
 
-                                var $tdcRow = this.$el.find( '.tdc-row:first' );
+                                // Set the row data 'model_id'
+                                $tdcRow.data( 'model_id', modelId );
 
-                                // Set the data 'model_id' for the element of the 'liveView' backbone view
-                                $tdcRow.data( 'model_id', this.model.cid );
+                                // Add wrappers to the existing 'tdc-column' element
+                                window.addWrappers( this.$el );
 
-                                tdcRowUI.bindRow( $tdcRow );
+                                var shortcode = model.get( 'shortcode' ),
+                                    parentModel = model.get( 'parentModel' );
 
-                                var $tdcColumn = $tdcRow.find( '.tdc-column' );
+                                if ( true === tdcIFrameData._initNewContentStructureData( 0, shortcode, parentModel ) ) {
 
-                                if ( $tdcColumn.length ) {
+                                    //tdcDebug.log( tdcIFrameData.tdcRows );
 
-                                    // Set the data 'model_id' for the element of the 'liveView' backbone view
-                                    $tdcColumn.data( 'model_id', this.model.get( 'childCollection' ).at(0).cid );
+                                    // The childCollection of the model object has been modified
+                                    // Do nothing if it is undefined, otherwise continue and bind views to models
+                                    if ( ! _.isUndefined( childCollection ) ) {
 
-                                    $tdcColumn.wrapAll( '<div class="tdc-columns"></div>' );
+                                        var errors = {};
 
-                                    // Bind the events for the new column
-                                    tdcColumnUI.bindColumn( $tdcColumn );
+                                        tdcIFrameData.bindViewsModelsWrappers( errors, childCollection , $tdcRow, 1 );
 
-                                    var $tdcColumnWpbWrapper = $tdcColumn.find( '.wpb_wrapper' );
+                                        if ( !_.isEmpty( errors ) ) {
+                                            for ( var prop in errors ) {
+                                                tdcDebug.log( errors[ prop ] );
+                                            }
 
-                                    if ( $tdcColumnWpbWrapper.length ) {
-                                        var $tdcElementsColumn = jQuery( '<div class="tdc-elements"></div>' );
-                                        tdcElementsUI.bindElementList( $tdcElementsColumn );
-
-                                        var $emptyElementColumn = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + ' tdc-element-column"></div>' );
-                                        $tdcElementsColumn.append( $emptyElementColumn );
-
-                                        $tdcColumnWpbWrapper.append( $tdcElementsColumn );
-
-                                        tdcElementUI.bindEmptyElement( $emptyElementColumn );
+                                            alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
+                                            return;
+                                        }
                                     }
                                 }
+
+                                tdcRowUI.init( this.$el );
+                                tdcColumnUI.init( this.$el );
+                                tdcInnerRowUI.init( this.$el );
+                                tdcInnerColumnUI.init( this.$el );
+                                tdcElementUI.init( this.$el );
+
+                                // Remove the old '.tdc-row'
+                                // Important! The operation must be the last one, because till now its usage is as a content
+
+                                //// The view $el is replaced by the $tdcRow insider element
+                                //this.$el.replaceWith( $tdcRow );
+                                //
+                                //// From now, the $el of the view will reference the $tdcRow element
+                                //this.$el = $tdcRow;
+
+                                // Set the current row for the sidebar
+                                tdcSidebar.setCurrentRow( $tdcRow );
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1158,7 +1260,7 @@ var tdcIFrameData,
                     elementModel.getShortcodeRender( destinationColParam, whatWasDragged.draggedBlockUid, false );
 
 
-                } else if ( whatWasDragged.wasInnerRowDragged ) {
+                } else if ( whatWasDragged.wasTempInnerRowDragged ) {
 
                     // Case A.2
 
@@ -1205,12 +1307,6 @@ var tdcIFrameData,
                         'type': 'closed',
                         'level': 3,
                         'parentModel': innerRowModel
-                    }),
-
-                    // Define the inner column liveView
-                    innerColumnView = new tdcIFrameData.TdcLiveView({
-                        model: innerColumnModel,
-                        el: $draggedElement[0]
                     });
 
                     // Set the data model id to the liveView jquery element
@@ -1464,6 +1560,7 @@ var tdcIFrameData,
                             }),
 
                             // Define the row liveView
+                            // Usually the $el view parameter should reference a '.tdc-row' element, but because we don't have any row it will reference the '#tdc-rows', until the server response (the getShortcodeRender(..) is called)
                             rowView = new tdcIFrameData.TdcLiveView({
                                 model: rowModel,
                                 el: tdcIFrameData.iframeContents.find( '#tdc-rows' )[0]
@@ -1728,7 +1825,7 @@ var tdcIFrameData,
 
                         // Stop if models number doesn't match the DOM elements number
                         if ( collection.models.length !== jqDOMElements.length ) {
-                            alert ( collection.models.length + ' : ' + jqDOMElements.length );
+                            //alert ( collection.models.length + ' : ' + jqDOMElements.length );
                             errors[ _.keys(errors).length ] = {
                                 collection: collection,
                                 jqDOMElements: jqDOMElements,
@@ -1785,7 +1882,7 @@ var tdcIFrameData,
                     });
 
                     // Go deeper to the children, if the jq dom element is not tdc-element and the model has collection
-                    if ( ! $element.hasClass( 'tdc-element' ) && model.has( 'childCollection' ) ) {
+                    if ( ! $element.hasClass( 'tdc-element' ) && model.has( 'childCollection' ) && _.size( model.get( 'childCollection' ) ) > 0 ) {
 
                         tdcIFrameData.bindViewsModelsWrappers( errors, model.get( 'childCollection' ), $element, level );
                     }
@@ -2945,7 +3042,7 @@ var tdcIFrameData,
 
                             var attrsElementInnerColumn = elementInnerColumn.get( 'attrs' );
 
-                            if ( _.isUndefined( attrsElementColumn ) ) {
+                            if ( _.isUndefined( attrsElementInnerColumn ) ) {
                                 attrsElementInnerColumn = {
                                     width: '2/3'
                                 };
