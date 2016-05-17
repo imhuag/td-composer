@@ -107,15 +107,15 @@ tdc_mapper::map(
 					'2/3 + 1/3' => '23_13',
 					'1/3 + 2/3' => '13_23',
 					'1/3 + 1/3 + 1/3' => '13_13_13'
-				)
+				),
+				'class' => 'tdc-innerRow-col-dropdown'
 			),
 
 			array(
 				'type' => 'css_editor',
 				'heading' => __('CSS box', 'td_composer'),
 				'param_name' => 'css',
-				'group' => __('Design Options', 'td_composer'),
-				'class' => 'tdc-innerRow-col-dropdown'
+				'group' => __('Design Options', 'td_composer')
 			),
 		)
 	)
