@@ -94,7 +94,6 @@ var tdcIFrameData,
                 // Get the shortcode rendered
                 //@todo cleanup liveViewId a devenit draggedBlockUid. liveViewId nu mai e folosit.
                 getShortcodeRender: function( columns, draggedBlockUid, bindNewContent, liveViewId ) {
-
                     var model = this;
 
                     var data = {
@@ -107,52 +106,47 @@ var tdcIFrameData,
 
                     if ( ! _.isUndefined( data.getShortcode ) ) {
 
-                        //tdcDebug.log( data.getShortcode );
+
+
 
                         // Define new empty job
                         var newJob = new tdcJobManager.job();
 
                         newJob.shortcode = data.getShortcode;
                         newJob.columns = columns;
-
                         newJob.liveViewId = draggedBlockUid;
 
                         newJob.success_callback = function( data ) {
 
-                            tdcDebug.log( data );
+                            var iFrameWindowObj = tdcAdminIFrameUI.getIframeWindow();
+                            /**
+                             * !!! This also fires the deleteCallback for draggedBlockUid
+                             * We basically run the delete callback for the removed item
+                             */
+                            iFrameWindowObj.tdcComposerBlocksApi.deleteItem(model.get('blockUid'));
+
+                            // set the new blockUid
+                            model.set('blockUid', data.blockUid);
 
                             // Important! It should have this property
                             if ( _.has( data, 'replyHtml' ) ) {
-
-                                //var $dataReplyHtml = jQuery( data.replyHtml );
-
                                 model.set( 'bindNewContent', bindNewContent );
                                 model.set( 'shortcode', newJob.shortcode );
                                 model.set( 'html', data.replyHtml );
                             }
 
 
-                            var iFrameWindowObj = tdcAdminIFrameUI.getIframeWindow();
-
-                            // !!! This also fires the deleteCallback for draggedBlockUid
-                            iFrameWindowObj.tdcComposerBlocksApi.deleteItem(draggedBlockUid);
 
 
+                            // some request may not send js
                             if ( _.has( data, 'replyJsForEval' ) ) {
-
-                                //var tdcEvalGlobal = {
-                                //    //iFrameWindowObj: iFrameWindowObj,
-                                //    oldBlockUid: draggedBlockUid
-                                //};
-
+                                // add the tdcEvalGlobal GLOBAL to the iFrame and do an eval in that iframe for any js code sent
+                                // by the ajax request
                                 iFrameWindowObj.tdcEvalGlobal = {
-                                    //iFrameWindowObj: iFrameWindowObj,
                                     oldBlockUid: draggedBlockUid
                                 };
-
                                 tdcAdminIFrameUI.evalInIframe(data.replyJsForEval);
 
-                                //eval(data.replyJsForEval);
 
                             }
                         };
@@ -235,7 +229,7 @@ var tdcIFrameData,
 
                 customRender: function( model, value, options) {
 
-                    tdcDebug.log( 'render' );
+                    tdcDebug.log( 'customRender - Rendering our model' );
 
                     if ( this.model.has( 'html' ) && !_.isUndefined( this.model.get( 'html' ) ) ) {
 
@@ -1756,6 +1750,17 @@ var tdcIFrameData,
                     // Attach data 'model_id' to the DOM element
                     $element.data( 'model_id' , model.cid );
 
+
+                    // Get the dragged element id
+                    var draggedBlockUid = '',
+                        $tdBlockInner = $element.find( '.td_block_inner');
+
+                    if ( $tdBlockInner.length ) {
+                        draggedBlockUid = $tdBlockInner.attr( 'id' );
+                    }
+                    model.set('blockUid', draggedBlockUid);
+
+
                     //tdcDebug.log( model.cid );
 
                     // Set the html attribute for the model (its changed is captured by view)
@@ -1874,6 +1879,17 @@ var tdcIFrameData,
 
                     // Set the html attribute for the model (its changes are captured by view)
                     model.set( 'html', element.innerHTML );
+
+
+                    // Get the dragged element id
+                    var draggedBlockUid = '',
+                        $tdBlockInner = $element.find( '.td_block_inner');
+
+                    if ( $tdBlockInner.length ) {
+                        draggedBlockUid = $tdBlockInner.attr( 'id' );
+                    }
+                    model.set('blockUid', draggedBlockUid);
+
 
                     // Create the view
                     new tdcIFrameData.TdcLiveView({

@@ -62,10 +62,14 @@ var tdcComposerBlocksApi = {};
                     // fire the callbackDelete
                     tdcComposerBlocksApi.items[cnt].callbackDelete(oldBlockUid);
                     tdcComposerBlocksApi.items.splice(cnt, 1); // remove the item from the "array"
+
+                    //console.log('tdcComposerBlocksApi.deleteItem: deleting ' + oldBlockUid);
+
                     return true;
                 }
             }
 
+            //console.log('tdcComposerBlocksApi.deleteItem: ITEM NOT FOUND IN tdcComposerBlocksApi.items ' + oldBlockUid);
             return false;
         }
 

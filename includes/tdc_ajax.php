@@ -32,6 +32,8 @@ function tdc_register_api_routes() {
 
 class tdc_ajax {
 	static $_td_block__get_block_js_buffer = '';
+	static $_td_block__get_block_uid = '';
+
 
 	static function on_ajax_render_shortcode (WP_REST_Request $request ) {
 
@@ -61,6 +63,7 @@ class tdc_ajax {
 		function tdc_on_td_block__get_block_js($by_ref_block_obj) {
 			// APPEND to the buffer for eval(). We may do eval on multiple shortcodes and we must gather all the js form all the blocks
 			tdc_ajax::$_td_block__get_block_js_buffer .= $by_ref_block_obj->js_tdc_callback_ajax();
+			tdc_ajax::$_td_block__get_block_uid = $by_ref_block_obj->block_uid;
 		}
 
 
@@ -81,7 +84,7 @@ class tdc_ajax {
 			$parameters['replyJsForEval'] = self::$_td_block__get_block_js_buffer;
 		}
 
-
+		$parameters['blockUid'] = self::$_td_block__get_block_uid;
 
 
 		$parameters['replyHtml'] = $reply_html;

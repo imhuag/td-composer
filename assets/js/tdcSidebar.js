@@ -288,10 +288,7 @@ var tdcSidebar;
                 return;
             }
 
-            // bind the sidebar panel to the model only if
-            var modelId = $currentElement.data( 'model_id' );
-            var model = tdcIFrameData.getModel( modelId );
-            tdcSidebarPanel.bind(model);
+            tdcSidebarPanel.bindPanelToDomElement($currentElement);
 
         },
         getCurrentElement: function() {
@@ -306,10 +303,7 @@ var tdcSidebar;
                 return;
             }
 
-            // bind the panel to the model
-            var modelId = $currentRow.data( 'model_id' );
-            var model = tdcIFrameData.getModel( modelId );
-            tdcSidebarPanel.bind(model);
+            tdcSidebarPanel.bindPanelToDomElement($currentRow);
         },
         getCurrentRow: function() {
             return tdcSidebar._$currentRow;
@@ -331,10 +325,8 @@ var tdcSidebar;
             if (_.isUndefined($currentInnerRow)) {
                 return;
             }
-            // bind the panel to the model
-            var modelId = $currentInnerRow.data( 'model_id' );
-            var model = tdcIFrameData.getModel( modelId );
-            tdcSidebarPanel.bind(model);
+
+            tdcSidebarPanel.bindPanelToDomElement($currentInnerRow);
         },
         getCurrentInnerRow: function() {
             return tdcSidebar._$currentInnerRow;

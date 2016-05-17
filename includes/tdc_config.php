@@ -58,6 +58,9 @@ class tdc_config {
 		'tdcMain'               => '/assets/js/tdcMain.js',
 		'tdcSidebar'      => '/assets/js/tdcSidebar.js',
 		'tdcSidebarPanel' => '/assets/js/tdcSidebarPanel.js',
+		'tdcSidebarController' => '/assets/js/tdcSidebarController.js',
+
+
 
 		'tdcColorPicker'      => '/assets/js/tdcColorPicker.js'
 

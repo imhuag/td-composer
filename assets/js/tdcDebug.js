@@ -41,6 +41,10 @@ var tdcDebug;
 
             //console.groupCollapsed("All items dump:");
             console.group("All items dump:");
+
+                console.log('%c tdcComposerBlocksApi.items ', 'background: #222; color: white');
+                console.log(iFrameWindowObj.tdcComposerBlocksApi.items);
+
                 console.log('%c tdPullDown.items ', 'background: #222; color: white');
                 console.log(iFrameWindowObj.tdPullDown.items);
 

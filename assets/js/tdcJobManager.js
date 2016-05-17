@@ -66,7 +66,8 @@ var tdcJobManager = {};
          */
         addJob: function (job) {
 
-            tdcDebug.groupCollapsed('%c tdcJobManager.addJob', 'background-color:#2489c2; color:white');
+            tdcDebug.group('%c tdcJobManager.addJob', 'background-color:#2489c2; color:white');
+            //console.log(job);
 
             var newJobRequest = new tdcJobManager.jobRequest(job);
             jQuery.ajax({
@@ -105,6 +106,8 @@ var tdcJobManager = {};
                     if (tdcJobManager._isJobCallbackReplyValid(job.liveViewId, jobRequest.jobId) === true) {
 
                         job.success_callback(jobRequest);
+                    } else {
+                        tdcDebug.log('tdcJobManager.addJob - dropped job :) (probably it\'s older than the last timestamp)');
                     }
 
                     tdcDebug.groupEnd();
