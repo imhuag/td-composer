@@ -22,7 +22,6 @@ var tdcSidebarPanel = {};
         _defaultGroupName: 'General', // where to put params that don't have a group
 
 
-        _curBlockUid: '', // the Uid of the current selected block. This changes on each block render job!
 
         /**
          * we just hook the dom events here
@@ -32,27 +31,78 @@ var tdcSidebarPanel = {};
 
 
             // dropdown hook
-            jQuery('body').on('change', '.tdc-property-dropdown:not(.tdc-row-col-dropdown):not(.tdc-innerRow-col-dropdown) select', function() {
+            jQuery('body').on('change focus', '.tdc-property-dropdown:not(.tdc-row-col-dropdown):not(.tdc-innerRow-col-dropdown) select', function() {
+                // save the oldValue on focus in
+                if (event.type === 'focusin' || event.type === 'focus') { // the select raises a focus event instead of focusin
+                    this.oldValue = this.value;
+                    return;
+                }
+
                 console.log('on change: Select');
-            });
-
-            // textfield hook @todo throttling here
-            jQuery('body').on('keyup', '.tdc-property-textfield input', function() {
-
+                var curValue = jQuery(this).val();
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
-                tdcSidebarController.onUpdate(model, jQuery(this).data('param_name'), jQuery(this).val(), tdcSidebarPanel._curBlockUid);
 
-
-
-
-                //console.log('on change: textfield ' + jQuery(this).data('model_id') + ' ' + jQuery(this).data('param_name') + ' ' + jQuery(this).val());
-
+                tdcSidebarController.onUpdate (
+                    model,
+                    jQuery(this).data('param_name'),    // the name of the parameter
+                    this.oldValue,                      // the old value
+                    curValue                 // the new value
+                );
+                this.oldValue = curValue;
             });
+
+
+
+
+
+
+            // textfield hook
+            jQuery('body').on('keyup focus', '.tdc-property-textfield input', function(event) {
+
+                // save the oldValue on focus in
+                if (event.type === 'focusin') {
+                    this.oldValue = this.value;
+                    return;
+                }
+
+
+                var curValue = jQuery(this).val();
+                var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
+
+                tdcSidebarController.onUpdate (
+                    model,
+                    jQuery(this).data('param_name'),    // the name of the parameter
+                    this.oldValue,                      // the old value
+                    curValue                 // the new value
+                );
+                this.oldValue = curValue;
+            });
+
+
+
 
 
             // colorpicker (change for colropicker, keyup for clear)
-            jQuery('body').on('change keyup', '.tdc-property-colorpicker input', function() {
-                console.log('on change: colorpicker');
+            jQuery('body').on('change keyup focus', '.tdc-property-colorpicker input', function(event) {
+                // save the oldValue on focus in
+                if (event.type === 'focusin') {
+                    this.oldValue = this.value;
+                    return;
+                }
+
+                var curValue = jQuery(this).val();
+                var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
+
+                tdcSidebarController.onUpdate (
+                    model,
+                    jQuery(this).data('param_name'),    // the name of the parameter
+                    this.oldValue,                      // the old value
+                    curValue                 // the new value
+                );
+                this.oldValue = curValue;
+
+
+
             });
 
 
@@ -65,7 +115,7 @@ var tdcSidebarPanel = {};
                 console.log('on change: row dropdown');
             });
 
-            // hook the custom row dropdown
+            // hook the custom innerRow dropdown
             jQuery('body').on('change', '.tdc-innerRow-col-dropdown select', function() {
                 console.log('on change: innerRow dropdown');
             });
@@ -80,20 +130,14 @@ var tdcSidebarPanel = {};
          * @param $curDomBit - may be a row or column or element DOM etc...
          */
         bindPanelToDomElement: function ($curDomBit) {
-            return;
+            //return;
 
 
             var modelId = $curDomBit.data( 'model_id' );
             var model = tdcIFrameData.getModel( modelId );
 
 
-            // Get the dragged element id
-            var draggedBlockUid = '',
-                $tdBlockInner = $curDomBit.find( '.td_block_inner');
 
-            if ( $tdBlockInner.length ) {
-                tdcSidebarPanel._curBlockUid = $tdBlockInner.attr( 'id' );
-            }
 
             // model.attributes.attrs
             //var mappedShortCode = window.tdcAdminSettings.mappedShortcodes[model.attributes.attrs];
@@ -235,7 +279,7 @@ var tdcSidebarPanel = {};
          * @private
          */
         _deletePanel: function () {
-            return;
+            //return;
             console.log('clear  _deletePanel ');
             jQuery('.tdc-inspector .tdc-tabs-wrapper').empty();
         },
@@ -274,6 +318,11 @@ var tdcSidebarPanel = {};
          */
         _getParameterCurrentValue: function (mappedParameter, model) {
             if (_.isEmpty(model.attributes.attrs[mappedParameter.param_name])) {
+
+                // for dropdowns the default value is always an empty string. Note that this is different from the vc implementation
+                if (mappedParameter.type === 'dropdown') {
+                    return '';
+                }
                 return mappedParameter.value; // return the 'default' value
             }
 
@@ -311,7 +360,7 @@ var tdcSidebarPanel = {};
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
                 buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
                 buffy += '<div class="tdc-property">';
-                    buffy += '<input id="' + colorPickerId + '" name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '" type="text" value="' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '"/>';
+                    buffy += '<input ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' id="' + colorPickerId + '" name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '" type="text" value="' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '"/>';
                 buffy += '</div>';
             buffy += '</div>';
 
@@ -334,9 +383,19 @@ var tdcSidebarPanel = {};
             // make the selectOptions
             var selectOptions = '';
             var keys = Object.keys(mappedParameter.value);
+            //console.log('------------ -------------- ------------');
             for (var i = 0; i < keys.length; i++) {
                 var value = mappedParameter.value[keys[i]];
-                selectOptions += '<option value="' + value + '">' + keys[i] + '</option>';
+                var currentSelectedValue = tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model);
+                var selected = '';
+
+                if (String(currentSelectedValue) === String(value)) {
+                    //console.log('selected');
+                    selected = ' selected="selected" ';
+                }
+
+                //console.log(currentSelectedValue + ' - ' + value);
+                selectOptions += '<option ' + selected + ' value="' + value + '">' + keys[i] + '</option>';
             }
 
 
@@ -345,7 +404,7 @@ var tdcSidebarPanel = {};
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
                 buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
                 buffy += '<div class="tdc-property">';
-                    buffy += '<select>';
+                    buffy += '<select ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '">';
                         buffy += selectOptions;
                     buffy += '</select>';
                 buffy += '</div>';
@@ -377,9 +436,7 @@ var tdcSidebarPanel = {};
 
             return buffy;
         },
-        addDropdown: function () {
 
-        },
 
         addTextAreaHtml: function () {
 

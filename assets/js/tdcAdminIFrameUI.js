@@ -324,6 +324,12 @@ var tdcAdminIFrameUI;
 
 
 
+                    //// run our callback
+                    //if (typeof tdcAdminIFrameUI.getIframeWindow().tdc_on_composer_init === 'function') {
+                    //    tdcAdminIFrameUI.getIframeWindow().tdc_on_composer_init();
+                    //}
+
+
 
 
                     tdcIFrameData.init( iframeContents );

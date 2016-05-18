@@ -11,10 +11,20 @@
 var tdcSidebarController = {};
 
 
+
+
+
+
+
+
 (function() {
     'use strict';
 
     tdcSidebarController = {
+
+
+
+
 
 
         /**
@@ -41,9 +51,10 @@ var tdcSidebarController = {};
          * the callback or make a new job depending on the MAP of the parameter
          * @param model - The model for the current element / shortcode
          * @param paramName - the parameter name that was updated
+         * @param oldValue - the value before it was changed, this will be used when we enable live edit.
          * @param value - the new value that we got form the user
          */
-        onUpdate: function (model, paramName, value, blockUid) {
+        onUpdate: function (model, paramName, oldValue, value) {
 
 
             /**
@@ -56,31 +67,14 @@ var tdcSidebarController = {};
 
             // STEP 0: Update the model
             if (paramMap.value === value) {
-                // default value is selected
-                //console.log('default!');
+                // default value is selected, we remove it from the model
                 delete model.attributes.attrs[paramMap.param_name];
-
             } else {
-                //console.log('other value');
                 model.attributes.attrs[paramMap.param_name] = value;
             }
 
 
-
-
-
-
-
-
-
-
-            //console.log(paramMap);
-
-
-            ///console.log(tdcAdminIFrameUI.getIframeWindow().jQuery('[data-model_id="' + model.cid + '"]'));
-
-            //console.log(model);
-            //return;
+            console.log(paramName + ' old: ' + oldValue + ' - new: ' + value);
 
 
 
@@ -94,13 +88,19 @@ var tdcSidebarController = {};
 
             if ( ! _.isUndefined( data.getShortcode ) ) {
 
+
+
+                var oldBlockUid = model.get('blockUid');
+
+
                 // Define new empty job
                 var newJob = new tdcJobManager.job();
+
 
                 newJob.shortcode = data.getShortcode;
                 newJob.columns = 1; //@todo shit nu avem coloanele
 
-                newJob.liveViewId = blockUid; //@todo
+                newJob.liveViewId = oldBlockUid; //@todo
 
                 newJob.success_callback = function( data ) {
 
@@ -125,7 +125,7 @@ var tdcSidebarController = {};
 
                     if ( _.has( data, 'replyJsForEval' ) ) {
                         iFrameWindowObj.tdcEvalGlobal = {
-                            oldBlockUid: blockUid
+                            oldBlockUid: oldBlockUid
                         };
                         tdcAdminIFrameUI.evalInIframe(data.replyJsForEval);
                     }
@@ -140,8 +140,8 @@ var tdcSidebarController = {};
             }
 
 
-            console.log(tdcSidebarController._getParamMap(model.attributes.tag, paramName));
-        },
+
+        }
 
 
 
