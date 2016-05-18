@@ -52,7 +52,12 @@ var tdcColumnUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                tdcMaskUI.setBreadcrumb( $element );
+                //tdcMaskUI.setBreadcrumb( $element );
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcRowHandlerUI.inRow( $element ),
+                    '$currentColumn': tdcColumnHandlerUI.inColumn( $element )
+                });
 
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'column mouse down' );

@@ -180,22 +180,28 @@ var tdcRowHandlerUI;
         },
 
 
-        /**
-         * Set the row breadcrumb
-         *
-         * @param $element
-         */
-        setBreadcrumb: function( $element ) {
-            var $elementRow = tdcRowHandlerUI.inRow( $element );
-
-            if ( ! _.isUndefined( $elementRow ) || tdcRowHandlerUI.isRow( $element ) ) {
-                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editRow, tdcRowHandlerUI.$elementRow );
-                tdcSidebar.setCurrentRow( tdcRowHandlerUI.$elementRow );
-            } else {
-                tdcSidebar.$editRow.hide();
-                tdcSidebar.setCurrentRow( undefined );
-            }
-        },
+        ///**
+        // * Set the row breadcrumb
+        // *
+        // * @param $element
+        // */
+        //setBreadcrumb: function( $element ) {
+        //    var $elementRow = tdcRowHandlerUI.inRow( $element );
+        //
+        //    if ( ! _.isUndefined( $elementRow ) || tdcRowHandlerUI.isRow( $element ) ) {
+        //        //tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editRow, tdcRowHandlerUI.$elementRow );
+        //        //tdcSidebar.setCurrentRow( tdcRowHandlerUI.$elementRow );
+        //
+        //        tdcSidebar.setSettings({
+        //            '$currentRow': tdcRowHandlerUI.$elementRow
+        //        });
+        //    } else {
+        //        //tdcSidebar.$editRow.hide();
+        //        //tdcSidebar.setCurrentRow( undefined );
+        //
+        //        tdcSidebar.setSettings();
+        //    }
+        //},
 
 
         /**
@@ -203,7 +209,6 @@ var tdcRowHandlerUI;
          *
          * @param $element
          * @returns {*}
-         * @private
          */
         inRow: function( $element ) {
             var $elementRow = $element.closest( '.' + tdcRowHandlerUI._elementCssClass );

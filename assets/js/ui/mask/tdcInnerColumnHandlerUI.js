@@ -184,22 +184,31 @@ var tdcInnerColumnHandlerUI;
         },
 
 
-        /**
-         * Set the inner column breadcrumb
-         *
-         * @param $element
-         */
-        setBreadcrumb: function( $element ) {
-            var $elementInnerColumn = tdcInnerColumnHandlerUI.inInnerColumn( $element );
-
-            if ( ! _.isUndefined( $elementInnerColumn ) || tdcInnerColumnHandlerUI.isInnerColumn( $element ) ) {
-                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editInnerColumn, tdcInnerColumnHandlerUI.$elementInnerColumn );
-                tdcSidebar.setCurrentInnerColumn( tdcInnerColumnHandlerUI.$elementInnerColumn );
-            } else {
-                tdcSidebar.$editInnerColumn.hide();
-                tdcSidebar.setCurrentInnerColumn( undefined );
-            }
-        },
+        ///**
+        // * Set the inner column breadcrumb
+        // *
+        // * @param $element
+        // */
+        //setBreadcrumb: function( $element ) {
+        //    var $elementInnerColumn = tdcInnerColumnHandlerUI.inInnerColumn( $element );
+        //
+        //    if ( ! _.isUndefined( $elementInnerColumn ) || tdcInnerColumnHandlerUI.isInnerColumn( $element ) ) {
+        //        //tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editInnerColumn, tdcInnerColumnHandlerUI.$elementInnerColumn );
+        //        //tdcSidebar.setCurrentInnerColumn( tdcInnerColumnHandlerUI.$elementInnerColumn );
+        //
+        //        tdcSidebar.setSettings({
+        //            '$currentRow': tdcRowHandlerUI.inRow( this.$el ),
+        //            '$currentColumn': tdcColumnHandlerUI.inColumn( this.$el ),
+        //            '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( this.$el ),
+        //            '$currentInnerColumn': tdcInnerColumnHandlerUI.inInnerColumn( this.$el )
+        //        });
+        //    } else {
+        //        //tdcSidebar.$editInnerColumn.hide();
+        //        //tdcSidebar.setCurrentInnerColumn( undefined );
+        //
+        //        tdcSidebar.setSettings();
+        //    }
+        //},
 
 
         /**

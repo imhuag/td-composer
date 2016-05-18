@@ -53,7 +53,11 @@ var tdcRowUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                tdcMaskUI.setBreadcrumb( $element );
+                //tdcMaskUI.setBreadcrumb( $element );
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcRowHandlerUI.inRow( $element )
+                });
 
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'row mouse down' );

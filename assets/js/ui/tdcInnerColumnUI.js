@@ -52,7 +52,14 @@ var tdcInnerColumnUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                tdcMaskUI.setBreadcrumb( $element );
+                //tdcMaskUI.setBreadcrumb( $element );
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcRowHandlerUI.inRow( $element ),
+                    '$currentColumn': tdcColumnHandlerUI.inColumn( $element ),
+                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( $element ),
+                    '$currentInnerColumn': tdcInnerColumnHandlerUI.inInnerColumn( $element )
+                });
 
             }).mousedown(function(event) {
                 //tdcDebug.log( 'inner column mouse down' );

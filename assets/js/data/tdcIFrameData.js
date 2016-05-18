@@ -288,7 +288,13 @@ var tdcIFrameData,
                                 tdcInnerColumnUI.init( this.$el );
                                 tdcElementUI.init( this.$el );
 
-                                tdcSidebar.setCurrentInnerRow( this.$el );
+                                //tdcSidebar.setCurrentInnerRow( this.$el );
+
+                                tdcSidebar.setSettings({
+                                    '$currentRow': tdcRowHandlerUI.inRow( this.$el ),
+                                    '$currentColumn': tdcColumnHandlerUI.inColumn( this.$el ),
+                                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( this.$el )
+                                });
 
 
 
@@ -342,7 +348,13 @@ var tdcIFrameData,
                                 tdcElementUI.init( this.$el );
 
                                 // Set the current inner row for the sidebar
-                                tdcSidebar.setCurrentInnerRow( this.$el );
+                                //tdcSidebar.setCurrentInnerRow( this.$el );
+
+                                tdcSidebar.setSettings({
+                                    '$currentRow': tdcRowHandlerUI.inRow( this.$el ),
+                                    '$currentColumn': tdcColumnHandlerUI.inColumn( this.$el ),
+                                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( this.$el )
+                                });
 
 
 
@@ -401,7 +413,11 @@ var tdcIFrameData,
                                 tdcElementUI.init( this.$el );
 
                                 // Set the current row for the sidebar
-                                tdcSidebar.setCurrentRow( this.$el );
+                                //tdcSidebar.setCurrentRow( this.$el );
+
+                                tdcSidebar.setSettings({
+                                    '$currentRow': this.$el
+                                });
 
 
 
@@ -492,16 +508,12 @@ var tdcIFrameData,
                                 // Remove the old '.tdc-row'
                                 // Important! The operation must be the last one, because till now its usage is as a content
 
-                                //// The view $el is replaced by the $tdcRow insider element
-                                //this.$el.replaceWith( $tdcRow );
-                                //
-                                //// From now, the $el of the view will reference the $tdcRow element
-                                //this.$el = $tdcRow;
-
                                 // Set the current row for the sidebar
-                                tdcSidebar.setCurrentRow( $tdcRow );
+                                //tdcSidebar.setCurrentRow( $tdcRow );
 
-
+                                tdcSidebar.setSettings({
+                                    '$currentRow': this.$el
+                                });
 
 
                             }
@@ -1569,16 +1581,22 @@ var tdcIFrameData,
                             }
                         }
 
-                        var $tdcRow = tdcRowHandlerUI.inRow( $draggedElement ),
-                            $tdcColumn = tdcColumnHandlerUI.inColumn( $draggedElement ),
-                            $tdcInnerRow = tdcInnerRowHandlerUI.inInnerRow( $draggedElement );
+                        var $currentRow = tdcRowHandlerUI.inRow( $draggedElement ),
+                            $currentColumn = tdcColumnHandlerUI.inColumn( $draggedElement ),
+                            $currentInnerRow = tdcInnerRowHandlerUI.inInnerRow( $draggedElement );
 
-                        if ( ! _.isUndefined( $tdcRow ) && ! _.isUndefined( $tdcColumn ) && ! _.isUndefined( $tdcInnerRow ) ) {
-                            tdcSidebar.setCurrentRow( $tdcRow );
-                            tdcSidebar.setCurrentColumn( $tdcColumn );
-                            tdcSidebar.setCurrentInnerRow( $tdcInnerRow );
+                        if ( ! _.isUndefined( $currentRow ) && ! _.isUndefined( $currentColumn ) && ! _.isUndefined( $currentInnerRow ) ) {
+                            //tdcSidebar.setCurrentRow( $tdcRow );
+                            //tdcSidebar.setCurrentColumn( $tdcColumn );
+                            //tdcSidebar.setCurrentInnerRow( $tdcInnerRow );
+                            //
+                            //tdcSidebar._showLayoutInspector( $tdcInnerRow );
 
-                            tdcSidebar._showLayoutInspector( $tdcInnerRow );
+                            tdcSidebar.setSettings({
+                                '$currentRow': $currentRow,
+                                '$currentColumn': $currentColumn,
+                                '$currentInnerRow': $currentInnerRow
+                            });
                         }
                     }
 
@@ -1596,19 +1614,31 @@ var tdcIFrameData,
 
                     if ( whatWasDragged.wasColumnDragged ) {
 
-                        var $tdcRow = tdcRowHandlerUI.inRow( $draggedElement );
+                        var $currentRow = tdcRowHandlerUI.inRow( $draggedElement );
 
-                        if ( ! _.isUndefined( $tdcRow ) ) {
-                            tdcSidebar.setCurrentRow( $tdcRow );
-                            tdcSidebar._showLayoutInspector( $tdcRow );
+                        if ( ! _.isUndefined( $currentRow ) ) {
+                            //tdcSidebar.setCurrentRow( $tdcRow );
+                            //tdcSidebar._showLayoutInspector( $tdcRow );
+
+                            tdcSidebar.setSettings({
+                                '$currentRow': $currentRow
+                            });
                         }
 
                     } else if ( whatWasDragged.wasInnerColumnDragged ) {
-                        var $tdcInnerRow = tdcInnerRowHandlerUI.inInnerRow( $draggedElement );
+                        var $currentRow = tdcRowHandlerUI.inRow( $draggedElement ),
+                            $currentColumn = tdcColumnHandlerUI.inColumn( $draggedElement ),
+                            $currentInnerRow = tdcInnerRowHandlerUI.inInnerRow( $draggedElement );
 
-                        if ( ! _.isUndefined( $tdcInnerRow ) ) {
-                            tdcSidebar.setCurrentInnerRow( $tdcInnerRow );
-                            tdcSidebar._showLayoutInspector( $tdcInnerRow );
+                        if ( ! _.isUndefined( $currentRow ) && ! _.isUndefined( $currentColumn ) && ! _.isUndefined( $currentInnerRow ) ) {
+                            //tdcSidebar.setCurrentInnerRow( $tdcInnerRow );
+                            //tdcSidebar._showLayoutInspector( $tdcInnerRow );
+
+                            tdcSidebar.setSettings({
+                                '$currentRow': $currentRow,
+                                '$currentColumn': $currentColumn,
+                                '$currentInnerRow': $currentInnerRow
+                            });
                         }
                     }
 

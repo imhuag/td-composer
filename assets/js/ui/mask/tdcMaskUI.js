@@ -257,30 +257,30 @@ var tdcMaskUI;
     },
 
 
-    /**
-     * Calls the handler setBreadcrumb
-     *
-     * @param $element - the 'tdc-row', 'tdc-column', 'tdc-element-inner-row', 'tdc-inner-column' or the 'tdc-element' element
-     * @param sidebarCurrentElementContent - optional - the html content of the sidebar current element
-     */
-    setBreadcrumb: function( $element, sidebarCurrentElementContent ) {
-
-        if ( ! tdcMaskUI._isInitialized ) {
-            return;
-        }
-
-        _.map( tdcMaskUI._handlers, function( handler, handlerId ) {
-            handler.setBreadcrumb( $element );
-
-            // Set html content of the sidebar current element
-            if ( ! _.isUndefined( sidebarCurrentElementContent ) ) {
-                tdcSidebar.setCurrentElementContent( sidebarCurrentElementContent );
-            }
-
-            // Close the sidebar modal 'Add Elements'
-            tdcSidebar.closeModal();
-        });
-    }
+    ///**
+    // * Calls the handler setBreadcrumb
+    // *
+    // * @param $element - the 'tdc-row', 'tdc-column', 'tdc-element-inner-row', 'tdc-inner-column' or the 'tdc-element' element
+    // * @param sidebarCurrentElementContent - optional - the html content of the sidebar current element
+    // */
+    //setBreadcrumb: function( $element, sidebarCurrentElementContent ) {
+    //
+    //    if ( ! tdcMaskUI._isInitialized ) {
+    //        return;
+    //    }
+    //
+    //    _.map( tdcMaskUI._handlers, function( handler, handlerId ) {
+    //        handler.setBreadcrumb( $element );
+    //
+    //        // Set html content of the sidebar current element
+    //        if ( ! _.isUndefined( sidebarCurrentElementContent ) ) {
+    //            tdcSidebar.setCurrentElementContent( sidebarCurrentElementContent );
+    //        }
+    //
+    //        // Close the sidebar modal 'Add Elements'
+    //        tdcSidebar.closeModal();
+    //    });
+    //}
 };
 
 

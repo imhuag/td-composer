@@ -327,9 +327,17 @@ var tdcElementUI;
                 event.stopPropagation();
 
 
-                tdcMaskUI.setBreadcrumb( $element, tdcElementUI.getSidebarCurrentElementContent( $element ) );
-                tdcSidebar.setCurrentElement( $element );
-                tdcSidebar._showInspector();
+                //tdcMaskUI.setBreadcrumb( $element, tdcElementUI.getSidebarCurrentElementContent( $element ) );
+                //tdcSidebar.setCurrentElement( $element );
+                //tdcSidebar._showInspector();
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcRowHandlerUI.inRow( $element ),
+                    '$currentColumn': tdcColumnHandlerUI.inColumn( $element ),
+                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( $element ),
+                    '$currentInnerColumn': tdcInnerColumnHandlerUI.inInnerColumn( $element ),
+                    '$currentElement' : $element
+                });
 
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'element mouse down' );
