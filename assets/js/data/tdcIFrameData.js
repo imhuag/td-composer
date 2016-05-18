@@ -1562,20 +1562,23 @@ var tdcIFrameData,
                                         break;
                                 }
 
-                                //alert( widthCollection + ' : ' + newWidthCollection );
-
                                 if ( widthCollection !== newWidthCollection ) {
                                     tdcIFrameData.changeInnerRowModel( elementModel, widthCollection, newWidthCollection );
                                     elementModel.getShortcodeRender( columns, null, true, Math.random() + Math.random() + Math.random() );
-
-                                    var $tdcInnerRow = tdcInnerRowHandlerUI.inInnerRow( $draggedElement );
-
-                                    if ( ! _.isUndefined( $tdcInnerRow ) ) {
-                                        tdcSidebar.setCurrentInnerRow( $tdcInnerRow );
-                                        tdcSidebar._showLayoutInspector( $tdcInnerRow );
-                                    }
                                 }
                             }
+                        }
+
+                        var $tdcRow = tdcRowHandlerUI.inRow( $draggedElement ),
+                            $tdcColumn = tdcColumnHandlerUI.inColumn( $draggedElement ),
+                            $tdcInnerRow = tdcInnerRowHandlerUI.inInnerRow( $draggedElement );
+
+                        if ( ! _.isUndefined( $tdcRow ) && ! _.isUndefined( $tdcColumn ) && ! _.isUndefined( $tdcInnerRow ) ) {
+                            tdcSidebar.setCurrentRow( $tdcRow );
+                            tdcSidebar.setCurrentColumn( $tdcColumn );
+                            tdcSidebar.setCurrentInnerRow( $tdcInnerRow );
+
+                            tdcSidebar._showLayoutInspector( $tdcInnerRow );
                         }
                     }
 
