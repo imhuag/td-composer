@@ -291,7 +291,7 @@ var tdcSidebar;
                 return;
             }
 
-            tdcSidebarPanel.bindPanelToDomElement($currentElement);
+            //tdcSidebarPanel.bindPanelToModel($currentElement);
 
         },
         getCurrentElement: function() {
@@ -306,7 +306,7 @@ var tdcSidebar;
                 return;
             }
 
-            tdcSidebarPanel.bindPanelToDomElement($currentRow);
+            //tdcSidebarPanel.bindPanelToModel($currentRow);
         },
         getCurrentRow: function() {
             return tdcSidebar._$currentRow;
@@ -329,7 +329,7 @@ var tdcSidebar;
                 return;
             }
 
-            tdcSidebarPanel.bindPanelToDomElement($currentInnerRow);
+            //tdcSidebarPanel.bindPanelToModel($currentInnerRow);
         },
         getCurrentInnerRow: function() {
             return tdcSidebar._$currentInnerRow;
@@ -679,6 +679,13 @@ var tdcSidebar;
                 // Undefined current model
                 tdcSidebar._currentModel = undefined;
             }
+
+            if (!_.isUndefined(tdcSidebar._currentModel)) {
+                tdcSidebarPanel.bindPanelToModel(tdcSidebar._currentModel);
+            }
+
+
+
 
             tdcDebug.log( settings );
             tdcDebug.log( tdcSidebar._currentModel.cid );

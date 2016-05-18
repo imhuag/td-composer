@@ -129,12 +129,12 @@ var tdcSidebarPanel = {};
          *
          * @param $curDomBit - may be a row or column or element DOM etc...
          */
-        bindPanelToDomElement: function ($curDomBit) {
+        bindPanelToModel: function (model) {
             //return;
 
 
-            var modelId = $curDomBit.data( 'model_id' );
-            var model = tdcIFrameData.getModel( modelId );
+            //var modelId = $curDomBit.data( 'model_id' );
+            //var model = tdcIFrameData.getModel( modelId );
 
 
 
