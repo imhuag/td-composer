@@ -166,7 +166,7 @@ var tdcInnerRowHandlerUI;
 
 
         /**
-         * Set the element ( 'tdc-inner-row' ) where this handler will send its proper events
+         * Set the element ( 'tdc-element-inner-row' ) where this handler will send its proper events
          *
          * @param $element
          */
