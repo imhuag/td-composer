@@ -65,7 +65,7 @@ var tdcSidebarController = {};
 
 
 
-            // STEP 0: Update the model
+            // STEP 0: Update the model test
             if (paramMap.value === value) {
                 // default value is selected, we remove it from the model
                 delete model.attributes.attrs[paramMap.param_name];
