@@ -37,6 +37,7 @@ class tdc_ajax {
 
 	static function on_ajax_render_shortcode (WP_REST_Request $request ) {
 
+
 		if (!current_user_can( 'edit_pages' )) {
 			//@todo - ceva eroare sa afisam aici
 			echo 'no permission';
