@@ -206,7 +206,7 @@ var tdcSidebarPanel = {};
             buffy += '</div>';
 
 
-            console.log(buffy);
+
             jQuery('.tdc-inspector .tdc-tabs-wrapper').html(buffy);
 
 
