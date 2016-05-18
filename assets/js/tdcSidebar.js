@@ -19,6 +19,9 @@ var tdcSidebar;
         $editInnerRow: undefined,
         $editInnerColumn: undefined,
 
+        // Current model of the CLICKED element (_$currentElement, _$currentRow, _$currentColumn, _$currentInnerRow OR _$currentInnerColumn)
+        _currentModel: undefined,
+
         _$currentElement: undefined,
 
         _$currentRow: undefined,
@@ -603,6 +606,14 @@ var tdcSidebar;
 
 
 
+
+
+        getCurrentModel: function() {
+            return tdcSidebar._currentModel;
+        },
+
+
+
         /**
          * The entry point
          *
@@ -612,51 +623,65 @@ var tdcSidebar;
 
             if ( ! _.isUndefined( settings ) && _.has( settings, '$currentRow' ) ) {
                 tdcSidebar._setCurrentRow( settings.$currentRow );
+
+                if ( _.has( settings, '$currentColumn' ) ) {
+                    tdcSidebar._setCurrentColumn( settings.$currentColumn );
+
+                    if ( _.has( settings, '$currentInnerRow' ) ) {
+                        tdcSidebar._setCurrentInnerRow( settings.$currentInnerRow );
+
+                        if ( _.has( settings, '$currentInnerColumn' ) ) {
+                            tdcSidebar._setCurrentInnerColumn( settings.$currentInnerColumn );
+
+                            if ( _.has( settings, '$currentElement' ) ) {
+                                tdcSidebar._setCurrentElement( settings.$currentElement );
+
+                                // Get the model of the element
+                                tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentElement.data( 'model_id' ) );
+
+                            } else {
+                                tdcSidebar._setCurrentElement( undefined );
+
+                                // Get the model of the inner column
+                                tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentInnerColumn.data( 'model_id' ) );
+                            }
+                        } else {
+                            tdcSidebar._setCurrentInnerColumn( undefined );
+                            tdcSidebar._setCurrentElement( undefined );
+
+                            // Get the model of the inner row
+                            tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentInnerRow.data( 'model_id' ) );
+                        }
+                    } else {
+                        tdcSidebar._setCurrentInnerRow( undefined );
+                        tdcSidebar._setCurrentInnerColumn( undefined );
+                        tdcSidebar._setCurrentElement( undefined );
+
+                        // Get the model of the column
+                        tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentColumn.data( 'model_id' ) );
+                    }
+                } else {
+                    tdcSidebar._setCurrentColumn( undefined );
+                    tdcSidebar._setCurrentInnerRow( undefined );
+                    tdcSidebar._setCurrentInnerColumn( undefined );
+                    tdcSidebar._setCurrentElement( undefined );
+
+                    // Get the model of the row
+                    tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentRow.data( 'model_id' ) );
+                }
             } else {
                 tdcSidebar._setCurrentRow( undefined );
                 tdcSidebar._setCurrentColumn( undefined );
                 tdcSidebar._setCurrentInnerRow( undefined );
                 tdcSidebar._setCurrentInnerColumn( undefined );
                 tdcSidebar._setCurrentElement( undefined );
-                return;
+
+                // Undefined current model
+                tdcSidebar._currentModel = undefined;
             }
 
-            if ( _.has( settings, '$currentColumn' ) ) {
-                tdcSidebar._setCurrentColumn( settings.$currentColumn );
-            } else {
-                tdcSidebar._setCurrentColumn( undefined );
-                tdcSidebar._setCurrentInnerRow( undefined );
-                tdcSidebar._setCurrentInnerColumn( undefined );
-                tdcSidebar._setCurrentElement( undefined );
-                return;
-            }
-
-            if ( _.has( settings, '$currentInnerRow' ) ) {
-                tdcSidebar._setCurrentInnerRow( settings.$currentInnerRow );
-            } else {
-                tdcSidebar._setCurrentInnerRow( undefined );
-                tdcSidebar._setCurrentInnerColumn( undefined );
-                tdcSidebar._setCurrentElement( undefined );
-                return;
-            }
-
-            if ( _.has( settings, '$currentInnerColumn' ) ) {
-                tdcSidebar._setCurrentInnerColumn( settings.$currentInnerColumn );
-            } else {
-                tdcSidebar._setCurrentInnerColumn( undefined );
-                tdcSidebar._setCurrentElement( undefined );
-                return;
-            }
-
-            if ( _.has( settings, '$currentElement' ) ) {
-                tdcSidebar._setCurrentElement( settings.$currentElement );
-            } else {
-                tdcSidebar._setCurrentElement( undefined );
-                return;
-            }
-
-
-
+            tdcDebug.log( settings );
+            tdcDebug.log( tdcSidebar._currentModel.cid );
         }
 
 
