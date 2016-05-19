@@ -52,8 +52,6 @@ var tdcInnerColumnUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                //tdcMaskUI.setBreadcrumb( $element );
-
                 tdcSidebar.setSettings({
                     '$currentRow': tdcRowHandlerUI.inRow( $element ),
                     '$currentColumn': tdcColumnHandlerUI.inColumn( $element ),

@@ -181,25 +181,25 @@ var tdcRowHandlerUI;
 
 
         ///**
-        // * Set the row breadcrumb
-        // *
-        // * @param $element
-        // */
+        //* Set the row breadcrumb
+        //*
+        //* @param $element
+        //*/
         //setBreadcrumb: function( $element ) {
         //    var $elementRow = tdcRowHandlerUI.inRow( $element );
         //
         //    if ( ! _.isUndefined( $elementRow ) || tdcRowHandlerUI.isRow( $element ) ) {
-        //        //tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editRow, tdcRowHandlerUI.$elementRow );
+        //        tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editRow, tdcRowHandlerUI.$elementRow );
         //        //tdcSidebar.setCurrentRow( tdcRowHandlerUI.$elementRow );
         //
-        //        tdcSidebar.setSettings({
-        //            '$currentRow': tdcRowHandlerUI.$elementRow
-        //        });
+        //        //tdcSidebar.setSettings({
+        //        //    '$currentRow': tdcRowHandlerUI.$elementRow
+        //        //});
         //    } else {
         //        //tdcSidebar.$editRow.hide();
         //        //tdcSidebar.setCurrentRow( undefined );
         //
-        //        tdcSidebar.setSettings();
+        //        //tdcSidebar.setSettings();
         //    }
         //},
 

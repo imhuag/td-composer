@@ -75,85 +75,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<!-- the inspector -->
 		<div class="tdc-inspector">
-			<div class="tdc-current-element-title">
+			<div class="tdc-current-element-head">
 			</div>
-
 			<div class="tdc-tabs-wrapper">
-				<div class="tdc-tabs">
-					<a href="#" data-tab-id="td-tab-general" class="tdc-tab-active">General</a>
-					<a href="#" data-tab-id="td-tab-filter">Filter</a>
-					<a href="#" data-tab-id="td-tab-ajax-filter">Ajax filter</a>
-					<a href="#" data-tab-id="td-tab-pagination">Pagination</a>
-					<a href="#" data-tab-id="td-tab-row" class="tdc-layout tdc-layout-row">Settings Row</a>
-					<a href="#" data-tab-id="td-tab-column" class="tdc-layout tdc-layout-column">Settings Column</a>
-					<a href="#" data-tab-id="td-tab-inner-row" class="tdc-layout tdc-layout-inner-row">Settings Inner Row</a>
-					<a href="#" data-tab-id="td-tab-inner-column" class="tdc-layout tdc-layout-inner-column">Settings Inner Column</a>
-				</div>
-				<div class="tdc-tab-content-wrap">
-				<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-general">
-					<!-- tab 1 -->
-
-					GENERAL
-				</div>
-				<div class="tdc-tab-content" id="td-tab-filter">
-					<!-- tab 1 -->
-
-					FILTER
-				</div>
-				<div class="tdc-tab-content" id="td-tab-ajax-filter">
-					<!-- tab 1 -->
-
-					AJAX FILTER
-				</div>
-				<div class="tdc-tab-content" id="td-tab-pagination">
-					<!-- tab 1 -->
-
-					PAGINATION
-				</div>
-				<div class="tdc-tab-content" id="td-tab-row">
-					<!-- tab 1 -->
-
-					<div class="tdc-property-wrap tdc-property-dropdown">
-						<div class="tdc-property-title">Columns:</div>
-						<div class="tdc-property">
-							<select name="tdc-row-column" data-option="">
-								<option class="" value="11">1/1</option>
-								<option class="" value="23_13">2/3 + 1/3</option>
-								<option class="" value="13_23">1/3 + 2/3</option>
-								<option class="" value="13_13_13">1/3 + 1/3 + 1/3</option>
-							</select>
-						</div>
-					</div>
-
-				</div>
-				<div class="tdc-tab-content" id="td-tab-column">
-					<!-- tab 1 -->
-
-					column settings
-				</div>
-				<div class="tdc-tab-content" id="td-tab-inner-row">
-					<!-- tab 1 -->
-
-					<div class="tdc-property-wrap tdc-property-dropdown">
-						<div class="tdc-property-title">Columns:</div>
-						<div class="tdc-property">
-							<select name="tdc-inner-row-inner-column" data-option="">
-								<option class="" value="11">1/1</option>
-								<option class="" value="12_12">1/2 + 1/2</option>
-								<option class="" value="23_13">2/3 + 1/3</option>
-								<option class="" value="13_23">1/3 + 2/3</option>
-								<option class="" value="13_13_13">1/3 + 1/3 + 1/3</option>
-							</select>
-						</div>
-					</div>
-
-				</div>
-				<div class="tdc-tab-content" id="td-tab-inner-column">
-					<!-- tab 1 -->
-
-					inner column settings
-				</div>
-			</div>
 			</div>
 		</div>
 

@@ -13,7 +13,7 @@
 var tdcSidebarPanel = {};
 
 
-(function () {
+(function ( undefined ) {
     'use strict';
 
 
@@ -21,14 +21,18 @@ var tdcSidebarPanel = {};
 
         _defaultGroupName: 'General', // where to put params that don't have a group
 
+        // Row - Columns settings
+        _$rowColumns: undefined,
+
+        // Inner Row - Inner Columns settings
+        _$innerRowInnerColumns: undefined,
+
 
 
         /**
          * we just hook the dom events here
          */
         init: function () {
-
-
 
             // dropdown hook
             jQuery('body').on('change focus', '.tdc-property-dropdown:not(.tdc-row-col-dropdown):not(.tdc-innerRow-col-dropdown) select', function() {
@@ -113,11 +117,29 @@ var tdcSidebarPanel = {};
             // hook the custom row dropdown
             jQuery('body').on('change', '.tdc-row-col-dropdown select', function() {
                 console.log('on change: row dropdown');
+
+                var rowModelId = tdcSidebar._$currentRow.data( 'model_id' ),
+                    rowModel = tdcIFrameData.getModel( rowModelId );
+
+                tdcSidebar.changeColumns( rowModel, tdcSidebarPanel._rowColumnsPrevVal, jQuery(this).val() );
+                tdcSidebarPanel._rowColumnsPrevVal = jQuery(this).val();
+
             });
+
+
+
 
             // hook the custom innerRow dropdown
             jQuery('body').on('change', '.tdc-innerRow-col-dropdown select', function() {
                 console.log('on change: innerRow dropdown');
+
+                var innerRowModelId = tdcSidebar._$currentInnerRow.data( 'model_id' ),
+                    innerRowModel = tdcIFrameData.getModel( innerRowModelId );
+
+                tdcIFrameData.changeInnerRowModel( innerRowModel, tdcSidebarPanel._innerRowInnerColumnsPrevVal, jQuery(this).val() );
+                tdcSidebarPanel._innerRowInnerColumnsPrevVal = jQuery(this).val();
+
+                innerRowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
             });
 
 
@@ -151,7 +173,7 @@ var tdcSidebarPanel = {};
             // step 0 - delete the old panel. HTML + items
             tdcSidebarPanel._deletePanel();
 
-
+            tdcDebug.log( mappedShortCode );
 
             // step 1 - make the tabs
             var allGroupNames = [];
@@ -222,6 +244,12 @@ var tdcSidebarPanel = {};
             //console.log(buffy);
 
             //console.log(mappedShortCode);
+
+            tdcSidebarPanel._$rowColumns = jQuery('body .tdc-row-col-dropdown select' );
+            tdcSidebarPanel._rowColumnsPrevVal = tdcSidebarPanel._$rowColumns.val();
+
+            tdcSidebarPanel._$innerRowInnerColumns = jQuery('body .tdc-innerRow-col-dropdown select' );
+            tdcSidebarPanel._innerRowInnerColumnsPrevVal = tdcSidebarPanel._$innerRowInnerColumns.val();
         },
 
 

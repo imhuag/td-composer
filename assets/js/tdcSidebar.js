@@ -29,14 +29,8 @@ var tdcSidebar;
         _$currentInnerRow: undefined,
         _$currentInnerColumn: undefined,
 
-        $currentElementTitle: undefined,
+        $currentElementHead: undefined,
         $inspector: undefined,
-
-        // Row - Columns settings
-        _$rowColumns: undefined,
-        // Inner Row - Inner Columns settings
-        _$innerRowInnerColumns: undefined,
-
 
         _rowColumnsPrevVal: undefined,
         _innerRowInnerColumnsPrevVal: undefined,
@@ -58,12 +52,15 @@ var tdcSidebar;
             tdcSidebar.$editInnerColumn = jQuery( '#tdc-breadcrumb-inner-column' );
             tdcSidebar.$editInnerColumn.data( 'name', 'Inner Column' );
 
-            tdcSidebar.$currentElementTitle = jQuery( '.tdc-current-element-title' );
+            tdcSidebar.$currentElementHead = jQuery( '.tdc-current-element-head' );
             tdcSidebar.$inspector = jQuery( '.tdc-inspector' );
 
 
             tdcSidebar.$editRow.click(function() {
-                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editRow, tdcSidebar._$currentRow );
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcSidebar.getCurrentRow()
+                });
 
             }).mouseenter(function( event ) {
 
@@ -82,7 +79,11 @@ var tdcSidebar;
 
 
             tdcSidebar.$editColumn.click(function() {
-                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editColumn, tdcSidebar._$currentColumn );
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcSidebar.getCurrentRow(),
+                    '$currentColumn': tdcSidebar.getCurrentColumn()
+                });
 
             }).mouseenter(function( event ) {
 
@@ -101,7 +102,12 @@ var tdcSidebar;
 
 
             tdcSidebar.$editInnerRow.click(function() {
-                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editInnerRow, tdcSidebar._$currentInnerRow );
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcSidebar.getCurrentRow(),
+                    '$currentColumn': tdcSidebar.getCurrentColumn(),
+                    '$currentInnerRow': tdcSidebar.getCurrentInnerRow()
+                });
 
             }).mouseenter(function( event ) {
 
@@ -120,7 +126,13 @@ var tdcSidebar;
 
 
             tdcSidebar.$editInnerColumn.click(function() {
-                tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editInnerColumn, tdcSidebar._$currentInnerColumn );
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcSidebar.getCurrentRow(),
+                    '$currentColumn': tdcSidebar.getCurrentColumn(),
+                    '$currentInnerRow': tdcSidebar.getCurrentInnerRow(),
+                    '$currentInnerColumn': tdcSidebar.getCurrentInnerColumn()
+                });
 
             }).mouseenter(function( event ) {
 
@@ -143,35 +155,6 @@ var tdcSidebar;
             });
 
 
-
-            tdcSidebar._$rowColumns = tdcSidebar.$inspector.find( 'select[name=tdc-row-column]' );
-            tdcSidebar._rowColumnsPrevVal = tdcSidebar._$rowColumns.val();
-
-            tdcSidebar._$rowColumns.change(function( event ) {
-
-                var rowModelId = tdcSidebar._$currentRow.data( 'model_id' ),
-                    rowModel = tdcIFrameData.getModel( rowModelId );
-
-                tdcSidebar.changeColumns( rowModel, tdcSidebar._rowColumnsPrevVal, jQuery(this).val() );
-                tdcSidebar._rowColumnsPrevVal = jQuery(this).val();
-            });
-
-
-            tdcSidebar._$innerRowInnerColumns = tdcSidebar.$inspector.find( 'select[name=tdc-inner-row-inner-column]' );
-            tdcSidebar._innerRowInnerColumnsPrevVal = tdcSidebar._$innerRowInnerColumns.val();
-
-            tdcSidebar._$innerRowInnerColumns.change(function( event ) {
-
-                var innerRowModelId = tdcSidebar._$currentInnerRow.data( 'model_id' ),
-                    innerRowModel = tdcIFrameData.getModel( innerRowModelId );
-
-                tdcIFrameData.changeInnerRowModel( innerRowModel, tdcSidebar._innerRowInnerColumnsPrevVal, jQuery(this).val() );
-                tdcSidebar._innerRowInnerColumnsPrevVal = jQuery(this).val();
-
-                innerRowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
-            });
-
-
             tdcSidebar.sidebarModal();
             tdcSidebar.liveInspectorTabs();
         },
@@ -179,19 +162,59 @@ var tdcSidebar;
 
 
         activeBreadcrumbItem: function( $item, $currentContainer ) {
-            tdcSidebar.setCurrentElementContent( $item.data( 'name' ) );
-            $item.show();
-            $item.nextAll().hide();
-            tdcSidebar._showLayoutInspector( $currentContainer );
-        },
 
+            if ( _.isUndefined( $currentContainer ) ) {
 
+                if ( _.isUndefined( $item ) ) {
+                    tdcSidebar.$editRow.show();
+                    tdcSidebar.$editColumn.show();
+                    tdcSidebar.$editInnerRow.show();
+                    tdcSidebar.$editInnerColumn.show();
+                } else {
+                    $item.prevAll().show();
+                    $item.hide();
+                    $item.nextAll().hide();
+                }
 
-        setCurrentElementContent: function( content ) {
+                tdcSidebar.$currentElementHead.html( tdcSidebar._currentModel.get( 'tag' ) );
 
+            } else {
 
+                tdcSidebar.$currentElementHead.html( $item.data( 'name' ) );
 
-            tdcSidebar.$currentElementTitle.html( content );
+                tdcSidebar.$currentElementHead.off().mouseenter(function( event ) {
+                    event.preventDefault();
+                    $item.trigger( event );
+
+                }).mouseleave(function( event ) {
+                    event.preventDefault();
+                    $item.trigger( event );
+                });
+
+                $item.prevAll().show();
+                $item.hide();
+                $item.nextAll().hide();
+
+                tdcSidebar.$inspector.find( '.tdc-tabs > a' ).each( function( index, element ) {
+
+                    var $element = jQuery( element ),
+                        $tabContent = tdcSidebar.$inspector.find( '#' + $element.data( 'tab-id' ) );
+
+                    if ( 0 === index ) {
+                        $element.addClass( 'tdc-tab-active' );
+                        $tabContent.addClass( 'tdc-tab-content-visible' );
+                        return;
+                    }
+
+                    $element.removeClass( 'tdc-tab-active' );
+                    $tabContent.removeClass( 'tdc-tab-content-visible' );
+                });
+
+                tdcSidebar._setRowColumnSettings( $currentContainer );
+                tdcSidebar._setInnerRowInnerColumnSettings( $currentContainer );
+
+                tdcSidebar.$inspector.show();
+            }
         },
 
 
@@ -211,11 +234,6 @@ var tdcSidebar;
             // Sidebar elements modal window - close
             jQuery('.tdc-modal-close').click(function(){
                 jQuery('.tdc-sidebar-modal-elements').removeClass('tdc-modal-open');
-
-                //jQuery('.tdc-sidebar-modal-row').removeClass('tdc-modal-open');
-                //jQuery('.tdc-sidebar-modal-column').removeClass('tdc-modal-open');
-                //jQuery('.tdc-sidebar-modal-inner-row').removeClass('tdc-modal-open');
-                //jQuery('.tdc-sidebar-modal-inner-column').removeClass('tdc-modal-open');
             });
 
         },
@@ -261,7 +279,7 @@ var tdcSidebar;
 
         liveInspectorTabs: function () {
 
-            jQuery('body').on('click', '.tdc-tabs a', function() {
+            jQuery( 'body' ).on( 'click', '.tdc-tabs a', function() {
 
                 if (jQuery(this).hasClass('tdc-tab-active') === true) {
                     return;
@@ -286,13 +304,6 @@ var tdcSidebar;
 
         _setCurrentElement: function( $currentElement ) {
             tdcSidebar._$currentElement = $currentElement;
-
-            if (_.isUndefined($currentElement)) {
-                return;
-            }
-
-            //tdcSidebarPanel.bindPanelToModel($currentElement);
-
         },
         getCurrentElement: function() {
             return tdcSidebar._$currentElement;
@@ -301,12 +312,6 @@ var tdcSidebar;
 
         _setCurrentRow: function( $currentRow ) {
             tdcSidebar._$currentRow = $currentRow;
-
-            if (_.isUndefined($currentRow)) {
-                return;
-            }
-
-            //tdcSidebarPanel.bindPanelToModel($currentRow);
         },
         getCurrentRow: function() {
             return tdcSidebar._$currentRow;
@@ -323,13 +328,6 @@ var tdcSidebar;
 
         _setCurrentInnerRow: function( $currentInnerRow ) {
             tdcSidebar._$currentInnerRow = $currentInnerRow;
-
-
-            if (_.isUndefined($currentInnerRow)) {
-                return;
-            }
-
-            //tdcSidebarPanel.bindPanelToModel($currentInnerRow);
         },
         getCurrentInnerRow: function() {
             return tdcSidebar._$currentInnerRow;
@@ -344,97 +342,6 @@ var tdcSidebar;
         },
 
 
-
-        _showInspector: function() {
-
-            if ( ! _.isUndefined( tdcSidebar._$currentElement ) ) {
-
-                tdcSidebar.$inspector.find( '.tdc-tabs > a' ).each( function( index, element ) {
-
-                    var $element = jQuery( element ),
-                        $tabContent = tdcSidebar.$inspector.find( '#' + $element.data( 'tab-id' ) );
-
-                    if ( 0 === index ) {
-                        $element.show();
-                        $element.addClass( 'tdc-tab-active' );
-                        $tabContent.addClass( 'tdc-tab-content-visible' );
-                    } else {
-                        if ( $element.hasClass( 'tdc-layout' ) ) {
-                            $element.hide();
-                        } else {
-                            $element.show();
-                        }
-                        $element.removeClass( 'tdc-tab-active' );
-                        $tabContent.removeClass( 'tdc-tab-content-visible' );
-                    }
-                });
-            }
-
-            tdcSidebar.$inspector.show();
-        },
-
-
-
-        _showLayoutInspector: function( $currentContainer ) {
-
-            //tdcDebug.log( '_showLayoutInspector' );
-
-            var classLayout;
-
-            if ( ! _.isUndefined( $currentContainer ) ) {
-
-                if ( tdcRowHandlerUI.isRow( $currentContainer ) ) {
-                    classLayout = 'tdc-layout-row';
-                    tdcSidebar._setRowColumnSettings( $currentContainer );
-
-                } else if ( tdcColumnHandlerUI.isColumn( $currentContainer ) ) {
-                    classLayout = 'tdc-layout-column';
-
-                } else if ( tdcInnerRowHandlerUI.isInnerRow( $currentContainer ) ) {
-                    classLayout = 'tdc-layout-inner-row';
-                    tdcSidebar._setInnerRowInnerColumnSettings( $currentContainer );
-
-                } else if ( tdcInnerColumnHandlerUI.isInnerColumn( $currentContainer ) ) {
-                    classLayout = 'tdc-layout-inner-column';
-                }
-            }
-
-            tdcSidebar.$inspector.find( '.tdc-tabs > a' ).each( function( index, element ) {
-
-                var $element = jQuery( element ),
-                    $tabContent = tdcSidebar.$inspector.find( '#' + $element.data( 'tab-id' ) );
-
-                //tdcDebug.log( classLayout );
-
-                if ( _.isUndefined( classLayout ) ) {
-                    if ( 0 === index ) {
-                        $element.show();
-                        $element.addClass( 'tdc-tab-active' );
-                        $tabContent.addClass( 'tdc-tab-content-visible' );
-                    } else {
-                        if ( $element.hasClass( 'tdc-layout' ) ) {
-                            $element.hide();
-                        } else {
-                            $element.show();
-                        }
-                        $element.removeClass( 'tdc-tab-active' );
-                        $tabContent.removeClass( 'tdc-tab-content-visible' );
-                    }
-                } else {
-                    if ( $element.hasClass( classLayout ) ) {
-                        $element.show();
-                        $element.addClass( 'tdc-tab-active' );
-                        $tabContent.addClass( 'tdc-tab-content-visible' );
-                    } else {
-                        $element.hide();
-                        $element.removeClass( 'tdc-tab-active' );
-                        $tabContent.removeClass( 'tdc-tab-content-visible' );
-                    }
-                }
-            });
-
-            tdcSidebar.$inspector.show();
-        },
 
 
 
@@ -452,61 +359,58 @@ var tdcSidebar;
 
                 var modelTag = model.get( 'tag' );
 
-                if ( 'vc_row_inner' !== modelTag ) {
-                    // The following error should not exist. The structure data should have consistency!
-                    alert('tdcSidebar._setInnerRowInnerColumnSettings Error: Model is not an inner row!');
-                    return;
-                }
+                if ( 'vc_row_inner' === modelTag ) {
 
-                var childCollection = model.get( 'childCollection' );
+                    var childCollection = model.get( 'childCollection' );
 
-                if ( ! _.isUndefined( childCollection ) ) {
+                    if ( ! _.isUndefined( childCollection ) ) {
 
-                    //tdcDebug.log( childCollection );
+                        //tdcDebug.log( childCollection );
 
-                    var width = tdcIFrameData.getChildCollectionWidths( childCollection );
+                        var width = tdcIFrameData.getChildCollectionWidths( childCollection );
 
-                    //tdcDebug.log( width );
+                        //tdcDebug.log( width );
 
-                    if ( width.length ) {
-                        tdcSidebar._$innerRowInnerColumns.val( width );
-                    } else {
-                        // Default value
-                        tdcSidebar._$innerRowInnerColumns.val( '11' );
+                        if ( width.length ) {
+                            tdcSidebar._$innerRowInnerColumns.val( width );
+                        } else {
+                            // Default value
+                            tdcSidebar._$innerRowInnerColumns.val( '11' );
+                        }
+
+                        var columnModel = model.get( 'parentModel' ),
+                            attrsColumnModel = columnModel.get( 'attrs' ),
+                            columnWidth = '';
+
+                        if ( _.has( attrsColumnModel, 'width' ) ) {
+                            columnWidth = attrsColumnModel.width.replace( '/', '' );
+                        }
+
+                        switch ( columnWidth ) {
+                            case '' :
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').hide();
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').show();
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').show();
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').show();
+                                break;
+
+                            case '13' :
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').hide();
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').hide();
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').hide();
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').hide();
+                                break;
+
+                            case '23' :
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').show();
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').hide();
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').hide();
+                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').hide();
+                                break;
+                        }
+
+                        tdcSidebar._innerRowInnerColumnsPrevVal = tdcSidebar._$innerRowInnerColumns.val();
                     }
-
-                    var columnModel = model.get( 'parentModel' ),
-                        attrsColumnModel = columnModel.get( 'attrs' ),
-                        columnWidth = '';
-
-                    if ( _.has( attrsColumnModel, 'width' ) ) {
-                        columnWidth = attrsColumnModel.width.replace( '/', '' );
-                    }
-
-                    switch ( columnWidth ) {
-                        case '' :
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').hide();
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').show();
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').show();
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').show();
-                            break;
-
-                        case '13' :
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').hide();
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').hide();
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').hide();
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').hide();
-                            break;
-
-                        case '23' :
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').show();
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').hide();
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').hide();
-                            tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').hide();
-                            break;
-                    }
-
-                    tdcSidebar._innerRowInnerColumnsPrevVal = tdcSidebar._$innerRowInnerColumns.val();
                 }
             }
         },
@@ -527,29 +431,26 @@ var tdcSidebar;
 
                 var modelTag = model.get( 'tag' );
 
-                if ( 'vc_row' !== modelTag ) {
-                    // The following error should not exist. The structure data should have consistency!
-                    alert('tdcSidebar._setRowColumnSettings Error: Model is not a row!');
-                    return;
-                }
+                if ( 'vc_row' === modelTag ) {
 
-                var childCollection = model.get( 'childCollection' );
+                    var childCollection = model.get( 'childCollection' );
 
-                if ( ! _.isUndefined( childCollection ) ) {
+                    if ( ! _.isUndefined( childCollection ) ) {
 
-                    //tdcDebug.log( childCollection );
+                        //tdcDebug.log( childCollection );
 
-                    var width = tdcIFrameData.getChildCollectionWidths( childCollection );
+                        var width = tdcIFrameData.getChildCollectionWidths( childCollection );
 
-                    //tdcDebug.log( width );
+                        //tdcDebug.log( width );
 
-                    if ( width.length ) {
-                        tdcSidebar._$rowColumns.val( width );
-                    } else {
-                        // Default value
-                        tdcSidebar._$rowColumns.val( '11' );
+                        if ( width.length ) {
+                            tdcSidebar._$rowColumns.val( width );
+                        } else {
+                            // Default value
+                            tdcSidebar._$rowColumns.val( '11' );
+                        }
+                        tdcSidebar._rowColumnsPrevVal = tdcSidebar._$rowColumns.val();
                     }
-                    tdcSidebar._rowColumnsPrevVal = tdcSidebar._$rowColumns.val();
                 }
             }
         },
@@ -621,20 +522,61 @@ var tdcSidebar;
          */
         setSettings: function( settings ) {
 
-            if ( ! _.isUndefined( settings ) && _.has( settings, '$currentRow' ) ) {
-                tdcSidebar._setCurrentRow( settings.$currentRow );
+            var $lastBreadcrumbItem,
+                $currentContainer;
 
-                if ( _.has( settings, '$currentColumn' ) ) {
-                    tdcSidebar._setCurrentColumn( settings.$currentColumn );
+            if ( ! _.isUndefined( settings ) ) {
 
-                    if ( _.has( settings, '$currentInnerRow' ) ) {
-                        tdcSidebar._setCurrentInnerRow( settings.$currentInnerRow );
+                if ( _.has( settings, '$currentRow' ) && ! _.isUndefined( settings.$currentRow ) ) {
 
-                        if ( _.has( settings, '$currentInnerColumn' ) ) {
-                            tdcSidebar._setCurrentInnerColumn( settings.$currentInnerColumn );
+                    tdcSidebar._setCurrentRow( settings.$currentRow );
+                    $lastBreadcrumbItem = tdcSidebar.$editRow;
+                    $currentContainer = settings.$currentRow;
 
-                            if ( _.has( settings, '$currentElement' ) ) {
+                    if ( _.has( settings, '$currentColumn' ) && ! _.isUndefined( settings.$currentColumn ) ) {
+                        tdcSidebar._setCurrentColumn( settings.$currentColumn );
+                        $lastBreadcrumbItem = tdcSidebar.$editColumn;
+                        $currentContainer = settings.$currentColumn;
+
+                        if ( _.has( settings, '$currentInnerRow' ) && ! _.isUndefined( settings.$currentInnerRow ) ) {
+                            tdcSidebar._setCurrentInnerRow( settings.$currentInnerRow );
+                            $lastBreadcrumbItem = tdcSidebar.$editInnerRow;
+                            $currentContainer = settings.$currentInnerRow;
+
+                            if ( _.has( settings, '$currentInnerColumn' ) && ! _.isUndefined( settings.$currentInnerColumn ) ) {
+                                tdcSidebar._setCurrentInnerColumn( settings.$currentInnerColumn );
+                                $lastBreadcrumbItem = tdcSidebar.$editInnerColumn;
+                                $currentContainer = settings.$currentInnerColumn;
+
+                                if ( _.has( settings, '$currentElement' ) && ! _.isUndefined( settings.$currentElement ) ) {
+                                    tdcSidebar._setCurrentElement( settings.$currentElement );
+                                    $lastBreadcrumbItem = undefined;
+                                    $currentContainer = undefined;
+
+                                    // Get the model of the element
+                                    tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentElement.data( 'model_id' ) );
+
+                                } else {
+                                    tdcSidebar._setCurrentElement( undefined );
+
+                                    // Get the model of the inner column
+                                    tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentInnerColumn.data( 'model_id' ) );
+                                }
+                            } else {
+                                tdcSidebar._setCurrentInnerColumn( undefined );
+                                tdcSidebar._setCurrentElement( undefined );
+
+                                // Get the model of the inner row
+                                tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentInnerRow.data( 'model_id' ) );
+                            }
+                        } else {
+                            tdcSidebar._setCurrentInnerRow( undefined );
+                            tdcSidebar._setCurrentInnerColumn( undefined );
+
+                            if ( _.has( settings, '$currentElement' ) && ! _.isUndefined( settings.$currentElement ) ) {
                                 tdcSidebar._setCurrentElement( settings.$currentElement );
+                                $lastBreadcrumbItem = tdcSidebar.$editInnerRow;
+                                $currentContainer = undefined;
 
                                 // Get the model of the element
                                 tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentElement.data( 'model_id' ) );
@@ -642,33 +584,21 @@ var tdcSidebar;
                             } else {
                                 tdcSidebar._setCurrentElement( undefined );
 
-                                // Get the model of the inner column
-                                tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentInnerColumn.data( 'model_id' ) );
+                                // Get the model of the column
+                                tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentColumn.data( 'model_id' ) );
                             }
-                        } else {
-                            tdcSidebar._setCurrentInnerColumn( undefined );
-                            tdcSidebar._setCurrentElement( undefined );
-
-                            // Get the model of the inner row
-                            tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentInnerRow.data( 'model_id' ) );
                         }
                     } else {
+                        tdcSidebar._setCurrentColumn( undefined );
                         tdcSidebar._setCurrentInnerRow( undefined );
                         tdcSidebar._setCurrentInnerColumn( undefined );
                         tdcSidebar._setCurrentElement( undefined );
 
-                        // Get the model of the column
-                        tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentColumn.data( 'model_id' ) );
+                        // Get the model of the row
+                        tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentRow.data( 'model_id' ) );
                     }
-                } else {
-                    tdcSidebar._setCurrentColumn( undefined );
-                    tdcSidebar._setCurrentInnerRow( undefined );
-                    tdcSidebar._setCurrentInnerColumn( undefined );
-                    tdcSidebar._setCurrentElement( undefined );
-
-                    // Get the model of the row
-                    tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentRow.data( 'model_id' ) );
                 }
+
             } else {
                 tdcSidebar._setCurrentRow( undefined );
                 tdcSidebar._setCurrentColumn( undefined );
@@ -680,20 +610,18 @@ var tdcSidebar;
                 tdcSidebar._currentModel = undefined;
             }
 
-            if (!_.isUndefined(tdcSidebar._currentModel)) {
-                tdcSidebarPanel.bindPanelToModel(tdcSidebar._currentModel);
+
+
+
+            if ( !_.isUndefined( tdcSidebar._currentModel ) ) {
+                tdcSidebarPanel.bindPanelToModel( tdcSidebar._currentModel );
+
+                tdcSidebar.activeBreadcrumbItem( $lastBreadcrumbItem, $currentContainer );
+
+                // Close the sidebar modal 'Add Elements'
+                tdcSidebar.closeModal();
             }
-
-
-
-
-            tdcDebug.log( settings );
-            tdcDebug.log( tdcSidebar._currentModel.cid );
         }
-
-
-
-
 
     };
 

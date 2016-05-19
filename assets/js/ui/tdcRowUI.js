@@ -53,8 +53,6 @@ var tdcRowUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                //tdcMaskUI.setBreadcrumb( $element );
-
                 tdcSidebar.setSettings({
                     '$currentRow': tdcRowHandlerUI.inRow( $element )
                 });
