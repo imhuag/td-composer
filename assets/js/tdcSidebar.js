@@ -371,11 +371,13 @@ var tdcSidebar;
 
                         //tdcDebug.log( width );
 
+                        var $innerRowInnerColumns = tdcSidebarPanel.getInnerRowInnerColumns();
+
                         if ( width.length ) {
-                            tdcSidebar._$innerRowInnerColumns.val( width );
+                            $innerRowInnerColumns.val( width );
                         } else {
                             // Default value
-                            tdcSidebar._$innerRowInnerColumns.val( '11' );
+                            $innerRowInnerColumns.val( '11' );
                         }
 
                         var columnModel = model.get( 'parentModel' ),
@@ -388,28 +390,28 @@ var tdcSidebar;
 
                         switch ( columnWidth ) {
                             case '' :
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').hide();
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').show();
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').show();
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').show();
+                                $innerRowInnerColumns.find('option[value=12_12]').hide();
+                                $innerRowInnerColumns.find('option[value=23_13]').show();
+                                $innerRowInnerColumns.find('option[value=13_23]').show();
+                                $innerRowInnerColumns.find('option[value=13_13_13]').show();
                                 break;
 
                             case '13' :
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').hide();
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').hide();
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').hide();
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').hide();
+                                $innerRowInnerColumns.find('option[value=12_12]').hide();
+                                $innerRowInnerColumns.find('option[value=23_13]').hide();
+                                $innerRowInnerColumns.find('option[value=13_23]').hide();
+                                $innerRowInnerColumns.find('option[value=13_13_13]').hide();
                                 break;
 
                             case '23' :
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=12_12]').show();
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=23_13]').hide();
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_23]').hide();
-                                tdcSidebar._$innerRowInnerColumns.find('option[value=13_13_13]').hide();
+                                $innerRowInnerColumns.find('option[value=12_12]').show();
+                                $innerRowInnerColumns.find('option[value=23_13]').hide();
+                                $innerRowInnerColumns.find('option[value=13_23]').hide();
+                                $innerRowInnerColumns.find('option[value=13_13_13]').hide();
                                 break;
                         }
 
-                        tdcSidebar._innerRowInnerColumnsPrevVal = tdcSidebar._$innerRowInnerColumns.val();
+                        tdcSidebar._innerRowInnerColumnsPrevVal = $innerRowInnerColumns.val();
                     }
                 }
             }
@@ -443,13 +445,16 @@ var tdcSidebar;
 
                         //tdcDebug.log( width );
 
+                        var $rowColumns = tdcSidebarPanel.getRowColumns();
+
                         if ( width.length ) {
-                            tdcSidebar._$rowColumns.val( width );
+                            $rowColumns.val( width );
                         } else {
                             // Default value
-                            tdcSidebar._$rowColumns.val( '11' );
+                            $rowColumns.val('11');
                         }
-                        tdcSidebar._rowColumnsPrevVal = tdcSidebar._$rowColumns.val();
+
+                        tdcSidebar._rowColumnsPrevVal = $rowColumns.val();
                     }
                 }
             }

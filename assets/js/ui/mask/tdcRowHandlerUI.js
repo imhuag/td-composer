@@ -180,30 +180,6 @@ var tdcRowHandlerUI;
         },
 
 
-        ///**
-        //* Set the row breadcrumb
-        //*
-        //* @param $element
-        //*/
-        //setBreadcrumb: function( $element ) {
-        //    var $elementRow = tdcRowHandlerUI.inRow( $element );
-        //
-        //    if ( ! _.isUndefined( $elementRow ) || tdcRowHandlerUI.isRow( $element ) ) {
-        //        tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editRow, tdcRowHandlerUI.$elementRow );
-        //        //tdcSidebar.setCurrentRow( tdcRowHandlerUI.$elementRow );
-        //
-        //        //tdcSidebar.setSettings({
-        //        //    '$currentRow': tdcRowHandlerUI.$elementRow
-        //        //});
-        //    } else {
-        //        //tdcSidebar.$editRow.hide();
-        //        //tdcSidebar.setCurrentRow( undefined );
-        //
-        //        //tdcSidebar.setSettings();
-        //    }
-        //},
-
-
         /**
          * Check the $element param is child of a row. If it is, return the row
          *

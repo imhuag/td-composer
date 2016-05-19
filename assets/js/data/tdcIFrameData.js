@@ -288,8 +288,6 @@ var tdcIFrameData,
                                 tdcInnerColumnUI.init( this.$el );
                                 tdcElementUI.init( this.$el );
 
-                                //tdcSidebar.setCurrentInnerRow( this.$el );
-
                                 tdcSidebar.setSettings({
                                     '$currentRow': tdcRowHandlerUI.inRow( this.$el ),
                                     '$currentColumn': tdcColumnHandlerUI.inColumn( this.$el ),
@@ -346,9 +344,6 @@ var tdcIFrameData,
                                 tdcInnerRowUI.init( this.$el );
                                 tdcInnerColumnUI.init( this.$el );
                                 tdcElementUI.init( this.$el );
-
-                                // Set the current inner row for the sidebar
-                                //tdcSidebar.setCurrentInnerRow( this.$el );
 
                                 tdcSidebar.setSettings({
                                     '$currentRow': tdcRowHandlerUI.inRow( this.$el ),
@@ -411,9 +406,6 @@ var tdcIFrameData,
                                 tdcInnerRowUI.init( this.$el );
                                 tdcInnerColumnUI.init( this.$el );
                                 tdcElementUI.init( this.$el );
-
-                                // Set the current row for the sidebar
-                                //tdcSidebar.setCurrentRow( this.$el );
 
                                 tdcSidebar.setSettings({
                                     '$currentRow': this.$el
@@ -507,9 +499,6 @@ var tdcIFrameData,
 
                                 // Remove the old '.tdc-row'
                                 // Important! The operation must be the last one, because till now its usage is as a content
-
-                                // Set the current row for the sidebar
-                                //tdcSidebar.setCurrentRow( $tdcRow );
 
                                 tdcSidebar.setSettings({
                                     '$currentRow': this.$el
@@ -1586,11 +1575,6 @@ var tdcIFrameData,
                             $currentInnerRow = tdcInnerRowHandlerUI.inInnerRow( $draggedElement );
 
                         if ( ! _.isUndefined( $currentRow ) && ! _.isUndefined( $currentColumn ) && ! _.isUndefined( $currentInnerRow ) ) {
-                            //tdcSidebar.setCurrentRow( $tdcRow );
-                            //tdcSidebar.setCurrentColumn( $tdcColumn );
-                            //tdcSidebar.setCurrentInnerRow( $tdcInnerRow );
-                            //
-                            //tdcSidebar._showLayoutInspector( $tdcInnerRow );
 
                             tdcSidebar.setSettings({
                                 '$currentRow': $currentRow,
@@ -1617,8 +1601,6 @@ var tdcIFrameData,
                         var $currentRow = tdcRowHandlerUI.inRow( $draggedElement );
 
                         if ( ! _.isUndefined( $currentRow ) ) {
-                            //tdcSidebar.setCurrentRow( $tdcRow );
-                            //tdcSidebar._showLayoutInspector( $tdcRow );
 
                             tdcSidebar.setSettings({
                                 '$currentRow': $currentRow
@@ -1631,8 +1613,6 @@ var tdcIFrameData,
                             $currentInnerRow = tdcInnerRowHandlerUI.inInnerRow( $draggedElement );
 
                         if ( ! _.isUndefined( $currentRow ) && ! _.isUndefined( $currentColumn ) && ! _.isUndefined( $currentInnerRow ) ) {
-                            //tdcSidebar.setCurrentInnerRow( $tdcInnerRow );
-                            //tdcSidebar._showLayoutInspector( $tdcInnerRow );
 
                             tdcSidebar.setSettings({
                                 '$currentRow': $currentRow,

@@ -183,31 +183,6 @@ var tdcColumnHandlerUI;
         },
 
 
-        ///**
-        // * Set the column breadcrumb
-        // *
-        // * @param $element
-        // */
-        //setBreadcrumb: function( $element ) {
-        //    var $elementColumn = tdcColumnHandlerUI.inColumn( $element );
-        //
-        //    if ( ! _.isUndefined( $elementColumn ) || tdcColumnHandlerUI.isColumn( $element ) ) {
-        //        //tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editColumn, tdcColumnHandlerUI.$elementColumn );
-        //        //tdcSidebar.setCurrentColumn( tdcColumnHandlerUI.$elementColumn );
-        //
-        //        tdcSidebar.setSettings({
-        //            '$currentRow': tdcRowHandlerUI.inRow( $element ),
-        //            '$currentColumn': $elementColumn
-        //        });
-        //    } else {
-        //        //tdcSidebar.$editColumn.hide();
-        //        //tdcSidebar.setCurrentColumn( undefined );
-        //
-        //        tdcSidebar.setSettings();
-        //    }
-        //},
-
-
         /**
          * Check the $element is column
          *

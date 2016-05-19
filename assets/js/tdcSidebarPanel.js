@@ -23,9 +23,11 @@ var tdcSidebarPanel = {};
 
         // Row - Columns settings
         _$rowColumns: undefined,
+        _rowColumnsPrevVal: undefined,
 
         // Inner Row - Inner Columns settings
         _$innerRowInnerColumns: undefined,
+        _innerRowInnerColumnsPrevVal: undefined,
 
 
 
@@ -245,11 +247,11 @@ var tdcSidebarPanel = {};
 
             //console.log(mappedShortCode);
 
-            tdcSidebarPanel._$rowColumns = jQuery('body .tdc-row-col-dropdown select' );
-            tdcSidebarPanel._rowColumnsPrevVal = tdcSidebarPanel._$rowColumns.val();
+            tdcSidebarPanel.setRowColumns( jQuery('body .tdc-row-col-dropdown select' ) );
+            tdcSidebarPanel._rowColumnsPrevVal = tdcSidebarPanel.getRowColumns().val();
 
-            tdcSidebarPanel._$innerRowInnerColumns = jQuery('body .tdc-innerRow-col-dropdown select' );
-            tdcSidebarPanel._innerRowInnerColumnsPrevVal = tdcSidebarPanel._$innerRowInnerColumns.val();
+            tdcSidebarPanel.setInnerRowInnerColumns( jQuery('body .tdc-innerRow-col-dropdown select' ) );
+            tdcSidebarPanel._innerRowInnerColumnsPrevVal = tdcSidebarPanel.getInnerRowInnerColumns().val();
         },
 
 
@@ -474,7 +476,28 @@ var tdcSidebarPanel = {};
 
         addCssEditor: function () {
 
+        },
+
+
+
+        setRowColumns: function( _$rowColumns ) {
+            tdcSidebarPanel._$rowColumns = _$rowColumns;
+        },
+
+        getRowColumns: function() {
+            return tdcSidebarPanel._$rowColumns;
+        },
+
+
+
+        setInnerRowInnerColumns: function( _$innerRowInnerColumns ) {
+            tdcSidebarPanel._$innerRowInnerColumns = _$innerRowInnerColumns;
+        },
+
+        getInnerRowInnerColumns: function() {
+            return tdcSidebarPanel._$innerRowInnerColumns;
         }
+
 
 
     };

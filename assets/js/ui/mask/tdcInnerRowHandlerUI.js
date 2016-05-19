@@ -183,32 +183,6 @@ var tdcInnerRowHandlerUI;
         },
 
 
-        ///**
-        // * Set the inner row breadcrumb
-        // *
-        // * @param $element
-        // */
-        //setBreadcrumb: function( $element ) {
-        //    var $elementInnerRow = tdcInnerRowHandlerUI.inInnerRow( $element );
-        //
-        //    if ( ! _.isUndefined( $elementInnerRow ) || tdcInnerRowHandlerUI.isInnerRow( $element ) ) {
-        //        //tdcSidebar.activeBreadcrumbItem( tdcSidebar.$editInnerRow, tdcInnerRowHandlerUI.$elementInnerRow );
-        //        //tdcSidebar.setCurrentInnerRow( tdcInnerRowHandlerUI.$elementInnerRow );
-        //
-        //        tdcSidebar.setSettings({
-        //            '$currentRow': tdcRowHandlerUI.inRow( this.$el ),
-        //            '$currentColumn': tdcColumnHandlerUI.inColumn( this.$el ),
-        //            '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( this.$el )
-        //        });
-        //    } else {
-        //        //tdcSidebar.$editInnerRow.hide();
-        //        //tdcSidebar.setCurrentInnerRow( undefined );
-        //
-        //        tdcSidebar.setSettings();
-        //    }
-        //},
-
-
         /**
          * Check the $element param is child of an inner row. If it is, return the inner row
          *
