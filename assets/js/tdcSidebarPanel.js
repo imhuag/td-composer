@@ -248,10 +248,15 @@ var tdcSidebarPanel = {};
             //console.log(mappedShortCode);
 
             tdcSidebarPanel.setRowColumns( jQuery('body .tdc-row-col-dropdown select' ) );
-            tdcSidebarPanel._rowColumnsPrevVal = tdcSidebarPanel.getRowColumns().val();
+            if ( ! _.isUndefined( tdcSidebarPanel._$rowColumns ) && tdcSidebarPanel._$rowColumns.length ) {
+                tdcSidebarPanel._rowColumnsPrevVal = tdcSidebarPanel.getRowColumns().val();
+            }
+
 
             tdcSidebarPanel.setInnerRowInnerColumns( jQuery('body .tdc-innerRow-col-dropdown select' ) );
-            tdcSidebarPanel._innerRowInnerColumnsPrevVal = tdcSidebarPanel.getInnerRowInnerColumns().val();
+            if ( ! _.isUndefined( tdcSidebarPanel._$innerRowInnerColumns ) && tdcSidebarPanel._$innerRowInnerColumns.length ) {
+                tdcSidebarPanel._innerRowInnerColumnsPrevVal = tdcSidebarPanel.getInnerRowInnerColumns().val();
+            }
         },
 
 

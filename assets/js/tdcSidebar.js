@@ -161,60 +161,110 @@ var tdcSidebar;
 
 
 
-        activeBreadcrumbItem: function( $item, $currentContainer ) {
+        activeBreadcrumbItem: function() {
 
-            if ( _.isUndefined( $currentContainer ) ) {
+            var currentModel = tdcSidebar.getCurrentModel(),
+                currentModelTag = currentModel.get( 'tag' ),
 
-                if ( _.isUndefined( $item ) ) {
+            // The html content of the $currentElementHead element
+                currentElementHeadContent = '',
+
+            // The breadcrumb item (tdcSidebar.$editRow, tdcSidebar.$editColumn, .. ) where the mouse events will be passed
+                $currentElementHeadRef;
+
+            switch ( currentModelTag ) {
+
+                case 'vc_row':
+                    tdcSidebar.$editRow.hide();
+                    tdcSidebar.$editColumn.hide();
+                    tdcSidebar.$editInnerRow.hide();
+                    tdcSidebar.$editInnerColumn.hide();
+
+                    currentElementHeadContent = tdcSidebar.$editRow.data( 'name' );
+                    $currentElementHeadRef = tdcSidebar.$editRow;
+
+                    // Set the current value for row columns dropdown element
+                    tdcSidebar._setRowColumnSettings();
+
+                    var $rowColumns = tdcSidebarPanel.getRowColumns();
+                    if ( ! _.isUndefined( $rowColumns ) && $rowColumns.length ) {
+                        tdcSidebarPanel._rowColumnsPrevVal = $rowColumns.val();
+                    }
+
+                    break;
+
+                case 'vc_column':
+                    tdcSidebar.$editRow.show();
+                    tdcSidebar.$editColumn.hide();
+                    tdcSidebar.$editInnerRow.hide();
+                    tdcSidebar.$editInnerColumn.hide();
+
+                    currentElementHeadContent = tdcSidebar.$editColumn.data( 'name' );
+                    $currentElementHeadRef = tdcSidebar.$editColumn;
+
+                    break;
+
+                case 'vc_row_inner':
+                    tdcSidebar.$editRow.show();
+                    tdcSidebar.$editColumn.show();
+                    tdcSidebar.$editInnerRow.hide();
+                    tdcSidebar.$editInnerColumn.hide();
+
+                    currentElementHeadContent = tdcSidebar.$editInnerRow.data( 'name' );
+                    $currentElementHeadRef = tdcSidebar.$editInnerRow;
+
+                    // Set the current value for inner row inner columns dropdown element
+                    tdcSidebar._setInnerRowInnerColumnSettings();
+
+                    var $innerRowInnerColumns = tdcSidebarPanel.getInnerRowInnerColumns();
+                    if ( ! _.isUndefined( $innerRowInnerColumns ) && $innerRowInnerColumns.length ) {
+                        tdcSidebarPanel._rowColumnsPrevVal = $innerRowInnerColumns.val();
+                    }
+
+                    break;
+
+                case 'vc_column_inner':
                     tdcSidebar.$editRow.show();
                     tdcSidebar.$editColumn.show();
                     tdcSidebar.$editInnerRow.show();
-                    tdcSidebar.$editInnerColumn.show();
-                } else {
-                    $item.prevAll().show();
-                    $item.hide();
-                    $item.nextAll().hide();
-                }
+                    tdcSidebar.$editInnerColumn.hide();
 
-                tdcSidebar.$currentElementHead.html( tdcSidebar._currentModel.get( 'tag' ) );
+                    currentElementHeadContent = tdcSidebar.$editInnerColumn.data( 'name' );
+                    $currentElementHeadRef = tdcSidebar.$editInnerColumn;
 
-            } else {
+                    break;
 
-                tdcSidebar.$currentElementHead.html( $item.data( 'name' ) );
+                default:
+                    tdcSidebar.$editRow.show();
+                    tdcSidebar.$editColumn.show();
 
-                tdcSidebar.$currentElementHead.off().mouseenter(function( event ) {
-                    event.preventDefault();
-                    $item.trigger( event );
+                    currentElementHeadContent = currentModel.get( 'tag' );
+                    $currentElementHeadRef = tdcSidebar.getCurrentElement();
 
-                }).mouseleave(function( event ) {
-                    event.preventDefault();
-                    $item.trigger( event );
-                });
+                    var parentModel = currentModel.get( 'parentModel' ),
+                        parentModelTag = parentModel.get( 'tag' );
 
-                $item.prevAll().show();
-                $item.hide();
-                $item.nextAll().hide();
-
-                tdcSidebar.$inspector.find( '.tdc-tabs > a' ).each( function( index, element ) {
-
-                    var $element = jQuery( element ),
-                        $tabContent = tdcSidebar.$inspector.find( '#' + $element.data( 'tab-id' ) );
-
-                    if ( 0 === index ) {
-                        $element.addClass( 'tdc-tab-active' );
-                        $tabContent.addClass( 'tdc-tab-content-visible' );
-                        return;
+                    if ( 'vc_column_inner' === parentModelTag ) {
+                        tdcSidebar.$editInnerRow.show();
+                        tdcSidebar.$editInnerColumn.show();
+                    } else {
+                        tdcSidebar.$editInnerRow.hide();
+                        tdcSidebar.$editInnerColumn.hide();
                     }
-
-                    $element.removeClass( 'tdc-tab-active' );
-                    $tabContent.removeClass( 'tdc-tab-content-visible' );
-                });
-
-                tdcSidebar._setRowColumnSettings( $currentContainer );
-                tdcSidebar._setInnerRowInnerColumnSettings( $currentContainer );
-
-                tdcSidebar.$inspector.show();
             }
+
+            tdcSidebar.$currentElementHead.html( currentElementHeadContent );
+
+            tdcSidebar.$currentElementHead.off().mouseenter(function( event ) {
+                event.preventDefault();
+                $currentElementHeadRef.trigger( event );
+
+            }).mouseleave(function( event ) {
+                event.preventDefault();
+                $currentElementHeadRef.trigger( event );
+            });
+
+            tdcSidebar.$inspector.show();
         },
 
 
@@ -344,119 +394,107 @@ var tdcSidebar;
 
 
 
+        // @todo Its content should be moved
+        _setInnerRowInnerColumnSettings: function() {
 
-        _setInnerRowInnerColumnSettings: function( $currentContainer ) {
+            var model = tdcSidebar.getCurrentModel(),
+                modelTag = model.get( 'tag' );
 
-            var modelId = $currentContainer.data( 'model_id' );
+            if ( 'vc_row_inner' === modelTag ) {
 
-            if ( ! _.isUndefined( modelId ) ) {
-                var model = tdcIFrameData.getModel( modelId );
+                var childCollection = model.get( 'childCollection' );
 
-                if ( _.isUndefined( model ) ) {
-                    // The following error should not exist. The structure data should have consistency!
-                    alert('tdcSidebar._setInnerRowInnerColumnSettings Error: Model not in structure data!');
-                }
+                if ( ! _.isUndefined( childCollection ) ) {
 
-                var modelTag = model.get( 'tag' );
+                    //tdcDebug.log( childCollection );
 
-                if ( 'vc_row_inner' === modelTag ) {
+                    var width = tdcIFrameData.getChildCollectionWidths( childCollection );
 
-                    var childCollection = model.get( 'childCollection' );
+                    //tdcDebug.log( width );
 
-                    if ( ! _.isUndefined( childCollection ) ) {
+                    var $innerRowInnerColumns = tdcSidebarPanel.getInnerRowInnerColumns();
 
-                        //tdcDebug.log( childCollection );
-
-                        var width = tdcIFrameData.getChildCollectionWidths( childCollection );
-
-                        //tdcDebug.log( width );
-
-                        var $innerRowInnerColumns = tdcSidebarPanel.getInnerRowInnerColumns();
-
-                        if ( width.length ) {
-                            $innerRowInnerColumns.val( width );
-                        } else {
-                            // Default value
-                            $innerRowInnerColumns.val( '11' );
-                        }
-
-                        var columnModel = model.get( 'parentModel' ),
-                            attrsColumnModel = columnModel.get( 'attrs' ),
-                            columnWidth = '';
-
-                        if ( _.has( attrsColumnModel, 'width' ) ) {
-                            columnWidth = attrsColumnModel.width.replace( '/', '' );
-                        }
-
-                        switch ( columnWidth ) {
-                            case '' :
-                                $innerRowInnerColumns.find('option[value=12_12]').hide();
-                                $innerRowInnerColumns.find('option[value=23_13]').show();
-                                $innerRowInnerColumns.find('option[value=13_23]').show();
-                                $innerRowInnerColumns.find('option[value=13_13_13]').show();
-                                break;
-
-                            case '13' :
-                                $innerRowInnerColumns.find('option[value=12_12]').hide();
-                                $innerRowInnerColumns.find('option[value=23_13]').hide();
-                                $innerRowInnerColumns.find('option[value=13_23]').hide();
-                                $innerRowInnerColumns.find('option[value=13_13_13]').hide();
-                                break;
-
-                            case '23' :
-                                $innerRowInnerColumns.find('option[value=12_12]').show();
-                                $innerRowInnerColumns.find('option[value=23_13]').hide();
-                                $innerRowInnerColumns.find('option[value=13_23]').hide();
-                                $innerRowInnerColumns.find('option[value=13_13_13]').hide();
-                                break;
-                        }
-
-                        tdcSidebar._innerRowInnerColumnsPrevVal = $innerRowInnerColumns.val();
+                    if ( width.length ) {
+                        $innerRowInnerColumns.val( width );
+                    } else {
+                        // Default value
+                        $innerRowInnerColumns.val( '11' );
                     }
+
+                    var columnModel = model.get( 'parentModel' ),
+                        attrsColumnModel = columnModel.get( 'attrs' ),
+                        columnWidth = '';
+
+                    if ( _.has( attrsColumnModel, 'width' ) ) {
+                        columnWidth = attrsColumnModel.width.replace( '/', '' );
+                    }
+
+                    switch ( columnWidth ) {
+                        case '' :
+                            $innerRowInnerColumns.find('option[value=12_12]').hide();
+                            $innerRowInnerColumns.find('option[value=23_13]').show();
+                            $innerRowInnerColumns.find('option[value=13_23]').show();
+                            $innerRowInnerColumns.find('option[value=13_13_13]').show();
+                            break;
+
+                        case '13' :
+                            $innerRowInnerColumns.find('option[value=12_12]').hide();
+                            $innerRowInnerColumns.find('option[value=23_13]').hide();
+                            $innerRowInnerColumns.find('option[value=13_23]').hide();
+                            $innerRowInnerColumns.find('option[value=13_13_13]').hide();
+                            break;
+
+                        case '23' :
+                            $innerRowInnerColumns.find('option[value=12_12]').show();
+                            $innerRowInnerColumns.find('option[value=23_13]').hide();
+                            $innerRowInnerColumns.find('option[value=13_23]').hide();
+                            $innerRowInnerColumns.find('option[value=13_13_13]').hide();
+                            break;
+                    }
+
+                    tdcSidebar._innerRowInnerColumnsPrevVal = $innerRowInnerColumns.val();
                 }
+
+            } else {
+                // The following error should not exist. The structure data should have consistency!
+                alert('tdcSidebar._setInnerRowInnerColumnSettings Error: Model not vc_row_inner!');
             }
         },
 
 
 
-        _setRowColumnSettings: function( $currentContainer ) {
+        // @todo Its content should be moved
+        _setRowColumnSettings: function() {
 
-            var modelId = $currentContainer.data( 'model_id' );
+            var model = tdcSidebar.getCurrentModel(),
+                modelTag = model.get( 'tag' );
 
-            if ( ! _.isUndefined( modelId ) ) {
-                var model = tdcIFrameData.getModel( modelId );
+            if ( 'vc_row' === modelTag ) {
 
-                if ( _.isUndefined( model ) ) {
-                    // The following error should not exist. The structure data should have consistency!
-                    alert('tdcSidebar._setRowColumnSettings Error: Model not in structure data!');
-                }
+                var childCollection = model.get( 'childCollection' );
 
-                var modelTag = model.get( 'tag' );
+                if ( ! _.isUndefined( childCollection ) ) {
 
-                if ( 'vc_row' === modelTag ) {
+                    //tdcDebug.log( childCollection );
 
-                    var childCollection = model.get( 'childCollection' );
+                    var width = tdcIFrameData.getChildCollectionWidths( childCollection );
 
-                    if ( ! _.isUndefined( childCollection ) ) {
+                    //tdcDebug.log( width );
 
-                        //tdcDebug.log( childCollection );
+                    var $rowColumns = tdcSidebarPanel.getRowColumns();
 
-                        var width = tdcIFrameData.getChildCollectionWidths( childCollection );
-
-                        //tdcDebug.log( width );
-
-                        var $rowColumns = tdcSidebarPanel.getRowColumns();
-
-                        if ( width.length ) {
-                            $rowColumns.val( width );
-                        } else {
-                            // Default value
-                            $rowColumns.val('11');
-                        }
-
-                        tdcSidebar._rowColumnsPrevVal = $rowColumns.val();
+                    if ( width.length ) {
+                        $rowColumns.val( width );
+                    } else {
+                        // Default value
+                        $rowColumns.val('11');
                     }
+
+                    tdcSidebar._rowColumnsPrevVal = $rowColumns.val();
                 }
+            } else {
+                // The following error should not exist. The structure data should have consistency!
+                alert('tdcSidebar._setRowColumnSettings Error: Model not vc_row!');
             }
         },
 
@@ -527,36 +565,25 @@ var tdcSidebar;
          */
         setSettings: function( settings ) {
 
-            var $lastBreadcrumbItem,
-                $currentContainer;
+            var $lastBreadcrumbItem
 
             if ( ! _.isUndefined( settings ) ) {
 
                 if ( _.has( settings, '$currentRow' ) && ! _.isUndefined( settings.$currentRow ) ) {
 
                     tdcSidebar._setCurrentRow( settings.$currentRow );
-                    $lastBreadcrumbItem = tdcSidebar.$editRow;
-                    $currentContainer = settings.$currentRow;
 
                     if ( _.has( settings, '$currentColumn' ) && ! _.isUndefined( settings.$currentColumn ) ) {
                         tdcSidebar._setCurrentColumn( settings.$currentColumn );
-                        $lastBreadcrumbItem = tdcSidebar.$editColumn;
-                        $currentContainer = settings.$currentColumn;
 
                         if ( _.has( settings, '$currentInnerRow' ) && ! _.isUndefined( settings.$currentInnerRow ) ) {
                             tdcSidebar._setCurrentInnerRow( settings.$currentInnerRow );
-                            $lastBreadcrumbItem = tdcSidebar.$editInnerRow;
-                            $currentContainer = settings.$currentInnerRow;
 
                             if ( _.has( settings, '$currentInnerColumn' ) && ! _.isUndefined( settings.$currentInnerColumn ) ) {
                                 tdcSidebar._setCurrentInnerColumn( settings.$currentInnerColumn );
-                                $lastBreadcrumbItem = tdcSidebar.$editInnerColumn;
-                                $currentContainer = settings.$currentInnerColumn;
 
                                 if ( _.has( settings, '$currentElement' ) && ! _.isUndefined( settings.$currentElement ) ) {
                                     tdcSidebar._setCurrentElement( settings.$currentElement );
-                                    $lastBreadcrumbItem = undefined;
-                                    $currentContainer = undefined;
 
                                     // Get the model of the element
                                     tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentElement.data( 'model_id' ) );
@@ -580,8 +607,6 @@ var tdcSidebar;
 
                             if ( _.has( settings, '$currentElement' ) && ! _.isUndefined( settings.$currentElement ) ) {
                                 tdcSidebar._setCurrentElement( settings.$currentElement );
-                                $lastBreadcrumbItem = tdcSidebar.$editInnerRow;
-                                $currentContainer = undefined;
 
                                 // Get the model of the element
                                 tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentElement.data( 'model_id' ) );
@@ -621,7 +646,7 @@ var tdcSidebar;
             if ( !_.isUndefined( tdcSidebar._currentModel ) ) {
                 tdcSidebarPanel.bindPanelToModel( tdcSidebar._currentModel );
 
-                tdcSidebar.activeBreadcrumbItem( $lastBreadcrumbItem, $currentContainer );
+                tdcSidebar.activeBreadcrumbItem();
 
                 // Close the sidebar modal 'Add Elements'
                 tdcSidebar.closeModal();

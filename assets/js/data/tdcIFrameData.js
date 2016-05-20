@@ -2009,9 +2009,9 @@ var tdcIFrameData,
 
         changeRowModel: function( rowModel, oldWidth, newWidth ) {
 
-            if ( _.isUndefined( rowModel ) || _.isUndefined( oldWidth ) || _.isUndefined( newWidth ) ) {
-                return;
-            }
+            //if ( _.isUndefined( rowModel ) || _.isUndefined( oldWidth ) || _.isUndefined( newWidth ) ) {
+            //    return;
+            //}
 
             var childCollectionRow = rowModel.get( 'childCollection' );
 
