@@ -53,22 +53,20 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<!-- breadcrumbs browser -->
 		<div class="tdc-breadcrumbs">
-			<div class="tdc-breadcrumbs-path">
-				<div id="tdc-breadcrumb-row">
-					<a href="#">row</a>
-				</div>
-				<div id="tdc-breadcrumb-column">
-					<span class="tdc-breadcrumb-arrow"></span>
-					<a href="#">column</a>
-				</div>
-				<div id="tdc-breadcrumb-inner-row">
-					<span class="tdc-breadcrumb-arrow"></span>
-					<a href="#">inner-row</a>
-				</div>
-				<div id="tdc-breadcrumb-inner-column">
-					<span class="tdc-breadcrumb-arrow"></span>
-					<a href="#">inner-column</a>
-				</div>
+			<div id="tdc-breadcrumb-row">
+				<a href="#">row</a>
+			</div>
+			<div id="tdc-breadcrumb-column">
+				<span class="tdc-breadcrumb-arrow"></span>
+				<a href="#">column</a>
+			</div>
+			<div id="tdc-breadcrumb-inner-row">
+				<span class="tdc-breadcrumb-arrow"></span>
+				<a href="#">inner-row</a>
+			</div>
+			<div id="tdc-breadcrumb-inner-column">
+				<span class="tdc-breadcrumb-arrow"></span>
+				<a href="#">inner-column</a>
 			</div>
 		</div>
 
