@@ -79,7 +79,7 @@ var tdcRowUI;
             }).mouseup(function( event ) {
 
                 // Respond only if dragged element is 'tdc-row'
-                if ( tdcOperationUI.isRowDragged() ) {
+                if ( tdcOperationUI.isRowDragged() || tdcOperationUI.isTempRowDragged() ) {
                     //tdcDebug.log( 'row mouse up' );
 
                     event.preventDefault();
@@ -91,7 +91,7 @@ var tdcRowUI;
             }).mousemove(function( event ) {
 
                 // Respond only if dragged element is 'tdc-row'
-                if ( tdcOperationUI.isRowDragged() ) {
+                if ( tdcOperationUI.isRowDragged() || tdcOperationUI.isTempRowDragged() ) {
                     //tdcDebug.log( 'row mouse move' );
 
                     event.preventDefault();
@@ -106,7 +106,7 @@ var tdcRowUI;
             }).mouseenter(function( event ) {
 
                 // Respond only if dragged element is 'tdc-row'
-                if ( tdcOperationUI.isRowDragged() ) {
+                if ( tdcOperationUI.isRowDragged() || tdcOperationUI.isTempRowDragged() ) {
                     //tdcDebug.log('row mouse enter');
 
                     event.preventDefault();
@@ -118,7 +118,7 @@ var tdcRowUI;
             }).mouseleave(function( event ) {
 
                 // Respond only if dragged element is 'tdc-row'
-                if ( tdcOperationUI.isRowDragged() ) {
+                if ( tdcOperationUI.isRowDragged() || tdcOperationUI.isTempRowDragged() ) {
                     //tdcDebug.log('row mouse leave');
 
                     event.preventDefault();
@@ -130,7 +130,7 @@ var tdcRowUI;
             }).on( 'fakemouseenterevent', function( event ) {
 
                 // Respond only if dragged element is 'tdc-row'
-                if ( tdcOperationUI.isRowDragged() ) {
+                if ( tdcOperationUI.isRowDragged() || tdcOperationUI.isTempRowDragged() ) {
                     //tdcDebug.log( 'tdc-row FAKE MOUSE ENTER EVENT' );
 
                     var outerHeight = $element.outerHeight( true );
