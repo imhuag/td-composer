@@ -218,7 +218,7 @@ var tdcSidebar;
 
                     var $innerRowInnerColumns = tdcSidebarPanel.getInnerRowInnerColumns();
                     if ( ! _.isUndefined( $innerRowInnerColumns ) && $innerRowInnerColumns.length ) {
-                        tdcSidebarPanel._rowColumnsPrevVal = $innerRowInnerColumns.val();
+                        tdcSidebarPanel._innerRowInnerColumnsPrevVal = $innerRowInnerColumns.val();
                     }
 
                     break;
