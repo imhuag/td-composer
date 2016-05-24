@@ -32,11 +32,6 @@ class vc_column_inner extends tdc_shortcode {
 				break;
 		}
 
-		// The global $td_column_count must be set here
-		// Usually it's set by vc_column template, but VC plugin is not active
-		global $td_column_count;
-		$td_column_count = $width;
-
 
 		ob_start();
 		?><div class="tdc-inner-column"><div class="<?php echo $td_pb_class ?> wpb_column vc_column_container"><div class="vc_column-inner"><div class="wpb_wrapper"><?php echo self::wpb_js_remove_wpautop( $content ); ?></div></div></div></div><?php
