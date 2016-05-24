@@ -1089,21 +1089,19 @@ var tdcIFrameData,
                     destinationModel = tdcIFrameData._getDestinationModel(['.tdc-inner-column', '.tdc-column']);
 
                     if (_.isUndefined(destinationModel)) {
-                        alert('changeData Error: Destination model not in structure data!');
-                        return;
+                        throw 'changeData Error: Destination model not in structure data!';
                     }
 
-                    destinationColParam = tdcIFrameData._getColParam(destinationModel);
+                    destinationColParam = tdcIFrameData._getDestinationCol();
 
                     // Change the model structure
                     // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
                     // In this case, we initialize it at an empty collection
-                    if (destinationModel.has( 'childCollection' ) ) {
-                        destinationChildCollection = destinationModel.get( 'childCollection' );
-                    } else {
+                    if ( ! destinationModel.has( 'childCollection' ) ) {
                         destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
-                        destinationChildCollection = destinationModel.get( 'childCollection' );
                     }
+
+                    destinationChildCollection = destinationModel.get( 'childCollection' );
 
                     var shortcodeName = $draggedElement.data( 'shortcodeName' ),
                         shortcodeTitle = $draggedElement.html(),
@@ -1146,22 +1144,19 @@ var tdcIFrameData,
 
                     destinationModel = tdcIFrameData._getDestinationModel(['.tdc-column']);
 
-                    if (_.isUndefined(destinationModel)) {
-                        alert('changeData Error: Destination model not in structure data!');
-                        return;
+                    if ( _.isUndefined( destinationModel ) ) {
+                        throw 'changeData Error: Destination model not in structure data!';
                     }
 
-                    destinationColParam = tdcIFrameData._getColParam(destinationModel);
+                    destinationColParam = tdcIFrameData._getDestinationCol();
 
                     // Change the model structure
                     // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
                     // In this case, we initialize it at an empty collection
-                    if (destinationModel.has( 'childCollection' ) ) {
-                        destinationChildCollection = destinationModel.get( 'childCollection' );
-                    } else {
+                    if ( ! destinationModel.has( 'childCollection' ) ) {
                         destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
-                        destinationChildCollection = destinationModel.get( 'childCollection' );
                     }
+                    destinationChildCollection = destinationModel.get( 'childCollection' );
 
                     // Define the inner row model
                     var innerRowModel = new tdcIFrameData.TdcModel({
@@ -1241,7 +1236,7 @@ var tdcIFrameData,
                     // Set the data model id to the liveView jquery element
                     $draggedElement.data( 'model_id', rowModel.cid );
 
-                    tdcIFrameData.tdcRows.add( rowModel, {at: newPosition});
+                    tdcIFrameData.tdcRows.add( rowModel, { at: newPosition } );
 
                     var childCollectionRow = new tdcIFrameData.TdcCollection();
                     childCollectionRow.add( columnModel );
@@ -1307,7 +1302,7 @@ var tdcIFrameData,
                         tdcDebug.log('element recycled');
 
                         tdcIFrameData.removeModel( elementModel );
-                        tdcDebug.log( tdcIFrameData.tdcRows );
+                        //tdcDebug.log( tdcIFrameData.tdcRows );
                         return;
                     }
 
@@ -1318,8 +1313,7 @@ var tdcIFrameData,
                     destinationModel = tdcIFrameData._getDestinationModel( ['.tdc-inner-column', '.tdc-column'] );
 
                     if ( _.isUndefined( destinationModel ) ) {
-                        alert( 'changeData Error: Destination model not in structure data!' );
-                        return;
+                        throw 'changeData Error: Destination model not in structure data!';
                     }
 
                     if ( sourceModel.cid === destinationModel.cid ) {
@@ -1331,17 +1325,16 @@ var tdcIFrameData,
                     } else {
 
                         // The column param filter
-                        destinationColParam = tdcIFrameData._getColParam( destinationModel );
+                        destinationColParam = tdcIFrameData._getDestinationCol();
 
                         // Change the model structure
                         // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
                         // In this case, we initialize it at an empty collection
-                        if ( destinationModel.has( 'childCollection' ) ) {
-                            destinationChildCollection = destinationModel.get( 'childCollection' );
-                        } else {
+                        if ( ! destinationModel.has( 'childCollection' ) ) {
                             destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
-                            destinationChildCollection = destinationModel.get( 'childCollection' );
                         }
+
+                        destinationChildCollection = destinationModel.get( 'childCollection' );
 
                         sourceChildCollection = sourceModel.get( 'childCollection' );
 
@@ -1365,7 +1358,7 @@ var tdcIFrameData,
                         tdcDebug.log('inner row recycled');
 
                         tdcIFrameData.removeModel( elementModel );
-                        tdcDebug.log( tdcIFrameData.tdcRows );
+                        //tdcDebug.log( tdcIFrameData.tdcRows );
                         return;
                     }
 
@@ -1376,7 +1369,7 @@ var tdcIFrameData,
                     destinationModel = tdcIFrameData._getDestinationModel( ['.tdc-column'] );
 
                     if ( _.isUndefined( destinationModel ) ) {
-                        return;
+                        throw 'changeData Error: Destination model not in structure data!';
                     }
 
                     if ( sourceModel.cid === destinationModel.cid ) {
@@ -1390,12 +1383,11 @@ var tdcIFrameData,
                         // Change the model structure
                         // The 'childCollection' attribute of the destination model does not exist for the inner-columns or columns that contain only the empty element
                         // In this case, we initialize it at an empty collection
-                        if ( destinationModel.has( 'childCollection' ) ) {
-                            destinationChildCollection = destinationModel.get( 'childCollection' );
-                        } else {
+                        if ( ! destinationModel.has( 'childCollection' ) ) {
                             destinationModel.set( 'childCollection', new tdcIFrameData.TdcCollection() );
-                            destinationChildCollection = destinationModel.get( 'childCollection' );
                         }
+
+                        destinationChildCollection = destinationModel.get( 'childCollection' );
 
 
                         // Move the model inside of the structure data
@@ -1695,7 +1687,6 @@ var tdcIFrameData,
             switch ( colParam ) {
                 case '1/3' : colParam = 1; break;
                 case '2/3' : colParam = 2; break;
-                case '3/3' : colParam = 3; break;
                 case '1/2' : colParam = 1; break;
             }
 
@@ -1736,7 +1727,7 @@ var tdcIFrameData,
             }
 
             // The model id (where the item model must be inserted)
-            var destinationModelId = $destination.data( 'model_id');
+            var destinationModelId = $destination.data( 'model_id' );
 
             // @todo This check should be removed - the content should have consistency
             if ( _.isUndefined( destinationModelId ) ) {
@@ -1757,6 +1748,83 @@ var tdcIFrameData,
             //tdcDebug.log( destinationModel );
 
             return destinationModel;
+        },
+
+
+
+
+
+        /**
+         * Get the destination model, looking up into DOM and getting the 'model_id', and then searching into the structure data
+         *
+         * @private
+         */
+        _getDestinationCol: function() {
+
+            var $draggedElement = tdcOperationUI.getDraggedElement();
+
+            var destinationCol;
+
+            // Get the closest available container
+            var $destinationColumn,
+                $destinationInnerColumn;
+
+            $destinationColumn = $draggedElement.closest( '.tdc-column' );
+            $destinationInnerColumn = $draggedElement.closest( '.tdc-inner-column' );
+
+            if ( $destinationInnerColumn.length ) {
+
+                // The inner column model id (where the item model must be inserted)
+                var destinationInnerColumnModelId = $destinationInnerColumn.data( 'model_id' );
+
+                if ( _.isUndefined( destinationInnerColumnModelId ) ) {
+                    throw '_getDestinationCol Error: The inner column model id not in data!';
+                }
+
+                // The inner column model (where the item model must be inserted)
+                var destinationInnerColumnModel = tdcIFrameData.getModel( destinationInnerColumnModelId );
+
+                if ( _.isUndefined( destinationInnerColumnModel ) ) {
+                    throw '_getDestinationCol Error: The inner column model not in structure data!';
+                }
+
+                // Get the inner columns' number
+                destinationCol = tdcIFrameData._getColParam( destinationInnerColumnModel );
+
+                // Do not continue if the inner column destination has not the maximum number of columns (3), otherwise go further and check the column
+                if ( 3 !== destinationCol ) {
+                    return destinationCol;
+                }
+            }
+
+            // We get here if there's an inner column destination, but it has the maximum number of columns (3), OR if there's no inner column destination
+            if ( $destinationColumn.length ) {
+
+                // The column model id
+                var destinationColumnModelId = $destinationColumn.data( 'model_id' );
+
+                if ( _.isUndefined( destinationColumnModelId ) ) {
+                    throw '_getDestinationCol Error: The column model id not in data!';
+                }
+
+                // The column model (where the item model must be inserted)
+                var destinationColumnModel = tdcIFrameData.getModel( destinationColumnModelId );
+
+                if ( _.isUndefined( destinationColumnModelId ) ) {
+                    throw '_getDestinationCol Error: Tne column model not in structure data!';
+                }
+
+                // Get the columns' number
+                destinationCol = tdcIFrameData._getColParam( destinationColumnModel );
+
+                // Return the columns' number
+                return destinationCol;
+
+            } else {
+
+                // The destination column must be present all the time.
+                throw '_getDestinationCol Error: The destination container is not inside of .tdc-column !';
+            }
         },
 
 
