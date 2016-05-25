@@ -7,7 +7,7 @@
 /* global _:{} */
 
 /* global tdcAdminWrapperUI:{} */
-/* global tdcAdminIFrameUI:{} */
+/* global tdcSidebar:{} */
 /* global tdcOperationUI:{} */
 /* global tdcMaskUI:{} */
 

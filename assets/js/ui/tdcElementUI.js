@@ -7,7 +7,7 @@
 /* global _:{} */
 
 /* global tdcAdminWrapperUI:{} */
-/* global tdcAdminIFrameUI:{} */
+/* global tdcSidebar:{} */
 /* global tdcOperationUI:{} */
 /* global tdcMaskUI:{} */
 
@@ -180,7 +180,7 @@ var tdcElementUI;
                         $innerRowParent.after($placeholder);
 
                         // Update the helper
-                        tdcOperationUI.updateInfoHelper();
+                        tdcOperationUI.updateInfoHelper( undefined );
                     }
 
                 } else {
@@ -194,7 +194,7 @@ var tdcElementUI;
                         currentElementOver.after($placeholder);
 
                         // Update the helper
-                        tdcOperationUI.updateInfoHelper();
+                        tdcOperationUI.updateInfoHelper( undefined );
                     }
                 }
 
@@ -263,7 +263,7 @@ var tdcElementUI;
                         $innerRowParent.before($placeholder);
 
                         // Update the helper
-                        tdcOperationUI.updateInfoHelper();
+                        tdcOperationUI.updateInfoHelper( undefined );
                     }
 
                 } else {
@@ -277,7 +277,7 @@ var tdcElementUI;
                         currentElementOver.before($placeholder);
 
                         // Update the helper
-                        tdcOperationUI.updateInfoHelper();
+                        tdcOperationUI.updateInfoHelper( undefined );
                     }
                 }
 
@@ -586,29 +586,29 @@ var tdcElementUI;
             }
 
             return false;
-        },
-
-
-        /**
-         * Get the model custom title or, if it does not exist, the model tag
-         *
-         * @param $element
-         */
-        getSidebarCurrentElementContent: function( $element ) {
-            var sidebarCurrentElementContent;
-
-            var model = tdcIFrameData.getModel( $element.data( 'model_id' ) ),
-                modelAtts = model.get( 'attrs' );
-
-            //if (_.has( modelAtts, 'custom_title' ) ) {
-            if (_.has( modelAtts, 'custom_title' ) && ! _.isUndefined( modelAtts.custom_title ) && '' !== modelAtts.custom_title ) {
-                sidebarCurrentElementContent = modelAtts.custom_title;
-            } else {
-                sidebarCurrentElementContent = model.get( 'tag' );
-            }
-
-            return sidebarCurrentElementContent;
         }
+
+
+        ///**
+        // * Get the model custom title or, if it does not exist, the model tag
+        // *
+        // * @param $element
+        // */
+        //getSidebarCurrentElementContent: function( $element ) {
+        //    var sidebarCurrentElementContent;
+        //
+        //    var model = tdcIFrameData.getModel( $element.data( 'model_id' ) ),
+        //        modelAtts = model.get( 'attrs' );
+        //
+        //    //if (_.has( modelAtts, 'custom_title' ) ) {
+        //    if (_.has( modelAtts, 'custom_title' ) && ! _.isUndefined( modelAtts.custom_title ) && '' !== modelAtts.custom_title ) {
+        //        sidebarCurrentElementContent = modelAtts.custom_title;
+        //    } else {
+        //        sidebarCurrentElementContent = model.get( 'tag' );
+        //    }
+        //
+        //    return sidebarCurrentElementContent;
+        //}
     };
 
 })(jQuery, Backbone, _);

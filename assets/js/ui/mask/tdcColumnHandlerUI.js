@@ -7,8 +7,7 @@
 /* global _:{} */
 
 /* global tdcMaskUI:{} */
-/* global tdcSidebar:{} */
-
+/* global tdcOperationUI:{} */
 
 /*
  * The mask handler object
