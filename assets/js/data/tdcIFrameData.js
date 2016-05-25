@@ -3390,7 +3390,7 @@ var tdcIFrameData,
 
                         secondInnerColumnModel = childCollectionInnerRow.at( 1 ),
                         attrsSecondInnerColumnModel = secondInnerColumnModel.get( 'attrs' ),
-                        childCollectionSecondInnerColumnModel = firstInnerColumnModel.get( 'childCollection' ),
+                        childCollectionSecondInnerColumnModel = secondInnerColumnModel.get( 'childCollection' ),
 
                         thirdInnerColumnModel = childCollectionInnerRow.at( 2 ),
                         childCollectionThirdInnerColumnModel = thirdInnerColumnModel.get( 'childCollection' );
