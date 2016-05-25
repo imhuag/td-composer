@@ -21,13 +21,7 @@ var tdcSidebarPanel = {};
 
         _defaultGroupName: 'General', // where to put params that don't have a group
 
-        // Row - Columns settings
-        _$rowColumns: undefined,
-        _rowColumnsPrevVal: undefined,
 
-        // Inner Row - Inner Columns settings
-        _$innerRowInnerColumns: undefined,
-        _innerRowInnerColumnsPrevVal: undefined,
 
 
 
@@ -117,14 +111,48 @@ var tdcSidebarPanel = {};
 
 
             // hook the custom row dropdown
-            jQuery('body').on('change', '.tdc-row-col-dropdown select', function() {
-                console.log('on change: row dropdown');
+            jQuery('body').on( 'change focus', '.tdc-row-col-dropdown select', function () {
 
-                var rowModelId = tdcSidebar._$currentRow.data( 'model_id' ),
+                // save the oldValue on focus in
+                if ( event.type === 'focusin' || event.type === 'focus' ) { // the select raises a focus event instead of focusin
+                    this.oldValue = this.value;
+                    return;
+                }
+
+                var curValue = jQuery(this).val(),
+                    rowModelId = tdcSidebar.getCurrentRow().data( 'model_id' ),
                     rowModel = tdcIFrameData.getModel( rowModelId );
 
-                tdcSidebar.changeColumns( rowModel, tdcSidebarPanel._rowColumnsPrevVal, jQuery(this).val() );
-                tdcSidebarPanel._rowColumnsPrevVal = jQuery(this).val();
+
+                // check if the change is correct
+                // 1 column -> 2 columns
+                // 1 column -> 2 columns
+                // 1 column -> 3 columns
+                if ( ( ( '11' === this.oldValue ) && ( '23_13' === curValue || '13_23' === curValue || '13_13_13' === curValue ) )  ||
+
+                        // 2 columns -> 1 column
+                        // 2 columns -> 2 columns
+                        // 2 columns -> 3 columns
+                    ( ( '23_13' === this.oldValue ) && ( '11' === curValue || '13_23' === curValue || '13_13_13' === curValue ) ) ||
+
+                        // 2 column -> 1 column
+                        // 2 column -> 2 columns
+                        // 2 column -> 3 columns
+                    ( ( '13_23' === this.oldValue ) && ( '11' === curValue || '23_13' === curValue || '13_13_13' === curValue ) ) ||
+
+                        // 3 column -> 1 column
+                        // 3 column -> 2 columns
+                        // 3 column -> 2 columns
+                    ( ( '13_13_13' === this.oldValue ) && ( '11' === curValue || '23_13' === curValue || '13_23' === curValue ) ) ) {
+
+                    tdcIFrameData.changeRowModel( rowModel, this.oldValue, curValue );
+                    rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
+
+                } else {
+                    throw 'Invalid row change detected: this.oldValue:' + this.oldValue + ' and curValue: ' + curValue;
+                }
+
+                this.oldValue = curValue;
 
             });
 
@@ -132,16 +160,23 @@ var tdcSidebarPanel = {};
 
 
             // hook the custom innerRow dropdown
-            jQuery('body').on('change', '.tdc-innerRow-col-dropdown select', function() {
-                console.log('on change: innerRow dropdown');
+            jQuery('body').on('change focus', '.tdc-innerRow-col-dropdown select', function() {
 
-                var innerRowModelId = tdcSidebar._$currentInnerRow.data( 'model_id' ),
+                // save the oldValue on focus in
+                if (event.type === 'focusin' || event.type === 'focus') { // the select raises a focus event instead of focusin
+                    this.oldValue = this.value;
+                    return;
+                }
+
+                var curValue = jQuery(this).val(),
+                    innerRowModelId = tdcSidebar._$currentInnerRow.data( 'model_id' ),
                     innerRowModel = tdcIFrameData.getModel( innerRowModelId );
 
-                tdcIFrameData.changeInnerRowModel( innerRowModel, tdcSidebarPanel._innerRowInnerColumnsPrevVal, jQuery(this).val() );
-                tdcSidebarPanel._innerRowInnerColumnsPrevVal = jQuery(this).val();
+                tdcIFrameData.changeInnerRowModel( innerRowModel, this.oldValue, curValue);
 
-                innerRowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
+                innerRowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());  // clean up the rendom things
+
+                this.oldValue = curValue;
             });
 
 
@@ -154,28 +189,15 @@ var tdcSidebarPanel = {};
          * @param $curDomBit - may be a row or column or element DOM etc...
          */
         bindPanelToModel: function (model) {
-            //return;
-
-
-            //var modelId = $curDomBit.data( 'model_id' );
-            //var model = tdcIFrameData.getModel( modelId );
-
-
-
-
-            // model.attributes.attrs
-            //var mappedShortCode = window.tdcAdminSettings.mappedShortcodes[model.attributes.attrs];
-
 
             // get the mapped shortcode for this model
             var mappedShortCode = window.tdcAdminSettings.mappedShortcodes[model.attributes.tag];
-
+            //tdcDebug.log( mappedShortCode );
 
 
             // step 0 - delete the old panel. HTML + items
             tdcSidebarPanel._deletePanel();
 
-            tdcDebug.log( mappedShortCode );
 
             // step 1 - make the tabs
             var allGroupNames = [];
@@ -189,53 +211,50 @@ var tdcSidebarPanel = {};
             allGroupNames = _.uniq(allGroupNames); // make the tabs unique. First occurrence remains in the array.
 
 
-            var buffy = '';
 
-
-
-
-
+            // step 3 - make the tabs and all the HTML
+            var panelHtml = '';
 
 
 
 
             // tabs - top
-            buffy += '<div class="tdc-tabs">';
+            panelHtml += '<div class="tdc-tabs">';
                 for (cnt = 0; cnt < allGroupNames.length; cnt++) {
                     if (cnt === 0) {
-                        buffy += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '" class="tdc-tab-active">' + allGroupNames[cnt] + '</a>';
+                        panelHtml += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '" class="tdc-tab-active">' + allGroupNames[cnt] + '</a>';
                     } else {
-                        buffy += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">' + allGroupNames[cnt] + '</a>';
+                        panelHtml += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">' + allGroupNames[cnt] + '</a>';
                     }
 
                 }
-            buffy += '</div>';
+            panelHtml += '</div>';
 
 
             // tabs - content
-            buffy += '<div class="tdc-tab-content-wrap">';
+            panelHtml += '<div class="tdc-tab-content-wrap">';
                 for (cnt = 0; cnt < allGroupNames.length; cnt++) {
                     if (cnt === 0) {
-                        buffy += '<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">';
+                        panelHtml += '<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">';
                     } else {
-                        buffy += '<div class="tdc-tab-content" id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">';
+                        panelHtml += '<div class="tdc-tab-content" id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">';
                     }
 
                         // tab content
-                        buffy += tdcSidebarPanel._bindGroupAndGetHtml(allGroupNames[cnt], mappedShortCode, model);
+                        panelHtml += tdcSidebarPanel._bindGroupAndGetHtml(allGroupNames[cnt], mappedShortCode, model);
 
 
-                    buffy += '</div>'; // close tab content wrap
+                    panelHtml += '</div>'; // close tab content wrap
                 }
-            buffy += '</div>';
+            panelHtml += '</div>';
 
 
 
-            jQuery('.tdc-inspector .tdc-tabs-wrapper').html(buffy);
+            jQuery('.tdc-inspector .tdc-tabs-wrapper').html(panelHtml);
 
 
 
-            // step 2 - distribute content to the tabs
+            // step 4 - hook up all the events and update the newly generate panel ui
 
 
 
@@ -243,22 +262,115 @@ var tdcSidebarPanel = {};
 
 
 
-            //console.log(buffy);
-
-            //console.log(mappedShortCode);
-
-            tdcSidebarPanel.setRowColumns( jQuery('body .tdc-row-col-dropdown select' ) );
-            if ( ! _.isUndefined( tdcSidebarPanel._$rowColumns ) && tdcSidebarPanel._$rowColumns.length ) {
-                tdcSidebarPanel._rowColumnsPrevVal = tdcSidebarPanel.getRowColumns().val();
-            }
-
-
-            tdcSidebarPanel.setInnerRowInnerColumns( jQuery('body .tdc-innerRow-col-dropdown select' ) );
-            if ( ! _.isUndefined( tdcSidebarPanel._$innerRowInnerColumns ) && tdcSidebarPanel._$innerRowInnerColumns.length ) {
-                tdcSidebarPanel._innerRowInnerColumnsPrevVal = tdcSidebarPanel.getInnerRowInnerColumns().val();
-            }
 
             jQuery('.tdc-breadcrumbs').show();
+
+
+
+
+
+
+            // @todo Its content should be moved
+
+            /**
+             * update the row layout dropdown to represent the reality
+             */
+            (function () {
+                var modelTag = model.get( 'tag' );
+                if ( 'vc_row' === modelTag ) {
+
+                    var $tdcRowColumnsModifier = jQuery('body .tdc-row-col-dropdown select' );
+
+
+                    var childCollection = model.get( 'childCollection' );
+                    if ( ! _.isUndefined( childCollection ) ) {
+                        //tdcDebug.log( childCollection );
+                        var width = tdcIFrameData.getChildCollectionWidths( childCollection );
+
+
+                        if ( width.length ) {
+                            $tdcRowColumnsModifier.val( width );
+                        } else {
+                            // Default value
+                            $tdcRowColumnsModifier.val( '11' );
+                        }
+                    }
+                }
+
+            })();
+
+
+            /**
+             * update the inner_row layout dropdown to represent the reality
+             */
+            (function () {
+                var modelTag = model.get( 'tag' );
+
+                if ( 'vc_row_inner' === modelTag ) {
+
+
+                    var $tdcInnerRowColumnsModifier = jQuery('body .tdc-innerRow-col-dropdown select' ) ;
+
+
+
+                    var childCollection = model.get( 'childCollection' );
+
+                    if ( ! _.isUndefined( childCollection ) ) {
+
+                        //tdcDebug.log( childCollection );
+
+                        var width = tdcIFrameData.getChildCollectionWidths( childCollection );
+
+                        //tdcDebug.log( width );
+
+                        if ( width.length ) {
+                            $tdcInnerRowColumnsModifier.val( width );
+                        } else {
+                            // Default value
+                            $tdcInnerRowColumnsModifier.val( '11' );
+                        }
+
+                        var columnModel = model.get( 'parentModel' ),
+                            attrsColumnModel = columnModel.get( 'attrs' ),
+                            columnWidth = '';
+
+                        if ( _.has( attrsColumnModel, 'width' ) ) {
+                            columnWidth = attrsColumnModel.width.replace( '/', '' );
+                        }
+
+                        switch ( columnWidth ) {
+                            case '' :
+                                $tdcInnerRowColumnsModifier.find('option[value=12_12]').hide();
+                                $tdcInnerRowColumnsModifier.find('option[value=23_13]').show();
+                                $tdcInnerRowColumnsModifier.find('option[value=13_23]').show();
+                                $tdcInnerRowColumnsModifier.find('option[value=13_13_13]').show();
+                                break;
+
+                            case '13' :
+                                $tdcInnerRowColumnsModifier.find('option[value=12_12]').hide();
+                                $tdcInnerRowColumnsModifier.find('option[value=23_13]').hide();
+                                $tdcInnerRowColumnsModifier.find('option[value=13_23]').hide();
+                                $tdcInnerRowColumnsModifier.find('option[value=13_13_13]').hide();
+                                break;
+
+                            case '23' :
+                                $tdcInnerRowColumnsModifier.find('option[value=12_12]').show();
+                                $tdcInnerRowColumnsModifier.find('option[value=23_13]').hide();
+                                $tdcInnerRowColumnsModifier.find('option[value=13_23]').hide();
+                                $tdcInnerRowColumnsModifier.find('option[value=13_13_13]').hide();
+                                break;
+                        }
+
+
+                    }
+
+                }
+
+            })();
+
+
+
+
         },
 
 
@@ -486,27 +598,9 @@ var tdcSidebarPanel = {};
 
         addCssEditor: function () {
 
-        },
-
-
-
-        setRowColumns: function( _$rowColumns ) {
-            tdcSidebarPanel._$rowColumns = _$rowColumns;
-        },
-
-        getRowColumns: function() {
-            return tdcSidebarPanel._$rowColumns;
-        },
-
-
-
-        setInnerRowInnerColumns: function( _$innerRowInnerColumns ) {
-            tdcSidebarPanel._$innerRowInnerColumns = _$innerRowInnerColumns;
-        },
-
-        getInnerRowInnerColumns: function() {
-            return tdcSidebarPanel._$innerRowInnerColumns;
         }
+
+
 
 
 
