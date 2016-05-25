@@ -32,9 +32,6 @@ var tdcSidebar;
         $currentElementHead: undefined,
         $inspector: undefined,
 
-        _rowColumnsPrevVal: undefined,
-        _innerRowInnerColumnsPrevVal: undefined,
-
 
 
 
@@ -188,12 +185,7 @@ var tdcSidebar;
                     $currentElementHeadRef = tdcSidebar.$editRow;
 
                     // Set the current value for row columns dropdown element
-                    tdcSidebar._setRowColumnSettings();
-
-                    var $rowColumns = tdcSidebarPanel.getRowColumns();
-                    if ( ! _.isUndefined( $rowColumns ) && $rowColumns.length ) {
-                        tdcSidebarPanel._rowColumnsPrevVal = $rowColumns.val();
-                    }
+                    //tdcSidebar._setRowColumnSettings();
 
                     break;
 
@@ -218,13 +210,7 @@ var tdcSidebar;
                     $currentElementHeadRef = tdcSidebar.$editInnerRow;
 
                     // Set the current value for inner row inner columns dropdown element
-                    tdcSidebar._setInnerRowInnerColumnSettings();
-
-                    var $innerRowInnerColumns = tdcSidebarPanel.getInnerRowInnerColumns();
-                    if ( ! _.isUndefined( $innerRowInnerColumns ) && $innerRowInnerColumns.length ) {
-                        tdcSidebarPanel._innerRowInnerColumnsPrevVal = $innerRowInnerColumns.val();
-                    }
-
+                    //tdcSidebar._setInnerRowInnerColumnSettings();
                     break;
 
                 case 'vc_column_inner':
@@ -405,145 +391,11 @@ var tdcSidebar;
 
 
 
-        // @todo Its content should be moved
-        _setInnerRowInnerColumnSettings: function() {
-
-            var model = tdcSidebar.getCurrentModel(),
-                modelTag = model.get( 'tag' );
-
-            if ( 'vc_row_inner' === modelTag ) {
-
-                var childCollection = model.get( 'childCollection' );
-
-                if ( ! _.isUndefined( childCollection ) ) {
-
-                    //tdcDebug.log( childCollection );
-
-                    var width = tdcIFrameData.getChildCollectionWidths( childCollection );
-
-                    //tdcDebug.log( width );
-
-                    var $innerRowInnerColumns = tdcSidebarPanel.getInnerRowInnerColumns();
-
-                    if ( width.length ) {
-                        $innerRowInnerColumns.val( width );
-                    } else {
-                        // Default value
-                        $innerRowInnerColumns.val( '11' );
-                    }
-
-                    var columnModel = model.get( 'parentModel' ),
-                        attrsColumnModel = columnModel.get( 'attrs' ),
-                        columnWidth = '';
-
-                    if ( _.has( attrsColumnModel, 'width' ) ) {
-                        columnWidth = attrsColumnModel.width.replace( '/', '' );
-                    }
-
-                    switch ( columnWidth ) {
-                        case '' :
-                            $innerRowInnerColumns.find('option[value=12_12]').hide();
-                            $innerRowInnerColumns.find('option[value=23_13]').show();
-                            $innerRowInnerColumns.find('option[value=13_23]').show();
-                            $innerRowInnerColumns.find('option[value=13_13_13]').show();
-                            break;
-
-                        case '13' :
-                            $innerRowInnerColumns.find('option[value=12_12]').hide();
-                            $innerRowInnerColumns.find('option[value=23_13]').hide();
-                            $innerRowInnerColumns.find('option[value=13_23]').hide();
-                            $innerRowInnerColumns.find('option[value=13_13_13]').hide();
-                            break;
-
-                        case '23' :
-                            $innerRowInnerColumns.find('option[value=12_12]').show();
-                            $innerRowInnerColumns.find('option[value=23_13]').hide();
-                            $innerRowInnerColumns.find('option[value=13_23]').hide();
-                            $innerRowInnerColumns.find('option[value=13_13_13]').hide();
-                            break;
-                    }
-
-                    tdcSidebar._innerRowInnerColumnsPrevVal = $innerRowInnerColumns.val();
-                }
-
-            } else {
-                // The following error should not be thrown. The structure data should have consistency!
-                throw 'tdcSidebar._setInnerRowInnerColumnSettings Error: Model not vc_row_inner!';
-            }
-        },
-
-
-
-        // @todo Its content should be moved
-        _setRowColumnSettings: function() {
-
-            var model = tdcSidebar.getCurrentModel(),
-                modelTag = model.get( 'tag' );
-
-            if ( 'vc_row' === modelTag ) {
-
-                var childCollection = model.get( 'childCollection' );
-
-                if ( ! _.isUndefined( childCollection ) ) {
-
-                    //tdcDebug.log( childCollection );
-
-                    var width = tdcIFrameData.getChildCollectionWidths( childCollection );
-
-                    //tdcDebug.log( width );
-
-                    var $rowColumns = tdcSidebarPanel.getRowColumns();
-
-                    if ( width.length ) {
-                        $rowColumns.val( width );
-                    } else {
-                        // Default value
-                        $rowColumns.val( '11' );
-                    }
-
-                    tdcSidebar._rowColumnsPrevVal = $rowColumns.val();
-                }
-            } else {
-                // The following error should not be thrown. The structure data should have consistency!
-                throw 'tdcSidebar._setRowColumnSettings Error: Model not vc_row!';
-            }
-        },
 
 
 
 
 
-
-
-        changeColumns: function( rowModel, columnOldWidth, columnNewWidth ) {
-
-                // 1 column -> 2 columns
-                // 1 column -> 2 columns
-                // 1 column -> 3 columns
-            if ( ( ( '11' === columnOldWidth ) && ( '23_13' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) )  ||
-
-                // 2 columns -> 1 column
-                // 2 columns -> 2 columns
-                // 2 columns -> 3 columns
-                ( ( '23_13' === columnOldWidth ) && ( '11' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) ) ||
-
-                // 2 column -> 1 column
-                // 2 column -> 2 columns
-                // 2 column -> 3 columns
-                ( ( '13_23' === columnOldWidth ) && ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_13_13' === columnNewWidth ) ) ||
-
-                // 3 column -> 1 column
-                // 3 column -> 2 columns
-                // 3 column -> 2 columns
-                ( ( '13_13_13' === columnOldWidth ) && ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_23' === columnNewWidth ) ) ) {
-
-                tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
-                rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
-
-            } else {
-                throw 'tdcSidebar.changeColumns Error: columnOldWidth:' + columnOldWidth + ' and columnNewWidth: ' + columnNewWidth;
-            }
-        },
 
 
 
