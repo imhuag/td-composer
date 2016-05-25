@@ -44,13 +44,14 @@
   clear: left;
   padding: 7px 12px 0 12px;
   background-color: #FFFFFF;
+  min-height: 20px;
 }
-.tdc-breadcrumbs-path a {
+.tdc-breadcrumbs a {
   font-size: 12px;
   text-decoration: none;
   color: #717171;
 }
-.tdc-breadcrumbs-path a:hover {
+.tdc-breadcrumbs a:hover {
   text-decoration: underline;
 }
 .tdc-breadcrumb-arrow {
@@ -61,7 +62,7 @@
   position: relative;
   top: 2px;
 }
-.tdc-current-element-title {
+.tdc-current-element-head {
   font-size: 15px;
   margin-top: 2px;
   padding: 0 12px 8px;
@@ -159,9 +160,6 @@
 }
 .tdc-sidebar-bottom.active {
   background-color: #b554c2;
-}
-.tdc-breadcrumbs-path {
-  min-height: 20px;
 }
 #tdc-breadcrumb-row,
 #tdc-breadcrumb-column,

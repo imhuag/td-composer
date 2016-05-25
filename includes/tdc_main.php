@@ -92,7 +92,7 @@ function tdc_on_admin_bar_menu() {
  */
 add_action( 'admin_enqueue_scripts', 'tdc_on_admin_enqueue_scripts' );
 function tdc_on_admin_enqueue_scripts() {
-	tdc_util::enqueue_js_files_array(tdc_config::$js_files_for_wp_admin, array('jquery'));
+	tdc_util::enqueue_js_files_array(tdc_config::$js_files_for_wp_admin, array('jquery', 'underscore'));
 
 	// Disable the confirmation messages at leaving pages
 	wp_dequeue_script( 'autosave' );
