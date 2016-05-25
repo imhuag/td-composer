@@ -287,9 +287,9 @@ var tdcIFrameData,
                                 tdcElementUI.init( this.$el );
 
                                 tdcSidebar.setSettings({
-                                    '$currentRow': tdcRowHandlerUI.inRow( this.$el ),
-                                    '$currentColumn': tdcColumnHandlerUI.inColumn( this.$el ),
-                                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( this.$el )
+                                    '$currentRow': tdcOperationUI.inRow( this.$el ),
+                                    '$currentColumn': tdcOperationUI.inColumn( this.$el ),
+                                    '$currentInnerRow': tdcOperationUI.inInnerRow( this.$el )
                                 });
 
 
@@ -341,9 +341,9 @@ var tdcIFrameData,
                                 tdcElementUI.init( this.$el );
 
                                 tdcSidebar.setSettings({
-                                    '$currentRow': tdcRowHandlerUI.inRow( this.$el ),
-                                    '$currentColumn': tdcColumnHandlerUI.inColumn( this.$el ),
-                                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( this.$el )
+                                    '$currentRow': tdcOperationUI.inRow( this.$el ),
+                                    '$currentColumn': tdcOperationUI.inColumn( this.$el ),
+                                    '$currentInnerRow': tdcOperationUI.inInnerRow( this.$el )
                                 });
 
 
@@ -1552,9 +1552,9 @@ var tdcIFrameData,
                             }
                         }
 
-                        var $currentRow = tdcRowHandlerUI.inRow( $draggedElement ),
-                            $currentColumn = tdcColumnHandlerUI.inColumn( $draggedElement ),
-                            $currentInnerRow = tdcInnerRowHandlerUI.inInnerRow( $draggedElement );
+                        var $currentRow = tdcOperationUI.inRow( $draggedElement ),
+                            $currentColumn = tdcOperationUI.inColumn( $draggedElement ),
+                            $currentInnerRow = tdcOperationUI.inInnerRow( $draggedElement );
 
                         if ( ! _.isUndefined( $currentRow ) && ! _.isUndefined( $currentColumn ) && ! _.isUndefined( $currentInnerRow ) ) {
 
@@ -1580,7 +1580,7 @@ var tdcIFrameData,
 
                     if ( whatWasDragged.wasColumnDragged ) {
 
-                        var $currentRow = tdcRowHandlerUI.inRow( $draggedElement );
+                        var $currentRow = tdcOperationUI.inRow( $draggedElement );
 
                         if ( ! _.isUndefined( $currentRow ) ) {
 
@@ -1590,9 +1590,9 @@ var tdcIFrameData,
                         }
 
                     } else if ( whatWasDragged.wasInnerColumnDragged ) {
-                        var $currentRow = tdcRowHandlerUI.inRow( $draggedElement ),
-                            $currentColumn = tdcColumnHandlerUI.inColumn( $draggedElement ),
-                            $currentInnerRow = tdcInnerRowHandlerUI.inInnerRow( $draggedElement );
+                        var $currentRow = tdcOperationUI.inRow( $draggedElement ),
+                            $currentColumn = tdcOperationUI.inColumn( $draggedElement ),
+                            $currentInnerRow = tdcOperationUI.inInnerRow( $draggedElement );
 
                         if ( ! _.isUndefined( $currentRow ) && ! _.isUndefined( $currentColumn ) && ! _.isUndefined( $currentInnerRow ) ) {
 
@@ -2928,7 +2928,8 @@ var tdcIFrameData,
                                     var childCollectionElementInnerColumnModel = elementInnerColumn.get( 'childCollection' );
 
                                     if ( ! _.isUndefined( childCollectionElementInnerColumnModel ) ) {
-                                        _.each( childCollectionElementInnerColumnModel.models, function( elementChildInnerColumn, indexChildInnerColumn, listChildInnerColumn ) {
+                                        //_.each( childCollectionElementInnerColumnModel.models, function( elementChildInnerColumn, indexChildInnerColumn, listChildInnerColumn ) {
+                                        _.each( childCollectionElementInnerColumnModel.models, function( elementChildInnerColumn ) {
 
                                             elementChildInnerColumn.set( 'parentModel', firstInnerColumnModel );
                                             childCollectionFirstInnerColumnModel.add( elementChildInnerColumn );

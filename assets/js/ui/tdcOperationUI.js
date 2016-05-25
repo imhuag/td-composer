@@ -378,7 +378,32 @@ var tdcOperationUI;
             // 'tdc-row-temp' is the row of the sidebar
             // This has been added to differentiate between the empty row template from the sidebar and an existing row template
 
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-row' ) ;
+            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( tdcRowUI.getElementCssClass() ) ;
+        },
+
+
+        /**
+         * Check the $element param is child of a row. If it is, return the row
+         *
+         * @param $element
+         * @returns {*}
+         */
+        inRow: function( $element ) {
+            var $elementRow = $element.closest( '.' + tdcRowUI.getElementCssClass() );
+            if ( $elementRow.length ) {
+                return $elementRow;
+            }
+        },
+
+
+        /**
+         * Check the $element is row
+         *
+         * @param $element
+         * @returns {*}
+         */
+        isRow: function( $element ) {
+            return $element.hasClass( tdcRowUI.getElementCssClass() );
         },
 
 
@@ -407,12 +432,38 @@ var tdcOperationUI;
         isColumnDragged: function( $siblingColumn ) {
 
             var draggedElement = tdcOperationUI.getDraggedElement(),
-                result = !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-column' );
+                result = !_.isUndefined( draggedElement ) && draggedElement.hasClass( tdcColumnUI.getElementCssClass() );
 
             if ( ! _.isUndefined( $siblingColumn ) ) {
                 result = result && ( $siblingColumn.closest( '.tdc-columns').find( '.tdc-column.tdc-dragged' ).length > 0 );
             }
             return result;
+        },
+
+
+
+        /**
+         * Check the $element param is child of a column. If it is, return the column
+         *
+         * @param $element
+         * @returns {*}
+         */
+        inColumn: function( $element ) {
+            var $elementColumn = $element.closest( '.' + tdcColumnUI.getElementCssClass() );
+            if ( $elementColumn.length ) {
+                return $elementColumn;
+            }
+        },
+
+
+        /**
+         * Check the $element is column
+         *
+         * @param $element
+         * @returns {*}
+         */
+        isColumn: function( $element ) {
+            return $element.hasClass( tdcColumnUI.getElementCssClass() );
         },
 
 
@@ -427,7 +478,33 @@ var tdcOperationUI;
             // 'tdc-element-inner-row-temp' is the inner row of the sidebar
             // This has been added to differentiate between the empty inner row template from the sidebar and an existing inner row template
 
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-element-inner-row' ) ;
+            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( tdcInnerRowUI.getElementCssClass() ) ;
+        },
+
+
+
+        /**
+         * Check the $element param is child of an inner row. If it is, return the inner row
+         *
+         * @param $element
+         * @returns {*}
+         */
+        inInnerRow: function( $element ) {
+            var $elementInnerRow = $element.closest( '.' + tdcInnerRowUI.getElementCssClass() );
+            if ( $elementInnerRow.length ) {
+                return $elementInnerRow;
+            }
+        },
+
+
+        /**
+         * Check the $element is inner row
+         *
+         * @param $element
+         * @returns {*}
+         */
+        isInnerRow: function( $element ) {
+            return $element.hasClass( tdcInnerRowUI.getElementCssClass() );
         },
 
 
@@ -460,12 +537,37 @@ var tdcOperationUI;
         isInnerColumnDragged: function( $siblingInnerColumn ) {
 
             var draggedElement = tdcOperationUI.getDraggedElement(),
-                result = !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-inner-column' );
+                result = !_.isUndefined( draggedElement ) && draggedElement.hasClass( tdcInnerColumnUI.getElementCssClass() );
 
             if ( ! _.isUndefined( $siblingInnerColumn ) ) {
                 result = result && ( $siblingInnerColumn.closest( '.tdc-inner-columns').find( '.tdc-inner-column.tdc-dragged' ).length > 0 );
             }
             return result;
+        },
+
+
+        /**
+         * Check the $element param is child of an inner column. If it is, return the inner column
+         *
+         * @param $element
+         * @returns {*}
+         */
+        inInnerColumn: function( $element ) {
+            var $elementInnerColumn = $element.closest( '.' + tdcInnerColumnUI.getElementCssClass() );
+            if ( $elementInnerColumn.length ) {
+                return $elementInnerColumn;
+            }
+        },
+
+
+        /**
+         * Check the $element is inner column
+         *
+         * @param $element
+         * @returns {*}
+         */
+        isInnerColumn: function( $element ) {
+            return $element.hasClass( tdcInnerColumnUI.getElementCssClass() );
         },
 
 

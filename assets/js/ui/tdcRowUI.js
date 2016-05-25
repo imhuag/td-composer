@@ -21,12 +21,17 @@ var tdcRowUI;
 
     tdcRowUI = {
 
+        // The css class of the handler element
+        _elementCssClass: 'tdc-row',
+
         // The 'tdc-row' elements
         tdcRow: undefined,
 
 
-
-
+        /**
+         *
+         * @param $content
+         */
         init: function( $content ) {
 
             if ( _.isUndefined( $content ) ) {
@@ -40,6 +45,11 @@ var tdcRowUI;
             });
         },
 
+
+        /**
+         *
+         * @param $element
+         */
         bindRow: function( $element ) {
 
             // Unbind any event.
@@ -54,7 +64,7 @@ var tdcRowUI;
                 event.stopPropagation();
 
                 tdcSidebar.setSettings({
-                    '$currentRow': tdcRowHandlerUI.inRow( $element )
+                    '$currentRow': tdcOperationUI.inRow( $element )
                 });
 
             }).mousedown(function( event ) {
@@ -157,6 +167,10 @@ var tdcRowUI;
         },
 
 
+        /**
+         *
+         * @param event
+         */
         positionRowPlaceholder: function( event ) {
             //tdcDebug.log( event );
 
@@ -314,6 +328,15 @@ var tdcRowUI;
             //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
             //    $placeholder.hide();
             //}
+        },
+
+
+        /**
+         *
+         * @returns {string}
+         */
+        getElementCssClass: function() {
+            return tdcRowUI._elementCssClass;
         }
     };
 

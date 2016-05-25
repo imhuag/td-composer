@@ -16,6 +16,10 @@
 /* global tdcInnerRowHandlerUI:{} */
 /* global tdcInnerColumnHandlerUI:{} */
 
+/* global tdcRowUI:{} */
+///* global tdcColumnUI:{} */
+///* global tdcInnerRowUI:{} */
+///* global tdcInnerColumnUI:{} */
 
 
 
@@ -115,11 +119,11 @@ var tdcMaskUI;
                 width,
                 height;
 
-            if ( tdcColumnHandlerUI.isColumn( tdcMaskUI.$currentContainer ) || tdcInnerColumnHandlerUI.isInnerColumn( tdcMaskUI.$currentContainer ) ) {
+            if ( tdcOperationUI.isColumn( tdcMaskUI.$currentContainer ) || tdcOperationUI.isInnerColumn( tdcMaskUI.$currentContainer ) ) {
 
                 $refObj = tdcMaskUI.$currentContainer.find( '.tdc-elements:first' );
 
-            } else if ( tdcRowHandlerUI.isRow( tdcMaskUI.$currentContainer ) || tdcInnerRowHandlerUI.isInnerRow( tdcMaskUI.$currentContainer ) ) {
+            } else if ( tdcOperationUI.isRow( tdcMaskUI.$currentContainer ) || tdcOperationUI.isInnerRow( tdcMaskUI.$currentContainer ) ) {
 
                 $refObj = tdcMaskUI.$currentContainer;
             }
