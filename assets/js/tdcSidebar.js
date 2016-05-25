@@ -155,13 +155,17 @@ var tdcSidebar;
             });
 
 
-            tdcSidebar.sidebarModal();
-            tdcSidebar.liveInspectorTabs();
+            tdcSidebar._sidebarModal();
+            tdcSidebar._liveInspectorTabs();
         },
 
 
-
-        activeBreadcrumbItem: function() {
+        /**
+         * Activate/deactivate the breadcrumb items and set the sidebar current element info
+         *
+         * @private
+         */
+        _activeBreadcrumbItem: function() {
 
             var currentModel = tdcSidebar.getCurrentModel(),
                 currentModelTag = currentModel.get( 'tag' ),
@@ -268,22 +272,28 @@ var tdcSidebar;
         },
 
 
-
-        closeModal: function() {
+        /**
+         *
+         * @private
+         */
+        _closeModal: function() {
             jQuery( '.tdc-sidebar-modal-elements' ).removeClass( 'tdc-modal-open' );
         },
 
 
-
-        sidebarModal: function () {
+        /**
+         *
+         * @private
+         */
+        _sidebarModal: function () {
             // Sidebar elements modal window - open
-            jQuery('.tdc-add-element').click(function(){
-                jQuery('.tdc-sidebar-modal-elements').addClass('tdc-modal-open');
+            jQuery( '.tdc-add-element' ).click( function(){
+                jQuery( '.tdc-sidebar-modal-elements' ).addClass( 'tdc-modal-open' );
             });
 
             // Sidebar elements modal window - close
             jQuery('.tdc-modal-close').click(function(){
-                jQuery('.tdc-sidebar-modal-elements').removeClass('tdc-modal-open');
+                jQuery( '.tdc-sidebar-modal-elements' ).removeClass( 'tdc-modal-open' );
             });
 
         },
@@ -325,9 +335,11 @@ var tdcSidebar;
         },
 
 
-
-
-        liveInspectorTabs: function () {
+        /**
+         *
+         * @private
+         */
+        _liveInspectorTabs: function () {
 
             jQuery( 'body' ).on( 'click', '.tdc-tabs a', function() {
 
@@ -393,7 +405,6 @@ var tdcSidebar;
 
 
 
-
         // @todo Its content should be moved
         _setInnerRowInnerColumnSettings: function() {
 
@@ -456,8 +467,8 @@ var tdcSidebar;
                 }
 
             } else {
-                // The following error should not exist. The structure data should have consistency!
-                alert('tdcSidebar._setInnerRowInnerColumnSettings Error: Model not vc_row_inner!');
+                // The following error should not be thrown. The structure data should have consistency!
+                throw 'tdcSidebar._setInnerRowInnerColumnSettings Error: Model not vc_row_inner!';
             }
         },
 
@@ -487,14 +498,14 @@ var tdcSidebar;
                         $rowColumns.val( width );
                     } else {
                         // Default value
-                        $rowColumns.val('11');
+                        $rowColumns.val( '11' );
                     }
 
                     tdcSidebar._rowColumnsPrevVal = $rowColumns.val();
                 }
             } else {
-                // The following error should not exist. The structure data should have consistency!
-                alert('tdcSidebar._setRowColumnSettings Error: Model not vc_row!');
+                // The following error should not be thrown. The structure data should have consistency!
+                throw 'tdcSidebar._setRowColumnSettings Error: Model not vc_row!';
             }
         },
 
@@ -506,45 +517,31 @@ var tdcSidebar;
 
         changeColumns: function( rowModel, columnOldWidth, columnNewWidth ) {
 
-            if ( '11' === columnOldWidth ) {
-
                 // 1 column -> 2 columns
                 // 1 column -> 2 columns
                 // 1 column -> 3 columns
-                if ( '23_13' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) {
-                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
-                    rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
-                }
-
-            } else if ( '23_13' === columnOldWidth ) {
+            if ( ( ( '11' === columnOldWidth ) && ( '23_13' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) )  ||
 
                 // 2 columns -> 1 column
                 // 2 columns -> 2 columns
                 // 2 columns -> 3 columns
-                if ( '11' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) {
-                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
-                    rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
-                }
-
-            } else if ( '13_23' === columnOldWidth ) {
+                ( ( '23_13' === columnOldWidth ) && ( '11' === columnNewWidth || '13_23' === columnNewWidth || '13_13_13' === columnNewWidth ) ) ||
 
                 // 2 column -> 1 column
                 // 2 column -> 2 columns
                 // 2 column -> 3 columns
-                if ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_13_13' === columnNewWidth ) {
-                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
-                    rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
-                }
-
-            } else if ( '13_13_13' === columnOldWidth ) {
+                ( ( '13_23' === columnOldWidth ) && ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_13_13' === columnNewWidth ) ) ||
 
                 // 3 column -> 1 column
                 // 3 column -> 2 columns
                 // 3 column -> 2 columns
-                if ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_23' === columnNewWidth ) {
-                    tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
-                    rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random() );
-                }
+                ( ( '13_13_13' === columnOldWidth ) && ( '11' === columnNewWidth || '23_13' === columnNewWidth || '13_23' === columnNewWidth ) ) ) {
+
+                tdcIFrameData.changeRowModel( rowModel, columnOldWidth, columnNewWidth );
+                rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
+
+            } else {
+                throw 'tdcSidebar.changeColumns Error: columnOldWidth:' + columnOldWidth + ' and columnNewWidth: ' + columnNewWidth;
             }
         },
 
@@ -646,10 +643,10 @@ var tdcSidebar;
             if ( !_.isUndefined( tdcSidebar._currentModel ) ) {
                 tdcSidebarPanel.bindPanelToModel( tdcSidebar._currentModel );
 
-                tdcSidebar.activeBreadcrumbItem();
+                tdcSidebar._activeBreadcrumbItem();
 
                 // Close the sidebar modal 'Add Elements'
-                tdcSidebar.closeModal();
+                tdcSidebar._closeModal();
             }
         }
 

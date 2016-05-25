@@ -12,6 +12,7 @@ class vc_row extends tdc_shortcode {
 	function render($atts, $content = null) {
 
 		global $td_row_count;
+		$td_row_count = 0;
 		$td_row_count++;
 		$buffy = self::wpb_js_remove_wpautop('<div class="tdc-row"><div class="vc_row wpb_row td-pb-row">' .   $content  . '</div></div>');
 		$td_row_count--;
