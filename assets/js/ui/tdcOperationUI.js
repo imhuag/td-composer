@@ -98,9 +98,6 @@ var tdcOperationUI;
                 // Hide the mask
                 //tdcMaskUI.setCurrentElement( undefined );
 
-                tdcSidebarPanel._deletePanel();
-
-
             }).mousemove(function(event) {
                 //tdcDebug.log( 'contents mouse move' );
 

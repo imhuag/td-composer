@@ -10,12 +10,17 @@
 /* global tdcShortcodeParser:{} */
 /* global tdcOperationUI:{} */
 /* global tdcAdminWrapperUI:{} */
+
 /* global tdcRowUI:{} */
 /* global tdcColumnUI:{} */
 /* global tdcInnerRowUI:{} */
 /* global tdcInnerColumnUI:{} */
 /* global tdcElementsUI:{} */
 /* global tdcElementUI:{} */
+
+
+
+/* global tdcSidebar:{} */
 
 // duplicate declarations
 /* jshint -W004 */
@@ -70,8 +75,7 @@ var tdcIFrameData,
                         tdcDebug.log( errors[ prop ] );
                     }
 
-                    alert('Errors happened during tdcIframeData.init() -> bindViewsModelsWrappers()! Errors in console ...');
-                    return;
+                    throw 'Errors happened during tdcIframeData.init() -> bindViewsModelsWrappers()! Errors in console ...';
                 }
 
                 tdcDebug.log( tdcIFrameData.tdcRows.models );
@@ -332,14 +336,14 @@ var tdcIFrameData,
                                     }
                                 }
 
-                                tdcInnerRowUI.init(this.$el);
-                                tdcInnerColumnUI.init(this.$el);
-                                tdcElementUI.init(this.$el);
+                                tdcInnerRowUI.init( this.$el );
+                                tdcInnerColumnUI.init( this.$el );
+                                tdcElementUI.init( this.$el );
 
                                 tdcSidebar.setSettings({
-                                    '$currentRow': tdcRowHandlerUI.inRow(this.$el),
-                                    '$currentColumn': tdcColumnHandlerUI.inColumn(this.$el),
-                                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow(this.$el)
+                                    '$currentRow': tdcRowHandlerUI.inRow( this.$el ),
+                                    '$currentColumn': tdcColumnHandlerUI.inColumn( this.$el ),
+                                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( this.$el )
                                 });
 
 
@@ -1719,30 +1723,22 @@ var tdcIFrameData,
                 }
             }
 
-
-            // @todo This check should be removed - the content should have consistency
             if ( ! $destination.length ) {
-                alert( '_getDestinationModel Error: Container destination not available!' );
-                return;
+                throw '_getDestinationModel Error: Container destination not available!';
             }
 
             // The model id (where the item model must be inserted)
             var destinationModelId = $destination.data( 'model_id' );
 
-            // @todo This check should be removed - the content should have consistency
             if ( _.isUndefined( destinationModelId ) ) {
-                alert( '_getDestinationModel Error: Model id of the container destination not in data!' );
-                return;
+                throw '_getDestinationModel Error: Model id of the container destination not in data!';
             }
-
 
             // The model (where the item model must be inserted)
             var destinationModel = tdcIFrameData.getModel( destinationModelId );
 
-            // @todo This check should be removed - the content should have consistency
             if ( _.isUndefined( destinationModel ) ) {
-                alert( '_getDestinationModel Error: Model not in structure data!' );
-                return;
+                throw '_getDestinationModel Error: Model not in structure data!';
             }
 
             //tdcDebug.log( destinationModel );
