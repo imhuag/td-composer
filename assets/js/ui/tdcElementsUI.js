@@ -10,7 +10,7 @@
 /* global tdcAdminIFrameUI:{} */
 /* global tdcOperationUI:{} */
 
-
+// Important! THIS FILE IS SUSCEPTIBLE TO BE REMOVED FROM THE PROJECT BECAUSE IT BECAME USELESS
 
 var tdcElementsUI;
 

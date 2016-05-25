@@ -7,9 +7,9 @@
 /* global _:{} */
 
 /* global tdcAdminWrapperUI:{} */
-/* global tdcAdminIFrameUI:{} */
 /* global tdcOperationUI:{} */
 /* global tdcElementUI:{} */
+/* global tdcSidebar:{} */
 /* global tdcMaskUI:{} */
 
 
@@ -276,7 +276,7 @@ var tdcInnerRowUI;
                     currentElementOver.after($placeholder);
 
                     // Update the helper
-                    tdcOperationUI.updateInfoHelper();
+                    tdcOperationUI.updateInfoHelper( undefined );
                 }
 
                 // Position the placeholder at the bottom of the screen
@@ -307,7 +307,7 @@ var tdcInnerRowUI;
                     currentElementOver.before($placeholder);
 
                     // Update the helper
-                    tdcOperationUI.updateInfoHelper();
+                    tdcOperationUI.updateInfoHelper( undefined );
                 }
 
                 // Position the placeholder at the top of the screen

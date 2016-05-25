@@ -182,6 +182,7 @@ var tdcOperationUI;
             var draggedElement = tdcOperationUI.getDraggedElement();
 
             if ( ! _.isUndefined( draggedElement ) ) {
+
                 draggedElement.css({
                     opacity: ''
                 });
@@ -193,8 +194,6 @@ var tdcOperationUI;
                 //tdcDebug.log( draggedElement );
 
                 tdcOperationUI.setDraggedElement( undefined );
-            } else {
-                //tdcDebug.log( 'dragged UNDEFINED' );
             }
         },
 
@@ -335,7 +334,7 @@ var tdcOperationUI;
                 tdcOperationUI._isPlaceholderVisible = true;
                 $placeholder.show();
 
-                tdcOperationUI.updateInfoHelper();
+                tdcOperationUI.updateInfoHelper( undefined );
             }
         },
 
