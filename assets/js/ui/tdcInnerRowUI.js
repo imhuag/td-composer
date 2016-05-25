@@ -22,11 +22,17 @@ var tdcInnerRowUI;
 
     tdcInnerRowUI = {
 
-        // The 'tdc-element-inner-row' elements
+        // The css class of the handler element
+        _elementCssClass: 'tdc-element-inner-row',
+
+        // The '.tdc-element-inner-row' elements
         tdcElementInnerRow: undefined,
 
 
-
+        /**
+         *
+         * @param $content
+         */
         init: function( $content ) {
 
             if ( _.isUndefined( $content ) ) {
@@ -40,6 +46,11 @@ var tdcInnerRowUI;
             });
         },
 
+
+        /**
+         *
+         * @param $element
+         */
         bindInnerRow: function( $element ) {
 
             // Unbind any event.
@@ -54,9 +65,9 @@ var tdcInnerRowUI;
                 event.stopPropagation();
 
                 tdcSidebar.setSettings({
-                    '$currentRow': tdcRowHandlerUI.inRow( $element ),
-                    '$currentColumn': tdcColumnHandlerUI.inColumn( $element ),
-                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( $element )
+                    '$currentRow': tdcOperationUI.inRow( $element ),
+                    '$currentColumn': tdcOperationUI.inColumn( $element ),
+                    '$currentInnerRow': tdcOperationUI.inInnerRow( $element )
                 });
 
             }).mousedown(function( event ) {
@@ -156,6 +167,10 @@ var tdcInnerRowUI;
         },
 
 
+        /**
+         *
+         * @param event
+         */
         positionInnerRowPlaceholder: function( event ) {
             //tdcDebug.log( event );
 
@@ -324,6 +339,15 @@ var tdcInnerRowUI;
             //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
             //    $placeholder.hide();
             //}
+        },
+
+
+        /**
+         *
+         * @returns {string}
+         */
+        getElementCssClass: function() {
+            return tdcInnerRowUI._elementCssClass;
         }
     };
 

@@ -7,7 +7,6 @@
 /* global _:{} */
 
 /* global tdcAdminWrapperUI:{} */
-/* global tdcAdminIFrameUI:{} */
 /* global tdcOperationUI:{} */
 /* global tdcMaskUI:{} */
 
@@ -21,25 +20,35 @@ var tdcColumnUI;
 
     tdcColumnUI = {
 
+        // The css class of the handler element
+        _elementCssClass: 'tdc-column',
+
         // The 'tdc-column' elements
         tdcColumn: undefined,
 
 
-
-
+        /**
+         *
+         * @param $content
+         */
         init: function( $content ) {
 
             if ( _.isUndefined( $content ) ) {
                 $content = tdcOperationUI.iframeContents;
             }
 
-            tdcColumnUI.tdcColumn = $content.find('.tdc-column');
+            tdcColumnUI.tdcColumn = $content.find( '.' + tdcColumnUI._elementCssClass );
 
             tdcColumnUI.tdcColumn.each(function (index, element) {
                 tdcColumnUI.bindColumn(jQuery(element));
             });
         },
 
+
+        /**
+         *
+         * @param $element
+         */
         bindColumn: function( $element ) {
 
             // Unbind any event.
@@ -53,8 +62,8 @@ var tdcColumnUI;
                 event.stopPropagation();
 
                 tdcSidebar.setSettings({
-                    '$currentRow': tdcRowHandlerUI.inRow( $element ),
-                    '$currentColumn': tdcColumnHandlerUI.inColumn( $element )
+                    '$currentRow': tdcOperationUI.inRow( $element ),
+                    '$currentColumn': tdcOperationUI.inColumn( $element )
                 });
 
             }).mousedown(function( event ) {
@@ -151,7 +160,7 @@ var tdcColumnUI;
 
                     // Being floated, all prev columns width must be considered when working with the offset().left
                     var extraLeft = 0;
-                    var prevColumns = $element.prevAll( '.tdc-column' );
+                    var prevColumns = $element.prevAll( '.' + tdcColumnUI._elementCssClass );
 
                     if ( prevColumns.length ) {
                         prevColumns.each( function (index, element) {
@@ -182,6 +191,10 @@ var tdcColumnUI;
         },
 
 
+        /**
+         *
+         * @param event
+         */
         positionColumnPlaceholder: function( event ) {
             //tdcDebug.log( event );
 
@@ -333,6 +346,15 @@ var tdcColumnUI;
             //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
             //    $placeholder.hide();
             //}
+        },
+
+
+        /**
+         *
+         * @returns {string}
+         */
+        getElementCssClass: function() {
+            return tdcColumnUI._elementCssClass;
         }
     };
 

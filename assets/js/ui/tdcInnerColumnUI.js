@@ -21,25 +21,35 @@ var tdcInnerColumnUI;
 
     tdcInnerColumnUI = {
 
-        // The 'tdc-inner-column' elements
+        // The css class of the handler element
+        _elementCssClass: 'tdc-inner-column',
+
+        // The '.tdc-inner-column' elements
         tdcInnerColumn: undefined,
 
 
-
-
+        /**
+         *
+         * @param $content
+         */
         init: function( $content ) {
 
             if ( _.isUndefined( $content ) ) {
                 $content = tdcOperationUI.iframeContents;
             }
 
-            tdcInnerColumnUI.tdcInnerColumn = $content.find( '.tdc-inner-column' );
+            tdcInnerColumnUI.tdcInnerColumn = $content.find( '.' + tdcInnerColumnUI._elementCssClass );
 
             tdcInnerColumnUI.tdcInnerColumn.each(function( index, element ) {
                 tdcInnerColumnUI.bindInnerColumn( jQuery( element ) );
             });
         },
 
+
+        /**
+         *
+         * @param $element
+         */
         bindInnerColumn: function( $element ) {
 
             // Unbind any event.
@@ -53,10 +63,10 @@ var tdcInnerColumnUI;
                 event.stopPropagation();
 
                 tdcSidebar.setSettings({
-                    '$currentRow': tdcRowHandlerUI.inRow( $element ),
-                    '$currentColumn': tdcColumnHandlerUI.inColumn( $element ),
-                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( $element ),
-                    '$currentInnerColumn': tdcInnerColumnHandlerUI.inInnerColumn( $element )
+                    '$currentRow': tdcOperationUI.inRow( $element ),
+                    '$currentColumn': tdcOperationUI.inColumn( $element ),
+                    '$currentInnerRow': tdcOperationUI.inInnerRow( $element ),
+                    '$currentInnerColumn': tdcOperationUI.inInnerColumn( $element )
                 });
 
             }).mousedown(function(event) {
@@ -151,7 +161,7 @@ var tdcInnerColumnUI;
 
                     // Being floated, all prev columns width must be considered when working with the offset().left
                     var extraLeft = 0;
-                    var prevColumns = $element.prevAll( '.tdc-inner-column' );
+                    var prevColumns = $element.prevAll( '.' + tdcInnerColumnUI._elementCssClass );
 
                     if ( prevColumns.length ) {
                         prevColumns.each( function (index, element) {
@@ -182,6 +192,10 @@ var tdcInnerColumnUI;
         },
 
 
+        /**
+         *
+         * @param event
+         */
         positionInnerColumnPlaceholder: function( event ) {
             //tdcDebug.log( event );
 
@@ -331,6 +345,15 @@ var tdcInnerColumnUI;
             //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
             //    $placeholder.hide();
             //}
+        },
+
+
+        /**
+         *
+         * @returns {string}
+         */
+        getElementCssClass: function() {
+            return tdcInnerColumnUI._elementCssClass;
         }
     };
 

@@ -25,9 +25,6 @@ var tdcInnerColumnHandlerUI;
 
     tdcInnerColumnHandlerUI = {
 
-        // The css class of the handler element
-        _elementCssClass: 'tdc-inner-column',
-
         //_handlerId: tdcInnerColumnHandlerUI._elementCssClass,
         _handlerId: 'tdc-inner-column',
 
@@ -173,7 +170,7 @@ var tdcInnerColumnHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementInnerColumn = tdcInnerColumnHandlerUI.inInnerColumn( $element );
+            var $elementInnerColumn = tdcOperationUI.inInnerColumn( $element );
 
             if ( ! _.isUndefined( $elementInnerColumn ) ) {
                 tdcInnerColumnHandlerUI.$elementInnerColumn = $elementInnerColumn;
@@ -181,31 +178,6 @@ var tdcInnerColumnHandlerUI;
             } else {
                 tdcInnerColumnHandlerUI._$handlerWrapper.hide();
             }
-        },
-
-
-        /**
-         * Check the $element param is child of an inner column. If it is, return the inner column
-         *
-         * @param $element
-         * @returns {*}
-         */
-        inInnerColumn: function( $element ) {
-            var $elementInnerColumn = $element.closest( '.' + tdcInnerColumnHandlerUI._elementCssClass );
-            if ( $elementInnerColumn.length ) {
-                return $elementInnerColumn;
-            }
-        },
-
-
-        /**
-         * Check the $element is inner column
-         *
-         * @param $element
-         * @returns {*}
-         */
-        isInnerColumn: function( $element ) {
-            return $element.hasClass( tdcInnerColumnHandlerUI._elementCssClass );
         },
 
 

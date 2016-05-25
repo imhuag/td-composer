@@ -327,10 +327,10 @@ var tdcElementUI;
                 event.stopPropagation();
 
                 tdcSidebar.setSettings({
-                    '$currentRow': tdcRowHandlerUI.inRow( $element ),
-                    '$currentColumn': tdcColumnHandlerUI.inColumn( $element ),
-                    '$currentInnerRow': tdcInnerRowHandlerUI.inInnerRow( $element ),
-                    '$currentInnerColumn': tdcInnerColumnHandlerUI.inInnerColumn( $element ),
+                    '$currentRow': tdcOperationUI.inRow( $element ),
+                    '$currentColumn': tdcOperationUI.inColumn( $element ),
+                    '$currentInnerRow': tdcOperationUI.inInnerRow( $element ),
+                    '$currentInnerColumn': tdcOperationUI.inInnerColumn( $element ),
                     '$currentElement' : $element
                 });
 

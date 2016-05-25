@@ -25,10 +25,6 @@ var tdcInnerRowHandlerUI;
 
     tdcInnerRowHandlerUI = {
 
-        // The css class of the handler element
-        //_elementCssClass: 'tdc-inner-row',
-        _elementCssClass: 'tdc-element-inner-row',
-
         //_handlerId: tdcInnerColumnHandlerUI._elementCssClass,
         //_handlerId: 'tdc-inner-row',
         _handlerId: 'tdc-element-inner-row',
@@ -172,7 +168,7 @@ var tdcInnerRowHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementInnerRow = tdcInnerRowHandlerUI.inInnerRow( $element );
+            var $elementInnerRow = tdcOperationUI.inInnerRow( $element );
 
             if ( ! _.isUndefined( $elementInnerRow ) ) {
                 tdcInnerRowHandlerUI.$elementInnerRow = $elementInnerRow;
@@ -180,31 +176,6 @@ var tdcInnerRowHandlerUI;
             } else {
                 tdcInnerRowHandlerUI._$handlerWrapper.hide();
             }
-        },
-
-
-        /**
-         * Check the $element param is child of an inner row. If it is, return the inner row
-         *
-         * @param $element
-         * @returns {*}
-         */
-        inInnerRow: function( $element ) {
-            var $elementInnerRow = $element.closest( '.' + tdcInnerRowHandlerUI._elementCssClass );
-            if ( $elementInnerRow.length ) {
-                return $elementInnerRow;
-            }
-        },
-
-
-        /**
-         * Check the $element is inner row
-         *
-         * @param $element
-         * @returns {*}
-         */
-        isInnerRow: function( $element ) {
-            return $element.hasClass( tdcInnerRowHandlerUI._elementCssClass );
         },
 
 

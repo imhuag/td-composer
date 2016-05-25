@@ -24,9 +24,6 @@ var tdcRowHandlerUI;
 
     tdcRowHandlerUI = {
 
-        // The css class of the handler element
-        _elementCssClass: 'tdc-row',
-
         //_handlerId: tdcInnerColumnHandlerUI._elementCssClass,
         _handlerId: 'tdc-row',
 
@@ -169,7 +166,7 @@ var tdcRowHandlerUI;
          */
         setElement: function( $element ) {
 
-            var $elementRow = tdcRowHandlerUI.inRow( $element );
+            var $elementRow = tdcOperationUI.inRow( $element );
 
             if ( ! _.isUndefined( $elementRow ) ) {
                 tdcRowHandlerUI.$elementRow = $elementRow;
@@ -177,31 +174,6 @@ var tdcRowHandlerUI;
             } else {
                 tdcRowHandlerUI._$handlerWrapper.hide();
             }
-        },
-
-
-        /**
-         * Check the $element param is child of a row. If it is, return the row
-         *
-         * @param $element
-         * @returns {*}
-         */
-        inRow: function( $element ) {
-            var $elementRow = $element.closest( '.' + tdcRowHandlerUI._elementCssClass );
-            if ( $elementRow.length ) {
-                return $elementRow;
-            }
-        },
-
-
-        /**
-         * Check the $element is row
-         *
-         * @param $element
-         * @returns {*}
-         */
-        isRow: function( $element ) {
-            return $element.hasClass( tdcRowHandlerUI._elementCssClass );
         },
 
 
