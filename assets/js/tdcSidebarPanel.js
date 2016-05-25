@@ -22,6 +22,28 @@ var tdcSidebarPanel = {};
         _defaultGroupName: 'General', // where to put params that don't have a group
 
 
+        /**
+         * Small hook system for Sidebar Panel events
+         * @private
+         */
+        _hook: {
+            _hooks: [],
+            addAction: function ( name, callback ) {
+                if (_.isUndefined(tdcSidebarPanel._hook._hooks[name]) ) {
+                    tdcSidebarPanel._hook._hooks[name] = [];
+                }
+                tdcSidebarPanel._hook._hooks[name].push( callback );
+            },
+
+            doAction: function ( name, callArguments ) {
+                if (!_.isUndefined(tdcSidebarPanel._hook._hooks[name])) {
+                    for(var i = 0; i < tdcSidebarPanel._hook._hooks[name].length; i++ ) {
+                        tdcSidebarPanel._hook._hooks[name][i]( callArguments );
+                    }
+                }
+            }
+        },
+
 
 
 
@@ -29,6 +51,7 @@ var tdcSidebarPanel = {};
          * we just hook the dom events here
          */
         init: function () {
+
 
             // dropdown hook
             jQuery('body').on('change focus', '.tdc-property-dropdown:not(.tdc-row-col-dropdown):not(.tdc-innerRow-col-dropdown) select', function() {
@@ -264,6 +287,11 @@ var tdcSidebarPanel = {};
 
 
             jQuery('.tdc-breadcrumbs').show();
+
+
+            // on this hook, the color picker attaches. Because we render in a buffer, all the panel controls that have to run code have to use this hook to run
+            // the code after the panel is rendered in the page.
+            tdcSidebarPanel._hook.doAction( 'panel_rendered' );
 
 
 
@@ -519,10 +547,10 @@ var tdcSidebarPanel = {};
             buffy += '</div>';
 
 
-            setTimeout(function() {
-                jQuery("#" + colorPickerId).cs_wpColorPicker();
-            }, 1000);
 
+            tdcSidebarPanel._hook.addAction( 'panel_rendered', function () {
+                jQuery("#" + colorPickerId).cs_wpColorPicker();
+            });
 
 
             return buffy;

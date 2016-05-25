@@ -137,7 +137,11 @@ var tdcSidebarController = {};
                 };
 
                 tdcJobManager.addJob( newJob );
+            } {
+                //tdcDebug.log( model );
+                //throw "No shortcode for this model!";
             }
+
 
 
 
