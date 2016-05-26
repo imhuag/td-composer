@@ -131,6 +131,9 @@ var tdcIFrameData,
                              */
                             //iFrameWindowObj.tdcComposerBlocksApi.deleteItem(model.get('blockUid')); //@todo To be removed!
 
+                            // Here the tdcIFrameData.deleteCallback is called because the model is not removed
+                            tdcIFrameData.deleteCallback( model );
+
                             // set the new blockUid
                             if ( false === bindNewContent ) {
                                 model.set( 'blockUid', data.blockUid );
@@ -901,8 +904,8 @@ var tdcIFrameData,
 
 
         /**
-         * The delete callback method called at removeModel.
          * It calls tdcComposerBlocksApi.deleteItem for the given model and for all its children
+         * It's enough to remove a model, being called by tdcIFrameData.removeModel
          *
          * @param model
          */
