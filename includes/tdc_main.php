@@ -177,6 +177,7 @@ if (!empty($td_action)) {
 			function on_wp_enqueue_scripts_iframe() {
 				tdc_util::enqueue_js_files_array(tdc_config::$js_files_for_iframe, array(
 					'jquery',
+					'underscore'
 				));
 				wp_enqueue_style('td_composer_edit', TDC_URL . '/td_less_style.css.php?part=iframe_main', false, false);
 			}
