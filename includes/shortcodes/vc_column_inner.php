@@ -6,7 +6,16 @@
  * Time: 13:55
  */
 
-class vc_column_inner extends tdc_shortcode {
+class vc_column_inner extends td_block {
+
+	/**
+	 * Disable loop block features. This block does not use a loop and it dosn't need to run a query.
+	 */
+	function __construct() {
+		parent::disable_loop_block_features();
+	}
+
+
 
 	function render($atts, $content = null) {
 
@@ -34,7 +43,13 @@ class vc_column_inner extends tdc_shortcode {
 
 
 		ob_start();
-		?><div class="tdc-inner-column"><div class="<?php echo $td_pb_class ?> wpb_column vc_column_container"><div class="vc_column-inner"><div class="wpb_wrapper"><?php echo self::wpb_js_remove_wpautop( $content ); ?></div></div></div></div><?php
+		?><div class="tdc-inner-column"><div class="<?php echo $td_pb_class ?> wpb_column vc_column_container"><div class="vc_column-inner"><div class="wpb_wrapper"><?php echo do_shortcode( shortcode_unautop( $content )); ?></div></div></div></div><?php
 		return ob_get_clean();
+	}
+
+
+	// we don't use blockUid's yet for rows and columns / AKA structure elements
+	function js_tdc_get_composer_block() {
+		return '';
 	}
 }
