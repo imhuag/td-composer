@@ -109,7 +109,9 @@ var tdcSidebarController = {};
                     var iFrameWindowObj = tdcAdminIFrameUI.getIframeWindow();
 
                     // !!! This also fires the deleteCallback for draggedBlockUid
-                    iFrameWindowObj.tdcComposerBlocksApi.deleteItem(model.get('blockUid'));
+                    //iFrameWindowObj.tdcComposerBlocksApi.deleteItem(model.get('blockUid')); // @todo To be removed!
+
+                    tdcIFrameData.deleteCallback( model );
 
 
                     // set the new blockUid
