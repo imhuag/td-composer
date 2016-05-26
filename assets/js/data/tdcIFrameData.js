@@ -595,8 +595,7 @@ var tdcIFrameData,
                 if ( !_.isEmpty( errors ) ) {
                     tdcDebug.log( errors );
 
-                    alert( 'Errors happened during _initStructureData() -> _getData()! Errors in console ...' );
-                    return false;
+                    throw 'Errors happened during _initStructureData() -> _getData()! Errors in console ...';
                 }
 
 
@@ -610,8 +609,7 @@ var tdcIFrameData,
                 if ( !_.isUndefined( data.error ) ) {
                     tdcDebug.log( data.error );
 
-                    alert( 'Errors happened during _initStructureData() -> checkCurrentData()! Errors in console ...' );
-                    return false;
+                    throw 'Errors happened during _initStructureData() -> checkCurrentData()! Errors in console ...';
                 }
             }
             return true;
@@ -623,7 +621,7 @@ var tdcIFrameData,
 
 
 
-        _initNewContentStructureData: function( startLevel, shortcode, model ) {
+        _initNewContentStructureData: function( startLevel, shortcode, parentModel ) {
 
             var content = tdcIFrameData._getContentJSON( startLevel, shortcode );
 
@@ -634,14 +632,13 @@ var tdcIFrameData,
                 var errors = {};
 
                 _.each( content, function( element, index, list ) {
-                    tdcIFrameData._getData( model , element, errors, startLevel );
+                    tdcIFrameData._getData( parentModel , element, errors, startLevel );
                 });
 
                 if ( !_.isEmpty( errors ) ) {
                     tdcDebug.log( errors );
 
-                    alert( 'Errors happened during _initNewContentStructureData() -> _getData()! Errors in console ...' );
-                    return false;
+                    throw 'Errors happened during _initNewContentStructureData() -> _getData()! Errors in console ...';
                 }
 
 
@@ -655,8 +652,7 @@ var tdcIFrameData,
                 if ( !_.isUndefined( data.error ) ) {
                     tdcDebug.log( data.error );
 
-                    alert( 'Errors happened during _initNewContentStructureData() -> checkCurrentData()! Errors in console ...' );
-                    return false;
+                    throw 'Errors happened during _initNewContentStructureData() -> checkCurrentData()! Errors in console ...';
                 }
             }
             return true;
@@ -1092,7 +1088,7 @@ var tdcIFrameData,
 
                     destinationModel = tdcIFrameData._getDestinationModel(['.tdc-inner-column', '.tdc-column']);
 
-                    if (_.isUndefined(destinationModel)) {
+                    if ( _.isUndefined( destinationModel ) ) {
                         throw 'changeData Error: Destination model not in structure data!';
                     }
 
@@ -1438,7 +1434,7 @@ var tdcIFrameData,
                                 // The existing collection width
                                 var widthCollection = tdcIFrameData.getChildCollectionWidths( childCollection );
 
-                                if ( ! widthCollection.length ) {
+                                if ( _.isUndefined( widthCollection ) ) {
                                     widthCollection = '11';
                                 }
 
@@ -1677,25 +1673,54 @@ var tdcIFrameData,
         },
 
 
-
-
-
-        _getColParam: function( model ) {
+        /**
+         * Get the column number for the model, from its 'width' attribute
+         *
+         * @param model
+         * @returns {number}
+         * @private
+         */
+        _parseModelWidthAtts: function( model ) {
             var modelAttrs = model.get( 'attrs' ),
-                colParam = 3;
+                columns = 3;
 
             if ( _.has( modelAttrs, 'width' ) ) {
-                colParam = modelAttrs.width;
-            }
 
-            // The source column param filter
-            switch ( colParam ) {
-                case '1/3' : colParam = 1; break;
-                case '2/3' : colParam = 2; break;
-                case '1/2' : colParam = 1; break;
-            }
+                var width = modelAttrs.width;
 
-            return colParam;
+                // The source column param filter
+                switch ( width ) {
+                    case '1/3' : columns = 1; break;
+                    case '2/3' : columns = 2; break;
+                    case '1/2' : columns = 1; break;
+                }
+            }
+            return columns;
+        },
+
+
+        /**
+         * Get the column number for the model, looking to its parents
+         *
+         * @param model
+         * @returns {number}
+         */
+        getColumnNumber: function( model ) {
+
+            var columns = 3,
+                parentModel = model.get( 'parentModel' );
+
+            if ( ! _.isUndefined( parentModel ) ) {
+                var parentModelColumns = tdcIFrameData._parseModelWidthAtts( parentModel );
+
+                // Try to look
+                if ( '3' === parentModelColumns ) {
+                    columns = tdcIFrameData._parseModelWidthAtts( parentModel );
+                } else {
+                    columns = parentModelColumns;
+                }
+            }
+            return columns;
         },
 
 
@@ -1760,6 +1785,7 @@ var tdcIFrameData,
 
             var $draggedElement = tdcOperationUI.getDraggedElement();
 
+            // The returned destination columns' number
             var destinationCol;
 
             // Get the closest available container
@@ -1786,7 +1812,7 @@ var tdcIFrameData,
                 }
 
                 // Get the inner columns' number
-                destinationCol = tdcIFrameData._getColParam( destinationInnerColumnModel );
+                destinationCol = tdcIFrameData._parseModelWidthAtts( destinationInnerColumnModel );
 
                 // Do not continue if the inner column destination has not the maximum number of columns (3), otherwise go further and check the column
                 if ( 3 !== destinationCol ) {
@@ -1812,7 +1838,7 @@ var tdcIFrameData,
                 }
 
                 // Get the columns' number
-                destinationCol = tdcIFrameData._getColParam( destinationColumnModel );
+                destinationCol = tdcIFrameData._parseModelWidthAtts( destinationColumnModel );
 
                 // Return the columns' number
                 return destinationCol;
@@ -1896,14 +1922,14 @@ var tdcIFrameData,
                     $element.data( 'model_id' , model.cid );
 
 
-                    // Get the dragged element id
-                    var draggedBlockUid = '',
+                    // Set the block id
+                    var blockUId = '',
                         $tdBlockInner = $element.find( '.td_block_inner');
 
                     if ( $tdBlockInner.length ) {
-                        draggedBlockUid = $tdBlockInner.attr( 'id' );
+                        blockUId = $tdBlockInner.attr( 'id' );
                     }
-                    model.set('blockUid', draggedBlockUid);
+                    model.set( 'blockUid', blockUId );
 
 
                     //tdcDebug.log( model.cid );
@@ -2025,14 +2051,14 @@ var tdcIFrameData,
                     model.set( 'html', element.innerHTML, { silent: true } );
 
 
-                    // Get the dragged element id
-                    var draggedBlockUid = '',
+                    // Set the block id
+                    var blockUId = '',
                         $tdBlockInner = $element.find( '.td_block_inner');
 
                     if ( $tdBlockInner.length ) {
-                        draggedBlockUid = $tdBlockInner.attr( 'id' );
+                        blockUId = $tdBlockInner.attr( 'id' );
                     }
-                    model.set( 'blockUid', draggedBlockUid );
+                    model.set( 'blockUid', blockUId );
 
                     // Create the view
                     var liveView = new tdcIFrameData.TdcLiveView({
@@ -3657,23 +3683,29 @@ var tdcIFrameData,
         },
 
 
-
-
+        /**
+         * Get the combined width for a collection
+         * Ex. 23_13, 13_23, 13_13_13, etc
+         *
+         * @param childCollection
+         * @returns {*}
+         */
         getChildCollectionWidths: function( childCollection ) {
-            var width = '';
 
             if ( _.isUndefined( childCollection ) ) {
-                return width;
+                return;
             }
+
+            var width;
 
             _.map( childCollection.models, function( val, key ) {
 
                 var attrs = val.get( 'attrs' );
                 if ( _.has( attrs, 'width' ) ) {
-                    if ( ! width.length ) {
-                        width += attrs.width.replace( '/', '');
+                    if ( _.isUndefined( width ) ) {
+                        width = attrs.width.replace( '/', '' );
                     } else {
-                        width += '_' + attrs.width.replace( '/', '');
+                        width += '_' + attrs.width.replace( '/', '' );
                     }
                 }
             });

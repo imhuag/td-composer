@@ -98,7 +98,8 @@ var tdcSidebarController = {};
 
 
                 newJob.shortcode = data.getShortcode;
-                newJob.columns = 1; //@todo shit nu avem coloanele
+                //newJob.columns = 1; //@todo shit nu avem coloanele
+                newJob.columns = tdcIFrameData.getColumnNumber( model );
 
                 newJob.liveViewId = oldBlockUid; //@todo
 
@@ -117,7 +118,6 @@ var tdcSidebarController = {};
 
                     // Important! It should have this property
                     if ( _.has( data, 'replyHtml' ) ) {
-                        model.set( 'bindNewContent', true ); //@todo, always bind new content? nu stiu ... cum sa facem aici
                         model.set( 'shortcode', newJob.shortcode );
                         model.set( 'html', data.replyHtml );
                     }
