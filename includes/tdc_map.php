@@ -19,6 +19,7 @@ function tdc_map_theme_blocks() {
 
 /**
  * overwrites the shortcode from the theme or just loads the shortcodes that come with the plugin
+ * !!! USES THEME CODE
  * @see td_global_blocks is from wp booster
  */
 add_action('td_wp_booster_loaded', 'tdc_load_internal_shortcodes',  10002);

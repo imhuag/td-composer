@@ -14,7 +14,6 @@ require_once('tdc_state.php');
 require_once('tdc_util.php');
 
 // shortcodes
-require_once('tdc_shortcode.php');
 require_once('shortcodes/vc_row.php' );
 require_once('shortcodes/vc_row_inner.php' );
 require_once('shortcodes/vc_column.php' );
