@@ -313,15 +313,14 @@ var tdcSidebarPanel = {};
                     var childCollection = model.get( 'childCollection' );
                     if ( ! _.isUndefined( childCollection ) ) {
                         //tdcDebug.log( childCollection );
+
                         var width = tdcIFrameData.getChildCollectionWidths( childCollection );
 
-
-                        if ( width.length ) {
-                            $tdcRowColumnsModifier.val( width );
-                        } else {
+                        if ( _.isUndefined( width ) ) {
                             // Default value
-                            $tdcRowColumnsModifier.val( '11' );
+                            width = '11';
                         }
+                        $tdcRowColumnsModifier.val( width );
                     }
                 }
 
@@ -351,12 +350,11 @@ var tdcSidebarPanel = {};
 
                         //tdcDebug.log( width );
 
-                        if ( width.length ) {
-                            $tdcInnerRowColumnsModifier.val( width );
-                        } else {
+                        if ( _.isUndefined( width ) ) {
                             // Default value
-                            $tdcInnerRowColumnsModifier.val( '11' );
+                            width = '11';
                         }
+                        $tdcInnerRowColumnsModifier.val( width );
 
                         var columnModel = model.get( 'parentModel' ),
                             attrsColumnModel = columnModel.get( 'attrs' ),
