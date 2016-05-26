@@ -129,7 +129,7 @@ var tdcIFrameData,
                              * !!! This also fires the deleteCallback for draggedBlockUid
                              * We basically run the delete callback for the removed item
                              */
-                            iFrameWindowObj.tdcComposerBlocksApi.deleteItem(model.get('blockUid'));
+                            //iFrameWindowObj.tdcComposerBlocksApi.deleteItem(model.get('blockUid')); //@todo To be removed!
 
                             // set the new blockUid
                             if ( false === bindNewContent ) {
@@ -895,7 +895,31 @@ var tdcIFrameData,
             } else {
                 parentModel.get( 'childCollection' ).remove( model, options );
             }
+
+            tdcIFrameData.deleteCallback( model );
         },
+
+
+        /**
+         * The delete callback method called at removeModel.
+         * It calls tdcComposerBlocksApi.deleteItem for the given model and for all its children
+         *
+         * @param model
+         */
+        deleteCallback: function( model ) {
+
+            var blockUid = model.get( 'blockUid' ),
+                childCollection = model.get( 'childCollection' );
+
+            tdcAdminIFrameUI.getIframeWindow().tdcComposerBlocksApi.deleteItem( blockUid );
+
+            if ( ! _.isUndefined( childCollection ) && childCollection.length ) {
+                _.each( childCollection.models, function( elementChild, indexChildColumn, listChildColumn ) {
+                    tdcIFrameData.deleteCallback( elementChild );
+                });
+            }
+        },
+
 
 
 
@@ -1307,7 +1331,8 @@ var tdcIFrameData,
                     if ( tdcOperationUI.getCurrentElementOver() === tdcAdminWrapperUI.$recycle ) {
 
                         // !!! This also fires the deleteCallback for whatWasDragged.draggedBlockUid
-                        tdcAdminIFrameUI.getIframeWindow().tdcComposerBlocksApi.deleteItem(whatWasDragged.draggedBlockUid);
+                        //tdcAdminIFrameUI.getIframeWindow().tdcComposerBlocksApi.deleteItem(whatWasDragged.draggedBlockUid); //@todo To be removed!
+
                         tdcDebug.log('element recycled');
 
                         tdcIFrameData.removeModel( elementModel );
@@ -2727,6 +2752,7 @@ var tdcIFrameData,
                     //childCollectionRow.remove( thirdColumnModel );
                     tdcIFrameData.removeModel( thirdColumnModel );
                 }
+
                 // Remove the second column model
                 //childCollectionRow.remove( secondColumnModel );
                 tdcIFrameData.removeModel( secondColumnModel );
