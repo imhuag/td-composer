@@ -414,8 +414,6 @@ var tdcSidebar;
          */
         setSettings: function( settings ) {
 
-            var $lastBreadcrumbItem
-
             if ( ! _.isUndefined( settings ) ) {
 
                 if ( _.has( settings, '$currentRow' ) && ! _.isUndefined( settings.$currentRow ) ) {

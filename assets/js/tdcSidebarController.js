@@ -65,14 +65,24 @@ var tdcSidebarController = {};
 
 
 
-            // STEP 0: Update the model test
-            if (paramMap.value === value) {
-                // default value is selected, we remove it from the model
-                delete model.attributes.attrs[paramMap.param_name];
+            //// STEP 0: Update the model test
+            //if (paramMap.value === value) {
+            //    // default value is selected, we remove it from the model
+            //    delete model.attributes.attrs[paramMap.param_name];
+            //} else {
+            //    model.attributes.attrs[paramMap.param_name] = value;
+            //}
+
+            var attrs = model.get( 'attrs' ),
+                newAttrs = _.clone( attrs );
+
+            if ( paramMap.value === value ) {
+                delete newAttrs[paramMap.param_name];
             } else {
-                model.attributes.attrs[paramMap.param_name] = value;
+                newAttrs[paramMap.param_name] = value;
             }
 
+            model.set( 'attrs', newAttrs );
 
             console.log(paramName + ' old: ' + oldValue + ' - new: ' + value);
 
