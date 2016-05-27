@@ -184,9 +184,6 @@ var tdcSidebar;
                     currentElementHeadContent = tdcSidebar.$editRow.data( 'name' );
                     $currentElementHeadRef = tdcSidebar.$editRow;
 
-                    // Set the current value for row columns dropdown element
-                    //tdcSidebar._setRowColumnSettings();
-
                     break;
 
                 case 'vc_column':
@@ -209,8 +206,6 @@ var tdcSidebar;
                     currentElementHeadContent = tdcSidebar.$editInnerRow.data( 'name' );
                     $currentElementHeadRef = tdcSidebar.$editInnerRow;
 
-                    // Set the current value for inner row inner columns dropdown element
-                    //tdcSidebar._setInnerRowInnerColumnSettings();
                     break;
 
                 case 'vc_column_inner':
@@ -243,6 +238,7 @@ var tdcSidebar;
                     }
             }
 
+            // Set the content and reattach the events ('mouseenter' and 'mouseleave') to the tdcSidebar.$currentElementHead
             tdcSidebar.$currentElementHead.html( currentElementHeadContent );
 
             tdcSidebar.$currentElementHead.off().mouseenter(function( event ) {
@@ -259,6 +255,7 @@ var tdcSidebar;
 
 
         /**
+         * Close the modal sidebar container.
          *
          * @private
          */
@@ -268,6 +265,8 @@ var tdcSidebar;
 
 
         /**
+         * Add events to '.tdc-add-element' and '.tdc-modal-close' elements.
+         * @todo Being private and used only by tdcSidebar.init, it can be moved there.
          *
          * @private
          */
@@ -278,14 +277,20 @@ var tdcSidebar;
             });
 
             // Sidebar elements modal window - close
-            jQuery('.tdc-modal-close').click(function(){
+            jQuery( '.tdc-modal-close' ).click( function(){
                 jQuery( '.tdc-sidebar-modal-elements' ).removeClass( 'tdc-modal-open' );
             });
 
         },
 
 
-
+        /**
+         * Bind every '.tdc-sidebar-element' element of the sidebar.
+         * @todo Being private and used only by tdcSidebar.init, it can be moved there.
+         *
+         * @param $element
+         * @private
+         */
         _bindElement: function( $element ) {
 
             $element.click(function( event ) {
@@ -390,17 +395,12 @@ var tdcSidebar;
         },
 
 
-
-
-
-
-
-
-
-
-
-
-
+        /**
+         * Get the current model.
+         * Important! There's no setCurrentModel function. The current model is set only by the setSettings()
+         *
+         * @returns {*}
+         */
         getCurrentModel: function() {
             return tdcSidebar._currentModel;
         },
@@ -408,7 +408,8 @@ var tdcSidebar;
 
 
         /**
-         * The entry point
+         * The entry point.
+         * From now, all sidebar necessary elements (current row, current column, etc) are ready.
          *
          * @param settings - plain object
          */
@@ -488,7 +489,7 @@ var tdcSidebar;
             }
 
 
-
+            // Add custom code here!
 
             if ( !_.isUndefined( tdcSidebar._currentModel ) ) {
                 tdcSidebarPanel.bindPanelToModel( tdcSidebar._currentModel );
