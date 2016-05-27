@@ -129,10 +129,17 @@ var tdcIFrameData,
                              * !!! This also fires the deleteCallback for draggedBlockUid
                              * We basically run the delete callback for the removed item
                              */
-                            iFrameWindowObj.tdcComposerBlocksApi.deleteItem(model.get('blockUid'));
+                            //iFrameWindowObj.tdcComposerBlocksApi.deleteItem(model.get('blockUid')); //@todo To be removed!
+
+                            // Here the tdcIFrameData.deleteCallback is called because the model is not removed
+                            tdcIFrameData.deleteCallback( model );
 
                             // set the new blockUid
-                            model.set('blockUid', data.blockUid);
+                            if ( false === bindNewContent ) {
+                                model.set( 'blockUid', data.blockUid );
+                            } else {
+                                model.set( 'blockUid', undefined );
+                            }
 
                             // Important! It should have this property
                             if ( _.has( data, 'replyHtml' ) ) {
@@ -841,31 +848,31 @@ var tdcIFrameData,
 
 
 
-        /**
-         * Remove the model by id.
-         * It looks for the model into the entire collection recursively.
-         * If no collection is specified, the entire backbone structure data is used.
-         *
-         * @param modelId
-         * @param collection
-         * @returns {*}
-         */
-        removeModelById: function( modelId, collection ) {
-
-            var model = tdcIFrameData.getModel( modelId, collection );
-
-            if ( _.isUndefined( model ) ) {
-                return false;
-            }
-
-            var parentModel = model.get( 'parentModel' );
-
-            if ( _.isUndefined( parentModel ) ) {
-                tdcIFrameData.tdcRows.remove( model );
-            } else {
-                parentModel.get( 'childCollection' ).remove( model );
-            }
-        },
+        ///**
+        // * Remove the model by id.
+        // * It looks for the model into the entire collection recursively.
+        // * If no collection is specified, the entire backbone structure data is used.
+        // *
+        // * @param modelId
+        // * @param collection
+        // * @returns {*}
+        // */
+        //removeModelById: function( modelId, collection ) {
+        //
+        //    var model = tdcIFrameData.getModel( modelId, collection );
+        //
+        //    if ( _.isUndefined( model ) ) {
+        //        return false;
+        //    }
+        //
+        //    var parentModel = model.get( 'parentModel' );
+        //
+        //    if ( _.isUndefined( parentModel ) ) {
+        //        tdcIFrameData.tdcRows.remove( model );
+        //    } else {
+        //        parentModel.get( 'childCollection' ).remove( model );
+        //    }
+        //},
 
 
 
@@ -875,18 +882,47 @@ var tdcIFrameData,
          * Remove the model.
          *
          * @param model
+         * @param options - Backbone remove options @see backbone docs
          * @returns {*}
          */
-        removeModel: function( model ) {
+        removeModel: function( model, options ) {
 
             var parentModel = model.get( 'parentModel' );
 
+            if ( _.isUndefined( options ) ) {
+                options = {};
+            }
+
             if ( _.isUndefined( parentModel ) ) {
-                tdcIFrameData.tdcRows.remove( model );
+                tdcIFrameData.tdcRows.remove( model, options );
             } else {
-                parentModel.get( 'childCollection' ).remove( model );
+                parentModel.get( 'childCollection' ).remove( model, options );
+            }
+
+            tdcIFrameData.deleteCallback( model );
+        },
+
+
+        /**
+         * It calls tdcComposerBlocksApi.deleteItem for the given model and for all its children
+         * It's enough to remove a model, being called by tdcIFrameData.removeModel
+         *
+         * @param model
+         */
+        deleteCallback: function( model ) {
+
+            var blockUid = model.get( 'blockUid' ),
+                childCollection = model.get( 'childCollection' );
+
+            tdcAdminIFrameUI.getIframeWindow().tdcComposerBlocksApi.deleteItem( blockUid );
+
+            if ( ! _.isUndefined( childCollection ) && childCollection.length ) {
+                _.each( childCollection.models, function( elementChild, indexChildColumn, listChildColumn ) {
+                    tdcIFrameData.deleteCallback( elementChild );
+                });
             }
         },
+
 
 
 
@@ -1298,7 +1334,8 @@ var tdcIFrameData,
                     if ( tdcOperationUI.getCurrentElementOver() === tdcAdminWrapperUI.$recycle ) {
 
                         // !!! This also fires the deleteCallback for whatWasDragged.draggedBlockUid
-                        tdcAdminIFrameUI.getIframeWindow().tdcComposerBlocksApi.deleteItem(whatWasDragged.draggedBlockUid);
+                        //tdcAdminIFrameUI.getIframeWindow().tdcComposerBlocksApi.deleteItem(whatWasDragged.draggedBlockUid); //@todo To be removed!
+
                         tdcDebug.log('element recycled');
 
                         tdcIFrameData.removeModel( elementModel );
@@ -1320,6 +1357,8 @@ var tdcIFrameData,
 
                         sourceChildCollection = sourceModel.get( 'childCollection' );
                         sourceChildCollection.remove( elementModel, { silent: true } );
+                        // Here it seems the tdcIFrameData.removeModel is not necessary, because the request to the server is not necessary
+                        //tdcIFrameData.removeModel( elementModel, { silent: true } );
                         sourceChildCollection.add( elementModel, { at: newPosition } );
 
                     } else {
@@ -1336,9 +1375,10 @@ var tdcIFrameData,
 
                         destinationChildCollection = destinationModel.get( 'childCollection' );
 
-                        sourceChildCollection = sourceModel.get( 'childCollection' );
+                        //sourceChildCollection = sourceModel.get( 'childCollection' );
 
-                        sourceChildCollection.remove( elementModel, { silent: true } );
+                        //sourceChildCollection.remove( elementModel, { silent: true } );
+                        tdcIFrameData.removeModel( elementModel, { silent: true } );
                         destinationChildCollection.add( elementModel, { at: newPosition } );
 
                         elementModel.set( 'parentModel', destinationModel );
@@ -1376,6 +1416,7 @@ var tdcIFrameData,
 
                         sourceChildCollection = sourceModel.get( 'childCollection' );
                         sourceChildCollection.remove( elementModel, { silent: true } );
+                        //tdcIFrameData.removeModel( elementModel, { silent: true } );
                         sourceChildCollection.add( elementModel, { at: newPosition } );
 
                     } else {
@@ -1391,8 +1432,9 @@ var tdcIFrameData,
 
 
                         // Move the model inside of the structure data
-                        sourceChildCollection = sourceModel.get( 'childCollection' );
-                        sourceChildCollection.remove( elementModel, { silent: true } );
+                        //sourceChildCollection = sourceModel.get( 'childCollection' );
+                        //sourceChildCollection.remove( elementModel, { silent: true } );
+                        tdcIFrameData.removeModel( elementModel, { silent: true } );
                         destinationChildCollection.add( elementModel, { at: newPosition } );
                         elementModel.set( 'parentModel', destinationModel );
 
@@ -1569,7 +1611,8 @@ var tdcIFrameData,
                     sourceModel = elementModel.get( 'parentModel' );
                     sourceChildCollection = sourceModel.get( 'childCollection' );
                     sourceChildCollection.remove( elementModel, {silent: true} );
-                    sourceChildCollection.add( elementModel, {at: newPosition} );
+                    //tdcIFrameData.removeModel( elementModel, { silent: true } );
+                    sourceChildCollection.add( elementModel, { at: newPosition } );
 
 
                     // Here the changes over the column or over the inner columns must be reflected by the sidebar columns or inner columns settings
@@ -1610,7 +1653,9 @@ var tdcIFrameData,
 
                         tdcDebug.log('row recycled');
 
-                        tdcIFrameData.tdcRows.remove( elementModel );
+                        //tdcIFrameData.tdcRows.remove( elementModel );
+                        tdcIFrameData.removeModel( elementModel );
+
                         tdcDebug.log( tdcIFrameData.tdcRows );
 
                         // Add a new empty row if all rows have been deleted
@@ -1662,7 +1707,8 @@ var tdcIFrameData,
                     }
 
                     tdcIFrameData.tdcRows.remove( elementModel, {silent: true} );
-                    tdcIFrameData.tdcRows.add( elementModel, {at: newPosition} );
+                    //tdcIFrameData.removeModel( elementModel, { silent: true } );
+                    tdcIFrameData.tdcRows.add( elementModel, {at: newPosition } );
 
                     tdcDebug.log( 'newPosition: ' + newPosition );
                     tdcDebug.log( $draggedElement );
@@ -1680,7 +1726,7 @@ var tdcIFrameData,
          * @returns {number}
          * @private
          */
-        _parseModelWidthAtts: function( model ) {
+        _parseModelWidthAttrs: function( model ) {
             var modelAttrs = model.get( 'attrs' ),
                 columns = 3;
 
@@ -1711,11 +1757,11 @@ var tdcIFrameData,
                 parentModel = model.get( 'parentModel' );
 
             if ( ! _.isUndefined( parentModel ) ) {
-                var parentModelColumns = tdcIFrameData._parseModelWidthAtts( parentModel );
+                var parentModelColumns = tdcIFrameData._parseModelWidthAttrs( parentModel );
 
                 // Try to look
                 if ( '3' === parentModelColumns ) {
-                    columns = tdcIFrameData._parseModelWidthAtts( parentModel );
+                    columns = tdcIFrameData._parseModelWidthAttrs( parentModel );
                 } else {
                     columns = parentModelColumns;
                 }
@@ -1812,7 +1858,7 @@ var tdcIFrameData,
                 }
 
                 // Get the inner columns' number
-                destinationCol = tdcIFrameData._parseModelWidthAtts( destinationInnerColumnModel );
+                destinationCol = tdcIFrameData._parseModelWidthAttrs( destinationInnerColumnModel );
 
                 // Do not continue if the inner column destination has not the maximum number of columns (3), otherwise go further and check the column
                 if ( 3 !== destinationCol ) {
@@ -1838,7 +1884,7 @@ var tdcIFrameData,
                 }
 
                 // Get the columns' number
-                destinationCol = tdcIFrameData._parseModelWidthAtts( destinationColumnModel );
+                destinationCol = tdcIFrameData._parseModelWidthAttrs( destinationColumnModel );
 
                 // Return the columns' number
                 return destinationCol;
@@ -1923,13 +1969,8 @@ var tdcIFrameData,
 
 
                     // Set the block id
-                    var blockUId = '',
-                        $tdBlockInner = $element.find( '.td_block_inner');
-
-                    if ( $tdBlockInner.length ) {
-                        blockUId = $tdBlockInner.attr( 'id' );
-                    }
-                    model.set( 'blockUid', blockUId );
+                    // @todo Here the blockUid will be the block uid for the row. Till then the blockUid is undefined
+                    model.set( 'blockUid', undefined );
 
 
                     //tdcDebug.log( model.cid );
@@ -2050,14 +2091,18 @@ var tdcIFrameData,
                     // Set the html attribute for the model (its changes are captured by view)
                     model.set( 'html', element.innerHTML, { silent: true } );
 
-
                     // Set the block id
-                    var blockUId = '',
-                        $tdBlockInner = $element.find( '.td_block_inner');
+                    // @todo Here the blockUid will be undefined for columns, inner rows and inner columns
+                    var blockUId = undefined;
 
-                    if ( $tdBlockInner.length ) {
-                        blockUId = $tdBlockInner.attr( 'id' );
+                    if ( 4 === model.get( 'level') ) {
+                        var $tdBlockInner = $element.find( '.td_block_inner');
+
+                        if ( $tdBlockInner.length ) {
+                            blockUId = $tdBlockInner.attr( 'id' );
+                        }
                     }
+
                     model.set( 'blockUid', blockUId );
 
                     // Create the view
@@ -2076,6 +2121,7 @@ var tdcIFrameData,
                 // Decrement the level, for the next bindViewsModelsWrappers call
                 level--;
             }
+            //tdcDebug.log( tdcIFrameData.tdcRows.models );
         },
 
 
@@ -2706,10 +2752,13 @@ var tdcIFrameData,
                         });
                     }
                     // Remove the third column model
-                    childCollectionRow.remove( thirdColumnModel );
+                    //childCollectionRow.remove( thirdColumnModel );
+                    tdcIFrameData.removeModel( thirdColumnModel );
                 }
+
                 // Remove the second column model
-                childCollectionRow.remove( secondColumnModel );
+                //childCollectionRow.remove( secondColumnModel );
+                tdcIFrameData.removeModel( secondColumnModel );
 
                 // We call changeColumnModel just for the first column, because it is the only column that has elements, now
                 tdcIFrameData.changeColumnModel( firstColumnModel, arrOldWidth[0], newWidth );
@@ -2784,7 +2833,8 @@ var tdcIFrameData,
                         });
                     }
                     // Remove the third column model
-                    childCollectionRow.remove( thirdColumnModel );
+                    //childCollectionRow.remove( thirdColumnModel );
+                    tdcIFrameData.removeModel( thirdColumnModel );
                 }
 
 
@@ -2986,7 +3036,8 @@ var tdcIFrameData,
                             var childCollectionThirdInnerColumn = thirdInnerColumnModel.get( 'childCollection' );
 
                             if ( _.isUndefined( childCollectionThirdInnerColumn ) || ! childCollectionThirdInnerColumn.length ) {
-                                childCollectionInnerRow.remove( thirdInnerColumnModel );
+                                //childCollectionInnerRow.remove( thirdInnerColumnModel );
+                                tdcIFrameData.removeModel( thirdInnerColumnModel );
                                 return;
                             }
 
@@ -3003,7 +3054,8 @@ var tdcIFrameData,
                                 elementChildInnerColumn.set( 'parentModel', secondInnerColumnModel );
                             });
 
-                            childCollectionInnerRow.remove( thirdInnerColumnModel );
+                            //childCollectionInnerRow.remove( thirdInnerColumnModel );
+                            tdcIFrameData.removeModel( thirdInnerColumnModel );
 
                         } else {
 
@@ -3049,7 +3101,8 @@ var tdcIFrameData,
                                 // We can't remove elements inside of the collection iteration.
                                 // That's why we need to do it after the iteration has finished.
                                 while ( lastIndexInnerColumn > 0 ) {
-                                    childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    //childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    tdcIFrameData.removeModel( childCollectionInnerRow.at( lastIndexInnerColumn ) );
                                     lastIndexInnerColumn--;
                                 }
                             }
@@ -3100,7 +3153,8 @@ var tdcIFrameData,
                             // We can't remove elements inside of the collection iteration.
                             // That's why we need to do it after the iteration has finished.
                             while ( lastIndexInnerColumn > 0 ) {
-                                childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                //childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                tdcIFrameData.removeModel( childCollectionInnerRow.at( lastIndexInnerColumn ) );
                                 lastIndexInnerColumn--;
                             }
                         }
@@ -3207,7 +3261,8 @@ var tdcIFrameData,
                                 // We can't remove elements inside of the collection iteration.
                                 // That's why we need to do it after the iteration has finished.
                                 while ( lastIndexInnerColumn > 0 ) {
-                                    childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    //childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    tdcIFrameData.removeModel( childCollectionInnerRow.at( lastIndexInnerColumn ) );
                                     lastIndexInnerColumn--;
                                 }
                             }
@@ -3257,7 +3312,8 @@ var tdcIFrameData,
                             // We can't remove elements inside of the collection iteration.
                             // That's why we need to do it after the iteration has finished.
                             while ( lastIndexInnerColumn > 0 ) {
-                                childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                //childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                tdcIFrameData.removeModel( childCollectionInnerRow.at( lastIndexInnerColumn ) );
                                 lastIndexInnerColumn--;
                             }
                         }
@@ -3317,7 +3373,8 @@ var tdcIFrameData,
                                 // We can't remove elements inside of the collection iteration.
                                 // That's why we need to do it after the iteration has finished.
                                 while ( lastIndexInnerColumn > 0 ) {
-                                    childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    //childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    tdcIFrameData.removeModel( childCollectionInnerRow.at( lastIndexInnerColumn ) );
                                     lastIndexInnerColumn--;
                                 }
                             }
@@ -3406,7 +3463,8 @@ var tdcIFrameData,
                                 // We can't remove elements inside of the collection iteration.
                                 // That's why we need to do it after the iteration has finished.
                                 while ( lastIndexInnerColumn > 0 ) {
-                                    childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    //childCollectionInnerRow.remove( childCollectionInnerRow.at( lastIndexInnerColumn ) );
+                                    tdcIFrameData.removeModel( childCollectionInnerRow.at( lastIndexInnerColumn ) );
                                     lastIndexInnerColumn--;
                                 }
                             }
@@ -3541,7 +3599,8 @@ var tdcIFrameData,
                         });
                     }
 
-                    childCollectionInnerRow.remove( secondInnerColumnModel );
+                    //childCollectionInnerRow.remove( secondInnerColumnModel );
+                    tdcIFrameData.removeModel( secondInnerColumnModel );
 
                 } else if ( '12_12' === newWidth || '23_13' === newWidth || '13_23' === newWidth || '13_13_13' === newWidth ) {
 
@@ -3588,6 +3647,15 @@ var tdcIFrameData,
                     }
                 }
 
+
+            // From 3 inner columns to 1 inner column
+            // 13_13_13 -> 11
+            //
+            // From 3 inner columns to 2 inner columns
+            // 13_13_13 -> 12_12
+            // 13_13_13 -> 23_13
+            // 13_13_13 -> 13_23
+
             } else if ( '13_13_13' === oldWidth ) {
 
                 if ( '11' === newWidth ) {
@@ -3633,8 +3701,10 @@ var tdcIFrameData,
                         });
                     }
 
-                    childCollectionInnerRow.remove( secondInnerColumnModel );
-                    childCollectionInnerRow.remove( thirdInnerColumnModel );
+                    //childCollectionInnerRow.remove( secondInnerColumnModel );
+                    //childCollectionInnerRow.remove( thirdInnerColumnModel );
+                    tdcIFrameData.removeModel( secondInnerColumnModel );
+                    tdcIFrameData.removeModel( thirdInnerColumnModel );
 
                 } else if ( '12_12' === newWidth || '23_13' === newWidth || '13_23' === newWidth ) {
 
@@ -3677,7 +3747,8 @@ var tdcIFrameData,
                         });
                     }
 
-                    childCollectionInnerRow.remove( thirdInnerColumnModel );
+                    //childCollectionInnerRow.remove( thirdInnerColumnModel );
+                    tdcIFrameData.removeModel( thirdInnerColumnModel );
                 }
             }
         },

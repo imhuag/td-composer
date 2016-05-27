@@ -11,10 +11,12 @@
  */
 
 
+/* global _:{} */
+
 var tdcComposerBlocksApi = {};
 
 
-(function () {
+(function ( _ ) {
     "use strict";
 
 
@@ -57,6 +59,11 @@ var tdcComposerBlocksApi = {};
          */
         deleteItem: function (oldBlockUid) {
 
+            // @todo Check temporar pana se adauga blockUid pe elementele de structura (row, col, etc).
+            if ( _.isUndefined( oldBlockUid ) ) {
+                return;
+            }
+
             for (var cnt = 0; cnt < tdcComposerBlocksApi.items.length; cnt++) {
                 if (tdcComposerBlocksApi.items[cnt].blockUid === oldBlockUid) {
                     // fire the callbackDelete
@@ -77,5 +84,5 @@ var tdcComposerBlocksApi = {};
 
 
     };
-})();
+})( _ );
 

@@ -24,7 +24,7 @@ class tdc_config {
 
 	static $js_files_for_wrapper = array (
 		'tdcDebug'              => '/assets/js/tdcDebug.js',
-		'tdcUtil'              => '/assets/js/tdcUtil.js',
+		'tdcUtil'               => '/assets/js/tdcUtil.js',
 
 
 		'tdcSavePost'           => '/assets/js/tdcSavePost.js',
@@ -56,9 +56,9 @@ class tdc_config {
 		'tdcAdminIFrameUI'      => '/assets/js/tdcAdminIFrameUI.js',
 
 		'tdcMain'               => '/assets/js/tdcMain.js',
-		'tdcSidebar'      => '/assets/js/tdcSidebar.js',
-		'tdcSidebarPanel' => '/assets/js/tdcSidebarPanel.js',
-		'tdcSidebarController' => '/assets/js/tdcSidebarController.js',
+		'tdcSidebar'            => '/assets/js/tdcSidebar.js',
+		'tdcSidebarPanel'       => '/assets/js/tdcSidebarPanel.js',
+		'tdcSidebarController'  => '/assets/js/tdcSidebarController.js',
 
 
 
@@ -69,7 +69,7 @@ class tdc_config {
 
 
 	static $js_files_for_iframe = array (
-		'tdcComposerBlocksApi' => '/assets/js/iframe/tdcComposerBlocksApi.js',
+		'tdcComposerBlocksApi'  => '/assets/js/iframe/tdcComposerBlocksApi.js',
 		'tdcDebug'              => '/assets/js/tdcDebug.js',  //inject tdcDebug in the iframe also
 	);
 
