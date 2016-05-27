@@ -5,7 +5,7 @@
  */
 
 
-define('TDC_VERSION',   '__td_aurora_deploy_version__');
+define('TDC_VERSION',   '__td_aurora_deploy_version__'); // this is used in the theme to determine if the plugin is installed
 define('TDC_URL',       plugins_url('td-composer'));
 
 
