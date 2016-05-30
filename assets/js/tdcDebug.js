@@ -53,6 +53,9 @@ var tdcDebug;
 
                 console.log('%c tdWeather.items ', 'background: #222; color: white');
                 console.log(iFrameWindowObj.tdWeather.items);
+
+                console.log('%c tdHomepageFull.items ', 'background: #222; color: white');
+                console.log(iFrameWindowObj.tdHomepageFull.items);
             console.groupEnd();
         },
 

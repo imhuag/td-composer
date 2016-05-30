@@ -124,7 +124,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 								'td_block_video_vimeo',         // lipsesc wrappers + ceva js custom
 								'td_block_ad_box',              // issues - lipseste wrapper-ul - probabil din cauza la adblock
 								//'td_block_authors',
-								'td_block_homepage_full_1',     // issues - lipsesc wraperele pe content-ul injectat + nu se poate muta
 								//'td_block_popular_categories',
 								'td_block_slide',               // issues - trebuie facut sa scoata doar 1 slide fara script!
 								//'td_block_text_with_title',
