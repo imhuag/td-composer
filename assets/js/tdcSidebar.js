@@ -306,6 +306,17 @@ var tdcSidebar;
                     return;
                 }
 
+                if ( 'td_block_homepage_full_1' === $element.data( 'shortcode-name' ) ) {
+                    var model = tdcIFrameData.getFirstModelByTag( 'td_block_homepage_full_1' );
+
+                    if ( ! _.isUndefined( model ) ) {
+
+                        // @todo The message should be moved to the tdc message system
+                        alert( 'td_block_homepage_full_1 este deja in pagina' );
+                        return;
+                    }
+                }
+
                 event.preventDefault();
 
                 tdcOperationUI.activeDraggedElement( $element );

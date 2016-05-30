@@ -852,6 +852,55 @@ var tdcIFrameData,
 
 
 
+        /**
+         * Get the first model by tag.
+         * It looks for the model into the entire collection recursively.
+         * If no collection is specified, the entire backbone structure data is used.
+         *
+         * @param tag
+         * @param collection
+         * @returns {*}
+         */
+        getFirstModelByTag: function( tag, collection ) {
+
+            if ( ! tdcIFrameData._isInitialized ) {
+                return;
+            }
+
+            var model;
+
+            if (_.isUndefined( collection ) ) {
+                collection = tdcIFrameData.tdcRows;
+            }
+
+            _.each( collection.models, function( element, index, list) {
+                if ( !_.isUndefined( model ) ) {
+                    return;
+                }
+
+                if ( element.attributes.tag === tag ) {
+                    model = element;
+                    return;
+                }
+
+                //console.log( element );
+
+                if ( element.has( 'childCollection') ) {
+                    var childCollection = element.get( 'childCollection' );
+
+                    model = tdcIFrameData.getFirstModelByTag( tag, childCollection );
+                }
+            });
+
+            if ( !_.isUndefined( model ) ) {
+                return model;
+            }
+        },
+
+
+
+
+
         ///**
         // * Remove the model by id.
         // * It looks for the model into the entire collection recursively.
