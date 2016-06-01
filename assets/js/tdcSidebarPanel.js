@@ -442,6 +442,9 @@ var tdcSidebarPanel = {};
                 case 'textfield':
                     return tdcSidebarPanel.addTextField(mappedParameter, model);
 
+                case 'css_editor':
+                    return tdcSidebarPanel.addCssEditor(mappedParameter, model);
+
                 default:
                     return mappedParameter.param_name + ' - ' + mappedParameter.type + '<br>';
             }
@@ -622,8 +625,42 @@ var tdcSidebarPanel = {};
 
         },
 
-        addCssEditor: function () {
+        addCssEditor: function (mappedParameter, model) {
 
+            var buffy = '';
+            buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
+
+
+                buffy += '<div class="tdc-property-title">Margin:</div>';
+                buffy += '<div class="tdc-box-margin">';
+                    buffy += '<input class="tdc-box-input tdc-box-input-top" name="" type="text" value="" placeholder="-"/>';
+                    buffy += '<input class="tdc-box-input tdc-box-input-right" name="" type="text" value="" placeholder="-"/>';
+                    buffy += '<input class="tdc-box-input tdc-box-input-bottom" name="" type="text" value="" placeholder="-"/>';
+                    buffy += '<input class="tdc-box-input tdc-box-input-left" name="" type="text" value="" placeholder="-"/>';
+
+                    buffy += '<div class="tdc-box-border">';
+                        buffy += '<input class="tdc-box-input tdc-box-input-top" name="" type="text" value="" placeholder="-"/>';
+                        buffy += '<input class="tdc-box-input tdc-box-input-right" name="" type="text" value="" placeholder="-"/>';
+                        buffy += '<input class="tdc-box-input tdc-box-input-bottom" name="" type="text" value="" placeholder="-"/>';
+                        buffy += '<input class="tdc-box-input tdc-box-input-left" name="" type="text" value="" placeholder="-"/>';
+
+                        buffy += '<div class="tdc-box-padding">';
+                            buffy += '<input class="tdc-box-input tdc-box-input-top" name="" type="text" value="" placeholder="-"/>';
+                            buffy += '<input class="tdc-box-input tdc-box-input-right" name="" type="text" value="" placeholder="-"/>';
+                            buffy += '<input class="tdc-box-input tdc-box-input-bottom" name="" type="text" value="" placeholder="-"/>';
+                            buffy += '<input class="tdc-box-input tdc-box-input-left" name="" type="text" value="" placeholder="-"/>';
+                        buffy += '</div>';
+
+                    buffy += '</div>';
+
+                buffy += '</div>';
+
+
+
+            buffy += '</div>';
+
+
+            return buffy;
         }
 
 
@@ -635,3 +672,449 @@ var tdcSidebarPanel = {};
 
     tdcSidebarPanel.init();
 })();
+
+
+
+
+function TdcCssGenerator () {
+    'use strict';
+
+
+
+
+
+    // margins
+    this.marginTop = '';
+    this.marginRight = '';
+    this.marginBottom = '';
+    this.marginLeft = '';
+
+
+    this.borderRadius = '';
+
+
+    this.borderWidthTop = '';
+    this.borderWidthRight = '';
+    this.borderWidthBottom = '';
+    this.borderWidthLeft = '';
+
+
+
+
+    this.generateCss = function () {
+        return this.marginTop;
+    };
+}
+
+
+
+
+var raa = new TdcCssGenerator();
+raa.marginTop = '33px';
+
+console.log(raa.generateCss());
+
+
+
+
+var tdcCssParser = {};
+
+
+(function() {
+    'use strict';
+
+    tdcCssParser = {
+        _parsedCssRaw: {}, // the css returned from parseCSS
+        _cssPropertyValues: {},
+
+        parse: function (css) {
+            //parse css string
+            var parser = new cssjs();
+            tdcCssParser._parsedCssRaw = parser.parseCSS(css);
+
+            // no valid css found
+            if (_.isEmpty(tdcCssParser._parsedCssRaw[0])) {
+                return false;
+            }
+
+
+
+            // rename the css properties for easier lookup     border-top-width  ->   border-width-top
+            for (var i = 0; i < tdcCssParser._parsedCssRaw[0].rules.length; i++) {
+                var currentProperty = tdcCssParser._parsedCssRaw[0].rules[i].directive;
+                if (currentProperty === 'border-top-width') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-width-top';
+                }
+                if (currentProperty === 'border-right-width') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-width-right';
+                }
+                if (currentProperty === 'border-bottom-width') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-width-bottom';
+                }
+                if (currentProperty === 'border-left-width') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-width-left';
+                }
+
+
+                if (currentProperty === 'border-top-color') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-color-top';
+                }
+                if (currentProperty === 'border-right-color') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-color-right';
+                }
+                if (currentProperty === 'border-bottom-color') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-color-bottom';
+                }
+                if (currentProperty === 'border-left-color') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-color-left';
+                }
+
+
+                if (currentProperty === 'border-top-style') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-style-top';
+                }
+                if (currentProperty === 'border-right-style') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-style-right';
+                }
+                if (currentProperty === 'border-bottom-style') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-style-bottom';
+                }
+                if (currentProperty === 'border-left-style') {
+                    tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-style-left';
+                }
+            }
+            console.log(tdcCssParser._parsedCssRaw);
+
+        },
+
+
+        _nthWord: function(str, n) {
+
+            var words = str.split(/\s+/);
+
+            return words[n];
+
+        },
+
+        /**
+         * For compatibility:
+         * - only parses the first selector
+         * - the last occurrence is returned
+         * @param cssDirectiveName
+         */
+        getPropertyValue: function (cssDirectiveName) {
+            if (_.isUndefined(tdcCssParser._parsedCssRaw[0])) {
+                return '';
+            }
+
+
+
+            // parse the rules in inverse order from last to first, the first rule we find is ok
+            for (var i = tdcCssParser._parsedCssRaw[0].rules.length - 1; i >= 0; i--) {
+                var currentRule = tdcCssParser._parsedCssRaw[0].rules[i];
+                currentRule.directive = currentRule.directive.toLowerCase();
+
+
+                // exception for margin
+                if (cssDirectiveName.indexOf('margin') !== -1) {
+                    if (currentRule.directive === cssDirectiveName || currentRule.directive === 'margin') {
+                        return currentRule.value;
+                    }
+                }
+
+
+                // exception for padding
+                else if (cssDirectiveName.indexOf('padding') !== -1) {
+                    if (currentRule.directive === cssDirectiveName || currentRule.directive === 'padding') {
+                        return currentRule.value;
+                    }
+                }
+
+                // exception for border-width
+                else if (cssDirectiveName.indexOf('border-width') !== -1) {
+                    // border: 3px solid red - get the 3px from there
+                    if (currentRule.directive === 'border') {
+                        return tdcCssParser._nthWord(currentRule.value, 0); // return the first word from the border
+                    }
+
+                    if (currentRule.directive === cssDirectiveName || currentRule.directive === 'border-width') {
+                        return currentRule.value;
+                    }
+                }
+
+
+
+                /**
+                 * exception for border-color
+                 * NOTE: VC does not use border-color, just the border: 3px solid red syntax
+                 * http://www.w3schools.com/cssref/pr_border-left_color.asp
+                 *
+                 */
+                // exception for border-width
+                else if (cssDirectiveName.indexOf('border-color') !== -1) {
+                    // border: 3px solid red - get the 3px from there
+                    if (currentRule.directive === 'border') {
+                        return tdcCssParser._nthWord(currentRule.value, 2); // return the first 3rd from the border
+                    }
+
+                    if (currentRule.directive === cssDirectiveName || currentRule.directive === 'border-color') {
+                        return currentRule.value;
+                    }
+                }
+
+
+                // exception for border-style
+                else if (cssDirectiveName.indexOf('border-style') !== -1) {
+                    // border: 3px solid red - get the 3px from there
+                    if (currentRule.directive === 'border') {
+                        return tdcCssParser._nthWord(currentRule.value, 1); // return the first word from the border
+                    }
+
+                    if (currentRule.directive === cssDirectiveName || currentRule.directive === 'border-style') {
+                        return currentRule.value;
+                    }
+                }
+
+
+
+                // exception for background color
+                else if (cssDirectiveName === 'background-color') {
+                    // border: 3px solid red - get the 3px from there
+                    if (currentRule.directive === 'background') {
+                        return tdcCssParser._nthWord(currentRule.value, 0); // return the first word from the border
+                    }
+
+                    else if (currentRule.directive === 'background-color') {
+                        return currentRule.value;
+                    }
+                }
+
+
+                // exception for background url
+                else if (cssDirectiveName === 'background-url') {
+                    // border: 3px solid red - get the 3px from there
+                    if (currentRule.directive === 'background') {
+                        return tdcCssParser._nthWord(currentRule.value, 1); // return the first word from the border
+                    }
+
+                    else if (currentRule.directive === 'background-image') {
+                        return currentRule.value;
+                    }
+                }
+
+
+                else if (currentRule.directive === cssDirectiveName) {
+                    return currentRule.value;
+                }
+            }
+
+            return '';
+
+        }
+
+
+
+    };
+
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var tdcMiniTest = {};
+
+
+(function () {
+    'use strict';
+    tdcMiniTest = {
+
+        showHeader: function (testName) {
+            console.log('------------------------------------------------');
+            console.log(testName + ' - Running tests..');
+            console.log('-----');
+        },
+
+
+
+        assertCssProperty: function (cssProperty, expected) {
+            var propertyValue = tdcCssParser.getPropertyValue(cssProperty);
+            if (propertyValue === expected) {
+                console.log(cssProperty + ': Passed');
+                //console.log(cssProperty + ': Passed  (expected: |' + expected + '| got: |' + propertyValue + '|)');
+            } else {
+                console.log('%c' + cssProperty + ': FAILED (expected: |' + expected + '| got: |' + propertyValue + '|)', 'background: #222; color: #bada55');
+            }
+        }
+
+
+
+    };
+})();
+
+
+//console.log(tdcCssParser._nthWord('background: #81d742 url(http://192.168.0.20/wp_011/wp-content/uploads/2016/05/4-3.jpg?id=24) !important', 2));
+
+
+function ratest() {
+
+
+
+    tdcMiniTest.showHeader("test1");
+    // all options active
+    var test1 = ".vc_custom_1464612013180{Margin-top: 1px !important;margin-right: 2px !important;margin-bottom: 3px !important;margin-left: 4px !important;border-top-width: 5px !important;border-right-width: 6px !important;border-bottom-width: 7px !important;border-left-width: 8px !important;padding-top: 9px !important;padding-right: 10px !important;padding-bottom: 11px !important;padding-left: 12px !important;background: #81d742 url(http://192.168.0.20/wp_011/wp-content/uploads/2016/05/4-3.jpg?id=24) !important;background-position: center !important;background-repeat: no-repeat !important;background-size: contain !important;border-left-color: #dd3333 !important;border-left-style: solid !important;border-right-color: #dd3333 !important;border-right-style: solid !important;border-top-color: #dd3333 !important;border-top-style: solid !important;border-bottom-color: #dd3333 !important;border-bottom-style: solid !important;border-radius: 3px !important;}";
+    tdcCssParser.parse(test1);
+    tdcMiniTest.assertCssProperty('margin-top', '1px !important');
+    tdcMiniTest.assertCssProperty('margin-right', '2px !important');
+    tdcMiniTest.assertCssProperty('margin-bottom', '3px !important');
+    tdcMiniTest.assertCssProperty('margin-left', '4px !important');
+
+    tdcMiniTest.assertCssProperty('border-radius', '3px !important');
+
+    tdcMiniTest.assertCssProperty('border-width-top', '5px !important');
+    tdcMiniTest.assertCssProperty('border-width-right', '6px !important');
+    tdcMiniTest.assertCssProperty('border-width-bottom', '7px !important');
+    tdcMiniTest.assertCssProperty('border-width-left', '8px !important');
+
+    tdcMiniTest.assertCssProperty('border-style-top', 'solid !important');
+    tdcMiniTest.assertCssProperty('border-style-right', 'solid !important');
+    tdcMiniTest.assertCssProperty('border-style-bottom', 'solid !important');
+    tdcMiniTest.assertCssProperty('border-style-left', 'solid !important');
+
+    tdcMiniTest.assertCssProperty('border-color-top', '#dd3333 !important');
+    tdcMiniTest.assertCssProperty('border-color-right', '#dd3333 !important');
+    tdcMiniTest.assertCssProperty('border-color-bottom', '#dd3333 !important');
+    tdcMiniTest.assertCssProperty('border-color-left', '#dd3333 !important');
+
+    tdcMiniTest.assertCssProperty('padding-top', '9px !important');
+    tdcMiniTest.assertCssProperty('padding-right', '10px !important');
+    tdcMiniTest.assertCssProperty('padding-bottom', '11px !important');
+    tdcMiniTest.assertCssProperty('padding-left', '12px !important');
+
+    tdcMiniTest.assertCssProperty('background-position', 'center !important');
+    tdcMiniTest.assertCssProperty('background-repeat', 'no-repeat !important');
+    tdcMiniTest.assertCssProperty('background-size', 'contain !important');
+
+    tdcMiniTest.assertCssProperty('background-color', '#81d742');
+    tdcMiniTest.assertCssProperty('background-url', 'url(http://192.168.0.20/wp_011/wp-content/uploads/2016/05/4-3.jpg?id=24)');
+
+
+
+
+    // bg color
+    tdcMiniTest.showHeader("test_bg");
+    var test_bg = ".vc_custom_1464616587407{background-color: #939393 !important;}";
+    tdcCssParser.parse(test_bg);
+    tdcMiniTest.assertCssProperty('background-color', '#939393 !important');
+
+
+
+
+    // bg image
+    tdcMiniTest.showHeader("test_bg_img");
+    var test_bg_img = ".vc_custom_1464616725143{background-image: url(http://192.168.0.20/wp_011/wp-content/uploads/2016/05/DeskWalls-26.jpg?id=7) !important;}";
+    tdcCssParser.parse(test_bg_img);
+    tdcMiniTest.assertCssProperty('background-url', 'url(http://192.168.0.20/wp_011/wp-content/uploads/2016/05/DeskWalls-26.jpg?id=7) !important');
+
+
+
+    // compact margins and paddings
+    tdcMiniTest.showHeader("test_compact");
+    var test_compact = "vc_custom_1464617086062{margin: 1px !important;border-width: 2px !important;padding: 3px !important;}";
+    tdcCssParser.parse(test_compact);
+
+    tdcMiniTest.assertCssProperty('margin-top', '1px !important');
+    tdcMiniTest.assertCssProperty('margin-right', '1px !important');
+    tdcMiniTest.assertCssProperty('margin-bottom', '1px !important');
+    tdcMiniTest.assertCssProperty('margin-left', '1px !important');
+
+    tdcMiniTest.assertCssProperty('border-width-top', '2px !important');
+    tdcMiniTest.assertCssProperty('border-width-right', '2px !important');
+    tdcMiniTest.assertCssProperty('border-width-bottom', '2px !important');
+    tdcMiniTest.assertCssProperty('border-width-left', '2px !important');
+
+    tdcMiniTest.assertCssProperty('padding-top', '3px !important');
+    tdcMiniTest.assertCssProperty('padding-right', '3px !important');
+    tdcMiniTest.assertCssProperty('padding-bottom', '3px !important');
+    tdcMiniTest.assertCssProperty('padding-left', '3px !important');
+
+
+
+
+    // border short
+    tdcMiniTest.showHeader("border_short");
+    var border_short = ".vc_custom_1464618199945{border: 1px solid #dd3333 !important;}";
+    tdcCssParser.parse(border_short);
+
+    tdcMiniTest.assertCssProperty('border-width-top', '1px');
+    tdcMiniTest.assertCssProperty('border-width-right', '1px');
+    tdcMiniTest.assertCssProperty('border-width-bottom', '1px');
+    tdcMiniTest.assertCssProperty('border-width-left', '1px');
+
+    tdcMiniTest.assertCssProperty('border-style-top', 'solid');
+    tdcMiniTest.assertCssProperty('border-style-right', 'solid');
+    tdcMiniTest.assertCssProperty('border-style-bottom', 'solid');
+    tdcMiniTest.assertCssProperty('border-style-left', 'solid');
+
+
+    tdcMiniTest.assertCssProperty('border-color-top',   '#dd3333');
+    tdcMiniTest.assertCssProperty('border-color-right', '#dd3333');
+    tdcMiniTest.assertCssProperty('border-color-bottom','#dd3333');
+    tdcMiniTest.assertCssProperty('border-color-left',  '#dd3333');
+
+
+    /**
+
+     * border-radius
+     * border-width-top | right | bottom | left   [intarnally we use non standard naming, it should have been border-top-width ]
+     * border-color-top | right | bottom | left
+     * border-style-top | right | bottom | left
+     * padding-top | right | bottom | left
+     * margin-top | right | bottom | left
+     *
+     * background-position
+     * background-repeat
+     * background-size
+     * background-color - removed when background:
+     * background: color, url
+     */
+
+
+    //console.log(tdcCssParser.getPropertyValue('border-radius'));
+    //console.log(tdcCssParser.getPropertyValue('background'));
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
