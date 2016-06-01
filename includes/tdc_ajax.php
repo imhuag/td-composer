@@ -69,15 +69,19 @@ class tdc_ajax {
 
 
 		/*
+		 * DEPRECATED, WE FIXED THE BLOCKS!!!
 			- we need to call the shortcode with output buffering because our style generator from our blocks just echoes it's generated
 				style. No bueno :(
 			- when the do_shortcode runs, our blocks usually call @see td_block->get_block_js(). get_block_js() calls the do_action for td_block__get_block_js hook.
 				we hook td_block__get_block_js above to read that reply
 			- that reply contains the JS for EVAL
 		*/
-		ob_start();
-		echo do_shortcode(stripslashes($request->get_param('shortcode')));  // do shortcode usually renders with the blocks td_block->render method
-		$reply_html = ob_get_clean();
+//		ob_start();
+//		echo do_shortcode(stripslashes($request->get_param('shortcode')));  // do shortcode usually renders with the blocks td_block->render method
+//		$reply_html = ob_get_clean();
+
+
+		$reply_html =  do_shortcode(stripslashes($request->get_param('shortcode')));
 
 
 		// read the buffer that was set by the 'td_block__get_block_js' hook above
