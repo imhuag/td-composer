@@ -827,6 +827,10 @@ var tdcOperationUI;
 
                         draggedBlockUid: draggedBlockUid
                     });
+
+                    // @todo Maybe the sidebar panel should be cleaned! For the moment, only the private _deletePanel is called
+                    tdcSidebarPanel._deletePanel();
+
                     return;
                 }
 

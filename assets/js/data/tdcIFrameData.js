@@ -53,7 +53,11 @@ var tdcIFrameData,
         _isInitialized: false,
 
 
-
+        /**
+         * The main entry point.
+         *
+         * @param iframeContents
+         */
         init: function( iframeContents ) {
 
             if ( tdcIFrameData._isInitialized ) {
@@ -848,6 +852,55 @@ var tdcIFrameData,
 
 
 
+        /**
+         * Get the first model by tag.
+         * It looks for the model into the entire collection recursively.
+         * If no collection is specified, the entire backbone structure data is used.
+         *
+         * @param tag
+         * @param collection
+         * @returns {*}
+         */
+        getFirstModelByTag: function( tag, collection ) {
+
+            if ( ! tdcIFrameData._isInitialized ) {
+                return;
+            }
+
+            var model;
+
+            if (_.isUndefined( collection ) ) {
+                collection = tdcIFrameData.tdcRows;
+            }
+
+            _.each( collection.models, function( element, index, list) {
+                if ( !_.isUndefined( model ) ) {
+                    return;
+                }
+
+                if ( element.attributes.tag === tag ) {
+                    model = element;
+                    return;
+                }
+
+                //console.log( element );
+
+                if ( element.has( 'childCollection') ) {
+                    var childCollection = element.get( 'childCollection' );
+
+                    model = tdcIFrameData.getFirstModelByTag( tag, childCollection );
+                }
+            });
+
+            if ( !_.isUndefined( model ) ) {
+                return model;
+            }
+        },
+
+
+
+
+
         ///**
         // * Remove the model by id.
         // * It looks for the model into the entire collection recursively.
@@ -929,7 +982,10 @@ var tdcIFrameData,
 
 
         /**
-         * Helper function used to check if a model of the current structure data, respects the shortcode levels
+         * Helper function used to check if a model of the current structure data, respects the shortcode levels.
+         * It stops if an error occurred.
+         * The error is saved into the data.error input param.
+         * If no error occurred and if the data.getShortcode input param is specified, it will return the shortcode for the given model.
          *
          * @param model - backbone model - The current model
          * @param data - object - Ref.object {error: the first error caught; getShortcode: param that collects the shortcode structure}
@@ -1086,8 +1142,11 @@ var tdcIFrameData,
          * Important! This function should be called only by 'stop' sortable handler
          * Case A (the sidebar element was dragged)
          *      Case A.1. Element dragged
-         *      Case A.2. Inner row dragged
-         *      Case A.3. Row dragged
+         *      Case A.2. Inner row dragged ( a temp inner row)
+         *      Case A.3. Row dragged (a temp row)
+         *
+         *      Obs. It was necessary to differentiate an existing row (inner row) from a temp row (inner row), because we have different situations.
+         *      The temp rows (inner rows) always need a server request, and for the existing rows (inner rows), this is not necessary all the time.
          * Case B
          *      Steps:
          *          Step 1. Get the model of the draggable element
@@ -2093,7 +2152,7 @@ var tdcIFrameData,
 
                     // Set the block id
                     // @todo Here the blockUid will be undefined for columns, inner rows and inner columns
-                    var blockUId = undefined;
+                    var blockUId;
 
                     if ( 4 === model.get( 'level') ) {
                         var $tdBlockInner = $element.find( '.td_block_inner');
