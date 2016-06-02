@@ -1206,7 +1206,8 @@ var tdcIFrameData,
                             'content': '',
                             'attrs': {
                                 'ajax_pagination': 'next_prev',
-                                'custom_title': shortcodeTitle
+                                'custom_title': shortcodeTitle,
+                                'post_id': window.tdcPostSettings.postId
                             },
                             'tag': shortcodeName,
                             'type': 'single',
