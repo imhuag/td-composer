@@ -137,3 +137,10 @@ html.tdc-active #wpadminbar {
   left: 0;
   z-index: 3;
 }
+.td_block_homepage_full_1 {
+  height: 50px;
+  border: 1px solid red;
+}
+.td_block_homepage_full_1 :after {
+  content: "Homepage Post";
+}
