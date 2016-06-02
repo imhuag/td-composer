@@ -259,6 +259,63 @@ var tdcSidebarPanel = {};
                 );
             });
 
+
+
+
+
+            // on image click
+            jQuery('body').on( 'click', '.tdc-css-bg-image', function(event) {
+
+                var $imgBackgroundImage = jQuery(this);
+                window.original_send_to_editor = window.send_to_editor;
+                wp.media.editor.open(jQuery(this));
+
+                window.send_to_editor = function(html) {
+                    var img_link = jQuery('img', html).attr('src');
+                    if(typeof img_link === 'undefined') {
+                        img_link = jQuery(html).attr('src');
+                    }
+
+                    jQuery('.tdc-css-bg-remove').removeClass('tdc-hidden-button');
+
+                    $imgBackgroundImage.attr('src', img_link);
+                    $imgBackgroundImage.removeClass('tdc-no-image-selected');
+
+                    //reset the send_to_editor function to its original state
+                    window.send_to_editor = window.original_send_to_editor;
+
+                    //close the modal window
+                    tb_remove();
+
+                    // fire the bg change event
+                    var model = tdcIFrameData.getModel( $imgBackgroundImage.data('model_id') );
+                    tdcSidebarController.onUpdate (
+                        model,
+                        $imgBackgroundImage.data('param_name'),    // the name of the parameter
+                        '',                      // the old value
+                        tdcSidebarPanel.getCssEditorCss()                 // the new value
+                    );
+                };
+                return false;
+
+            });
+            // on remove image button click
+            jQuery('body').on( 'click', '.tdc-css-bg-remove', function(event) {
+                var $imgBackgroundImage = jQuery('.tdc-css-bg-image');
+                $imgBackgroundImage.addClass('tdc-no-image-selected');
+                $imgBackgroundImage.attr('src', window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img_upload.png');
+
+                // fire the bg change event
+                var model = tdcIFrameData.getModel( $imgBackgroundImage.data('model_id') );
+                tdcSidebarController.onUpdate (
+                    model,
+                    $imgBackgroundImage.data('param_name'),    // the name of the parameter
+                    '',                      // the old value
+                    tdcSidebarPanel.getCssEditorCss()                 // the new value
+                );
+            });
+
+
         },
 
 
@@ -738,8 +795,8 @@ var tdcSidebarPanel = {};
                 buffy += '<div class="tdc-box-margin">';
                     buffy += '<input data-tdc-for="marginTop" class="tdc-css-box-input tdc-css-box-input-top" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('margin-top') + '" placeholder="-" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '/>';
                     buffy += '<input data-tdc-for="marginRight" class="tdc-css-box-input tdc-css-box-input-right" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('margin-right') + '" placeholder="-" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '/>';
-                    buffy += '<input data-tdc-for="marginBottom"class="tdc-css-box-input tdc-css-box-input-bottom" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('margin-bottom') + '" placeholder="-" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '/>';
-                    buffy += '<input data-tdc-for="marginLeft"class="tdc-css-box-input tdc-css-box-input-left" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('margin-left') + '" placeholder="-" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '/>';
+                    buffy += '<input data-tdc-for="marginBottom" class="tdc-css-box-input tdc-css-box-input-bottom" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('margin-bottom') + '" placeholder="-" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '/>';
+                    buffy += '<input data-tdc-for="marginLeft" class="tdc-css-box-input tdc-css-box-input-left" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('margin-left') + '" placeholder="-" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '/>';
 
                     buffy += '<div class="tdc-box-border">';
                         buffy += '<input data-tdc-for="borderWidthTop" class="tdc-css-box-input tdc-css-box-input-top" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('border-width-top') + '" placeholder="-" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '/>';
@@ -792,28 +849,34 @@ var tdcSidebarPanel = {};
 
 
             // border style
-            var currentBorderWidth = tdcCssParser.getPropertyValueClean('border-style');
-//console.log(currentBorderWidth);
+            var currentBorderStyle = tdcCssParser.getPropertyValueClean('border-style');
+            var borderStyles = [
+                {value: '', display: 'Theme defaults'},
+                {value: 'solid', display: 'Solid'},
+                {value: 'dotted', display: 'Dotted'},
+                {value: 'dashed', display: 'Dashed'},
+                {value: 'none', display: 'None'},
+                {value: 'hidden', display: 'Hidden'},
+                {value: 'double', display: 'Double'},
+                {value: 'groove', display: 'Groove'},
+                {value: 'ridge', display: 'Ridge'},
+                {value: 'inset', display: 'Inset'},
+                {value: 'outset', display: 'Outset'},
+                {value: 'initial', display: 'Initial'},
+                {value: 'inherit', display: 'Inherit'}
+            ];
             buffy += '<div class="tdc-property-wrap">';
                 buffy += '<div class="tdc-property-title">Border style:</div>';
                 buffy += '<div class="tdc-property">';
                     buffy += '<select class="tdc-css-border-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
-                        buffy += '<option value="">Theme defaults</option>';
-                        buffy += '<option ' + (currentBorderWidth === 'solid' ? ' selected="selected" ' : '') + ' value="solid">Solid</option>';
-                        buffy += '<option value="dotted">Dotted</option>';
-                        buffy += '<option value="dashed">Dashed</option>';
-                        buffy += '<option value="none">None</option>';
-                        buffy += '<option value="hidden">Hidden</option>';
-                        buffy += '<option value="double">Double</option>';
-                        buffy += '<option value="groove">Groove</option>';
-                        buffy += '<option value="ridge">Ridge</option>';
-                        buffy += '<option value="inset">Inset</option>';
-                        buffy += '<option value="outset">Outset</option>';
-                        buffy += '<option value="initial">Initial</option>';
-                        buffy += '<option value="inherit">Inherit</option>';
+                        for ( var cntBorderStyles = 0; cntBorderStyles < borderStyles.length; cntBorderStyles++ ) {
+                            buffy += '<option ' + (currentBorderStyle === borderStyles[cntBorderStyles].value  ? ' selected="selected" ' : '') + ' value="' + borderStyles[cntBorderStyles].value + '">' + borderStyles[cntBorderStyles].display + '</option>';
+                        }
                     buffy += '</select>';
                 buffy += '</div>';
             buffy += '</div>';
+
+
 
 
             // border radius
@@ -837,7 +900,6 @@ var tdcSidebarPanel = {};
             buffy += '</div>';
             tdcSidebarPanel._hook.addAction( 'panel_rendered', function () {
 
-
                 // read the value and show the image + remove button
                 var currentBgUrl = tdcCssParser.getPropertyValueClean('background-url');
                 if (currentBgUrl !== '') {
@@ -846,72 +908,6 @@ var tdcSidebarPanel = {};
 
                     jQuery('.tdc-css-bg-remove').removeClass('tdc-hidden-button');
                 }
-
-
-
-                // on image click
-                jQuery('body').on( 'click', '.tdc-css-bg-image', function(event) {
-
-                    var $imgBackgroundImage = jQuery(this);
-
-                    window.original_send_to_editor = window.send_to_editor;
-                    wp.media.editor.open(jQuery(this));
-
-
-                    window.send_to_editor = function(html) {
-                        var img_link = jQuery('img', html).attr('src');
-                        if(typeof img_link === 'undefined') {
-                            img_link = jQuery(html).attr('src');
-                        }
-
-                        jQuery('.tdc-css-bg-remove').removeClass('tdc-hidden-button');
-
-                        $imgBackgroundImage.attr('src', img_link);
-                        $imgBackgroundImage.removeClass('tdc-no-image-selected');
-
-                        //reset the send_to_editor function to its original state
-                        window.send_to_editor = window.original_send_to_editor;
-
-                        //close the modal window
-                        tb_remove();
-
-
-                        // fire the bg change event
-                        var model = tdcIFrameData.getModel( $imgBackgroundImage.data('model_id') );
-                        tdcSidebarController.onUpdate (
-                            model,
-                            $imgBackgroundImage.data('param_name'),    // the name of the parameter
-                            '',                      // the old value
-                            tdcSidebarPanel.getCssEditorCss()                 // the new value
-                        );
-
-
-
-                    };
-                    return false;
-
-                });
-
-
-                // on read button click
-                jQuery('body').on( 'click', '.tdc-css-bg-remove', function(event) {
-
-                    var $imgBackgroundImage = jQuery('.tdc-css-bg-image');
-
-                    $imgBackgroundImage.addClass('tdc-no-image-selected');
-
-                    $imgBackgroundImage.attr('src', window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img_upload.png');
-
-                    // fire the bg change event
-                    var model = tdcIFrameData.getModel( $imgBackgroundImage.data('model_id') );
-                    tdcSidebarController.onUpdate (
-                        model,
-                        $imgBackgroundImage.data('param_name'),    // the name of the parameter
-                        '',                      // the old value
-                        tdcSidebarPanel.getCssEditorCss()                 // the new value
-                    );
-                });
-
             });
 
 
@@ -935,6 +931,13 @@ var tdcSidebarPanel = {};
 
 
             return buffy;
+        },
+
+
+
+
+        _generateDropdownOptions: function () {
+
         }
 
 
