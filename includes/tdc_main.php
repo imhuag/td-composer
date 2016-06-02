@@ -42,6 +42,7 @@ function tdc_on_admin_head() {
 		'wpRestNonce' => wp_create_nonce('wp_rest'),
 		'wpRestUrl' => rest_url(),
 		'permalinkStructure' => get_option('permalink_structure'),
+		'pluginUrl' => TDC_URL,
 		'mappedShortcodes' => tdc_mapper::get_mapped_shortcodes() // get ALL the mapped shortcodes / we should turn off pretty print
 	);
 
