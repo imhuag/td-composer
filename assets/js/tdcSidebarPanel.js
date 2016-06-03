@@ -869,9 +869,7 @@ var tdcSidebarPanel = {};
                 buffy += '<div class="tdc-property-title">Border style:</div>';
                 buffy += '<div class="tdc-property">';
                     buffy += '<select class="tdc-css-border-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
-                        for ( var cntBorderStyles = 0; cntBorderStyles < borderStyles.length; cntBorderStyles++ ) {
-                            buffy += '<option ' + (currentBorderStyle === borderStyles[cntBorderStyles].value  ? ' selected="selected" ' : '') + ' value="' + borderStyles[cntBorderStyles].value + '">' + borderStyles[cntBorderStyles].display + '</option>';
-                        }
+                        buffy += tdcSidebarPanel._generateDropdownOptions(borderStyles, currentBorderStyle);
                     buffy += '</select>';
                 buffy += '</div>';
             buffy += '</div>';
@@ -936,8 +934,12 @@ var tdcSidebarPanel = {};
 
 
 
-        _generateDropdownOptions: function () {
-
+        _generateDropdownOptions: function (dropDownOptions, currentValue) {
+            var buffy = '';
+            for ( var i = 0; i < dropDownOptions.length; i++ ) {
+                buffy += '<option ' + (currentValue === dropDownOptions[i].value  ? ' selected="selected" ' : '') + ' value="' + dropDownOptions[i].value + '">' + dropDownOptions[i].display + '</option>';
+            }
+            return buffy;
         }
 
 
