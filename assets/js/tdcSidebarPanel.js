@@ -577,6 +577,9 @@ var tdcSidebarPanel = {};
             //return;
             console.log('clear  _deletePanel ');
 
+            // @todo The hook callback stack should be cleaned!
+            tdcSidebarPanel._hook._hooks = [];
+
             jQuery('.tdc-breadcrumbs').hide();
             jQuery('.tdc-inspector .tdc-current-element-head').empty();
             jQuery('.tdc-inspector .tdc-tabs-wrapper').empty();
@@ -750,20 +753,20 @@ var tdcSidebarPanel = {};
             buffy += '</div>';
             buffy += '</div>';
 
+
+            /**
+             * There were some attempts to reuse a tinymce instance once it has been created, but destroying the DOM elements that has been referenced by the editor,
+             * there's no tinymce API support to rebind it (as I can see!). This means a new tinymce editor should be created!
+             *
+             * Important! Even though the existing tinymce editor (once previously created) is found and removed, the tinymce.EditorManager keep a reference to it (@todo Is it a bug or what?)
+             */
             tdcSidebarPanel._hook.addAction( 'panel_rendered', function () {
 
-                //alert(tinymce.EditorManager.editors.length);
-                //tdcDebug.log(tinymce.EditorManager.editors);
+                var existingEditor = tinymce.get( tinymceId );
 
-                //if ( tinymce.EditorManager.editors.length ) {
-                //    var editor = tinymce.EditorManager.get( tinymceId );
-                //    if ( ! _.isUndefined( editor ) ) {
-                //
-                //        //tinymce.EditorManager.setActive( editor );
-                //        editor.remove();
-                //        //return;
-                //    }
-                //}
+                if ( ! _.isNull( existingEditor ) ) {
+                    tinymce.remove( tinymceId );
+                }
 
                 var newEditor = tinymce.createEditor( tinymceId, {
 
@@ -777,7 +780,7 @@ var tdcSidebarPanel = {};
 
                             var currentValue = editor.getContent({format: 'html'}),
 
-                            // @todo This should be the content before changespostContentppostContentpostContentPO
+                            // @todo This should be the content before change
                                 previousValue = currentValue;
 
                             tdcSidebarController.onUpdate (
