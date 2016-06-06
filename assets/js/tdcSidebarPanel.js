@@ -554,6 +554,9 @@ var tdcSidebarPanel = {};
                 case 'textfield':
                     return tdcSidebarPanel.addTextField(mappedParameter, model);
 
+                case 'textarea_html':
+                    return tdcSidebarPanel.addTextAreaHtml(mappedParameter, model);
+
                 case 'css_editor':
                     return tdcSidebarPanel.addCssEditor(mappedParameter, model);
 
@@ -733,8 +736,64 @@ var tdcSidebarPanel = {};
         },
 
 
-        addTextAreaHtml: function () {
+        addTextAreaHtml: function (mappedParameter, model) {
 
+            var editorContent = tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model);
+
+            var buffy = '';
+            //var tinymceId = _.uniqueId( 'tinymce_' );
+            var tinymceId = 'tdctinymce';
+            buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
+            buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
+            buffy += '<div class="tdc-property">';
+            buffy += '<div id="' + tinymceId + '" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '>' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '</div>';
+            buffy += '</div>';
+            buffy += '</div>';
+
+            tdcSidebarPanel._hook.addAction( 'panel_rendered', function () {
+
+                //alert(tinymce.EditorManager.editors.length);
+                //tdcDebug.log(tinymce.EditorManager.editors);
+
+                //if ( tinymce.EditorManager.editors.length ) {
+                //    var editor = tinymce.EditorManager.get( tinymceId );
+                //    if ( ! _.isUndefined( editor ) ) {
+                //
+                //        //tinymce.EditorManager.setActive( editor );
+                //        editor.remove();
+                //        //return;
+                //    }
+                //}
+
+                var newEditor = tinymce.createEditor( tinymceId, {
+
+                    setup: function( editor ) {
+
+                        var $input = jQuery( '#' + tinymceId );
+
+                        var model = tdcIFrameData.getModel( $input.data( 'model_id' ) );
+
+                        editor.on( 'keyup change undo', function( event ) {
+
+                            var currentValue = editor.getContent({format: 'html'}),
+
+                            // @todo This should be the content before changespostContentppostContentpostContentPO
+                                previousValue = currentValue;
+
+                            tdcSidebarController.onUpdate (
+                                model,
+                                $input.data( 'param_name' ),    // the name of the parameter
+                                previousValue,                  // the old value
+                                currentValue                    // the new value
+                            );
+                        });
+                    }
+                });
+
+                newEditor.render();
+            });
+
+            return buffy;
         },
 
 
