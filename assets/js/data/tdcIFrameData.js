@@ -230,8 +230,30 @@ var tdcIFrameData,
             tdcIFrameData.TdcLiveView = Backbone.View.extend({
 
                 initialize: function() {
+                    this.listenTo( this.model, 'change:current', this.changeCurrent );
                     this.listenTo( this.model, 'change:html', this.customRender );
                     this.listenTo( this.model, 'remove', this.customRemove );
+                },
+
+                /**
+                 * Add/remove the 'tdc-element-selected' class to the $el element of the backbone view.
+                 * This class is added always to the current model.
+                 *
+                 * @param model
+                 * @param value
+                 * @param options
+                 */
+                changeCurrent: function( model, value, options ) {
+
+                    var cssClass = 'tdc-element-selected';
+
+                    if ( this.model.has( 'current' ) && !_.isUndefined( this.model.get( 'current' ) ) && true === this.model.get( 'current' ) ) {
+
+                        this.$el.addClass( cssClass );
+
+                    } else {
+                        this.$el.removeClass( cssClass );
+                    }
                 },
 
                 customRemove: function( model, value, options ) {

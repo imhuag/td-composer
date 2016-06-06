@@ -427,6 +427,12 @@ var tdcSidebar;
          */
         setSettings: function( settings ) {
 
+            // If we have a previous current model, reset its 'current' attribute for removing the 'tdc-element-selected' class from the
+            // $el of its backbone view
+            if ( ! _.isUndefined( tdcSidebar._currentModel ) ) {
+                tdcSidebar._currentModel.set( 'current', false );
+            }
+
             if ( ! _.isUndefined( settings ) ) {
 
                 if ( _.has( settings, '$currentRow' ) && ! _.isUndefined( settings.$currentRow ) ) {
@@ -504,6 +510,10 @@ var tdcSidebar;
             // Add custom code here!
 
             if ( !_.isUndefined( tdcSidebar._currentModel ) ) {
+
+                // Add the 'tdc-element-selected' class to the $el of the backbone view
+                tdcSidebar._currentModel.set( 'current', true );
+
                 tdcSidebarPanel.bindPanelToModel( tdcSidebar._currentModel );
 
                 tdcSidebar._activeBreadcrumbItem();
