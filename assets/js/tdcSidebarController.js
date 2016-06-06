@@ -57,6 +57,7 @@ var tdcSidebarController = {};
         onUpdate: function (model, paramName, oldValue, value) {
 
 
+
             /**
              * the json map of one parameter
              */
