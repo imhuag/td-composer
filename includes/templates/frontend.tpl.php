@@ -28,6 +28,8 @@ wp_enqueue_media( array( 'post' => $post->ID ) );
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
+$postContent = str_replace( '\'', '\\\'', $post->post_content );
+$postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $postContent );
 
 
 //@todo - refactorizare aici json_encode
@@ -37,7 +39,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		window.tdcPostSettings = {
 			postId: '<?php echo $post->ID; ?>',
 			postUrl: '<?php echo get_permalink($post->ID); ?>',
-			postContent: '<?php echo $post->post_content; ?>',
+			postContent: '<?php echo $postContent; ?>'
 		};
 
 	</script>
@@ -118,14 +120,14 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 						if ( in_array( $mapped_shortcode['base'],
 							array(
-								'td_block_big_grid_slide',      // s-ar putea sa mearga cu render pe td_block_big_grid_2 in loc la slide
-								'td_block_trending_now',        // trebuie refactorizat
-								'td_block_video_youtube',       // lipsesc wrappers + ceva js custom
-								'td_block_video_vimeo',         // lipsesc wrappers + ceva js custom
-								'td_block_ad_box',              // issues - lipseste wrapper-ul - probabil din cauza la adblock
+								//'td_block_big_grid_slide',      // s-ar putea sa mearga cu render pe td_block_big_grid_2 in loc la slide
+								//'td_block_trending_now',        // trebuie refactorizat
+								//'td_block_video_youtube',       // lipsesc wrappers + ceva js custom
+								//'td_block_video_vimeo',         // lipsesc wrappers + ceva js custom
+								//'td_block_ad_box',              // issues - lipseste wrapper-ul - probabil din cauza la adblock
 								//'td_block_authors',
 								//'td_block_popular_categories',
-								'td_block_slide',               // issues - trebuie facut sa scoata doar 1 slide fara script!
+								//'td_block_slide',               // issues - trebuie facut sa scoata doar 1 slide fara script!
 								//'td_block_text_with_title',
 								//'td_block_weather',             // animation sprite item + weather item
 								//'td_block_exchange',

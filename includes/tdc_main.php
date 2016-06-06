@@ -143,6 +143,11 @@ if (!empty($td_action)) {
 			 */
 			add_action( 'current_screen', 'on_current_screen_load_wrap');
 			function on_current_screen_load_wrap() {
+
+				// @todo The 'tiny_mce' doesn't work as dependency. That's why it was independently loaded
+				wp_enqueue_script( 'tiny_mce', 'http://192.168.0.100/wp_011/wp-includes/js/tinymce/tinymce.min.js' );
+				//wp_enqueue_script( 'tiny_mce', '//tinymce.cachefly.net/4.1/tinymce.min.js' );
+
 				tdc_util::enqueue_js_files_array(tdc_config::$js_files_for_wrapper, array(
 					'jquery',
 					'backbone',

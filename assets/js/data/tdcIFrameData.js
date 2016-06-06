@@ -751,6 +751,13 @@ var tdcIFrameData,
                     }
 
 
+                    // Exception for the elements on the level 4 which are 'closed' type
+                    // Add the 'content' property to the attrs, because it needs to be treated as the other elements of attrs
+                    if ( 4 === parseInt( level, 10 ) && ! _.isUndefined( element.shortcode.content ) ) {
+                        element.shortcode.attrs.named.content = element.shortcode.content;
+                    }
+
+
                     model = new tdcIFrameData.TdcModel({
                         'content' : element.content,
                         'attrs' : element.shortcode.attrs.named,
@@ -1079,9 +1086,22 @@ var tdcIFrameData,
 
                     localShortcode = '';
 
-                _.map( modelAttrs, function( val, key ) {
-                    localShortcode += ' ' + key + '="' + val + '"';
-                });
+
+
+                // 'td_block_text_with_title' Exception
+                if ( 'td_block_text_with_title' === modelTag ) {
+                    _.map( modelAttrs, function( val, key ) {
+                        if ( 'content' === key ) {
+                            return;
+                        }
+                        localShortcode += ' ' + key + '="' + val + '"';
+                    });
+                } else {
+                    _.map( modelAttrs, function( val, key ) {
+                        localShortcode += ' ' + key + '="' + val + '"';
+                    });
+                }
+
 
 
                 switch ( modelType ) {
@@ -1101,7 +1121,16 @@ var tdcIFrameData,
                             childShortcode = data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel ) + 1 ) ];
                             data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel ) + 1 ) ] = undefined;
                         }
-                        localShortcode = '[' + modelTag + localShortcode + ']' + childShortcode + '[/' + modelTag + ']';
+
+
+                        // 'td_block_text_with_title' Exception
+                        // It is level 4 element and a closed modelType. It's 'content' attribute is inside and not as attribute.
+
+                        if ( 'td_block_text_with_title' === modelTag && _.has( modelAttrs, 'content' ) ) {
+                            localShortcode = '[' + modelTag + localShortcode + ']' + modelAttrs.content + '[/' + modelTag + ']';
+                        } else {
+                            localShortcode = '[' + modelTag + localShortcode + ']' + childShortcode + '[/' + modelTag + ']';
+                        }
 
                         break;
                 }

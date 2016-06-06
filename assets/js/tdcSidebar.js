@@ -306,6 +306,7 @@ var tdcSidebar;
                     return;
                 }
 
+                // 'td_block_homepage_full_1' is allowed only once on page
                 if ( 'td_block_homepage_full_1' === $element.data( 'shortcode-name' ) ) {
                     var model = tdcIFrameData.getFirstModelByTag( 'td_block_homepage_full_1' );
 
