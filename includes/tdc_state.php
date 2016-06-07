@@ -18,13 +18,13 @@ class tdc_state {
 	/**
 	 * @var bool
 	 */
-	private static $is_live_editor_iframe = false;
+	private static $is_live_editor_iframe;
 
 
 	/**
 	 * @var bool
 	 */
-	private static $is_live_editor_ajax = false;
+	private static $is_live_editor_ajax;
 
 
 	//private static $
@@ -33,7 +33,10 @@ class tdc_state {
 	/**
 	 * @param $new_state bool
 	 */
-	public static function set_is_live_editor_iframe($new_state) {
+	public static function set_is_live_editor_iframe( $new_state ) {
+		if ( isset( self::$is_live_editor_iframe ) ) {
+			tdc_util::error(__FILE__, __FUNCTION__, 'The tdc_state::$is_live_editor_iframe is already set' );
+		}
 		self::$is_live_editor_iframe = $new_state;
 	}
 
@@ -42,6 +45,9 @@ class tdc_state {
 	 * @return bool
 	 */
 	public static function is_live_editor_iframe() {
+		if ( ! isset( self::$is_live_editor_iframe ) ) {
+			tdc_util::error(__FILE__, __FUNCTION__, 'The tdc_state::$is_live_editor_iframe is NOT set' );
+		}
 		return self::$is_live_editor_iframe;
 	}
 
@@ -49,7 +55,10 @@ class tdc_state {
 	/**
 	 * @param $new_state
 	 */
-	public static function set_is_live_editor_ajax($new_state){
+	public static function set_is_live_editor_ajax( $new_state ) {
+		if ( isset( self::$is_live_editor_ajax ) ) {
+			tdc_util::error(__FILE__, __FUNCTION__, 'The tdc_state::$is_live_editor_ajax is already set' );
+		}
 		self::$is_live_editor_ajax = $new_state;
 	}
 
@@ -59,6 +68,9 @@ class tdc_state {
 	 * @return bool
 	 */
 	public static function is_live_editor_ajax() {
+		if ( ! isset( self::$is_live_editor_ajax ) ) {
+			tdc_util::error(__FILE__, __FUNCTION__, 'The tdc_state::$is_live_editor_ajax is NOT set' );
+		}
 		return self::$is_live_editor_ajax;
 	}
 
@@ -85,8 +97,5 @@ class tdc_state {
 		}
 		self::$post = $post;
 	}
-
-
-
 
 }

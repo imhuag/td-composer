@@ -104,8 +104,6 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 
 					$mapped_shortcodes = tdc_mapper::get_mapped_shortcodes();
 
-					$contor = 0;
-
 					foreach ($mapped_shortcodes as $mapped_shortcode ) {
 
 						if ( 'vc_row' === $mapped_shortcode['base'] ) {

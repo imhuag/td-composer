@@ -9,9 +9,10 @@
 
 
 // Ready to load the shortcodes
-require_once('tdc_ajax.php');
-require_once('tdc_state.php');
 require_once('tdc_util.php');
+require_once('tdc_state.php');
+require_once('tdc_ajax.php');
+
 
 // shortcodes
 require_once('shortcodes/vc_row.php' );
@@ -100,13 +101,30 @@ function tdc_on_admin_enqueue_scripts() {
 
 
 
+// Set the tdc_state
+$td_action = tdc_util::get_get_val( 'td_action' );
+if ( false === $td_action ) {
+	tdc_state::set_is_live_editor_iframe( false );
+} else {
+	tdc_state::set_is_live_editor_iframe( true );
+}
+
+$tmpJobId = tdc_util::get_get_val( 'uuid' );
+if ( false === $tmpJobId ) {
+	tdc_state::set_is_live_editor_ajax( false );
+} else {
+	tdc_state::set_is_live_editor_ajax( true );
+}
 
 
 
+// Add external shortcodes
+if ( tdc_state::is_live_editor_iframe() || tdc_state::is_live_editor_ajax() ) {
+	register_external_shortcodes();
+}
 
 
 
-$td_action = tdc_util::get_get_val('td_action');
 if (!empty($td_action)) {
 
 	// $_GET['post_id'] is requiered from now on
@@ -115,8 +133,6 @@ if (!empty($td_action)) {
 		tdc_util::error(__FILE__, __FUNCTION__, 'No post_id received via GET');
 		die;
 	}
-
-
 
 
 	switch ($td_action) {
@@ -168,9 +184,6 @@ if (!empty($td_action)) {
 
 
 		case 'tdc_edit':
-
-			tdc_state::set_is_live_editor_iframe(true);
-
 
 			// Iframe content post
 			add_filter( 'show_admin_bar', '__return_false' );

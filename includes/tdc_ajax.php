@@ -5,7 +5,6 @@
  */
 
 
-
 // ajax: save post hook
 //add_action('wp_ajax_tdc_ajax_save_post',        array('tdc_ajax', 'on_ajax_save_post'));
 
@@ -13,7 +12,6 @@
 add_action( 'rest_api_init', 'tdc_register_api_routes');
 function tdc_register_api_routes() {
 	$namespace = 'td-composer';
-
 
 	register_rest_route($namespace, '/do_job/', array(
 		'methods'  => 'POST',
@@ -34,8 +32,8 @@ class tdc_ajax {
 	static $_td_block__get_block_js_buffer = '';
 	static $_td_block__get_block_uid = '';
 
-
 	static function on_ajax_render_shortcode (WP_REST_Request $request ) {
+
 
 
 		if (!current_user_can( 'edit_pages' )) {
@@ -45,7 +43,7 @@ class tdc_ajax {
 		}
 
 		// change the main state
-		tdc_state::set_is_live_editor_ajax(true);
+		//tdc_state::set_is_live_editor_ajax(true);
 
 
 		// get the $_POST parameters only

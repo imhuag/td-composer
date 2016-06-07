@@ -144,7 +144,50 @@ tdc_mapper::map(
 );
 
 
+function register_external_shortcodes() {
 
+	require_once('shortcodes/rev_slider.php' );
+
+	add_action('td_wp_booster_loaded', 'tdc_load_external_shortcodes',  10002);
+	function tdc_load_external_shortcodes() {
+		td_global_blocks::add_lazy_shortcode('rev_slider');
+	}
+
+	tdc_mapper::map(
+		array(
+			'map_in_visual_composer' => true,
+			'base' => 'rev_slider',
+			'name' => __( 'Revolution Slider', 'td_composer' ),
+			'icon' => 'icon-wpb-revslider',
+			'category' => __( 'Content', 'td_composer' ),
+			'description' => __( 'Place Revolution slider', 'td_composer' ),
+			'params' => array(
+				array(
+					'type' => 'textfield',
+					'heading' => __( 'Widget title', 'td_composer' ),
+					'param_name' => 'title',
+					'description' => __( 'Enter text used as widget title (Note: located above content element).', 'td_composer' ),
+				),
+				array(
+					'type' => 'textfield',
+					'heading' => __( 'Revolution Slider', 'td_composer' ),
+					'param_name' => 'alias',
+					'admin_label' => true,
+					//'value' => '11',
+					'value' => '11',
+					'save_always' => true,
+					'description' => __( 'Select your Revolution Slider.', 'td_composer' ),
+				),
+				array(
+					'type' => 'textfield',
+					'heading' => __( 'Extra class name', 'td_composer' ),
+					'param_name' => 'el_class',
+					'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
+				),
+			),
+		)
+	);
+}
 
 
 /*
