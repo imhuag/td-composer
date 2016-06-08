@@ -339,10 +339,10 @@ var tdcElementUI;
                 event.stopPropagation();
 
                 tdcOperationUI.activeDraggedElement( $element );
-                //tdcOperationUI.showHelper( event );
+                tdcOperationUI.showHelper( event );
 
                 tdcOperationUI.setCurrentElementOver( $element );
-                //tdcElementUI.positionElementPlaceholder( event );
+                tdcElementUI.positionElementPlaceholder( event );
 
                 tdcMaskUI.hide();
 
