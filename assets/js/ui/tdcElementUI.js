@@ -326,14 +326,6 @@ var tdcElementUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                tdcSidebar.setSettings({
-                    '$currentRow': tdcOperationUI.inRow( $element ),
-                    '$currentColumn': tdcOperationUI.inColumn( $element ),
-                    '$currentInnerRow': tdcOperationUI.inInnerRow( $element ),
-                    '$currentInnerColumn': tdcOperationUI.inInnerColumn( $element ),
-                    '$currentElement' : $element
-                });
-
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'element mouse down' );
 
@@ -347,12 +339,20 @@ var tdcElementUI;
                 event.stopPropagation();
 
                 tdcOperationUI.activeDraggedElement( $element );
-                tdcOperationUI.showHelper( event );
+                //tdcOperationUI.showHelper( event );
 
                 tdcOperationUI.setCurrentElementOver( $element );
-                tdcElementUI.positionElementPlaceholder( event );
+                //tdcElementUI.positionElementPlaceholder( event );
 
                 tdcMaskUI.hide();
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcOperationUI.inRow( $element ),
+                    '$currentColumn': tdcOperationUI.inColumn( $element ),
+                    '$currentInnerRow': tdcOperationUI.inInnerRow( $element ),
+                    '$currentInnerColumn': tdcOperationUI.inInnerColumn( $element ),
+                    '$currentElement' : $element
+                });
 
             }).mouseup(function( event ) {
 

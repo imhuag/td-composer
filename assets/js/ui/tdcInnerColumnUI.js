@@ -62,13 +62,6 @@ var tdcInnerColumnUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                tdcSidebar.setSettings({
-                    '$currentRow': tdcOperationUI.inRow( $element ),
-                    '$currentColumn': tdcOperationUI.inColumn( $element ),
-                    '$currentInnerRow': tdcOperationUI.inInnerRow( $element ),
-                    '$currentInnerColumn': tdcOperationUI.inInnerColumn( $element )
-                });
-
             }).mousedown(function(event) {
                 //tdcDebug.log( 'inner column mouse down' );
 
@@ -81,12 +74,19 @@ var tdcInnerColumnUI;
                 event.stopPropagation();
 
                 tdcOperationUI.activeDraggedElement( jQuery( this ) );
-                tdcOperationUI.showHelper( event );
+                //tdcOperationUI.showHelper( event );
 
                 tdcOperationUI.setCurrentElementOver( $element );
-                tdcInnerColumnUI.positionInnerColumnPlaceholder( event );
+                //tdcInnerColumnUI.positionInnerColumnPlaceholder( event );
 
                 tdcMaskUI.hide();
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcOperationUI.inRow( $element ),
+                    '$currentColumn': tdcOperationUI.inColumn( $element ),
+                    '$currentInnerRow': tdcOperationUI.inInnerRow( $element ),
+                    '$currentInnerColumn': tdcOperationUI.inInnerColumn( $element )
+                });
 
             }).mouseup(function( event ) {
 

@@ -44,8 +44,6 @@ var tdcInnerColumnHandlerUI;
         // Handler jquery object
         _$handlerDrag: undefined,
 
-        _$handlerEdit: undefined,
-
         // Initialization flag
         _isInitialized: false,
 
@@ -68,7 +66,6 @@ var tdcInnerColumnHandlerUI;
             $handlerWrapper.append( $handlerEdit );
 
             tdcInnerColumnHandlerUI._$handlerDrag = $handlerDrag;
-            tdcInnerColumnHandlerUI._$handlerEdit = $handlerEdit;
             tdcInnerColumnHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$handler.append( $handlerWrapper );
@@ -128,26 +125,6 @@ var tdcInnerColumnHandlerUI;
                 tdcMaskUI.hide();
             });
 
-
-
-
-            // Define the events the _$handlerEdit object will respond to
-
-            tdcInnerColumnHandlerUI._$handlerEdit.click( function( event ) {
-
-                //event.preventDefault();
-                tdcInnerColumnHandlerUI._triggerEvent( event );
-
-            }).mousemove( function( event ) {
-
-                event.preventDefault();
-                tdcMaskUI.show();
-
-            }).mouseenter(function( event ) {
-
-                event.preventDefault();
-                tdcMaskUI.show();
-            });
 
 
 

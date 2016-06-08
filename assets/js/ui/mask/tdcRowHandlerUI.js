@@ -43,8 +43,6 @@ var tdcRowHandlerUI;
         // Handler jquery object
         _$handlerDrag: undefined,
 
-        _$handlerEdit: undefined,
-
         // Initialization flag
         _isInitialized: false,
 
@@ -67,7 +65,6 @@ var tdcRowHandlerUI;
             $handlerWrapper.append( $handlerEdit );
 
             tdcRowHandlerUI._$handlerDrag = $handlerDrag;
-            tdcRowHandlerUI._$handlerEdit = $handlerEdit;
             tdcRowHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$handler.append( $handlerWrapper );
@@ -107,6 +104,7 @@ var tdcRowHandlerUI;
 
                 // Send the event to its 'tdc-row' element
                 tdcRowHandlerUI._triggerEvent( event );
+
             });
 
 
@@ -125,26 +123,6 @@ var tdcRowHandlerUI;
                 event.preventDefault();
                 tdcMaskUI.setCurrentContainer( undefined );
                 tdcMaskUI.hide();
-            });
-
-
-
-            // Define the events the _$handlerEdit object will respond to
-
-            tdcRowHandlerUI._$handlerEdit.click( function( event ) {
-
-                event.preventDefault();
-                tdcRowHandlerUI._triggerEvent( event );
-
-            }).mousemove( function( event ) {
-
-                event.preventDefault();
-                tdcMaskUI.show();
-
-            }).mouseenter(function( event ) {
-
-                event.preventDefault();
-                tdcMaskUI.show();
             });
 
 
