@@ -221,7 +221,7 @@ var tdcSidebarPanel = {};
 
 
 
-            // colorpicker (change for colropicker, keyup for clear)
+            // bg color
             jQuery('body').on('change keyup', '.tdc-css-background-color', function(event) {
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
                 tdcSidebarController.onUpdate (
@@ -235,7 +235,7 @@ var tdcSidebarPanel = {};
             });
 
 
-            // colorpicker (change for colropicker, keyup for clear)
+            // border color
             jQuery('body').on('change keyup', '.tdc-css-border-color', function(event) {
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
                 tdcSidebarController.onUpdate (
@@ -248,7 +248,7 @@ var tdcSidebarPanel = {};
 
 
 
-            // colorpicker (change for colropicker, keyup for clear)
+            // border style selector
             jQuery('body').on('change', '.tdc-css-border-style', function(event) {
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
                 tdcSidebarController.onUpdate (
@@ -259,6 +259,20 @@ var tdcSidebarPanel = {};
                 );
             });
 
+
+
+
+            // border radius
+            jQuery('body').on('keyup', 'input.tdc-css-border-radius', function(event) {
+                var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
+
+                tdcSidebarController.onUpdate (
+                    model,
+                    jQuery(this).data('param_name'),    // the name of the parameter
+                    '',                      // the old value
+                    tdcSidebarPanel.getCssEditorCss()                 // the new value
+                );
+            });
 
 
 
@@ -314,6 +328,22 @@ var tdcSidebarPanel = {};
                     tdcSidebarPanel.getCssEditorCss()                 // the new value
                 );
             });
+
+
+            // bg style change
+            jQuery('body').on('change', '.tdc-css-bg-style', function(event) {
+                var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
+                tdcSidebarController.onUpdate (
+                    model,
+                    jQuery(this).data('param_name'),    // the name of the parameter
+                    '',                      // the old value
+                    tdcSidebarPanel.getCssEditorCss()                 // the new value
+                );
+            });
+
+
+
+
 
 
         },
@@ -816,6 +846,8 @@ var tdcSidebarPanel = {};
             cssGenerator.borderColor = jQuery('.tdc-css-border-color').val();
 
 
+
+
             var $imgBackgroundImage = jQuery('.tdc-css-bg-image');
             if ( !$imgBackgroundImage.hasClass('tdc-no-image-selected') ) {
                 cssGenerator.backgroundUrl =   $imgBackgroundImage.attr('src');
@@ -824,6 +856,10 @@ var tdcSidebarPanel = {};
 
             cssGenerator.borderStyle = jQuery('.tdc-css-border-style').val();
 
+
+            cssGenerator.borderRadius = jQuery('.tdc-css-border-radius').val();
+
+            cssGenerator.setBackgroundStyle(jQuery('.tdc-css-bg-style').val());
 
 
             return cssGenerator.generateCss();
@@ -976,7 +1012,7 @@ var tdcSidebarPanel = {};
             buffy += '<div class="tdc-property-wrap">';
                 buffy += '<div class="tdc-property-title">Background style:</div>';
                 buffy += '<div class="tdc-property">';
-                    buffy += '<select class="tdc-css-border-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
+                    buffy += '<select class="tdc-css-bg-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
                         buffy += '<option value="">Theme defaults</option>';
                         buffy += '<option value="cover">Cover</option>';
                         buffy += '<option value="contain">Contain</option>';
