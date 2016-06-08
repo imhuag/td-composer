@@ -63,10 +63,6 @@ var tdcRowUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                tdcSidebar.setSettings({
-                    '$currentRow': tdcOperationUI.inRow( $element )
-                });
-
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'row mouse down' );
 
@@ -79,12 +75,16 @@ var tdcRowUI;
                 event.stopPropagation();
 
                 tdcOperationUI.activeDraggedElement( jQuery( this ) );
-                tdcOperationUI.showHelper( event );
+                //tdcOperationUI.showHelper( event );
 
                 tdcOperationUI.setCurrentElementOver( $element );
-                tdcRowUI.positionRowPlaceholder( event );
+                //tdcRowUI.positionRowPlaceholder( event );
 
                 tdcMaskUI.hide();
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcOperationUI.inRow( $element )
+                });
 
             }).mouseup(function( event ) {
 

@@ -64,12 +64,6 @@ var tdcInnerRowUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                tdcSidebar.setSettings({
-                    '$currentRow': tdcOperationUI.inRow( $element ),
-                    '$currentColumn': tdcOperationUI.inColumn( $element ),
-                    '$currentInnerRow': tdcOperationUI.inInnerRow( $element )
-                });
-
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'inner row mouse down' );
 
@@ -82,12 +76,18 @@ var tdcInnerRowUI;
                 event.stopPropagation();
 
                 tdcOperationUI.activeDraggedElement( jQuery( this ) );
-                tdcOperationUI.showHelper( event );
+                //tdcOperationUI.showHelper( event );
 
                 tdcOperationUI.setCurrentElementOver( $element );
-                tdcInnerRowUI.positionInnerRowPlaceholder( event );
+                //tdcInnerRowUI.positionInnerRowPlaceholder( event );
 
                 tdcMaskUI.hide();
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcOperationUI.inRow( $element ),
+                    '$currentColumn': tdcOperationUI.inColumn( $element ),
+                    '$currentInnerRow': tdcOperationUI.inInnerRow( $element )
+                });
 
             }).mouseup(function( event ) {
                 //tdcDebug.log( 'inner row element mouse up' );

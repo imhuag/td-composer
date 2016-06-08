@@ -62,11 +62,6 @@ var tdcColumnUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                tdcSidebar.setSettings({
-                    '$currentRow': tdcOperationUI.inRow( $element ),
-                    '$currentColumn': tdcOperationUI.inColumn( $element )
-                });
-
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'column mouse down' );
 
@@ -79,14 +74,19 @@ var tdcColumnUI;
                 event.stopPropagation();
 
                 tdcOperationUI.activeDraggedElement( jQuery( this ) );
-                tdcOperationUI.showHelper( event );
+                //tdcOperationUI.showHelper( event );
 
                 //setVerticalPlaceholder();
 
                 tdcOperationUI.setCurrentElementOver( $element );
-                tdcColumnUI.positionColumnPlaceholder( event );
+                //tdcColumnUI.positionColumnPlaceholder( event );
 
                 tdcMaskUI.hide();
+
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcOperationUI.inRow( $element ),
+                    '$currentColumn': tdcOperationUI.inColumn( $element )
+                });
 
             }).mouseup(function( event ) {
 

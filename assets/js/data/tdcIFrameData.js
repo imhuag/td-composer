@@ -1111,50 +1111,56 @@ var tdcIFrameData,
 
 
                 // 'td_block_text_with_title' Exception
+                // It is level 4 element and a closed modelType. It's 'content' attribute is inside and not as attribute.
+
                 if ( 'td_block_text_with_title' === modelTag ) {
+
                     _.map( modelAttrs, function( val, key ) {
                         if ( 'content' === key ) {
                             return;
                         }
                         localShortcode += ' ' + key + '="' + val + '"';
                     });
+
+                    if ( _.has( modelAttrs, 'content' ) ) {
+
+                        // When it has 'content' attribute, it is formated as CLOSED shortcode
+                        localShortcode = '[' + modelTag + localShortcode + ']' + modelAttrs.content + '[/' + modelTag + ']';
+
+                    } else {
+
+                        // When it hasn't 'content' attribute, it is formated as SINGLE shortcode
+                        localShortcode = '[' + modelTag + localShortcode + ']';
+                    }
+
                 } else {
+
                     _.map( modelAttrs, function( val, key ) {
                         localShortcode += ' ' + key + '="' + val + '"';
                     });
-                }
 
+                    switch ( modelType ) {
 
+                        case 'single' :
 
-                switch ( modelType ) {
+                            localShortcode = '[' + modelTag + localShortcode + ']';
 
-                    case 'single' :
+                            break;
 
-                        localShortcode = '[' + modelTag + localShortcode + ']';
+                        case 'closed':
 
-                        break;
+                            var childShortcode = '';
 
-                    case 'closed':
+                            // It happens that a closed shortcode not having child shortcodes
+                            if ( !_.isUndefined( data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel )  + 1 ) ] ) ) {
+                                childShortcode = data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel ) + 1 ) ];
+                                data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel ) + 1 ) ] = undefined;
+                            }
 
-                        var childShortcode = '';
-
-                        // It happens that a closed shortcode not having child shortcodes
-                        if ( !_.isUndefined( data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel )  + 1 ) ] ) ) {
-                            childShortcode = data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel ) + 1 ) ];
-                            data[ 'tempShortcodeDeepLevel' + ( parseInt( data.deepLevel ) + 1 ) ] = undefined;
-                        }
-
-
-                        // 'td_block_text_with_title' Exception
-                        // It is level 4 element and a closed modelType. It's 'content' attribute is inside and not as attribute.
-
-                        if ( 'td_block_text_with_title' === modelTag && _.has( modelAttrs, 'content' ) ) {
-                            localShortcode = '[' + modelTag + localShortcode + ']' + modelAttrs.content + '[/' + modelTag + ']';
-                        } else {
                             localShortcode = '[' + modelTag + localShortcode + ']' + childShortcode + '[/' + modelTag + ']';
-                        }
 
-                        break;
+                            break;
+                    }
                 }
 
                 data['tempShortcodeDeepLevel' + data.deepLevel] += localShortcode;

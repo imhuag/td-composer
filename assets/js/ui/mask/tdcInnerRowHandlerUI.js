@@ -45,8 +45,6 @@ var tdcInnerRowHandlerUI;
         // Handler jquery object
         _$handlerDrag: undefined,
 
-        _$handlerEdit: undefined,
-
         // Initialization flag
         _isInitialized: false,
 
@@ -69,7 +67,6 @@ var tdcInnerRowHandlerUI;
             $handlerWrapper.append( $handlerEdit );
 
             tdcInnerRowHandlerUI._$handlerDrag = $handlerDrag;
-            tdcInnerRowHandlerUI._$handlerEdit = $handlerEdit;
             tdcInnerRowHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$handler.append( $handlerWrapper );
@@ -129,25 +126,6 @@ var tdcInnerRowHandlerUI;
                 tdcMaskUI.hide();
             });
 
-
-
-            // Define the events the _$handlerEdit object will respond to
-
-            tdcInnerRowHandlerUI._$handlerEdit.click( function( event ) {
-
-                event.preventDefault();
-                tdcInnerRowHandlerUI._triggerEvent( event );
-
-            }).mousemove( function( event ) {
-
-                event.preventDefault();
-                tdcMaskUI.show();
-
-            }).mouseenter(function( event ) {
-
-                event.preventDefault();
-                tdcMaskUI.show();
-            });
 
 
             // The final step of initialization is to add the handler object to the mask handlers and to mark it has initialized
