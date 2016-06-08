@@ -63,16 +63,21 @@ var tdcInit = {};
                 tdcInit._url = window.tdcAdminSettings.adminUrl + 'post.php?post_id=' + tdcInit.$postId.val() + '&td_action=tdc';
 
                 jQuery( '<a onclick="return tdcInit.savePost( event )" href="' + tdcInit._url + '">TagDiv Composer</a>').insertAfter( 'div#titlediv' );
+
+
+                var $publish = $formPost.find( '#publish' );
+
+                $publish.click(function( event ) {
+
+                    if ( 'page' === tdcInit.$postType.val() ) {
+
+                        tdcInit._checkContent();
+                    }
+                });
             }
         },
 
-        /**
-         * Save the post as draft.
-         *
-         * @param event
-         * @returns {boolean}
-         */
-        savePost: function( event ) {
+        _checkContent: function() {
 
             if ( tdcInit.$title.length && tdcInit.$titlePromptText.length && tdcInit.$contentTextareaClone.length && 0 === tdcInit.$title.val().trim().length ) {
                 tdcInit.$title.val(tdcInit._title);
@@ -93,7 +98,22 @@ var tdcInit = {};
                 var content = tdcInit.$contentTextareaClone.text().replace( /&nbsp;/g,'' ) + '[vc_row][vc_column][/vc_column][/vc_row]';
                 tdcInit.$content.val( content );
                 tdcInit.$contentTextareaClone.html( content );
+
+                // The editor must be set, because 'page' post type does not have wp_autosave as 'draft' (post status). The 'publish' post status is used instead
+                // Important! This is not necessary for the 'post' post type, because there wp_autosave works.
+                tinymce.activeEditor.setContent( content );
             }
+        },
+
+        /**
+         * Save the post as draft.
+         *
+         * @param event
+         * @returns {boolean}
+         */
+        savePost: function( event ) {
+
+            tdcInit._checkContent();
 
             // Do the request and redirect at success
             jQuery.ajax({
@@ -106,7 +126,7 @@ var tdcInit = {};
                     'data[wp_autosave][post_title]' : tdcInit._title,
                     'data[wp_autosave][content]' : tdcInit.$content.val(),
                     'data[wp_autosave][excerpt]' : tdcInit.$excerpt.val(),
-                    'data[wp_autosave][catslist]' : tdcInit.$catslistValue,
+                    'data[wp_autosave][catslist]' : tdcInit.catslistValue,
                     'data[wp_autosave][auto_draft]': 1,
                     'data[wp_autosave][_wpnonce]' : tdcInit.$_wpnonce.val(),
                     'interval': 60,
