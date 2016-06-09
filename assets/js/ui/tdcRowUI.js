@@ -45,6 +45,17 @@ var tdcRowUI;
             });
         },
 
+        // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+        _mouseCoordinates: undefined,
+
+        _setMouseCoordinates: function( _mouseCoordinates ) {
+            tdcRowUI._mouseCoordinates = _mouseCoordinates;
+        },
+
+        _getMouseCoordinates: function() {
+            return tdcRowUI._mouseCoordinates;
+        },
+
 
         /**
          *
@@ -77,13 +88,22 @@ var tdcRowUI;
                 tdcOperationUI.activeDraggedElement( jQuery( this ) );
                 //tdcOperationUI.showHelper( event );
 
-                //tdcOperationUI.setCurrentElementOver( $element );
-                tdcRowUI.positionRowPlaceholder( event );
+                tdcOperationUI.hideHelper();
 
-                tdcMaskUI.hide();
+                tdcOperationUI.setCurrentElementOver( $element );
+                tdcRowUI.positionRowPlaceholder( event, true );
+
+                //tdcMaskUI.hide();
 
                 tdcSidebar.setSettings({
                     '$currentRow': tdcOperationUI.inRow( $element )
+                });
+
+                // Set the mouse coordinates
+                // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                tdcRowUI._setMouseCoordinates({
+                    screenX: event.screenX,
+                    screenY: event.screenY
                 });
 
             }).mouseup(function( event ) {
@@ -96,6 +116,10 @@ var tdcRowUI;
 
                     tdcOperationUI.deactiveDraggedElement();
                     tdcOperationUI.hideHelper();
+
+                    // Reset the mouse coordinates
+                    // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                    tdcRowUI._setMouseCoordinates( undefined );
                 }
 
             }).mousemove(function( event ) {
@@ -104,6 +128,21 @@ var tdcRowUI;
                 if ( tdcOperationUI.isRowDragged() || tdcOperationUI.isTempRowDragged() ) {
                     //tdcDebug.log( 'row mouse move' );
 
+                    // Do not continue if the mouse coordinates are the same
+                    // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                    if ( _.isEqual( {
+                            screenX: event.screenX,
+                            screenY: event.screenY
+                        }, tdcRowUI._getMouseCoordinates() ) ) {
+
+                        // Do not let the 'mousemove' event to go upper
+                        // The structure elements maybe does not catch the event (they have checks), but the there are events handlers on window and iframeContents (because the in drag, the helper must be shown over them) @see tdcOperationUI
+                        event.stopPropagation();
+
+                        tdcOperationUI.hideHelper();
+                        return;
+                    }
+
                     event.preventDefault();
                     event.stopPropagation();
 
@@ -111,6 +150,12 @@ var tdcRowUI;
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcRowUI.positionRowPlaceholder( event );
+
+                    tdcMaskUI.hide();
+
+                    // Reset the mouse coordinates
+                    // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                    tdcRowUI._setMouseCoordinates( undefined );
                 }
 
             }).mouseenter(function( event ) {
@@ -168,10 +213,17 @@ var tdcRowUI;
 
 
         /**
+         * Position and show/hide the placeholder.
+         * Important! There are some situations when even the placeholder is positioned, we don't want to show it
+         *
+         * For example, before mousemove event. We don't want to show it, but want to position it, because it is used by the the mouseup event to
+         * check if the drag operation must be done. A drag operation is done when the placeholder and the dragged element are not siblings. And this
+         * means that placeholder position must be computed before.
          *
          * @param event
+         * @param positionAndHide
          */
-        positionRowPlaceholder: function( event ) {
+        positionRowPlaceholder: function( event, positionAndHide ) {
             //tdcDebug.log( event );
 
             var $placeholder = tdcAdminWrapperUI.$placeholder;
@@ -318,6 +370,11 @@ var tdcRowUI;
                         'width': ''
                     });
                 }
+            }
+
+            if ( ! _.isUndefined( positionAndHide ) && true === positionAndHide ) {
+                tdcOperationUI.hidePlaceholder();
+                return;
             }
 
             // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event

@@ -89,14 +89,14 @@ var tdcRowHandlerUI;
             }).mousemove( function( event ) {
 
                 // Send the event to its 'tdc-row' element
-                tdcRowHandlerUI._triggerEvent( event );
                 tdcMaskUI.show();
+                tdcRowHandlerUI._triggerEvent( event );
 
             }).mouseenter(function( event ) {
 
                 // Send the event to its 'tdc-row' element
-                tdcRowHandlerUI._triggerEvent( event );
                 tdcMaskUI.show();
+                tdcRowHandlerUI._triggerEvent( event );
 
             }).mouseleave( function( event ) {
 

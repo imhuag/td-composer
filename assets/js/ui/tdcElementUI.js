@@ -375,7 +375,7 @@ var tdcElementUI;
                 tdcOperationUI.setCurrentElementOver( $element );
                 tdcElementUI.positionElementPlaceholder( event, true );
 
-                tdcMaskUI.hide();
+                //tdcMaskUI.hide();
 
                 tdcSidebar.setSettings({
                     '$currentRow': tdcOperationUI.inRow( $element ),
@@ -417,7 +417,7 @@ var tdcElementUI;
 
                 // Respond only if dragged element is 'tdc-element' or inner row
                 if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
-                    tdcDebug.log( 'element mouse move' );
+                    //tdcDebug.log( 'element mouse move' );
 
                     // Do not continue if the mouse coordinates are the same
                     // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
@@ -425,7 +425,6 @@ var tdcElementUI;
                             screenX: event.screenX,
                             screenY: event.screenY
                         }, tdcElementUI._getMouseCoordinates() ) ) {
-                        tdcDebug.log( '----' );
 
                         // Do not let the 'mousemove' event to go upper
                         // The structure elements maybe does not catch the event (they have checks), but the there are events handlers on window and iframeContents (because the in drag, the helper must be shown over them) @see tdcOperationUI
@@ -434,10 +433,6 @@ var tdcElementUI;
                         tdcOperationUI.hideHelper();
                         return;
                     }
-
-                    tdcElementUI._setMouseCoordinates( undefined );
-
-                    tdcDebug.log( '+++' );
 
                     event.preventDefault();
                     event.stopPropagation();
@@ -448,6 +443,10 @@ var tdcElementUI;
                     tdcElementUI.positionElementPlaceholder( event );
 
                     tdcMaskUI.hide();
+
+                    // Reset the mouse coordinates
+                    // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                    tdcElementUI._setMouseCoordinates( undefined );
                 }
 
             }).mouseenter(function( event ) {

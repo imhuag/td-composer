@@ -167,9 +167,6 @@ var tdcOperationUI;
             tdcOperationUI.setDraggedElement( currentElement );
 
             if ( ! tdcOperationUI._draggedElement.hasClass( 'tdc-dragged' ) ) {
-                tdcOperationUI._draggedElement.css({
-                    opacity: 0.5
-                });
                 tdcOperationUI._draggedElement.addClass( 'tdc-dragged' );
                 //tdcDebug.log( 'ACTIVATE' );
                 //tdcDebug.log( draggedElement );
@@ -183,9 +180,6 @@ var tdcOperationUI;
 
             if ( ! _.isUndefined( draggedElement ) ) {
 
-                draggedElement.css({
-                    opacity: ''
-                });
                 draggedElement.removeClass( 'tdc-dragged' );
 
                 tdcOperationUI._moveDraggedElement();

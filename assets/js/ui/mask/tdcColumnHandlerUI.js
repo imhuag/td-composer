@@ -91,14 +91,14 @@ var tdcColumnHandlerUI;
             }).mousemove( function( event ) {
 
                 // Send the event to its 'tdc-column' element
-                tdcColumnHandlerUI._triggerEvent( event );
                 tdcMaskUI.show();
+                tdcColumnHandlerUI._triggerEvent( event );
 
             }).mouseenter(function( event ) {
 
                 // Send the event to its 'tdc-column' element
-                tdcColumnHandlerUI._triggerEvent( event );
                 tdcMaskUI.show();
+                tdcColumnHandlerUI._triggerEvent( event );
 
             }).mouseleave( function( event ) {
 
