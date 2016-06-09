@@ -6,7 +6,6 @@
 
 /* global jQuery:false */
 
-
 var tdcJobManager = {};
 
 
@@ -17,10 +16,11 @@ var tdcJobManager = {};
     tdcJobManager = {
 
 
+
         /**
-         * here we keep all the liveViewID - to - jobID asociations. We use them to discard older jobs and keep the latest ones
+         * here we keep all the blockUid - to - jobNumber associations. We use them to discard older jobs and keep the latest ones
          */
-        jobsIDs: [],
+        _sentJobs: {},
 
         /**
          * used for assigning an incrementing ID to each job
@@ -33,7 +33,7 @@ var tdcJobManager = {};
         job: function () {
             this.shortcode = '';
             this.columns = 0;
-            this.liveViewId = '';
+            this.blockUid = '';
             this.success_callback = '';
             this.error_callback = '';
         },
@@ -48,10 +48,9 @@ var tdcJobManager = {};
             // request - sent to the server
             this.shortcode = job.shortcode;
             this.columns = job.columns;
-            this.liveViewId = job.liveViewId;
             this.jobId = tdcJobManager._generateJobId();
 
-            // reply - added by server
+            // reply - this will be added by the server when we get back the instance of this
             this.replyHtml = '';
         },
 
@@ -75,7 +74,7 @@ var tdcJobManager = {};
                 type: 'POST',
 
                 // the tmp_ query parameters and the uuid are for cache busting and for easier debug-ing. We ONLY USE post variables.
-                url: tdcUtil.getRestEndPoint('td-composer/do_job', 'tmp_jobId=' + newJobRequest.jobId + '&tmp_liveViewId=' + newJobRequest.liveViewId + '&uuid=' + tdcJobManager._getUniqueID()),
+                url: tdcUtil.getRestEndPoint('td-composer/do_job', 'tmp_jobId=' + newJobRequest.jobId + '&tmp_blockUid=' + newJobRequest.blockUid + '&uuid=' + tdcJobManager._getUniqueID()),
                 //url: window.tdcAdminSettings.site_url + '/wp-json/td-composer/do_job?tmp_jobId=' + newJobRequest.jobId + '&tmp_liveViewId=' + newJobRequest.liveViewId + '&uuid=' + tdcJobManager._getUniqueID(),
                 // add the nonce used for cookie authentication
                 beforeSend: function ( xhr ) {
@@ -103,7 +102,7 @@ var tdcJobManager = {};
                         return;
                     }
 
-                    if (tdcJobManager._isJobCallbackReplyValid(job.liveViewId, jobRequest.jobId) === true) {
+                    if (tdcJobManager._isJobCallbackReplyValid(job.blockUid, jobRequest.jobId) === true) {
 
                         job.success_callback(jobRequest);
                     } else {
@@ -124,21 +123,22 @@ var tdcJobManager = {};
 
 
         /**
-         *
-         * @param liveViewID
+         * Checks if a reply is valid, for example if an older job was received for the same blockUid, we will discard this job because
+         * it dosn't reflact the latest version of the block for this blockUid
+         * @param blockUid
          * @param jobIdStamp
          * @returns {boolean}
          * @private
          */
-        _isJobCallbackReplyValid: function (liveViewID, jobIdStamp) {
+        _isJobCallbackReplyValid: function (blockUid, jobIdStamp) {
 
-            if (typeof tdcJobManager.jobsIDs[liveViewID] === 'undefined') {
-                tdcJobManager.jobsIDs[liveViewID] = jobIdStamp;
+            if (typeof tdcJobManager._sentJobs[blockUid] === 'undefined') {
+                tdcJobManager._sentJobs[blockUid] = jobIdStamp;
                 return true;
             }
 
-            if (parseInt(tdcJobManager.jobsIDs[liveViewID]) < parseInt(jobIdStamp)) {
-                tdcJobManager.jobsIDs[liveViewID] = jobIdStamp;
+            if (parseInt(tdcJobManager._sentJobs[blockUid]) < parseInt(jobIdStamp)) {
+                tdcJobManager._sentJobs[blockUid] = jobIdStamp;
                 return true;
             }
 

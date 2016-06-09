@@ -122,7 +122,7 @@ var tdcIFrameData,
 
                         newJob.shortcode = data.getShortcode;
                         newJob.columns = columns;
-                        newJob.liveViewId = draggedBlockUid;
+                        newJob.blockUid = draggedBlockUid;
 
                         newJob.success_callback = function( data ) {
 

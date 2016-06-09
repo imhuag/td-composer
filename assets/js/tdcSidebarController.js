@@ -22,8 +22,18 @@ var tdcSidebarController = {};
 
     tdcSidebarController = {
 
+        updateJobBuffer: {},
+        updateJobTimer: '',
 
-
+        /**
+         * @see tdcJobManager.addJob receives this job
+         */
+        updateJob: function () {
+            this.model = '';
+            this.paramName = '';
+            this.oldValue = '';
+            this.value = '';
+        },
 
 
 
@@ -46,6 +56,8 @@ var tdcSidebarController = {};
         },
 
 
+
+
         /**
          * This 'event' happens when a control from the sidebar is updated by the user. In this function we decide if we call
          * the callback or make a new job depending on the MAP of the parameter
@@ -55,37 +67,74 @@ var tdcSidebarController = {};
          * @param value - the new value that we got form the user
          */
         onUpdate: function (model, paramName, oldValue, value) {
+            var updateJob = new tdcSidebarController.updateJob();
+            updateJob.model = model;
+            updateJob.paramName = paramName;
+            updateJob.oldValue = oldValue;
+            updateJob.value = value;
 
+
+            tdcSidebarController.addToBuffer(updateJob);
+
+
+            //tdcSidebarController.doUpdateJob(updateJob);
+
+        },
+
+
+        addToBuffer: function (updateJob) {
+            tdcSidebarController.updateJobBuffer[updateJob.model.get('blockUid')] = updateJob;
+
+            if (tdcSidebarController.updateJobTimer !== '') {
+                clearTimeout(tdcSidebarController.updateJobTimer);
+            }
+
+
+            tdcSidebarController.updateJobTimer = setTimeout(function(){
+
+
+
+                // this is a tick
+                if (tdcSidebarController.updateJobBuffer.length > 1) {
+                    console.log('Multiple jobs detected - see below');
+                    console.log(tdcSidebarController.updateJobBuffer);
+                }
+
+                for (var blockUid in tdcSidebarController.updateJobBuffer) {
+                    tdcSidebarController.doUpdateJob(tdcSidebarController.updateJobBuffer[blockUid]);
+                }
+
+
+                tdcSidebarController.updateJobBuffer = {};
+                tdcSidebarController.updateJobTimer = '';
+
+            }, 500);
+        },
+
+
+
+
+        doUpdateJob: function (updateJob) {
 
 
             /**
              * the json map of one parameter
              */
-            var paramMap = tdcSidebarController._getParamMap(model.attributes.tag, paramName);
+            var paramMap = tdcSidebarController._getParamMap(updateJob.model.attributes.tag, updateJob.paramName);
 
 
 
 
-            //// STEP 0: Update the model test
-            //if (paramMap.value === value) {
-            //    // default value is selected, we remove it from the model
-            //    delete model.attributes.attrs[paramMap.param_name];
-            //} else {
-            //    model.attributes.attrs[paramMap.param_name] = value;
-            //}
-
-            var attrs = model.get( 'attrs' ),
+            var attrs = updateJob.model.get( 'attrs' ),
                 newAttrs = _.clone( attrs );
 
-            if ( paramMap.value === value ) {
+            if ( paramMap.value === updateJob.value ) {
                 delete newAttrs[paramMap.param_name];
             } else {
-                newAttrs[paramMap.param_name] = value;
+                newAttrs[paramMap.param_name] = updateJob.value;
             }
 
-            model.set( 'attrs', newAttrs );
-
-            console.log(paramName + ' old: ' + oldValue + ' - new: ' + value);
+            updateJob.model.set( 'attrs', newAttrs );
 
 
 
@@ -95,13 +144,13 @@ var tdcSidebarController = {};
             };
 
             // Get the shortcode using the _checkModelData builder function
-            tdcIFrameData._checkModelData( model, data );
+            tdcIFrameData._checkModelData( updateJob.model, data );
 
             if ( ! _.isUndefined( data.getShortcode ) ) {
 
 
 
-                var oldBlockUid = model.get('blockUid');
+                var oldBlockUid = updateJob.model.get('blockUid');
 
 
                 // Define new empty job
@@ -110,29 +159,26 @@ var tdcSidebarController = {};
 
                 newJob.shortcode = data.getShortcode;
                 //newJob.columns = 1; //@todo shit nu avem coloanele
-                newJob.columns = tdcIFrameData.getColumnNumber( model );
+                newJob.columns = tdcIFrameData.getColumnNumber( updateJob.model );
 
-                newJob.liveViewId = oldBlockUid; //@todo
+                newJob.blockUid = oldBlockUid; //@todo
 
                 newJob.success_callback = function( data ) {
 
 
                     var iFrameWindowObj = tdcAdminIFrameUI.getIframeWindow();
 
-                    // !!! This also fires the deleteCallback for draggedBlockUid
-                    //iFrameWindowObj.tdcComposerBlocksApi.deleteItem(model.get('blockUid')); // @todo To be removed!
-
                     // Here the tdcIFrameData.deleteCallback is called because the model is not removed
-                    tdcIFrameData.deleteCallback( model );
+                    tdcIFrameData.deleteCallback( updateJob.model );
 
                     // set the new blockUid
-                    model.set('blockUid', data.blockUid);
+                    updateJob.model.set('blockUid', data.blockUid);
 
 
                     // Important! It should have this property
                     if ( _.has( data, 'replyHtml' ) ) {
-                        model.set( 'shortcode', newJob.shortcode );
-                        model.set( 'html', data.replyHtml );
+                        updateJob.model.set( 'shortcode', newJob.shortcode );
+                        updateJob.model.set( 'html', data.replyHtml );
                     }
 
 
@@ -151,15 +197,11 @@ var tdcSidebarController = {};
 
                 tdcJobManager.addJob( newJob );
             } {
-                //tdcDebug.log( model );
                 //throw "No shortcode for this model!";
             }
 
 
-
-
         }
-
 
 
     };
