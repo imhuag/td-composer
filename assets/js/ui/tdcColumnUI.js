@@ -78,8 +78,8 @@ var tdcColumnUI;
 
                 //setVerticalPlaceholder();
 
-                tdcOperationUI.setCurrentElementOver( $element );
-                //tdcColumnUI.positionColumnPlaceholder( event );
+                //tdcOperationUI.setCurrentElementOver( $element );
+                tdcColumnUI.positionColumnPlaceholder( event );
 
                 tdcMaskUI.hide();
 

@@ -327,7 +327,7 @@ var tdcElementUI;
                 event.stopPropagation();
 
             }).mousedown(function( event ) {
-                //tdcDebug.log( 'element mouse down' );
+                tdcDebug.log( 'element mouse down' );
 
                 // Consider only the left button
                 if ( 1 !== event.which ) {
@@ -339,12 +339,12 @@ var tdcElementUI;
                 event.stopPropagation();
 
                 tdcOperationUI.activeDraggedElement( $element );
-                tdcOperationUI.showHelper( event );
+                //tdcOperationUI.showHelper( event );
 
-                tdcOperationUI.setCurrentElementOver( $element );
+                //tdcOperationUI.setCurrentElementOver( $element );
                 tdcElementUI.positionElementPlaceholder( event );
 
-                tdcMaskUI.hide();
+                //tdcMaskUI.hide();
 
                 tdcSidebar.setSettings({
                     '$currentRow': tdcOperationUI.inRow( $element ),
@@ -384,6 +384,8 @@ var tdcElementUI;
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcElementUI.positionElementPlaceholder( event );
+
+                    tdcMaskUI.hide();
                 }
 
             }).mouseenter(function( event ) {

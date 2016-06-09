@@ -78,8 +78,8 @@ var tdcInnerRowUI;
                 tdcOperationUI.activeDraggedElement( jQuery( this ) );
                 //tdcOperationUI.showHelper( event );
 
-                tdcOperationUI.setCurrentElementOver( $element );
-                //tdcInnerRowUI.positionInnerRowPlaceholder( event );
+                //tdcOperationUI.setCurrentElementOver( $element );
+                tdcInnerRowUI.positionInnerRowPlaceholder( event );
 
                 tdcMaskUI.hide();
 

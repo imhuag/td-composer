@@ -77,8 +77,8 @@ var tdcRowUI;
                 tdcOperationUI.activeDraggedElement( jQuery( this ) );
                 //tdcOperationUI.showHelper( event );
 
-                tdcOperationUI.setCurrentElementOver( $element );
-                //tdcRowUI.positionRowPlaceholder( event );
+                //tdcOperationUI.setCurrentElementOver( $element );
+                tdcRowUI.positionRowPlaceholder( event );
 
                 tdcMaskUI.hide();
 

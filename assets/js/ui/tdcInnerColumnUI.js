@@ -63,7 +63,7 @@ var tdcInnerColumnUI;
                 event.stopPropagation();
 
             }).mousedown(function(event) {
-                //tdcDebug.log( 'inner column mouse down' );
+                tdcDebug.log( 'inner column mouse down' );
 
                 // Consider only the left button
                 if ( 1 !== event.which ) {
@@ -76,8 +76,8 @@ var tdcInnerColumnUI;
                 tdcOperationUI.activeDraggedElement( jQuery( this ) );
                 //tdcOperationUI.showHelper( event );
 
-                tdcOperationUI.setCurrentElementOver( $element );
-                //tdcInnerColumnUI.positionInnerColumnPlaceholder( event );
+                //tdcOperationUI.setCurrentElementOver( $element );
+                tdcInnerColumnUI.positionInnerColumnPlaceholder( event );
 
                 tdcMaskUI.hide();
 
