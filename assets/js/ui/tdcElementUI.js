@@ -43,7 +43,18 @@ var tdcElementUI;
         },
 
 
-        positionElementPlaceholder: function( event ) {
+        /**
+         * Position and show/hide the placeholder.
+         * Important! There are some situations when even the placeholder is positioned, we don't want to show it
+         *
+         * Eor example, before mousemove event. We don't want to show it, but want to position it, because it is used by the the mouseup event to
+         * check if the drag operation must be done. A drag operation is done when the placeholder and the dragged element are not siblings. And this
+         * means that placeholder position must be computed before.
+         *
+         * @param event
+         * @param positionAndHide - even the placeholder is eligible to be shown, it is hidden, but its position is computed
+         */
+        positionElementPlaceholder: function( event, positionAndHide ) {
 
             //tdcDebug.log( event );
 
@@ -307,6 +318,11 @@ var tdcElementUI;
                 }
             }
 
+            if ( ! _.isUndefined( positionAndHide ) && true === positionAndHide ) {
+                tdcOperationUI.hidePlaceholder();
+                return;
+            }
+
             // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event
             tdcOperationUI.showPlaceholder();
 
@@ -316,6 +332,19 @@ var tdcElementUI;
             //    $placeholder.hide();
             //}
         },
+
+
+        // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+        _mouseCoordinates: undefined,
+
+        _setMouseCoordinates: function( _mouseCoordinates ) {
+            tdcElementUI._mouseCoordinates = _mouseCoordinates;
+        },
+
+        _getMouseCoordinates: function() {
+            return tdcElementUI._mouseCoordinates;
+        },
+
 
 
         bindElement: function( $element ) {
@@ -341,8 +370,10 @@ var tdcElementUI;
                 tdcOperationUI.activeDraggedElement( $element );
                 //tdcOperationUI.showHelper( event );
 
-                //tdcOperationUI.setCurrentElementOver( $element );
-                tdcElementUI.positionElementPlaceholder( event );
+                tdcOperationUI.hideHelper();
+
+                tdcOperationUI.setCurrentElementOver( $element );
+                tdcElementUI.positionElementPlaceholder( event, true );
 
                 //tdcMaskUI.hide();
 
@@ -354,11 +385,18 @@ var tdcElementUI;
                     '$currentElement' : $element
                 });
 
+                // Set the mouse coordinates
+                // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                tdcElementUI._setMouseCoordinates({
+                    screenX: event.screenX,
+                    screenY: event.screenY
+                });
+
             }).mouseup(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element'
                 if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
-                    //tdcDebug.log( 'element mouse up' );
+                    tdcDebug.log( 'element mouse up' );
 
                     event.preventDefault();
 
@@ -368,6 +406,10 @@ var tdcElementUI;
                     // @todo The current element over must be undefined?
                     //tdcOperationUI.setCurrentElementOver( undefined );
                     tdcElementUI.positionElementPlaceholder( event );
+
+                    // Reset the mouse coordinates
+                    // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                    tdcElementUI._setMouseCoordinates( undefined );
                 }
                 tdcMaskUI.setCurrentElement( $element );
 
@@ -375,7 +417,27 @@ var tdcElementUI;
 
                 // Respond only if dragged element is 'tdc-element' or inner row
                 if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
-                    //tdcDebug.log( 'element mouse move' );
+                    tdcDebug.log( 'element mouse move' );
+
+                    // Do not continue if the mouse coordinates are the same
+                    // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                    if ( _.isEqual( {
+                            screenX: event.screenX,
+                            screenY: event.screenY
+                        }, tdcElementUI._getMouseCoordinates() ) ) {
+                        tdcDebug.log( '----' );
+
+                        // Do not let the 'mousemove' event to go upper
+                        // The structure elements maybe does not catch the event (they have checks), but the there are events handlers on window and iframeContents (because the in drag, the helper must be shown over them) @see tdcOperationUI
+                        event.stopPropagation();
+
+                        tdcOperationUI.hideHelper();
+                        return;
+                    }
+
+                    tdcElementUI._setMouseCoordinates( undefined );
+
+                    tdcDebug.log( '+++' );
 
                     event.preventDefault();
                     event.stopPropagation();

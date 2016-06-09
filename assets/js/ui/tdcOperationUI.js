@@ -250,7 +250,7 @@ var tdcOperationUI;
          *
          * @param resetInfo boolean - just reset the helper info, without starting an interval
          */
-        updateInfoHelper: function( resetInfo ) {
+        updateInfoHelper: function( resetInfo ) { return;
 
             if ( ! _.isUndefined( resetInfo ) && true === resetInfo ) {
 
