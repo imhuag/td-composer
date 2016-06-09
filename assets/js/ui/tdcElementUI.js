@@ -375,7 +375,7 @@ var tdcElementUI;
                 tdcOperationUI.setCurrentElementOver( $element );
                 tdcElementUI.positionElementPlaceholder( event, true );
 
-                //tdcMaskUI.hide();
+                tdcMaskUI.hide();
 
                 tdcSidebar.setSettings({
                     '$currentRow': tdcOperationUI.inRow( $element ),
