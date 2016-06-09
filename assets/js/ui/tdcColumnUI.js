@@ -46,6 +46,18 @@ var tdcColumnUI;
         },
 
 
+        // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+        _mouseCoordinates: undefined,
+
+        _setMouseCoordinates: function( _mouseCoordinates ) {
+            tdcColumnUI._mouseCoordinates = _mouseCoordinates;
+        },
+
+        _getMouseCoordinates: function() {
+            return tdcColumnUI._mouseCoordinates;
+        },
+
+
         /**
          *
          * @param $element
@@ -78,14 +90,23 @@ var tdcColumnUI;
 
                 //setVerticalPlaceholder();
 
-                //tdcOperationUI.setCurrentElementOver( $element );
-                tdcColumnUI.positionColumnPlaceholder( event );
+                tdcOperationUI.hideHelper();
 
-                tdcMaskUI.hide();
+                tdcOperationUI.setCurrentElementOver( $element );
+                tdcColumnUI.positionColumnPlaceholder( event, true );
+
+                //tdcMaskUI.hide();
 
                 tdcSidebar.setSettings({
                     '$currentRow': tdcOperationUI.inRow( $element ),
                     '$currentColumn': tdcOperationUI.inColumn( $element )
+                });
+
+                // Set the mouse coordinates
+                // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                tdcColumnUI._setMouseCoordinates({
+                    screenX: event.screenX,
+                    screenY: event.screenY
                 });
 
             }).mouseup(function( event ) {
@@ -101,6 +122,10 @@ var tdcColumnUI;
 
                     tdcOperationUI.setCurrentElementOver( undefined );
                     tdcColumnUI.positionColumnPlaceholder( event );
+
+                    // Reset the mouse coordinates
+                    // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                    tdcColumnUI._setMouseCoordinates( undefined );
                 }
 
             }).mousemove(function( event ) {
@@ -109,6 +134,21 @@ var tdcColumnUI;
                 if ( tdcOperationUI.isColumnDragged( $element ) ) {
                     //tdcDebug.log( 'column mouse move' );
 
+                    // Do not continue if the mouse coordinates are the same
+                    // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                    if ( _.isEqual( {
+                            screenX: event.screenX,
+                            screenY: event.screenY
+                        }, tdcColumnUI._getMouseCoordinates() ) ) {
+
+                        // Do not let the 'mousemove' event to go upper
+                        // The structure elements maybe does not catch the event (they have checks), but the there are events handlers on window and iframeContents (because the in drag, the helper must be shown over them) @see tdcOperationUI
+                        event.stopPropagation();
+
+                        tdcOperationUI.hideHelper();
+                        return;
+                    }
+
                     event.preventDefault();
                     event.stopPropagation();
 
@@ -116,6 +156,12 @@ var tdcColumnUI;
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcColumnUI.positionColumnPlaceholder( event );
+
+                    tdcMaskUI.hide();
+
+                    // Reset the mouse coordinates
+                    // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
+                    tdcColumnUI._setMouseCoordinates( undefined );
                 }
 
             }).mouseenter(function( event ) {
@@ -193,10 +239,17 @@ var tdcColumnUI;
 
 
         /**
+         * Position and show/hide the placeholder.
+         * Important! There are some situations when even the placeholder is positioned, we don't want to show it
+         *
+         * For example, before mousemove event. We don't want to show it, but want to position it, because it is used by the the mouseup event to
+         * check if the drag operation must be done. A drag operation is done when the placeholder and the dragged element are not siblings. And this
+         * means that placeholder position must be computed before.
          *
          * @param event
+         * @param positionAndHide
          */
-        positionColumnPlaceholder: function( event ) {
+        positionColumnPlaceholder: function( event, positionAndHide ) {
             //tdcDebug.log( event );
 
             var $placeholder = tdcAdminWrapperUI.$placeholder;
@@ -337,6 +390,11 @@ var tdcColumnUI;
                     left: parseInt(extraLeft),
                     'margin-left': cssMarginLeftValue
                 });
+            }
+
+            if ( ! _.isUndefined( positionAndHide ) && true === positionAndHide ) {
+                tdcOperationUI.hidePlaceholder();
+                return;
             }
 
             // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event

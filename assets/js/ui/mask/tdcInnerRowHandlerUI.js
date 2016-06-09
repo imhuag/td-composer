@@ -91,14 +91,14 @@ var tdcInnerRowHandlerUI;
             }).mousemove( function( event ) {
 
                 // Send the event to its 'tdc-inner-row' element
-                tdcInnerRowHandlerUI._triggerEvent( event );
                 tdcMaskUI.show();
+                tdcInnerRowHandlerUI._triggerEvent( event );
 
             }).mouseenter(function( event ) {
 
                 // Send the event to its 'tdc-inner-row' element
-                tdcInnerRowHandlerUI._triggerEvent( event );
                 tdcMaskUI.show();
+                tdcInnerRowHandlerUI._triggerEvent( event );
 
             }).mouseleave( function( event ) {
 

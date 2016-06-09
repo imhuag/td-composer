@@ -90,14 +90,14 @@ var tdcInnerColumnHandlerUI;
             }).mousemove( function( event ) {
 
                 // Send the event to its 'tdc-inner-column' element
-                tdcInnerColumnHandlerUI._triggerEvent( event );
                 tdcMaskUI.show();
+                tdcInnerColumnHandlerUI._triggerEvent( event );
 
             }).mouseenter(function( event ) {
 
                 // Send the event to its 'tdc-inner-column' element
-                tdcInnerColumnHandlerUI._triggerEvent( event );
                 tdcMaskUI.show();
+                tdcInnerColumnHandlerUI._triggerEvent( event );
 
             }).mouseleave( function( event ) {
 
