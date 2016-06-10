@@ -71,13 +71,13 @@ var tdcInit = {};
 
                     if ( 'page' === tdcInit.$postType.val() ) {
 
-                        tdcInit._checkContent();
+                        tdcInit._checkPageContent();
                     }
                 });
             }
         },
 
-        _checkContent: function() {
+        _checkPostContent: function() {
 
             if ( tdcInit.$title.length && tdcInit.$titlePromptText.length && tdcInit.$contentTextareaClone.length && 0 === tdcInit.$title.val().trim().length ) {
                 tdcInit.$title.val(tdcInit._title);
@@ -98,10 +98,34 @@ var tdcInit = {};
                 var content = tdcInit.$contentTextareaClone.text().replace( /&nbsp;/g,'' ) + '[vc_row][vc_column][/vc_column][/vc_row]';
                 tdcInit.$content.val( content );
                 tdcInit.$contentTextareaClone.html( content );
+            }
+        },
+
+
+        _checkPageContent: function() {
+
+            if ( tdcInit.$title.length && tdcInit.$titlePromptText.length && tdcInit.$contentTextareaClone.length && 0 === tdcInit.$title.val().trim().length ) {
+                tdcInit.$title.val(tdcInit._title);
+                tdcInit.$titlePromptText.hide();
+            }
+
+            tdcShortcodeParser.init({
+                0: ['vc_row'],
+                1: ['vc_column'],
+                2: ['vc_row_inner'],     // 2+4
+                3: ['vc_column_inner'],
+                4: []
+            });
+
+            var content = tinymce.activeEditor.getContent(),
+                parsedContent = tdcShortcodeParser.parse(0, content );
+
+            if ( ! parsedContent.length ) {
+                var newContent = content.replace( /&nbsp;/g,'' ) + '[vc_row][vc_column][/vc_column][/vc_row]';
 
                 // The editor must be set, because 'page' post type does not have wp_autosave as 'draft' (post status). The 'publish' post status is used instead
                 // Important! This is not necessary for the 'post' post type, because there wp_autosave works.
-                tinymce.activeEditor.setContent( content );
+                tinymce.activeEditor.setContent( newContent );
             }
         },
 
@@ -113,7 +137,7 @@ var tdcInit = {};
          */
         savePost: function( event ) {
 
-            tdcInit._checkContent();
+            tdcInit._checkPostContent();
 
             // Do the request and redirect at success
             jQuery.ajax({
