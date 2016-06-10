@@ -34,6 +34,7 @@ class tdc_ajax {
 
 	static function on_ajax_render_shortcode (WP_REST_Request $request ) {
 
+		//sleep(5);
 
 
 		if (!current_user_can( 'edit_pages' )) {
