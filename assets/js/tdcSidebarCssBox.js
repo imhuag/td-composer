@@ -639,9 +639,7 @@ function racssgentest() {
 
 
 
-function racsstest() {
-
-
+function unitTestCssParser() {
 
     tdcMiniTest.showHeader("test1");
     // all options active
