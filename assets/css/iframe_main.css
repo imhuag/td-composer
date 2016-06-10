@@ -29,6 +29,9 @@ html.tdc-active #wpadminbar {
   pointer-events: none;
   cursor: pointer;
 }
+.tdc-dragged {
+  opacity: 0.75 !important;
+}
 .tdc-element-empty {
   border: 1px solid yellow;
   width: 100%;

@@ -28,7 +28,7 @@ var tdcSidebarController = {};
         /**
          * @see tdcJobManager.addJob receives this job
          */
-        updateJob: function () {
+        _updateJob: function () {
             this.model = '';
             this.paramName = '';
             this.oldValue = '';
@@ -67,22 +67,22 @@ var tdcSidebarController = {};
          * @param value - the new value that we got form the user
          */
         onUpdate: function (model, paramName, oldValue, value) {
-            var updateJob = new tdcSidebarController.updateJob();
+            var updateJob = new tdcSidebarController._updateJob();
             updateJob.model = model;
             updateJob.paramName = paramName;
             updateJob.oldValue = oldValue;
             updateJob.value = value;
 
-
-            tdcSidebarController.addToBuffer(updateJob);
-
-
-            //tdcSidebarController.doUpdateJob(updateJob);
-
+            tdcSidebarController._addToBuffer(updateJob);
         },
 
 
-        addToBuffer: function (updateJob) {
+        /**
+         *
+         * @param updateJob tdcSidebarController._updateJob
+         * @private
+         */
+        _addToBuffer: function (updateJob) {
             tdcSidebarController.updateJobBuffer[updateJob.model.get('blockUid')] = updateJob;
 
             if (tdcSidebarController.updateJobTimer !== '') {
@@ -101,7 +101,7 @@ var tdcSidebarController = {};
                 }
 
                 for (var blockUid in tdcSidebarController.updateJobBuffer) {
-                    tdcSidebarController.doUpdateJob(tdcSidebarController.updateJobBuffer[blockUid]);
+                    tdcSidebarController._doUpdateJob(tdcSidebarController.updateJobBuffer[blockUid]);
                 }
 
 
@@ -112,9 +112,12 @@ var tdcSidebarController = {};
         },
 
 
-
-
-        doUpdateJob: function (updateJob) {
+        /**
+         * sends an updateJob to the server
+         * @param updateJob tdcSidebarController._updateJob
+         * @private
+         */
+        _doUpdateJob: function (updateJob) {
 
 
             /**
