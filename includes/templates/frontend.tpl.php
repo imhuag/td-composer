@@ -90,6 +90,8 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		</div>
 
 
+		<div class="tdc-sidebar-info">
+		</div>
 
 		<!-- modal window -->
 		<div class="tdc-sidebar-modal tdc-sidebar-modal-elements">

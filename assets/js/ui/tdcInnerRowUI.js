@@ -118,6 +118,9 @@ var tdcInnerRowUI;
                 tdcOperationUI.deactiveDraggedElement();
                 tdcOperationUI.hideHelper();
 
+                // Set the mask current container at mouse up
+                tdcMaskUI.setContentAtMouseUp( $element );
+
             }).mousemove(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element', 'tdc-element-inner-row' or 'tdc-element-inner-row-temp'
@@ -164,6 +167,14 @@ var tdcInnerRowUI;
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcInnerRowUI.positionInnerRowPlaceholder( event );
+
+                } else if ( _.isUndefined( tdcOperationUI.getDraggedElement() ) ) {
+
+                    // Otherwise, set to '$element' the current container for the mask, and stop event propagation
+                    tdcMaskUI.setCurrentContainer( $element );
+
+                    // Do not let the column mouseenter event to trigger
+                    event.stopPropagation();
                 }
 
             }).mouseleave(function(event) {
@@ -176,6 +187,16 @@ var tdcInnerRowUI;
 
                     tdcOperationUI.setCurrentElementOver( undefined );
                     tdcInnerRowUI.positionInnerRowPlaceholder( event );
+
+                } else {
+
+                    // Otherwise, reset to 'undefined' the current container for the mask, and manually trigger an 'mouseenter' event for its column parent
+                    tdcMaskUI.setCurrentContainer( undefined );
+
+                    var $tdcColumn = tdcOperationUI.inColumn( $element );
+                    if ( ! _.isUndefined( $tdcColumn ) ) {
+                        $tdcColumn.mouseenter();
+                    }
                 }
 
             }).on( 'fakemouseenterevent', function(event) {

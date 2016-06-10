@@ -32,7 +32,7 @@ var tdcSidebar;
         $currentElementHead: undefined,
         $inspector: undefined,
 
-
+        $sidebarInfo: undefined,
 
 
         init: function() {
@@ -51,6 +51,8 @@ var tdcSidebar;
 
             tdcSidebar.$currentElementHead = jQuery( '.tdc-current-element-head' );
             tdcSidebar.$inspector = jQuery( '.tdc-inspector' );
+
+            tdcSidebar.$sidebarInfo = jQuery( '.tdc-sidebar-info' );
 
 
             tdcSidebar.$editRow.click(function() {
@@ -404,6 +406,17 @@ var tdcSidebar;
         },
         getCurrentInnerColumn: function() {
             return tdcSidebar._$currentInnerColumn;
+        },
+
+
+        /**
+         * Set the content of the '.tdc-sidebar-info' element
+         * Usually the mask should do that.
+         *
+         * @param content
+         */
+        setSidebarInfo: function( content ) {
+            tdcSidebar.$sidebarInfo.html( content );
         },
 
 
