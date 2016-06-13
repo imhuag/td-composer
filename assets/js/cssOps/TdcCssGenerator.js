@@ -43,6 +43,10 @@ function TdcCssGenerator () {
     this._backgroundSize = '';
 
 
+    /**
+     * sets the background style from the dropdown UI
+     * @param newStyle
+     */
     this.setBackgroundStyle = function (newStyle) {
         switch (newStyle) {
             case 'cover':
@@ -75,7 +79,9 @@ function TdcCssGenerator () {
     this.generateCss = function () {
         var buffy = '';
 
+
         for (var i=0; i<this.possitions.length; i++) {
+
             // padding
             if (this['padding' + this._cap(this.possitions[i])] !== '') {
                 buffy += 'padding-' + this.possitions[i] + ': ' + this['padding' + this._cap(this.possitions[i])] + 'px !important;';
@@ -91,13 +97,11 @@ function TdcCssGenerator () {
 
 
         buffy += this._generateBackground(); // color + image
-
         buffy += this._generateBorder();
 
         if (this.borderRadius !== '') {
             buffy += 'border-radius: ' + this.borderRadius + 'px !important;';
         }
-
 
         // bg
         if (this._backgroundPosition !== '') {
@@ -109,11 +113,6 @@ function TdcCssGenerator () {
         if (this._backgroundSize !== '') {
             buffy += 'background-size: ' + this._backgroundSize + ' !important;';
         }
-
-
-
-
-
 
         return '.vc_custom_' + Date.now() + ' {' +  buffy + '}';
     };

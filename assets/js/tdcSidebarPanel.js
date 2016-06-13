@@ -51,10 +51,11 @@ var tdcSidebarPanel = {};
          * we just hook the dom events here
          */
         init: function () {
+            var $body = jQuery('body');
 
 
             // dropdown hook
-            jQuery('body').on('change focus', '.tdc-property-dropdown:not(.tdc-row-col-dropdown):not(.tdc-innerRow-col-dropdown) select', function() {
+            $body.on('change focus', '.tdc-property-dropdown:not(.tdc-row-col-dropdown):not(.tdc-innerRow-col-dropdown) select', function() {
                 // save the oldValue on focus in
                 if (event.type === 'focusin' || event.type === 'focus') { // the select raises a focus event instead of focusin
                     this.oldValue = this.value;
@@ -80,7 +81,7 @@ var tdcSidebarPanel = {};
 
 
             // textfield hook
-            jQuery('body').on('keyup focus', '.tdc-property-textfield input', function(event) {
+            $body.on('keyup focus', '.tdc-property-textfield input', function(event) {
 
                 // save the oldValue on focus in
                 if (event.type === 'focusin') {
@@ -106,7 +107,7 @@ var tdcSidebarPanel = {};
 
 
             // colorpicker (change for colropicker, keyup for clear)
-            jQuery('body').on('change keyup focus', '.tdc-property-colorpicker input', function(event) {
+            $body.on('change keyup focus', '.tdc-property-colorpicker input', function(event) {
                 // save the oldValue on focus in
                 if (event.type === 'focusin') {
                     this.oldValue = this.value;
@@ -134,7 +135,7 @@ var tdcSidebarPanel = {};
 
 
             // hook the custom row dropdown
-            jQuery('body').on( 'change focus', '.tdc-row-col-dropdown select', function () {
+            $body.on( 'change focus', '.tdc-row-col-dropdown select', function () {
 
                 // save the oldValue on focus in
                 if ( event.type === 'focusin' || event.type === 'focus' ) { // the select raises a focus event instead of focusin
@@ -183,7 +184,7 @@ var tdcSidebarPanel = {};
 
 
             // hook the custom innerRow dropdown
-            jQuery('body').on('change focus', '.tdc-innerRow-col-dropdown select', function() {
+            $body.on('change focus', '.tdc-innerRow-col-dropdown select', function() {
 
                 // save the oldValue on focus in
                 if (event.type === 'focusin' || event.type === 'focus') { // the select raises a focus event instead of focusin
@@ -208,71 +209,70 @@ var tdcSidebarPanel = {};
              */
 
             // all the inputs for margin, padding, border
-            jQuery('body').on('keyup', 'input.tdc-css-box-input', function(event) {
+            $body.on('keyup', 'input.tdc-css-box-input', function(event) {
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
 
                 tdcSidebarController.onUpdate (
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel._getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._generateCssAttValue()                 // the new value
                 );
             });
 
 
             // bg color
-            jQuery('body').on('change keyup', '.tdc-css-background-color', function(event) {
+            $body.on('change keyup', '.tdc-css-background-color', function(event) {
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
                 tdcSidebarController.onUpdate (
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel._getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._generateCssAttValue()                 // the new value
                 );
 
 
             });
 
-
             // border color
-            jQuery('body').on('change keyup', '.tdc-css-border-color', function(event) {
+            $body.on('change keyup', '.tdc-css-border-color', function(event) {
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
                 tdcSidebarController.onUpdate (
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel._getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._generateCssAttValue()                 // the new value
                 );
             });
 
 
             // border style selector
-            jQuery('body').on('change', '.tdc-css-border-style', function(event) {
+            $body.on('change', '.tdc-css-border-style', function(event) {
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
                 tdcSidebarController.onUpdate (
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel._getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._generateCssAttValue()                 // the new value
                 );
             });
 
 
             // border radius
-            jQuery('body').on('keyup', 'input.tdc-css-border-radius', function(event) {
+            $body.on('keyup', 'input.tdc-css-border-radius', function(event) {
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
 
                 tdcSidebarController.onUpdate (
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel._getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._generateCssAttValue()                 // the new value
                 );
             });
 
 
             // on image click
-            jQuery('body').on( 'click', '.tdc-css-bg-image', function(event) {
+            $body.on( 'click', '.tdc-css-bg-image', function(event) {
 
                 var $imgBackgroundImage = jQuery(this);
                 window.original_send_to_editor = window.send_to_editor;
@@ -301,14 +301,14 @@ var tdcSidebarPanel = {};
                         model,
                         $imgBackgroundImage.data('param_name'),    // the name of the parameter
                         '',                      // the old value
-                        tdcSidebarPanel._getCssEditorCss()                 // the new value
+                        tdcSidebarPanel._generateCssAttValue()                 // the new value
                     );
                 };
                 return false;
 
             });
             // on remove image button click
-            jQuery('body').on( 'click', '.tdc-css-bg-remove', function(event) {
+            $body.on( 'click', '.tdc-css-bg-remove', function(event) {
                 var $imgBackgroundImage = jQuery('.tdc-css-bg-image');
                 $imgBackgroundImage.addClass('tdc-no-image-selected');
                 $imgBackgroundImage.attr('src', window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img_upload.png');
@@ -319,19 +319,19 @@ var tdcSidebarPanel = {};
                     model,
                     $imgBackgroundImage.data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel._getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._generateCssAttValue()                 // the new value
                 );
             });
 
 
             // bg style change
-            jQuery('body').on('change', '.tdc-css-bg-style', function(event) {
+            $body.on('change', '.tdc-css-bg-style', function(event) {
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
                 tdcSidebarController.onUpdate (
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel._getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._generateCssAttValue()                 // the new value
                 );
             });
 
@@ -825,10 +825,10 @@ var tdcSidebarPanel = {};
 
 
         /**
-         *
+         * generates the CSS att value from the CssEditor values
          * @private
          */
-        _getCssEditorCss: function () {
+        _generateCssAttValue: function () {
 
             var cssGenerator = new TdcCssGenerator();
 
