@@ -1,243 +1,9 @@
 /**
- * Created by ra on 6/2/2016.
+ * Created by ra on 6/10/2016.
  */
 
 
-function TdcCssGenerator () {
-    'use strict';
-
-    this.possitions = ['top', 'right', 'bottom', 'left'];
-
-    // padding
-    this.paddingTop = '';
-    this.paddingRight = '';
-    this.paddingBottom = '';
-    this.paddingLeft = '';
-    this.setPadding = function (newValue) {
-        this.paddingTop = newValue;
-        this.paddingRight = newValue;
-        this.paddingBottom = newValue;
-        this.paddingLeft = newValue;
-    };
-
-
-    // margins
-    this.marginTop = '';
-    this.marginRight = '';
-    this.marginBottom = '';
-    this.marginLeft = '';
-    this.setMargin = function (newValue) {
-        this.marginTop = newValue;
-        this.marginRight = newValue;
-        this.marginBottom = newValue;
-        this.marginLeft = newValue;
-    };
-
-    // borders
-    this.borderRadius = '';
-
-    this.borderWidthTop = '';
-    this.borderWidthRight = '';
-    this.borderWidthBottom = '';
-    this.borderWidthLeft = '';
-    this.setBorderWidth = function (newValue) {
-        this.borderWidthTop = newValue;
-        this.borderWidthRight = newValue;
-        this.borderWidthBottom = newValue;
-        this.borderWidthLeft = newValue;
-    };
-
-    this.borderStyle = '';
-
-    this.borderColor = '';
-
-
-    this.backgroundPosition = '';
-    this.backgroundRepeat = '';
-    this.backgroundSize = '';
-    this.backgroundColor = '';
-    this.backgroundUrl = '';
-
-
-    /**
-     * capitalize the first letter
-     * @param string
-     * @returns {string}
-     * @private
-     */
-    this._cap = function (string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    };
-
-
-
-    this._generateBorder = function () {
-
-
-
-        if (
-            this.borderWidthTop === '' &&
-            this.borderWidthRight ===  '' &&
-            this.borderWidthBottom ===  '' &&
-            this.borderWidthLeft ===  ''
-        ) {
-            // if we don't have a border width, do not output anything
-            return '';
-        }
-
-
-        // border width + style + color
-        if (
-            this.borderWidthTop === this.borderWidthRight &&
-            this.borderWidthTop === this.borderWidthBottom &&
-            this.borderWidthTop === this.borderWidthLeft &&
-            this.borderStyle !== '' &&
-            this.borderColor !== ''
-        ) {
-            // compress all in one statement
-            return 'border: ' + this.borderWidthTop + 'px ' +  this.borderStyle + ' ' +  this.borderColor + ' !important;';
-        }
-
-
-        var buffy = '';
-
-
-
-
-        for (var i=0; i<this.possitions.length; i++) {
-            // border width
-            if (this['borderWidth' + this._cap(this.possitions[i])] !== '') {
-                buffy += 'border-' + this.possitions[i] + '-width: ' + this['borderWidth' + this._cap(this.possitions[i])] + 'px !important;';
-
-
-
-
-                // border style
-                if (this.borderStyle !== '') {
-                    buffy += 'border-' + this.possitions[i] + '-style: ' + this.borderStyle + ' !important;';
-                }
-
-
-                // border color
-                if (this.borderColor !== '') {
-                    buffy += 'border-' + this.possitions[i] + '-color: ' + this.borderColor + ' !important;';
-                }
-
-
-            }
-
-
-
-        }
-
-
-
-        return buffy;
-
-    };
-
-
-
-    this.setBackgroundStyle = function (newStyle) {
-        switch (newStyle) {
-            case 'cover':
-                this.backgroundPosition = 'center';
-                this.backgroundRepeat = 'no-repeat';
-                this.backgroundSize = 'cover';
-                break;
-            case 'contain':
-                this.backgroundPosition = 'center';
-                this.backgroundRepeat = 'no-repeat';
-                this.backgroundSize = 'contain';
-                break;
-            case 'no-repeat':
-                this.backgroundPosition = '0 0';
-                this.backgroundRepeat = 'no-repeat';
-                break;
-            case 'repeat':
-                this.backgroundPosition = '0 0';
-                this.backgroundRepeat = 'repeat';
-                break;
-
-        }
-    };
-
-    /**
-     * bg color + bg image
-     * @returns {*}
-     * @private
-     */
-    this._generateBackground = function () {
-        if (this.backgroundColor !== '' && this.backgroundUrl !== '') {
-            return 'background: ' + this.backgroundColor + ' url(' + this.backgroundUrl + ') !important;';
-        }
-
-        else if (this.backgroundColor !== '') {
-            return 'background-color: ' + this.backgroundColor + ' !important;';
-        }
-
-        else if (this.backgroundUrl !== '') {
-            return 'background-image: url(' + this.backgroundUrl + ') !important;';
-        }
-
-        return '';
-    };
-
-
-    this.generateCss = function () {
-        var buffy = '';
-
-
-        for (var i=0; i<this.possitions.length; i++) {
-            // padding
-            if (this['padding' + this._cap(this.possitions[i])] !== '') {
-                buffy += 'padding-' + this.possitions[i] + ': ' + this['padding' + this._cap(this.possitions[i])] + 'px !important;';
-            }
-
-            // margin
-            if (this['margin' + this._cap(this.possitions[i])] !== '') {
-                buffy += 'margin-' + this.possitions[i] + ': ' + this['margin' + this._cap(this.possitions[i])] + 'px !important;';
-            }
-
-        }
-
-
-
-        buffy += this._generateBackground(); // color + image
-
-        buffy += this._generateBorder();
-
-        if (this.borderRadius !== '') {
-            buffy += 'border-radius: ' + this.borderRadius + 'px !important;';
-        }
-
-
-        // bg
-        if (this.backgroundPosition !== '') {
-            buffy += 'background-position: ' + this.backgroundPosition + ' !important;';
-        }
-        if (this.backgroundRepeat !== '') {
-            buffy += 'background-repeat: ' + this.backgroundRepeat + ' !important;';
-        }
-        if (this.backgroundSize !== '') {
-            buffy += 'background-size: ' + this.backgroundSize + ' !important;';
-        }
-
-
-
-
-
-
-        return '.vc_custom_' + Date.now() + ' {' +  buffy + '}';
-    };
-}
-
-
-
-
-
-
-
+/* global cssjs:{} */
 
 
 var tdcCssParser = {};
@@ -312,42 +78,10 @@ var tdcCssParser = {};
                     tdcCssParser._parsedCssRaw[0].rules[i].directive = 'border-style-left';
                 }
             }
-            console.log(tdcCssParser._parsedCssRaw);
+            //console.log(tdcCssParser._parsedCssRaw);
 
         },
 
-
-        _nthWord: function(str, n) {
-
-            var words = str.split(/\s+/);
-
-            return words[n];
-
-        },
-
-
-        /**
-         * remove px, important and extracts the bg url
-         * @param cssDirectiveName
-         * @param str
-         * @returns {*}
-         * @private
-         */
-        _cleanCss: function (cssDirectiveName, str) {
-            if (cssDirectiveName === 'background-url') {
-                var urlRegex = /(url\s*\(\s*['"]?)(.*?)\s*(['"]?\s*\))/ig;
-                var found = urlRegex.exec(str);
-                if (!_.isEmpty(found)) {
-                    return found[2];
-                }
-
-                return '';
-            }
-
-            str = str.toLowerCase();
-            str = str.replace(/!important|px/g, '');
-            return str.trim();
-        },
 
 
 
@@ -435,8 +169,71 @@ var tdcCssParser = {};
             }
 
 
+            // background-style is a custom directive that sets multiple css properties
+            if (cssDirectiveName === 'background-style') {
+                // bg size
+                if ( tdcCssParser.getPropertyValueClean('background-size') === 'cover' ) {
+                    return 'cover';
+                }
+
+                else if ( tdcCssParser.getPropertyValueClean('background-size') === 'contain' ) {
+                    return 'contain';
+                }
+
+                // bg repeat
+                else if ( tdcCssParser.getPropertyValueClean('background-repeat') === 'no-repeat' ) {
+                    return 'no-repeat';
+                }
+
+                else if ( tdcCssParser.getPropertyValueClean('background-repeat') === 'repeat' ) {
+                    return 'repeat';
+                }
+
+                // theme default
+                else {
+                    return '';
+                }
+            }
+
+
             return tdcCssParser._cleanCss(cssDirectiveName, tdcCssParser._getPropertyValue(cssDirectiveName));
         },
+
+
+        _nthWord: function(str, n) {
+
+            var words = str.split(/\s+/);
+
+            return words[n];
+
+        },
+
+
+        /**
+         * remove px, important and extracts the bg url
+         * @param cssDirectiveName
+         * @param str
+         * @returns {*}
+         * @private
+         */
+        _cleanCss: function (cssDirectiveName, str) {
+            if (cssDirectiveName === 'background-url') {
+                var urlRegex = /(url\s*\(\s*['"]?)(.*?)\s*(['"]?\s*\))/ig;
+                var found = urlRegex.exec(str);
+                if (!_.isEmpty(found)) {
+                    return found[2];
+                }
+
+                return '';
+            }
+
+            str = str.toLowerCase();
+            str = str.replace(/!important|px/g, '');
+            return str.trim();
+        },
+
+
+
 
         /**
          * For compatibility:
@@ -613,31 +410,6 @@ var tdcMiniTest = {};
 
 
 
-function racssgentest() {
-    var t1 = new TdcCssGenerator();
-    //t1.borderWidthTop = 5;
-    t1.setBorderWidth(5);
-    //t1.borderStyle = 'solid';
-    t1.borderWidthTop = 1;
-    t1.borderColor = '#ff11ff';
-    t1.borderStyle = 'solid';
-
-    //t1.backgroundUrl = 'http://reddit.com';
-    //t1.backgroundColor = '#ffffff';
-
-    //t1.setBackgroundStyle('contain');
-
-    //t1.setMargin(5);
-
-    //t1.borderRadius = '5';
-
-
-    console.log(t1.generateCss());
-}
-
-
-
-
 
 function unitTestCssParser() {
 
@@ -768,12 +540,6 @@ function unitTestCssParser() {
 
 
 }
-
-
-
-
-
-
 
 
 

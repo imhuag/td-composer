@@ -203,11 +203,11 @@ var tdcSidebarPanel = {};
             });
 
 
+            /***************************************************************************************************
+             *  events for css box!
+             */
 
-
-
-            //hook for css box!
-            // textfield hook
+            // all the inputs for margin, padding, border
             jQuery('body').on('keyup', 'input.tdc-css-box-input', function(event) {
                 var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
 
@@ -215,10 +215,9 @@ var tdcSidebarPanel = {};
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel.getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._getCssEditorCss()                 // the new value
                 );
             });
-
 
 
             // bg color
@@ -228,7 +227,7 @@ var tdcSidebarPanel = {};
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel.getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._getCssEditorCss()                 // the new value
                 );
 
 
@@ -242,10 +241,9 @@ var tdcSidebarPanel = {};
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel.getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._getCssEditorCss()                 // the new value
                 );
             });
-
 
 
             // border style selector
@@ -255,11 +253,9 @@ var tdcSidebarPanel = {};
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel.getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._getCssEditorCss()                 // the new value
                 );
             });
-
-
 
 
             // border radius
@@ -270,11 +266,9 @@ var tdcSidebarPanel = {};
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel.getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._getCssEditorCss()                 // the new value
                 );
             });
-
-
 
 
             // on image click
@@ -307,7 +301,7 @@ var tdcSidebarPanel = {};
                         model,
                         $imgBackgroundImage.data('param_name'),    // the name of the parameter
                         '',                      // the old value
-                        tdcSidebarPanel.getCssEditorCss()                 // the new value
+                        tdcSidebarPanel._getCssEditorCss()                 // the new value
                     );
                 };
                 return false;
@@ -325,7 +319,7 @@ var tdcSidebarPanel = {};
                     model,
                     $imgBackgroundImage.data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel.getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._getCssEditorCss()                 // the new value
                 );
             });
 
@@ -337,7 +331,7 @@ var tdcSidebarPanel = {};
                     model,
                     jQuery(this).data('param_name'),    // the name of the parameter
                     '',                      // the old value
-                    tdcSidebarPanel.getCssEditorCss()                 // the new value
+                    tdcSidebarPanel._getCssEditorCss()                 // the new value
                 );
             });
 
@@ -830,13 +824,15 @@ var tdcSidebarPanel = {};
         },
 
 
+        /**
+         *
+         * @private
+         */
+        _getCssEditorCss: function () {
 
-        getCssEditorCss: function () {
             var cssGenerator = new TdcCssGenerator();
 
-
-
-
+            // css for padding, border margin (the square inputs)
             jQuery( ".tdc-css-box-input" ).each(function( index ) {
                 cssGenerator[jQuery(this).data('tdc-for')] = jQuery(this).val();
             });
@@ -844,25 +840,21 @@ var tdcSidebarPanel = {};
 
             cssGenerator.backgroundColor = jQuery('.tdc-css-background-color').val();
             cssGenerator.borderColor = jQuery('.tdc-css-border-color').val();
+            cssGenerator.borderStyle = jQuery('.tdc-css-border-style').val();
+            cssGenerator.borderRadius = jQuery('.tdc-css-border-radius').val();
+            cssGenerator.setBackgroundStyle(jQuery('.tdc-css-bg-style').val());  // custom directive that sets multiple css properties
 
 
-
-
+            // bg image, only if we don't have .tdc-no-image-selected
             var $imgBackgroundImage = jQuery('.tdc-css-bg-image');
             if ( !$imgBackgroundImage.hasClass('tdc-no-image-selected') ) {
                 cssGenerator.backgroundUrl =   $imgBackgroundImage.attr('src');
             }
 
+            var generatedCss = cssGenerator.generateCss();
 
-            cssGenerator.borderStyle = jQuery('.tdc-css-border-style').val();
-
-
-            cssGenerator.borderRadius = jQuery('.tdc-css-border-radius').val();
-
-            cssGenerator.setBackgroundStyle(jQuery('.tdc-css-bg-style').val());
-
-
-            return cssGenerator.generateCss();
+            //tdcDebug.log(generatedCss);
+            return generatedCss;
         },
 
 
@@ -887,8 +879,6 @@ var tdcSidebarPanel = {};
 
             var buffy = '';
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
-
-
                 buffy += '<div class="tdc-property-title">Margin:</div>';
                 buffy += '<div class="tdc-box-margin">';
                     buffy += '<input data-tdc-for="marginTop" class="tdc-css-box-input tdc-css-box-input-top" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('margin-top') + '" placeholder="-" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '/>';
@@ -1009,15 +999,19 @@ var tdcSidebarPanel = {};
 
 
             // bg style
+            var currentBgStyle = tdcCssParser.getPropertyValueClean('background-style'); // background-style is a custom directive that sets multiple css properties
+            var bgStyles = [
+                {value: '', display: 'Theme defaults'},
+                {value: 'cover', display: 'Cover'},
+                {value: 'contain', display: 'Contain'},
+                {value: 'no-repeat', display: 'No repeat'},
+                {value: 'repeat', display: 'Repeat'}
+            ];
             buffy += '<div class="tdc-property-wrap">';
                 buffy += '<div class="tdc-property-title">Background style:</div>';
                 buffy += '<div class="tdc-property">';
                     buffy += '<select class="tdc-css-bg-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
-                        buffy += '<option value="">Theme defaults</option>';
-                        buffy += '<option value="cover">Cover</option>';
-                        buffy += '<option value="contain">Contain</option>';
-                        buffy += '<option value="no-repeat">No Repeat</option>';
-                        buffy += '<option value="repeat">Repeat</option>';
+                        buffy += tdcSidebarPanel._generateDropdownOptions(bgStyles, currentBgStyle);
                     buffy += '</select>';
                 buffy += '</div>';
             buffy += '</div>';
