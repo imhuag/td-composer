@@ -56,6 +56,10 @@ var tdcDebug;
 
                 console.log('%c tdHomepageFull.items ', 'background: #222; color: white');
                 console.log(iFrameWindowObj.tdHomepageFull.items);
+
+                console.log('%c tdTrendingNow.items ', 'background: #222; color: white');
+                console.log(iFrameWindowObj.tdTrendingNow.items);
+
             console.groupEnd();
         },
 
