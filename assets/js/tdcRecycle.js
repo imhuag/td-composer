@@ -53,30 +53,27 @@ var tdcRecycle;
                         $tdcRows.replaceWith( data.replyHtml );
                     }
 
+                    // Do the steps of the tdcAdminIFrameUI.init() : [1..5]
+
+                    // Step1: add wrappers
                     window.addWrappers( $iframeContents );
 
+                    // Step2: reinit the tdcIFrameData
                     tdcIFrameData._isInitialized = false;
                     tdcIFrameData._postOriginalContentJSON = undefined;
                     window.tdcPostSettings.postContent = shortcode;
+
+                    // Step3: init the tdcIFrameData
                     tdcIFrameData.init( $iframeContents );
 
+                    // Step4: init the tdcOperationUI
                     tdcOperationUI.init( $iframeContents );
 
-                    //tdcRecycle.$_restoreContent.hide();
+                    // Step5: eval the js
+                    if ( _.has( data, 'replyJsForEval' ) ) {
 
-
-                    //
-                    //// some request may not send js
-                    //if ( _.has( data, 'replyJsForEval' ) ) {
-                    //    // add the tdcEvalGlobal GLOBAL to the iFrame and do an eval in that iframe for any js code sent
-                    //    // by the ajax request
-                    //    iFrameWindowObj.tdcEvalGlobal = {
-                    //        oldBlockUid: draggedBlockUid
-                    //    };
-                    //    tdcAdminIFrameUI.evalInIframe(data.replyJsForEval);
-                    //
-                    //
-                    //}
+                        tdcAdminIFrameUI.evalInIframe(data.replyJsForEval);
+                    }
                 };
 
                 newJob.error_callback = function( job, errorMsg ) {
