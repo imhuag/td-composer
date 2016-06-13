@@ -145,7 +145,7 @@ var tdcElementUI;
             // If a 'tdc-element' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
             var elementOuterHeight = currentElementOver.outerHeight( true),
-                elementOuterWidth = currentElementOver.innerWidth(),
+                elementOuterWidth = currentElementOver.outerWidth( true ),
                 elementOffset = currentElementOver.offset();
 
             //tdcDebug.log( mousePointerValue.Y + ' : ' +  ( elementOffset.top + ( elementOuterHeight / 2 ) ) );
@@ -185,6 +185,9 @@ var tdcElementUI;
 
                     var $innerRowParent = currentElementOver.closest( '.tdc-element-inner-row' );
 
+                    // The width of the placeholder is the width of the '.tdc-element-inner-row' element
+                    elementOuterWidth = $innerRowParent.outerWidth( true );
+
                     $nextElement = $innerRowParent.next();
 
                     if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
@@ -220,18 +223,18 @@ var tdcElementUI;
                     $placeholder.css({
                         'position': 'fixed',
                         'top': '',
-                        'right': 'auto',
+                        'margin-top': '',
                         'bottom': '0',
-                        'width': parseInt(elementOuterWidth / 2) + 'px'
+                        'width': elementOuterWidth
                     });
                 } else {
                     // Reset
                     $placeholder.css({
                         'position': 'absolute',
                         'top': '',
-                        'right': '0',
+                        'margin-top': '',
                         'bottom': '',
-                        'width': ''
+                        'width': elementOuterWidth
                     });
                 }
 
@@ -268,6 +271,9 @@ var tdcElementUI;
 
                     var $innerRowParent = currentElementOver.closest( '.tdc-element-inner-row' );
 
+                    // The width of the placeholder is the width of the '.tdc-element-inner-row' element
+                    elementOuterWidth = $innerRowParent.outerWidth( true );
+
                     $prevElement = $innerRowParent.prev();
 
                     if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
@@ -302,18 +308,18 @@ var tdcElementUI;
                     $placeholder.css({
                         'position': 'fixed',
                         'top': '0',
-                        'right': 'auto',
+                        'margin-top': '0',
                         'bottom': '',
-                        'width': parseInt(elementOuterWidth / 2) + 'px'
+                        'width': elementOuterWidth
                     });
                 } else {
                     // Reset
                     $placeholder.css({
                         'position': 'absolute',
                         'top': '',
-                        'right': '0',
+                        'margin-top': '',
                         'bottom': '',
-                        'width': ''
+                        'width': elementOuterWidth
                     });
                 }
             }
@@ -321,6 +327,292 @@ var tdcElementUI;
             if ( ! _.isUndefined( positionAndHide ) && true === positionAndHide ) {
                 tdcOperationUI.hidePlaceholder();
                 return;
+            }
+
+            // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event
+            tdcOperationUI.showPlaceholder();
+
+            // Hide the placeholder if it's near the dragged element
+            //if ( $placeholder.next().length && $placeholder.next().hasClass( 'tdc-dragged' ) ||
+            //    $placeholder.prev().length && $placeholder.prev().hasClass( 'tdc-dragged' ) ) {
+            //    $placeholder.hide();
+            //}
+        },
+
+
+        /**
+         * Position the placeholder.
+         *
+         * @param event
+         */
+        positionEmptyElementPlaceholder: function( event ) {
+
+            //tdcDebug.log( event );
+
+            var $placeholder = tdcAdminWrapperUI.$placeholder;
+
+            // Adapt the placeholder to look great when it's not on columns and inner-columns
+            tdcOperationUI.setHorizontalPlaceholder();
+
+
+            // The mouse position.
+            // This is used as a mark value.
+            // When an element is in 'drag' operation, the 'scroll' of the contents does not fire 'hover' ('mouseenter' and 'mouseleave') event
+            // over the content, and, to solve this issue, a custom event ('fakemouseenterevent') with the mouse position, must be triggered to all 'tdc-element' elements,
+            // to see which has the mouse over
+            var mousePointerValue = {
+                X: 0,
+                Y: 0
+            };
+
+            // Check if we have 'mousemove' or 'fakemouseenterevent'
+            if ( 'mousedown' === event.type || 'mousemove' === event.type || 'fakemouseenterevent' === event.type ) {
+
+                mousePointerValue.X = event.pageX;
+                mousePointerValue.Y = event.pageY;
+
+                // These are saved here, and used at 'scroll', for computing the mouse position over a 'tdc-element' element
+                if ( !_.isUndefined( event.clientX ) && !_.isUndefined( event.clientY ) ) {
+                    window.previousMouseClientX = event.clientX;
+                    window.previousMouseClientY = event.clientY;
+                }
+
+            } else if ( 'scroll' === event.type ) {
+                //tdcDebug.log( event.delegateTarget.scrollingElement.scrollTop + ' : ' + window.previousMouseClientY );
+
+                mousePointerValue.X = tdcOperationUI.iframeContents.scrollLeft() + window.previousMouseClientX;
+                mousePointerValue.Y = tdcOperationUI.iframeContents.scrollTop() + window.previousMouseClientY;
+
+                var eventProp = {
+                    'pageX' : mousePointerValue.X,
+                    'pageY' : mousePointerValue.Y
+                };
+
+                //tdcDebug.log( eventProp );
+
+
+                // Try to find where the mouse is.
+                // Trigger a custom event for all 'tdc-element' elements, but stop if one is found
+
+                // Set the 'currentElementOver' to undefined, to be find in the iteration
+                tdcOperationUI.setCurrentElementOver( undefined );
+
+                // Trigger a 'fakemouseenterevent' event, for all 'tdc-element' elements, or until the variable 'currentElementOver' is set to one of them
+                tdcElementUI.tdcElement.each(function( index, element ) {
+
+                    if ( ! _.isUndefined( tdcOperationUI.getCurrentElementOver() ) ) {
+                        // If it's not undefined, ( marked by 'fakemouseenterevent' event of the 'tdc-element' ) DO NOTHING (DO NOT TRIGGER ANY MORE 'fakemouseenterevent' EVENT)
+                        return;
+                    }
+                    jQuery( element ).trigger( jQuery.Event( 'fakemouseenterevent', eventProp ) );
+                });
+
+                //tdcElementInnerRowUI.tdcElementInnerRow.each(function( index, element ) {
+                //
+                //    if ( ! _.isUndefined( currentElementOver ) ) {
+                //        // If it's not undefined, ( marked by 'fakemouseenterevent' event of the 'tdc-element-inner-row' ) DO NOTHING (DO NOT TRIGGER ANY MORE 'fakemouseenterevent' EVENT)
+                //        return;
+                //    }
+                //    jQuery( element ).trigger( jQuery.Event( 'fakemouseenterevent', eventProp ) );
+                //});
+                return;
+            }
+
+            var currentElementOver = tdcOperationUI.getCurrentElementOver();
+
+            // Hide the placeholder and stop
+            if ( _.isUndefined( tdcOperationUI.getDraggedElement() ) ||
+                _.isUndefined( currentElementOver ) ) {
+
+                // Hide the placeholder when we are over the dragged element
+                //( ! _.isUndefined( currentElementOver ) && currentElementOver.hasClass( 'tdc-dragged' ) ) ) {
+
+                tdcOperationUI.hidePlaceholder();
+                return;
+            }
+
+
+
+            // If a 'tdc-element' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
+
+            var elementOuterHeight = currentElementOver.outerHeight( true),
+                elementOuterWidth = currentElementOver.outerWidth( true ),
+                elementOffset = currentElementOver.offset();
+
+            //tdcDebug.log( mousePointerValue.Y + ' : ' +  ( elementOffset.top + ( elementOuterHeight / 2 ) ) );
+
+            if ( mousePointerValue.Y > elementOffset.top + ( elementOuterHeight / 2 ) ) {
+
+
+
+
+
+
+                // Check the bottom of the inner-column, to position the placeholder out
+
+                var isInnerColumnLastElement = false;
+
+                if ( tdcElementUI.isInnerColumnLastElement( currentElementOver ) && ( mousePointerValue.Y > elementOffset.top + elementOuterHeight - tdcElementUI._innerColumnGap ) ) {
+                    //tdcDebug.log( 'last of inner column' );
+
+                    isInnerColumnLastElement = true;
+                }
+
+
+
+
+
+
+
+                // Position the placeholder
+
+                var $nextElement;
+
+                // Position the placeholder
+                if ( isInnerColumnLastElement ) {
+
+                    // Rare case:
+                    // Position the placeholder outside the inner-column
+
+                    var $innerRowParent = currentElementOver.closest( '.tdc-element-inner-row' );
+
+                    // The width of the placeholder is the width of the '.tdc-element-inner-row' element
+                    elementOuterWidth = $innerRowParent.outerWidth( true );
+
+                    $nextElement = $innerRowParent.next();
+
+                    if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                        $innerRowParent.after($placeholder);
+
+                        // Update the helper
+                        tdcOperationUI.updateInfoHelper( undefined );
+                    }
+
+                } else {
+
+                    // Usual case:
+                    // Position the placeholder inside the inner-column
+
+                    $nextElement = currentElementOver.next();
+
+                    if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                        currentElementOver.after($placeholder);
+
+                        // Update the helper
+                        tdcOperationUI.updateInfoHelper( undefined );
+                    }
+                }
+
+
+
+
+
+
+
+                // Position the placeholder at the bottom of the screen
+                if ( parseInt( elementOffset.top ) + parseInt( elementOuterHeight ) > parseInt( tdcOperationUI.iframeContents.scrollTop()) + parseInt( window.innerHeight ) ) {
+                    $placeholder.css({
+                        'position': 'fixed',
+                        'top': '',
+                        'margin-top': '',
+                        'bottom': 0,
+                        'width': elementOuterWidth
+                    });
+                } else {
+                    // Reset
+                    $placeholder.css({
+                        'position': 'absolute',
+                        'top': '',
+                        'margin-top': -50,
+                        'bottom': '',
+                        'width': elementOuterWidth
+                    });
+                }
+
+            } else {
+
+
+
+
+
+
+                // Check the top of the inner-column, to position the placeholder out
+
+                var isInnerColumnFirstElement = false;
+
+                if ( tdcElementUI.isInnerColumnFirstElement( currentElementOver ) && ( mousePointerValue.Y < elementOffset.top + tdcElementUI._innerColumnGap ) ) {
+                    //tdcDebug.log( 'first of inner column' );
+
+                    isInnerColumnFirstElement = true;
+                }
+
+
+
+
+
+
+                // Position the placeholder
+
+                var $prevElement;
+
+                if ( isInnerColumnFirstElement ) {
+
+                    // Rare case:
+                    // Position the placeholder outside the inner-column
+
+                    var $innerRowParent = currentElementOver.closest( '.tdc-element-inner-row' );
+
+                    // The width of the placeholder is the width of the '.tdc-element-inner-row' element
+                    elementOuterWidth = $innerRowParent.outerWidth( true );
+
+                    $prevElement = $innerRowParent.prev();
+
+                    if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                        $innerRowParent.before($placeholder);
+
+                        // Update the helper
+                        tdcOperationUI.updateInfoHelper( undefined );
+                    }
+
+                } else {
+
+                    // Usual case:
+                    // Position the placeholder inside the inner-column
+
+                    $prevElement = currentElementOver.prev();
+
+                    if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                        currentElementOver.before($placeholder);
+
+                        // Update the helper
+                        tdcOperationUI.updateInfoHelper( undefined );
+                    }
+                }
+
+
+
+
+
+
+                // Position the placeholder at the top of the screen
+                if ( parseInt( elementOffset.top ) < parseInt( tdcOperationUI.iframeContents.scrollTop() ) ) {
+                    $placeholder.css({
+                        'position': 'fixed',
+                        'top': 0,
+                        'margin-top': 0,
+                        'bottom': '',
+                        'width': elementOuterWidth
+                    });
+                } else {
+                    // Reset
+                    $placeholder.css({
+                        'position': 'absolute',
+                        'top': '',
+                        'margin-top': 0,
+                        'bottom': '',
+                        'width': elementOuterWidth
+                    });
+                }
             }
 
             // 'show' must be after setting placeholder (horizontal or vertical), to be shown at the first 'mousedown' event
@@ -565,7 +857,7 @@ var tdcElementUI;
 
                     // @todo The current element over must be undefined?
                     //tdcOperationUI.setCurrentElementOver( undefined );
-                    tdcElementUI.positionElementPlaceholder( event );
+                    tdcElementUI.positionEmptyElementPlaceholder( event );
 
                 } else {
                     tdcMaskUI.setCurrentElement( $element );
@@ -585,7 +877,7 @@ var tdcElementUI;
                     tdcOperationUI.showHelper( event );
 
                     tdcOperationUI.setCurrentElementOver( $element );
-                    tdcElementUI.positionElementPlaceholder( event );
+                    tdcElementUI.positionEmptyElementPlaceholder( event );
                 }
 
             }).mouseenter(function( event ) {//tdcDebug.log($element);
@@ -597,7 +889,7 @@ var tdcElementUI;
                     event.preventDefault();
 
                     tdcOperationUI.setCurrentElementOver( $element );
-                    tdcElementUI.positionElementPlaceholder( event );
+                    tdcElementUI.positionEmptyElementPlaceholder( event );
 
                 } else if ( _.isUndefined( tdcOperationUI.getDraggedElement() ) ) {
                     tdcMaskUI.setCurrentElement( $element );
@@ -612,7 +904,7 @@ var tdcElementUI;
                     event.preventDefault();
 
                     tdcOperationUI.setCurrentElementOver( undefined );
-                    tdcElementUI.positionElementPlaceholder( event );
+                    tdcElementUI.positionEmptyElementPlaceholder( event );
 
                 } else if ( _.isUndefined( tdcOperationUI.getDraggedElement() ) ) {
                     tdcMaskUI.setCurrentElement( undefined );

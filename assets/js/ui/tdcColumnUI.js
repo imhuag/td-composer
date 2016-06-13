@@ -348,33 +348,28 @@ var tdcColumnUI;
 
             // If a 'tdcRow' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
-            var elementOuterWidth = currentElementOver.find( '.tdc-elements:first').outerWidth( true ),
+            var elementOuterWidth = currentElementOver.find( '.vc_column_container:first').outerWidth( true ),
                 elementOffset = currentElementOver.offset(),
 
             // Being floated, all prev columns width must be considered when working with the offset().left
                 extraLeft = 0,
+                cssMarginLeftValue = -24,
                 prevColumns = currentElementOver.prevAll();
 
             if ( prevColumns.length ) {
                 prevColumns.each( function (index, element) {
+
                     var $element = jQuery( element );
                     if ( ! $element.hasClass( 'tdc-column' ) ) {
                         return;
                     }
-                    extraLeft += parseInt( $element.find( '.tdc-elements:first').width() );
+                    extraLeft += parseInt( $element.find( '.vc_column_container:first').outerWidth( true ) );
                 });
             }
 
             //tdcDebug.log( mousePointerValue.X + ' : ' + extraLeft + ' : ' + elementOffset.left + ' : ' + elementOuterWidth );
 
-            var cssMarginLeftValue = 0;
-
-            if ( extraLeft !== 0 ) {
-                cssMarginLeftValue = 48;
-            }
-
             extraLeft += elementOffset.left;
-
 
             if ( mousePointerValue.X > (extraLeft + ( elementOuterWidth / 2 ) ) ) {
 

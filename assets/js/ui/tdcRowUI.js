@@ -316,7 +316,7 @@ var tdcRowUI;
             // If a 'tdc-row' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
             var elementOuterHeight = currentElementOver.outerHeight( true ),
-                elementOuterWidth = currentElementOver.innerWidth(),
+                elementOuterWidth = currentElementOver.outerWidth( true ),
                 elementOffset = currentElementOver.offset();
 
             //tdcDebug.log( mousePointerValue.Y + ' : ' +  ( elementOffset.top + ( elementOuterHeight / 2 ) ) );
@@ -339,16 +339,16 @@ var tdcRowUI;
                         'top': '',
                         'right': 'auto',
                         'bottom': '0',
-                        'width': parseInt(elementOuterWidth / 2) + 'px'
+                        'width': elementOuterWidth
                     });
                 } else {
                     // Reset
                     $placeholder.css({
                         'position': 'absolute',
                         'top': '',
-                        'right': '0',
+                        'right': '',
                         'bottom': '',
-                        'width': ''
+                        'width': elementOuterWidth
                     });
                 }
 
@@ -370,16 +370,16 @@ var tdcRowUI;
                         'top': '0',
                         'right': 'auto',
                         'bottom': '',
-                        'width': parseInt(elementOuterWidth / 2) + 'px'
+                        'width': elementOuterWidth
                     });
                 } else {
                     // Reset
                     $placeholder.css({
                         'position': 'absolute',
                         'top': '',
-                        'right': '0',
+                        'right': '',
                         'bottom': '',
-                        'width': ''
+                        'width': elementOuterWidth
                     });
                 }
             }
