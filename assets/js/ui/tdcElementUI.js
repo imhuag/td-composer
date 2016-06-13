@@ -145,7 +145,7 @@ var tdcElementUI;
             // If a 'tdc-element' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
             var elementOuterHeight = currentElementOver.outerHeight( true),
-                elementOuterWidth = currentElementOver.innerWidth(),
+                elementOuterWidth = currentElementOver.outerWidth( true ),
                 elementOffset = currentElementOver.offset();
 
             //tdcDebug.log( mousePointerValue.Y + ' : ' +  ( elementOffset.top + ( elementOuterHeight / 2 ) ) );
@@ -220,18 +220,16 @@ var tdcElementUI;
                     $placeholder.css({
                         'position': 'fixed',
                         'top': '',
-                        'right': 'auto',
                         'bottom': '0',
-                        'width': parseInt(elementOuterWidth / 2) + 'px'
+                        'width': elementOuterWidth
                     });
                 } else {
                     // Reset
                     $placeholder.css({
                         'position': 'absolute',
                         'top': '',
-                        'right': '0',
                         'bottom': '',
-                        'width': ''
+                        'width': elementOuterWidth
                     });
                 }
 
@@ -302,18 +300,16 @@ var tdcElementUI;
                     $placeholder.css({
                         'position': 'fixed',
                         'top': '0',
-                        'right': 'auto',
                         'bottom': '',
-                        'width': parseInt(elementOuterWidth / 2) + 'px'
+                        'width': elementOuterWidth
                     });
                 } else {
                     // Reset
                     $placeholder.css({
                         'position': 'absolute',
                         'top': '',
-                        'right': '0',
                         'bottom': '',
-                        'width': ''
+                        'width': elementOuterWidth
                     });
                 }
             }
