@@ -656,11 +656,14 @@ var tdcOperationUI;
 
             if ( ! _.isUndefined( $draggedElement ) &&
                 ! _.isUndefined( $currentElementOver ) &&
-                ! _.isUndefined( $placeholder ) &&
+                ! _.isUndefined( $placeholder ) ) {
 
                 // This check has been added because the placeholder position is computed at mousedown, and when the element is inside of an inner row and it's clicked at the top (@see tdcElementUI._innerColumnGap),
-                // the placeholder is positioned outside of the inner row (actually its moved to the row parent), and the drag operation is allowed
-                $placeholder.is( ':visible' ) ) {
+                // the placeholder is positioned outside of the inner row (actually its moved to the row parent), and the drag operation is allowed, even the mousemove event wasn't triggered.
+                // At the same time, the recycle case must be considered, because it does not have a visible placeholder
+                if ( ! $placeholder.is( ':visible' ) && $currentElementOver !== tdcAdminWrapperUI.$recycle ) {
+                    return;
+                }
 
                 // IMPORTANT! The next steps are:
                 //  Step 1. Check the dragged element to see if it's element, inner-column, inner-row, column or row

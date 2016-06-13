@@ -89,6 +89,12 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 			</div>
 		</div>
 
+		<div id="tdc-restore">
+			Restore
+		</div>
+
+		<div id="tdc-restore-content">
+		</div>
 
 		<div class="tdc-sidebar-info">
 		</div>
