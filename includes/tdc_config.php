@@ -61,7 +61,7 @@ class tdc_config {
 		'tdcSidebarController'  => '/assets/js/tdcSidebarController.js',
 		'tdcCssParser'  => '/assets/js/cssOps/tdcCssParser.js',
 		'TdcCssGenerator'  => '/assets/js/cssOps/TdcCssGenerator.js',
-		'tdcCssState'  => '/assets/js/cssOps/tdcCssEditor.js',
+		'tdcCssState'  => '/assets/js/cssOps/tdcCssEditorTab.js',
 
 		'tdcColorPicker'      => '/assets/js/tdcColorPicker.js',
 		'cssJs'                 => '/assets/js/external/css.js'
