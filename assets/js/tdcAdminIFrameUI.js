@@ -51,6 +51,20 @@ var tdcAdminIFrameUI;
         },
 
 
+        /**
+         * Init the content with an empty row and an empty column, if it doesn't have a '.tdc-row' element inside
+         *
+         * @param $iframeContents
+         */
+        initContent: function( $iframeContents ) {
+            if ( ! $iframeContents.find( '.tdc-row' ).length ) {
+                $iframeContents.find( '.td-main-content-wrap .td-container' ).append( '<div class="tdc-row"><div class="vc_row wpb_row td-pb-row"><div class="tdc-column"><div class="td-pb-span12 wpb_column vc_column_container"><div class="wpb_wrapper"></div></div></div></div></div>' );
+
+                window.tdcPostSettings.postContent += '[vc_row][vc_column][/vc_column][/vc_row]';
+            }
+        },
+
+
         init: function() {
 
             var url = window.tdcPostSettings.postUrl;
@@ -72,8 +86,9 @@ var tdcAdminIFrameUI;
 
                     var $this = jQuery(this);
 
-                    var iframeContents = jQuery(this).contents();
+                    var iframeContents = $this.contents();
 
+                    tdcAdminIFrameUI.initContent( iframeContents );
 
 
                     tdcAdminIFrameUI._liveIframeWindowObject = jQuery(this).get(0).contentWindow;

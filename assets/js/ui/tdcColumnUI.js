@@ -127,6 +127,8 @@ var tdcColumnUI;
                     // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
                     tdcColumnUI._setMouseCoordinates( undefined );
                 }
+                // Set the mask current container at mouse up
+                tdcMaskUI.setContentAtMouseUp( $element );
 
             }).mousemove(function( event ) {
 
@@ -174,6 +176,14 @@ var tdcColumnUI;
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcColumnUI.positionColumnPlaceholder( event );
+
+                } else if ( _.isUndefined( tdcOperationUI.getDraggedElement() ) ) {
+
+                    // Otherwise, set to '$element' the current container for the mask, and stop event propagation
+                    tdcMaskUI.setCurrentContainer( $element );
+
+                    // Do not let the row mouseenter event to trigger
+                    event.stopPropagation();
                 }
 
             }).mouseleave(function(event) {
@@ -186,6 +196,16 @@ var tdcColumnUI;
 
                     tdcOperationUI.setCurrentElementOver( undefined );
                     tdcColumnUI.positionColumnPlaceholder( event );
+
+                } else {
+
+                    // Otherwise, reset to 'undefined' the current container for the mask, and manually trigger an 'mouseenter' event for its row parent
+                    tdcMaskUI.setCurrentContainer( undefined );
+
+                    var $tdcRow = tdcOperationUI.inRow( $element );
+                    if ( ! _.isUndefined( $tdcRow ) ) {
+                        $tdcRow.mouseenter();
+                    }
                 }
 
             }).on( 'fakemouseenterevent', function(event) {

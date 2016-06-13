@@ -121,6 +121,8 @@ var tdcRowUI;
                     // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
                     tdcRowUI._setMouseCoordinates( undefined );
                 }
+                // Set the mask current container at mouse up
+                tdcMaskUI.setContentAtMouseUp( $element );
 
             }).mousemove(function( event ) {
 
@@ -168,6 +170,11 @@ var tdcRowUI;
 
                     tdcOperationUI.setCurrentElementOver( $element );
                     tdcRowUI.positionRowPlaceholder( event );
+
+                } else if ( _.isUndefined( tdcOperationUI.getDraggedElement() ) ) {
+
+                    // Otherwise, set to '$element' the current container for the mask
+                    tdcMaskUI.setCurrentContainer( $element );
                 }
 
             }).mouseleave(function( event ) {
@@ -180,6 +187,11 @@ var tdcRowUI;
 
                     tdcOperationUI.setCurrentElementOver( undefined );
                     tdcRowUI.positionRowPlaceholder( event );
+
+                } else {
+
+                    // Otherwise, reset to 'undefined' the current container for the mask
+                    tdcMaskUI.setCurrentContainer( undefined );
                 }
 
             }).on( 'fakemouseenterevent', function( event ) {

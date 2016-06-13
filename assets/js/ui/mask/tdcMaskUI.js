@@ -41,15 +41,10 @@ var tdcMaskUI;
 
         $content: undefined,
 
-        //$handlerRow: undefined,
-        //$handlerColumn: undefined,
-        //$handlerInnerRow: undefined,
-        //$handlerInnerColumn: undefined,
-
-        //$elementRow: undefined,
-        //$elementColumn: undefined,
-        //$elementInnerRow: undefined,
-        //$elementInnerColumn: undefined,
+        // Flag checked at mouse up, at bubbling
+        // It's used to set the current container or the current element for the mask
+        // It's set to true by the inner most element (usually a '.tdc-element'), and then reset to false by the outer most element (usually a '.tdc-row')
+        _inMouseUpBubbling: false,
 
         _isInitialized: false,
 
@@ -144,6 +139,14 @@ var tdcMaskUI;
 
             tdcMaskUI.$content.show();
 
+            var modelId = tdcMaskUI.$currentContainer.data( 'model_id' );
+
+            if ( ! _.isUndefined( modelId ) ) {
+                var model = tdcIFrameData.getModel( modelId );
+
+                tdcSidebar.setSidebarInfo( model.get( 'tag' ) );
+            }
+
         } else {
             tdcMaskUI.$content.css({
                 top: '',
@@ -153,6 +156,8 @@ var tdcMaskUI;
             });
 
             tdcMaskUI.$content.hide();
+
+            tdcSidebar.setSidebarInfo( '' );
         }
     },
 
@@ -190,6 +195,19 @@ var tdcMaskUI;
 
             tdcMaskUI.setHandlers();
 
+            var modelId = tdcMaskUI.$currentElement.data( 'model_id' );
+
+            if ( ! _.isUndefined( modelId ) ) {
+                var model = tdcIFrameData.getModel( modelId ),
+                    customTitle =  model.attributes.attrs.custom_title;
+
+                if ( '' === customTitle ) {
+                    tdcSidebar.setSidebarInfo( model.get( 'tag' ) );
+                } else {
+                    tdcSidebar.setSidebarInfo( customTitle );
+                }
+            }
+
 
 
             //tdcDebug.log( offset.top + ' : ' + offset.left + ' : ' + width + ' : ' + height );
@@ -199,6 +217,66 @@ var tdcMaskUI;
             tdcMaskUI.$content.hide();
 
             //tdcDebug.log( 'current element undefined' );
+        }
+    },
+
+
+    /**
+     * It set the current container or the current element of the mask, depending where the mouseup event was bubbled.
+     *
+     * This function is called at mouseup for rows, columns, inner-rows, inner-columns and elements
+     * It check the tdcMaskUI._inMouseUpBubbling flag and if it's not set, the bubbling is beginning
+     * The bubbling finishes at the outer most structure elements (.tdc-row)
+     *
+     * @param $element - the dragged element
+     */
+    setContentAtMouseUp: function( $element ) {
+
+        // Check the $element to set the mask current container or the mask current element
+        if ( $element.hasClass( 'tdc-row' ) ) {
+
+            if ( tdcMaskUI._inMouseUpBubbling ) {
+                // Reset the flag because this is the last bubbling phase
+                tdcMaskUI._inMouseUpBubbling = false;
+
+                return;
+            }
+            tdcMaskUI.setCurrentContainer( $element );
+
+        } else if ( $element.hasClass( 'tdc-column' ) ) {
+
+            if ( tdcMaskUI._inMouseUpBubbling ) {
+                return;
+            }
+            // Set the flag
+            tdcMaskUI._inMouseUpBubbling = true;
+
+            tdcMaskUI.setCurrentContainer( $element );
+
+        } else if ( $element.hasClass( 'tdc-element-inner-row' ) ) {
+
+            if ( tdcMaskUI._inMouseUpBubbling ) {
+                return;
+            }
+            // Set the flag
+            tdcMaskUI._inMouseUpBubbling = true;
+
+            tdcMaskUI.setCurrentContainer( $element );
+
+        } else if ( $element.hasClass( 'tdc-inner-column' ) ) {
+            if ( tdcMaskUI._inMouseUpBubbling ) {
+                return;
+            }
+            // Set the flag
+            tdcMaskUI._inMouseUpBubbling = true;
+
+            tdcMaskUI.setCurrentContainer( $element );
+
+        } else if ( $element.hasClass( 'tdc-element' ) ) {
+            tdcMaskUI.setCurrentElement( $element );
+
+            // Set the flag
+            tdcMaskUI._inMouseUpBubbling = true;
         }
     },
 

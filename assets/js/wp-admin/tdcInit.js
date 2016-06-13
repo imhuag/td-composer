@@ -63,19 +63,9 @@ var tdcInit = {};
                 tdcInit._url = window.tdcAdminSettings.adminUrl + 'post.php?post_id=' + tdcInit.$postId.val() + '&td_action=tdc';
 
                 jQuery( '<a onclick="return tdcInit.savePost( event )" href="' + tdcInit._url + '">TagDiv Composer</a>').insertAfter( 'div#titlediv' );
-
-
-                var $publish = $formPost.find( '#publish' );
-
-                $publish.click(function( event ) {
-
-                    if ( 'page' === tdcInit.$postType.val() ) {
-
-                        tdcInit._checkPageContent();
-                    }
-                });
             }
         },
+
 
         _checkPostContent: function() {
 
@@ -101,33 +91,6 @@ var tdcInit = {};
             }
         },
 
-
-        _checkPageContent: function() {
-
-            if ( tdcInit.$title.length && tdcInit.$titlePromptText.length && tdcInit.$contentTextareaClone.length && 0 === tdcInit.$title.val().trim().length ) {
-                tdcInit.$title.val(tdcInit._title);
-                tdcInit.$titlePromptText.hide();
-            }
-
-            tdcShortcodeParser.init({
-                0: ['vc_row'],
-                1: ['vc_column'],
-                2: ['vc_row_inner'],     // 2+4
-                3: ['vc_column_inner'],
-                4: []
-            });
-
-            var content = tinymce.activeEditor.getContent(),
-                parsedContent = tdcShortcodeParser.parse(0, content );
-
-            if ( ! parsedContent.length ) {
-                var newContent = content.replace( /&nbsp;/g,'' ) + '[vc_row][vc_column][/vc_column][/vc_row]';
-
-                // The editor must be set, because 'page' post type does not have wp_autosave as 'draft' (post status). The 'publish' post status is used instead
-                // Important! This is not necessary for the 'post' post type, because there wp_autosave works.
-                tinymce.activeEditor.setContent( newContent );
-            }
-        },
 
         /**
          * Save the post as draft.

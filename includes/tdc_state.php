@@ -82,6 +82,9 @@ class tdc_state {
 	 * @return mixed
 	 */
 	public static function get_post() {
+		if ( ! isset( self::$post ) ) {
+			tdc_util::error(__FILE__, __FUNCTION__, 'The tdc_state::$post is NOT set' );
+		}
 		return self::$post;
 	}
 
@@ -90,6 +93,10 @@ class tdc_state {
 	 * @param WP_Post $post
 	 */
 	public static function set_post( $post ) {
+		if ( isset( self::$post ) ) {
+			tdc_util::error(__FILE__, __FUNCTION__, 'The tdc_state::$post is already set' );
+		}
+
 		// we can add here additional checks if needed
 		if (get_class($post) != 'WP_Post') {
 			tdc_util::error(__FILE__, __FUNCTION__, '$post is not a WP_Post class');
