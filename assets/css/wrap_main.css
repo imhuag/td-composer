@@ -161,6 +161,14 @@
 .tdc-sidebar-bottom.active {
   background-color: #b554c2;
 }
+.tdc-sidebar-info {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  font-size: 12px;
+  color: #FFFFFF;
+  background-color: #000000;
+}
 #tdc-breadcrumb-row,
 #tdc-breadcrumb-column,
 #tdc-breadcrumb-inner-row,
