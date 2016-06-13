@@ -354,18 +354,18 @@ var tdcInnerRowUI;
                     $placeholder.css({
                         'position': 'fixed',
                         'top': '',
-                        'right': 'auto',
+                        'margin-top': '',
                         'bottom': '0',
-                        'width': parseInt(elementOuterWidth / 2) + 'px'
+                        'width': elementOuterWidth
                     });
                 } else {
                     // Reset
                     $placeholder.css({
                         'position': 'absolute',
                         'top': '',
-                        'right': '0',
+                        'margin-top': '',
                         'bottom': '',
-                        'width': ''
+                        'width': elementOuterWidth
                     });
                 }
 
@@ -385,18 +385,18 @@ var tdcInnerRowUI;
                     $placeholder.css({
                         'position': 'fixed',
                         'top': '0',
-                        'right': 'auto',
+                        'margin-top': '0',
                         'bottom': '',
-                        'width': parseInt(elementOuterWidth / 2) + 'px'
+                        'width': elementOuterWidth
                     });
                 } else {
                     // Reset
                     $placeholder.css({
                         'position': 'absolute',
                         'top': '',
-                        'right': '0',
+                        'margin-top': '',
                         'bottom': '',
-                        'width': ''
+                        'width': elementOuterWidth
                     });
                 }
             }

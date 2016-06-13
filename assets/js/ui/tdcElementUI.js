@@ -185,6 +185,9 @@ var tdcElementUI;
 
                     var $innerRowParent = currentElementOver.closest( '.tdc-element-inner-row' );
 
+                    // The width of the placeholder is the width of the '.tdc-element-inner-row' element
+                    elementOuterWidth = $innerRowParent.outerWidth( true );
+
                     $nextElement = $innerRowParent.next();
 
                     if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
@@ -220,6 +223,7 @@ var tdcElementUI;
                     $placeholder.css({
                         'position': 'fixed',
                         'top': '',
+                        'margin-top': '',
                         'bottom': '0',
                         'width': elementOuterWidth
                     });
@@ -228,6 +232,7 @@ var tdcElementUI;
                     $placeholder.css({
                         'position': 'absolute',
                         'top': '',
+                        'margin-top': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
@@ -266,6 +271,9 @@ var tdcElementUI;
 
                     var $innerRowParent = currentElementOver.closest( '.tdc-element-inner-row' );
 
+                    // The width of the placeholder is the width of the '.tdc-element-inner-row' element
+                    elementOuterWidth = $innerRowParent.outerWidth( true );
+
                     $prevElement = $innerRowParent.prev();
 
                     if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
@@ -300,6 +308,7 @@ var tdcElementUI;
                     $placeholder.css({
                         'position': 'fixed',
                         'top': '0',
+                        'margin-top': '0',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
@@ -308,6 +317,7 @@ var tdcElementUI;
                     $placeholder.css({
                         'position': 'absolute',
                         'top': '',
+                        'margin-top': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
