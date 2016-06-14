@@ -2076,7 +2076,7 @@ var tdcIFrameData,
 
                     var parentModelColumns = tdcIFrameData._parseModelWidthAttrs( parentModel );
 
-                    if ( '3' === parentModelColumns ) {
+                    if ( 3 === parentModelColumns ) {
                         columns = tdcIFrameData.getColumnNumber( parentModel );
                     } else {
                         columns = parentModelColumns;
@@ -2087,7 +2087,7 @@ var tdcIFrameData,
 
                     var modelColumns = tdcIFrameData._parseModelWidthAttrs( model );
 
-                    if ( '3' === modelColumns ) {
+                    if ( 3 === modelColumns ) {
                         columns = tdcIFrameData.getColumnNumber( parentModel );
                     } else {
                         columns = modelColumns;
