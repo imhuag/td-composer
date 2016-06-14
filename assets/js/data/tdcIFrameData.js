@@ -480,8 +480,180 @@ var tdcIFrameData,
 
 
 
+                            // Do the job for an existing '.tdc-column' element
+                            } else if ( this.$el.hasClass( 'tdc-column' ) ) {
 
-                            // The callback that will execute when a new empty row is added to the '#tdc-rows' empty element
+                                // Important! We'll get a new '.tdc-column' inside of the existing '.tdc-column', and, because of this, the content of the new column will be the content of the existing column
+
+                                var $tdcColumn = this.$el.find( '.tdc-column' ),
+                                    childCollection = this.model.get( 'childCollection' );
+
+                                // Reset the existing collection because it will be entirely removed
+                                // Important! Reset does not trigger 'remove' event for every component. Instead, it triggers only one 'reset' event for the entire collection
+                                if ( ! _.isUndefined( childCollection ) ) {
+                                    childCollection.reset();
+                                }
+
+                                // The content of the new column will be the content of the existing column
+                                this.$el.html( $tdcColumn.html() );
+
+                                // Add wrappers to the new content of the existing row
+                                window.addColumnWrappers( this.$el );
+
+                                var shortcode = this.model.get( 'shortcode' );
+
+                                //alert( 'parentModel ' + parentModel.cid );
+
+                                if ( true === tdcIFrameData._initNewContentStructureData( 2, shortcode, this.model ) ) {
+
+                                    //tdcDebug.log( tdcIFrameData.tdcRows );
+
+                                    // The childCollection of the model object has been modified
+                                    // Do nothing if it is undefined, otherwise continue and bind views to models
+                                    if ( ! _.isUndefined( childCollection ) ) {
+
+                                        var errors = {};
+
+                                        tdcIFrameData.bindViewsModelsWrappers( errors, childCollection , this.$el, 2 );
+
+                                        if ( !_.isEmpty( errors ) ) {
+                                            for ( var prop in errors ) {
+                                                tdcDebug.log( errors[ prop ] );
+                                            }
+
+                                            alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                tdcInnerRowUI.init( this.$el );
+                                tdcInnerColumnUI.init( this.$el );
+                                tdcElementUI.init( this.$el );
+
+                                tdcSidebar.setSettings({
+                                    '$currentRow': tdcOperationUI.inRow( this.$el ),
+                                    '$currentColumn': this.$el
+                                });
+
+
+
+                            // Do the job for an existing '.tdc-inner-row' element
+                            } else if ( this.$el.hasClass( 'tdc-inner-row' ) ) {
+
+                                // Important! We'll get a new '.tdc-inner-row' inside of the existing '.tdc-inner-row', and, because of this, the content of the new inner-row will be the content of the existing inner-row
+
+                                var $tdcInnerRow = this.$el.find( '.tdc-inner-row' ),
+                                    childCollection = this.model.get( 'childCollection' );
+
+                                // Reset the existing collection because it will be entirely removed
+                                // Important! Reset does not trigger 'remove' event for every component. Instead, it triggers only one 'reset' event for the entire collection
+                                if ( ! _.isUndefined( childCollection ) ) {
+                                    childCollection.reset();
+                                }
+
+                                // The content of the new column will be the content of the existing column
+                                this.$el.html( $tdcInnerRow.html() );
+
+                                // Add wrappers to the new content of the existing row
+                                window.addInnerRowWrappers( this.$el );
+
+                                var shortcode = this.model.get( 'shortcode' );
+
+                                //alert( 'parentModel ' + parentModel.cid );
+
+                                if ( true === tdcIFrameData._initNewContentStructureData( 3, shortcode, this.model ) ) {
+
+                                    //tdcDebug.log( tdcIFrameData.tdcRows );
+
+                                    // The childCollection of the model object has been modified
+                                    // Do nothing if it is undefined, otherwise continue and bind views to models
+                                    if ( ! _.isUndefined( childCollection ) ) {
+
+                                        var errors = {};
+
+                                        tdcIFrameData.bindViewsModelsWrappers( errors, childCollection , this.$el, 3 );
+
+                                        if ( !_.isEmpty( errors ) ) {
+                                            for ( var prop in errors ) {
+                                                tdcDebug.log( errors[ prop ] );
+                                            }
+
+                                            alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                tdcInnerColumnUI.init( this.$el );
+                                tdcElementUI.init( this.$el );
+
+                                tdcSidebar.setSettings({
+                                    '$currentRow': tdcOperationUI.inRow( this.$el ),
+                                    '$currentColumn': tdcOperationUI.inColumn( this.$el ),
+                                    '$currentInnerRow': this.$el
+                                });
+
+
+                            // Do the job for an existing '.tdc-inner-column' element
+                            } else if ( this.$el.hasClass( 'tdc-inner-column' ) ) {
+
+                                // Important! We'll get a new '.tdc-inner-column' inside of the existing '.tdc-inner-column', and, because of this, the content of the new inner-column will be the content of the existing inner-column
+
+                                var $tdcInnerColumn = this.$el.find( '.tdc-inner-column' ),
+                                    childCollection = this.model.get( 'childCollection' );
+
+                                // Reset the existing collection because it will be entirely removed
+                                // Important! Reset does not trigger 'remove' event for every component. Instead, it triggers only one 'reset' event for the entire collection
+                                if ( ! _.isUndefined( childCollection ) ) {
+                                    childCollection.reset();
+                                }
+
+                                // The content of the new column will be the content of the existing column
+                                this.$el.html( $tdcInnerColumn.html() );
+
+                                // Add wrappers to the new content of the existing row
+                                window.addInnerColumnWrappers( this.$el );
+
+                                var shortcode = this.model.get( 'shortcode' );
+
+                                //alert( 'parentModel ' + parentModel.cid );
+
+                                if ( true === tdcIFrameData._initNewContentStructureData( 4, shortcode, this.model ) ) {
+
+                                    //tdcDebug.log( tdcIFrameData.tdcRows );
+
+                                    // The childCollection of the model object has been modified
+                                    // Do nothing if it is undefined, otherwise continue and bind views to models
+                                    if ( ! _.isUndefined( childCollection ) ) {
+
+                                        var errors = {};
+
+                                        tdcIFrameData.bindViewsModelsWrappers( errors, childCollection , this.$el, 4 );
+
+                                        if ( !_.isEmpty( errors ) ) {
+                                            for ( var prop in errors ) {
+                                                tdcDebug.log( errors[ prop ] );
+                                            }
+
+                                            alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                tdcElementUI.init( this.$el );
+
+                                tdcSidebar.setSettings({
+                                    '$currentRow': tdcOperationUI.inRow( this.$el ),
+                                    '$currentColumn': tdcOperationUI.inColumn( this.$el ),
+                                    '$currentInnerRow': tdcOperationUI.inInnerRow( this.$el ),
+                                    '$currentInnerColumn': this.$el
+                                });
+
+
+
+                                // The callback that will execute when a new empty row is added to the '#tdc-rows' empty element
                             } else if ( 'tdc-rows' === this.$el.attr( 'id' ) ) {
 
                                 // The $el view property is set temporary to the new '#tdc-rows'
@@ -1892,18 +2064,37 @@ var tdcIFrameData,
         getColumnNumber: function( model ) {
 
             var columns = 3,
+                modelLevel = parseInt( model.get( 'level' ), 10),
                 parentModel = model.get( 'parentModel' );
 
+            // Do nothing if the parentModel is undefined
+            // It means we have a row model, and this works with 3 columns by default
             if ( ! _.isUndefined( parentModel ) ) {
-                var parentModelColumns = tdcIFrameData._parseModelWidthAttrs( parentModel );
 
-                // Try to look
-                if ( '3' === parentModelColumns ) {
-                    columns = tdcIFrameData._parseModelWidthAttrs( parentModel );
+                // If the model is of an element, get the columns from its structure parent elements
+                if ( 4 === modelLevel ) {
+
+                    var parentModelColumns = tdcIFrameData._parseModelWidthAttrs( parentModel );
+
+                    if ( '3' === parentModelColumns ) {
+                        columns = tdcIFrameData.getColumnNumber( parentModel );
+                    } else {
+                        columns = parentModelColumns;
+                    }
+
+                // If the model is of a structure element (tdc-column, tdc-inner-row, tdc-inner-column), take the columns from the model
                 } else {
-                    columns = parentModelColumns;
+
+                    var modelColumns = tdcIFrameData._parseModelWidthAttrs( model );
+
+                    if ( '3' === modelColumns ) {
+                        columns = tdcIFrameData.getColumnNumber( parentModel );
+                    } else {
+                        columns = modelColumns;
+                    }
                 }
             }
+
             return columns;
         },
 

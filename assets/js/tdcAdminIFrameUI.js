@@ -415,6 +415,100 @@ var tdcAdminIFrameUI;
 
 
 
+                    /**
+                     * Add wrappers to the shortcodes
+                     *
+                     * @param $content - column content
+                     */
+                    window.addColumnWrappers = function( $content ) {
+
+                        // all tdc-inner-rows
+                        // all tdc-elements
+                        $content.find( '.tdc-inner-row').wrap( '<div class="tdc-element-inner-row"></div>');
+                        $content.find( '.td_block_wrap' ).wrap( '<div class="tdc-element"></div>' );
+
+                        // all tdc-inner-columns
+                        // all tdc-element of the tdc-inner-column, moved to the tdc-elements
+                        $content.find( '.tdc-inner-row' ).each(function( index, el ) {
+                            var $el = jQuery( el );
+
+                            $el.find( '.tdc-inner-column')
+                                .wrapAll( '<div class="tdc-inner-columns"></div>' )
+                                .each(function( index, el ) {
+                                    var tdcElement = jQuery( el ).find( '.tdc-element');
+
+                                    if ( tdcElement.length ) {
+                                        tdcElement.addClass( 'tdc-element-inner-column' ).wrapAll( '<div class="tdc-elements"></div>' );
+                                    } else {
+
+                                        // add sortable area if empty inner column
+                                        var innerMostElement = jQuery( el).find( '.wpb_wrapper' );
+
+                                        if ( innerMostElement.length ) {
+                                            innerMostElement.append( '<div class="tdc-elements"></div>' );
+                                        }
+                                    }
+                                });
+                        });
+
+
+                        $content.find( '.tdc-element, .tdc-element-inner-row').each(function( index, el) {
+                            var tdcElement = jQuery( el );
+
+                            if ( tdcElement.length ) {
+                                tdcElement
+                                    .not( '.tdc-element-inner-column' )
+                                    .addClass( 'tdc-element-column' );
+                            }
+                        });
+
+
+                        // all tdc-element not already moved to tdc-elements, moved to their new tdc-elements (columns can have their elements, which are not inside of an inner row > inner column)
+                        var tdcElement = $content.find( '.tdc-element, .tdc-element-inner-row' );
+
+                        if ( tdcElement.length ) {
+
+                            tdcElement
+                                .not( '.tdc-element-inner-column' )
+                                .wrapAll( '<div class="tdc-elements"></div>' );
+
+                        } else {
+                            // add sortable area if empty columns
+                            var innerMostElement = $content.find( '.wpb_wrapper' );
+
+                            if ( innerMostElement.length ) {
+                                innerMostElement.append( '<div class="tdc-elements"></div>' );
+                            }
+                        }
+
+
+                        // all empty tdc-elements will have an empty element
+                        $content.find( '.tdc-elements:empty' ).each(function( index, element ) {
+
+                            // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
+                            var structureClass = '',
+                                $element = jQuery( element );
+
+                            var $tdcInnerColumnParentOfDraggedElement = $element.closest( '.tdc-inner-column' );
+                            if ( $tdcInnerColumnParentOfDraggedElement.length ) {
+                                structureClass = ' tdc-element-inner-column';
+                            } else {
+                                var $tdcColumnParentOfDraggedElement = $element.closest( '.tdc-column' );
+                                if ( $tdcColumnParentOfDraggedElement.length ) {
+                                    structureClass = ' tdc-element-column';
+                                }
+                            }
+                            var $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + structureClass + '"></div>' );
+
+                            tdcElementUI.bindEmptyElement( $emptyElement );
+
+                            $element.append( $emptyElement );
+                        });
+                    };
+
+
+
+
                     window.addInnerRowWrappers = function( $content ) {
 
                         $content.find( '.td_block_wrap' ).wrap( '<div class="tdc-element"></div>' );
@@ -442,6 +536,55 @@ var tdcAdminIFrameUI;
                                     }
                                 });
                         });
+
+
+                        // all empty tdc-elements will have an empty element
+                        $content.find( '.tdc-elements:empty' ).each(function( index, element ) {
+
+                            // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
+                            var structureClass = '',
+                                $element = jQuery( element );
+
+                            var $tdcInnerColumnParentOfDraggedElement = $element.closest( '.tdc-inner-column' );
+                            if ( $tdcInnerColumnParentOfDraggedElement.length ) {
+                                structureClass = ' tdc-element-inner-column';
+                            } else {
+                                var $tdcColumnParentOfDraggedElement = $element.closest( '.tdc-column' );
+                                if ( $tdcColumnParentOfDraggedElement.length ) {
+                                    structureClass = ' tdc-element-column';
+                                }
+                            }
+                            var $emptyElement = jQuery( '<div class="' + tdcOperationUI._emptyElementClass + structureClass + '"></div>' );
+
+                            tdcElementUI.bindEmptyElement( $emptyElement );
+
+                            $element.append( $emptyElement );
+                        });
+                    };
+
+
+
+
+                    window.addInnerColumnWrappers = function( $content ) {
+
+                        $content.find( '.td_block_wrap' ).wrap( '<div class="tdc-element"></div>' );
+
+                        // all tdc-inner-columns
+                        // all tdc-element of the tdc-inner-column, moved to the tdc-elements
+                        var tdcElement = $content.find( '.tdc-element');
+
+                        if ( tdcElement.length ) {
+                            tdcElement.addClass( 'tdc-element-inner-column' ).wrapAll( '<div class="tdc-elements"></div>' );
+                        } else {
+
+                            // add sortable area if empty inner column
+                            var innerMostElement = $content.find( '.wpb_wrapper' );
+
+                            if ( innerMostElement.length ) {
+                                innerMostElement.append( '<div class="tdc-elements"></div>' );
+                            }
+                        }
+
 
 
                         // all empty tdc-elements will have an empty element
