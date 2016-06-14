@@ -114,13 +114,27 @@ var tdcMaskUI;
                 width,
                 height;
 
-            if ( tdcOperationUI.isColumn( tdcMaskUI.$currentContainer ) || tdcOperationUI.isInnerColumn( tdcMaskUI.$currentContainer ) ) {
+            var cssClass = '';
 
-                $refObj = tdcMaskUI.$currentContainer.find( '.tdc-elements:first' );
-
-            } else if ( tdcOperationUI.isRow( tdcMaskUI.$currentContainer ) || tdcOperationUI.isInnerRow( tdcMaskUI.$currentContainer ) ) {
+            if ( tdcOperationUI.isRow( tdcMaskUI.$currentContainer ) ) {
 
                 $refObj = tdcMaskUI.$currentContainer;
+                cssClass = 'tdc-content-row';
+
+            } else if ( tdcOperationUI.isColumn( tdcMaskUI.$currentContainer ) ) {
+
+                $refObj = tdcMaskUI.$currentContainer.find( '.tdc-elements:first' );
+                cssClass = 'tdc-content-column';
+
+            } else if ( tdcOperationUI.isInnerRow( tdcMaskUI.$currentContainer ) ) {
+
+                $refObj = tdcMaskUI.$currentContainer;
+                cssClass = 'tdc-content-inner-row';
+
+            } else if ( tdcOperationUI.isInnerColumn( tdcMaskUI.$currentContainer ) ) {
+
+                $refObj = tdcMaskUI.$currentContainer.find( '.tdc-elements:first' );
+                cssClass = 'tdc-content-inner-column';
             }
 
             refObjOffset = $refObj.offset();
@@ -136,6 +150,8 @@ var tdcMaskUI;
                 width: width,
                 height: height
             });
+
+            tdcMaskUI.$content.attr( 'class', cssClass );
 
             tdcMaskUI.$content.show();
 
@@ -189,6 +205,8 @@ var tdcMaskUI;
                 width: width,
                 height: height
             });
+
+            tdcMaskUI.$content.removeAttr( 'class' );
 
             tdcMaskUI.$wrapper.show();
             tdcMaskUI.$content.show();
