@@ -25,6 +25,7 @@ class tdc_config {
 	static $js_files_for_wrapper = array (
 		'tdcDebug'              => '/assets/js/tdcDebug.js',
 		'tdcUtil'               => '/assets/js/tdcUtil.js',
+		'tdcRecycle'            => '/assets/js/tdcRecycle.js',
 
 
 		'tdcSavePost'           => '/assets/js/tdcSavePost.js',

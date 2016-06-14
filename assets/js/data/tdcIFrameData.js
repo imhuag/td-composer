@@ -1280,6 +1280,8 @@ var tdcIFrameData,
 
                     tdcElementUI.bindElement( $draggedElement );
 
+                    tdcRecycle.takeSnapshot( elementModel.get( 'tag' ) + ' : sidebar element added' );
+
                     // Set the data model id to the liveView jquery element
                     $draggedElement.data( 'model_id', elementModel.cid );
 
@@ -1294,6 +1296,8 @@ var tdcIFrameData,
                 } else if ( whatWasDragged.wasTempInnerRowDragged ) {
 
                     // Case A.2
+
+                    tdcRecycle.takeSnapshot( 'Sidebar inner-row added' );
 
                     destinationModel = tdcIFrameData._getDestinationModel(['.tdc-column']);
 
@@ -1357,6 +1361,8 @@ var tdcIFrameData,
                 } else if ( whatWasDragged.wasTempRowDragged ) {
 
                     // Case A.3
+
+                    tdcRecycle.takeSnapshot( 'Sidebar row added' );
 
                     // Dragging a new row, a new destination model is created and added into the tdcIFrameData.tdcRows
 
@@ -1455,6 +1461,8 @@ var tdcIFrameData,
 
                         tdcDebug.log('element recycled');
 
+                        tdcRecycle.takeSnapshot( elementModel.get( 'tag' ) + ' : element recycled' );
+
                         tdcIFrameData.removeModel( elementModel );
                         //tdcDebug.log( tdcIFrameData.tdcRows );
                         return;
@@ -1462,6 +1470,7 @@ var tdcIFrameData,
 
 
 
+                    tdcRecycle.takeSnapshot( elementModel.get( 'tag' ) + ' : element moved' );
 
                     sourceModel = elementModel.get( 'parentModel' );
                     destinationModel = tdcIFrameData._getDestinationModel( ['.tdc-inner-column', '.tdc-column'] );
@@ -1509,10 +1518,11 @@ var tdcIFrameData,
                     tdcDebug.log('case 2');
 
 
-
                     // If the element is recycled, just remove the model from data structure
                     if ( tdcOperationUI.getCurrentElementOver() === tdcAdminWrapperUI.$recycle ) {
                         tdcDebug.log('inner row recycled');
+
+                        tdcRecycle.takeSnapshot( 'Inner row recycled' );
 
                         tdcIFrameData.removeModel( elementModel );
                         //tdcDebug.log( tdcIFrameData.tdcRows );
@@ -1520,7 +1530,7 @@ var tdcIFrameData,
                     }
 
 
-
+                    tdcRecycle.takeSnapshot( 'Inner row moved' );
 
                     sourceModel = elementModel.get( 'parentModel' );
                     destinationModel = tdcIFrameData._getDestinationModel( ['.tdc-column'] );
@@ -1725,6 +1735,13 @@ var tdcIFrameData,
 
                     tdcDebug.log( 'case 3' );
 
+                    if ( whatWasDragged.wasColumnDragged ) {
+                        tdcRecycle.takeSnapshot( 'Column moved' );
+                    } else if ( whatWasDragged.wasInnerColumnDragged ) {
+                        tdcRecycle.takeSnapshot( 'Inner-column moved' );
+                    }
+
+
                     sourceModel = elementModel.get( 'parentModel' );
                     sourceChildCollection = sourceModel.get( 'childCollection' );
                     sourceChildCollection.remove( elementModel, {silent: true} );
@@ -1769,6 +1786,8 @@ var tdcIFrameData,
                     if ( tdcOperationUI.getCurrentElementOver() === tdcAdminWrapperUI.$recycle ) {
 
                         tdcDebug.log('row recycled');
+
+                        tdcRecycle.takeSnapshot( 'Row recycled' );
 
                         //tdcIFrameData.tdcRows.remove( elementModel );
                         tdcIFrameData.removeModel( elementModel );
@@ -1822,6 +1841,8 @@ var tdcIFrameData,
 
                         return;
                     }
+
+                    tdcRecycle.takeSnapshot( 'Row moved' );
 
                     tdcIFrameData.tdcRows.remove( elementModel, {silent: true} );
                     //tdcIFrameData.removeModel( elementModel, { silent: true } );
