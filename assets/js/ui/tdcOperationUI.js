@@ -184,6 +184,21 @@ var tdcOperationUI;
 
                 tdcOperationUI._moveDraggedElement();
 
+
+                // setSettings set the Sidebar panel
+                // It's called once at mousedown to set the sidebar panel (at mousedown because we needed it before mousemove)
+                // It's called later at mouseup to set the sidebar panel, actually to update the breadcrumbs of the sidebar panel
+                // Being called twice, the bindPanelToModel method is called twice
+                tdcSidebar.setSettings({
+                    '$currentRow': tdcOperationUI.inRow( draggedElement ),
+                    '$currentColumn': tdcOperationUI.inColumn( draggedElement ),
+                    '$currentInnerRow': tdcOperationUI.inInnerRow( draggedElement ),
+                    '$currentInnerColumn': tdcOperationUI.inInnerColumn( draggedElement ),
+                    '$currentElement' : draggedElement
+                });
+
+
+
                 //tdcDebug.log( 'DEACTIVATE' );
                 //tdcDebug.log( draggedElement );
 

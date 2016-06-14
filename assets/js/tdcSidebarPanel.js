@@ -213,8 +213,14 @@ var tdcSidebarPanel = {};
 
 
         /**
+         * This binds the panel to the model settings
          *
-         * @param $curDomBit - may be a row or column or element DOM etc...
+         * Important! The tdcSidebar.setSettings method set the sidebar panel
+         * It's called once at mousedown to set the sidebar panel (at mousedown because we needed it before mousemove)
+         * It's called later at mouseup to set the sidebar panel, actually to update the breadcrumbs of the sidebar panel
+         * Being called twice, the bindPanelToModel method is called twice
+         *
+         * @param model - the sidebar panel is bound to this model
          */
         bindPanelToModel: function (model) {
 
