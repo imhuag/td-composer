@@ -57,6 +57,20 @@ tdc_mapper::map(array(
 			'class' => 'tdc-row-col-dropdown'
 		),
 
+
+		array(
+			'type' => 'el_id',
+			'heading' => 'Row ID',
+			'param_name' => 'el_id',
+			'description' => 'Make sure that this is unique on the page',
+		),
+		array(
+			'type' => 'textfield',
+			'heading' => 'Extra class name',
+			'param_name' => 'el_class',
+			'description' => 'Add a class to this row',
+		),
+
 		array(
 			'param_name' => 'css',
 			'type' => 'css_editor',

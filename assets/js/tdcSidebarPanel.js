@@ -522,6 +522,12 @@ var tdcSidebarPanel = {};
                 if (mappedParameter.type === 'dropdown') {
                     return '';
                 }
+
+                // if no default value in map, return an empty string just like vc
+                if (_.isEmpty(mappedParameter.value)) {
+                    return '';
+                }
+
                 return mappedParameter.value; // return the 'default' value
             }
 
