@@ -59,7 +59,7 @@ tdc_mapper::map(array(
 
 
 		array(
-			'type' => 'el_id',
+			'type' => 'textfield',
 			'heading' => 'Row ID',
 			'param_name' => 'el_id',
 			'description' => 'Make sure that this is unique on the page',
