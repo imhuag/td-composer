@@ -59,7 +59,7 @@ tdc_mapper::map(array(
 
 
 		array(
-			'type' => 'textfield',
+			'type' => 'textfield', // should have been vc_el_id but we use textfield
 			'heading' => 'Row ID',
 			'param_name' => 'el_id',
 			'description' => 'Make sure that this is unique on the page',
@@ -90,6 +90,12 @@ tdc_mapper::map(
 		'content_element' => false, // hide from the list of elements on the ui
 		'description' => __( 'Place content elements inside the column', 'td_composer' ),
 		'params' => array(
+			array(
+				'type' => 'textfield',
+				'heading' => 'Extra class name',
+				'param_name' => 'el_class',
+				'description' => 'Add a class to this row',
+			),
 			array(
 				'type' => 'css_editor',
 				'heading' => __( 'CSS box', 'td_composer' ),
@@ -127,6 +133,20 @@ tdc_mapper::map(
 			),
 
 			array(
+				'type' => 'textfield', // should have been vc_el_id but we use textfield
+				'heading' => 'Row ID',
+				'param_name' => 'el_id',
+				'description' => 'Make sure that this is unique on the page',
+			),
+			array(
+				'type' => 'textfield',
+				'heading' => 'Extra class name',
+				'param_name' => 'el_class',
+				'description' => 'Add a class to this row',
+			),
+
+
+			array(
 				'type' => 'css_editor',
 				'heading' => __('CSS box', 'td_composer'),
 				'param_name' => 'css',
@@ -147,6 +167,12 @@ tdc_mapper::map(
 		'is_container' => true,
 		'description' => __( 'Place content elements inside the inner column', 'td_composer' ),
 		'params' => array(
+			array(
+				'type' => 'textfield',
+				'heading' => 'Extra class name',
+				'param_name' => 'el_class',
+				'description' => 'Add a class to this row',
+			),
 			array(
 				'type' => 'css_editor',
 				'heading' => __( 'CSS box', 'td_composer' ),
