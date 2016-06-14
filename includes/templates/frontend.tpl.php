@@ -48,8 +48,13 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 	<!-- the composer sidebar -->
 	<div id="tdc-sidebar">
 		<div class="tdc-top-buttons">
-			<a href="#" class="tdc-save-page">Save page</a>
-			<a href="#" class="tdc-add-element">Add element</a>
+			<a href="#" class="tdc-add-element tdc-active-element">
+				Add element
+				<i class="tdc-icon-add"></i>
+			</a>
+			<a href="#" class="tdc-save-page">
+				<i class="tdc-icon-save"></i>
+			</a>
 		</div>
 
 
@@ -82,7 +87,6 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		</div>
 
 
-
 		<div class="tdc-sidebar-bottom">
 			<div id="tdc-recycle">
 				Recycle
@@ -101,9 +105,9 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 
 		<!-- modal window -->
 		<div class="tdc-sidebar-modal tdc-sidebar-modal-elements">
-			<div class="tdc-sidebar-modal-title">
-				Add Element
-				<a href="#" class="tdc-modal-close"></a>
+			<div class="tdc-sidebar-modal-search">
+			Search
+			<a href="#" class="tdc-modal-close"></a>
 			</div>
 			<div class="tdc-sidebar-modal-content">
 				<!-- sidebar elements list -->
