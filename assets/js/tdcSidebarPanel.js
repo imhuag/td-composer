@@ -243,16 +243,19 @@ var tdcSidebarPanel = {};
             // step 3 - make the tabs and all the HTML
             var panelHtml = '';
 
-
+            var currentGroup = '';
 
 
             // tabs - top
             panelHtml += '<div class="tdc-tabs">';
                 for (cnt = 0; cnt < allGroupNames.length; cnt++) {
+
+                    currentGroup = tdcSidebarPanel._fixGroupName(allGroupNames[cnt]);
+
                     if (cnt === 0) {
-                        panelHtml += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '" class="tdc-tab-active">' + allGroupNames[cnt] + '</a>';
+                        panelHtml += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(currentGroup) + '" class="tdc-tab-active">' + currentGroup + '</a>';
                     } else {
-                        panelHtml += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">' + allGroupNames[cnt] + '</a>';
+                        panelHtml += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(currentGroup) + '">' + currentGroup + '</a>';
                     }
 
                 }
@@ -262,10 +265,12 @@ var tdcSidebarPanel = {};
             // tabs - content
             panelHtml += '<div class="tdc-tab-content-wrap">';
                 for (cnt = 0; cnt < allGroupNames.length; cnt++) {
+                    currentGroup = tdcSidebarPanel._fixGroupName(allGroupNames[cnt]);
+
                     if (cnt === 0) {
-                        panelHtml += '<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">';
+                        panelHtml += '<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-' + tdcUtil.makeSafeForCSS(currentGroup) + '">';
                     } else {
-                        panelHtml += '<div class="tdc-tab-content" id="td-tab-' + tdcUtil.makeSafeForCSS(allGroupNames[cnt]) + '">';
+                        panelHtml += '<div class="tdc-tab-content" id="td-tab-' + tdcUtil.makeSafeForCSS(currentGroup) + '">';
                     }
 
                         // tab content
@@ -546,6 +551,25 @@ var tdcSidebarPanel = {};
             return 'data-model_id="' + model.cid +  '" data-param_name="' + mappedParameter.param_name + '"';
         },
 
+
+        _fixGroupName: function (oldGroupName) {
+
+            switch (oldGroupName) {
+                case 'Design options':
+                    return 'Css';
+
+                case 'Pagination':
+                    return 'Extra';
+
+                case 'Ajax filter':
+                    return 'Ajax';
+
+            }
+
+
+
+            return oldGroupName;
+        },
 
         addColorpicker: function (mappedParameter, model) {
 
