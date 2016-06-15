@@ -15,6 +15,7 @@ require_once('tdc_ajax.php');
 
 
 // shortcodes
+require_once('tdc_composer_block.php' );
 require_once('shortcodes/vc_row.php' );
 require_once('shortcodes/vc_row_inner.php' );
 require_once('shortcodes/vc_column.php' );
