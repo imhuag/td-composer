@@ -6,26 +6,20 @@
  * Time: 13:55
  */
 
-class vc_column extends td_block {
-
-
-	/**
-	 * Disable loop block features. This block does not use a loop and it dosn't need to run a query.
-	 */
-	function __construct() {
-		parent::disable_loop_block_features();
-	}
+class vc_column extends tdc_composer_block {
 
 
 	function render($atts, $content = null) {
+		parent::render($atts);
 
-		extract(shortcode_atts( array(
+		$atts = shortcode_atts( array(
 			'width' => '1/1'
-		), $atts));
+		), $atts);
+
 
 		$td_pb_class = '';
 
-		switch ($width) {
+		switch ($atts['width']) {
 			case '1/1': //full
 				$td_pb_class = 'td-pb-span12';
 				break;
@@ -43,24 +37,27 @@ class vc_column extends td_block {
 		// The global $td_column_count must be set here
 		// Usually it's set by vc_column template, but VC plugin is not active
 		global $td_column_count;
-		$td_column_count = $width;
+		$td_column_count = $atts['width'];
 
 
-		$content = do_shortcode($content);
-		//$content = str_replace('vc_separator', '', $content);
 
-		ob_start();
-		?><div class="tdc-column"><div class="<?php echo $td_pb_class ?> wpb_column vc_column_container"><div class="wpb_wrapper"><?php echo do_shortcode( shortcode_unautop( $content )); ?></div></div></div><?php
-		return ob_get_clean();
+		$buffy = '<div class="' . $this->get_block_classes(array('wpb_column', 'vc_column_container', $td_pb_class)) . '">';
+				$buffy .= '<div class="wpb_wrapper">';
+					$buffy .= $this->do_shortcode($content);
+				$buffy .= '</div>';
+		$buffy .= '</div>';
+
+
+		if (tdc_state::is_live_editor_iframe() || tdc_state::is_live_editor_ajax()) {
+			$buffy = '<div class="tdc-column">' . $buffy . '</div>';
+		}
+
+		return $buffy;
+
+
 	}
 
 
-
-
-	// we don't use blockUid's yet for rows and columns / AKA structure elements
-	function js_tdc_get_composer_block() {
-		return '';
-	}
 
 
 }

@@ -6,29 +6,38 @@
  * Time: 13:55
  */
 
-class vc_row_inner extends td_block {
-
-	/**
-	 * Disable loop block features. This block does not use a loop and it dosn't need to run a query.
-	 */
-	function __construct() {
-		parent::disable_loop_block_features();
-	}
+class vc_row_inner extends tdc_composer_block {
 
 
 
 	function render($atts, $content = null) {
+		parent::render($atts);
+
 
 		global $td_row_count;
 		$td_row_count++;
-		$buffy = '<div class="tdc-inner-row"><div class="vc_row vc_inner wpb_row td-pb-row">' . do_shortcode($content) . '</div></div>';
+
+
+		$buffy = '<div ' . $this->get_block_dom_id() . 'class="' . $this->get_block_classes(array('vc_row', 'vc_inner', 'wpb_row', 'td-pb-row')) . '" ' . $this->get_block_html_atts() . '>';
+			//get the block css
+			$buffy .= $this->get_block_css();
+			$buffy .= $this->do_shortcode($content);
+		$buffy .= '</div>';
+
+
+		if (tdc_state::is_live_editor_iframe() || tdc_state::is_live_editor_ajax()) {
+			$buffy = '<div class="tdc-inner-row">' . $buffy . '</div>';
+		}
+
+
+
 		$td_row_count--;
+
+
+
 
 		return $buffy;
 	}
 
-	// we don't use blockUid's yet for rows and columns / AKA structure elements
-	function js_tdc_get_composer_block() {
-		return '';
-	}
+
 }
