@@ -119,38 +119,17 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 					foreach ($mapped_shortcodes as $mapped_shortcode ) {
 
 						if ( 'vc_row' === $mapped_shortcode['base'] ) {
-							echo '<div class="tdc-sidebar-element tdc-row-temp" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
+							echo '<div class="tdc-sidebar-element tdc-row-temp tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
 							continue;
 						}
 
 						if ( 'vc_row_inner' === $mapped_shortcode['base'] ) {
-							echo '<div class="tdc-sidebar-element tdc-element-inner-row-temp" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
-							continue;
-						}
-
-						if ( in_array( $mapped_shortcode['base'],
-							array(
-								//'td_block_big_grid_slide',      // s-ar putea sa mearga cu render pe td_block_big_grid_2 in loc la slide
-								//'td_block_trending_now',        // trebuie refactorizat
-								//'td_block_video_youtube',       // lipsesc wrappers + ceva js custom
-								//'td_block_video_vimeo',         // lipsesc wrappers + ceva js custom
-								//'td_block_ad_box',              // issues - lipseste wrapper-ul - probabil din cauza la adblock
-								//'td_block_authors',
-								//'td_block_popular_categories',
-								//'td_block_slide',               // issues - trebuie facut sa scoata doar 1 slide fara script!
-								//'td_block_text_with_title',
-								//'td_block_weather',             // animation sprite item + weather item
-								//'td_block_exchange',
-								//'td_block_instagram',
-								//'td_block_social_counter'
-							) ) ) {
-
-							echo '<div style="color: #FF0000" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
+							echo '<div class="tdc-sidebar-element tdc-element-inner-row-temp tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
 							continue;
 						}
 
 						if ( isset($mapped_shortcode['map_in_visual_composer']) && true === $mapped_shortcode['map_in_visual_composer'] ) {
-							echo '<div class="tdc-sidebar-element tdc-element" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
+							echo '<div class="tdc-sidebar-element tdc-element tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '">' . $mapped_shortcode['name'] . '</div>';
 						}
 					}
 
