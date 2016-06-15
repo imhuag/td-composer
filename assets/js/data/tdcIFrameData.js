@@ -281,7 +281,7 @@ var tdcIFrameData,
                         if ( this.model.has( 'bindNewContent' ) && true === this.model.get( 'bindNewContent' ) ) {
 
                             // Reset the flag
-                            this.model.set( 'bindNewContent', false, { silent: true} );
+                            this.model.set( 'bindNewContent', false, { silent: true } );
 
 
 
@@ -703,6 +703,9 @@ var tdcIFrameData,
                                 this.$el = $tdcRow;
                             }
                         }
+
+                        // Set the mask current container
+                        tdcMaskUI.setContentAtMouseUp( this.$el );
                     }
                 }
             });
@@ -1899,7 +1902,7 @@ var tdcIFrameData,
                                 '$currentRow': $currentRow,
                                 '$currentColumn': $currentColumn,
                                 '$currentInnerRow': $currentInnerRow
-                            });
+                            }, true );
                         }
                     }
 

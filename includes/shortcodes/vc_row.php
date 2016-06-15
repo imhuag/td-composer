@@ -39,7 +39,7 @@ class vc_row extends td_block {
 
 		// the tdc-row wrapper is not present on the frontend when using vc.
 		// We show it only when the live editor is active
-		if (tdc_state::is_live_editor_iframe()) {
+		if (tdc_state::is_live_editor_iframe() || tdc_state::is_live_editor_ajax() ) {
 			$row_content = '<div class="tdc-row">' . $row_content . '</div>';
 		}
 
