@@ -78,8 +78,7 @@
 }
 .tdc-sidebar-modal .tdc-sidebar-modal-search {
   position: relative;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 0 20px 3px 20px;
   border-bottom: 1px solid #ddd;
 }
 .tdc-sidebar-modal .tdc-sidebar-modal-search input[type=text] {
@@ -113,6 +112,44 @@
 }
 .tdc-modal-open {
   display: block;
+}
+.tdc-ico-vc_row,
+.tdc-ico-vc_row_inner,
+.tdc-ico-rev_slider,
+.tdc-ico-td_block_1,
+.tdc-ico-td_block_2,
+.tdc-ico-td_block_3,
+.tdc-ico-td_block_4,
+.tdc-ico-td_block_5,
+.tdc-ico-td_block_6,
+.tdc-ico-td_block_7,
+.tdc-ico-td_block_8,
+.tdc-ico-td_block_9,
+.tdc-ico-td_block_10,
+.tdc-ico-td_block_11,
+.tdc-ico-td_block_12,
+.tdc-ico-td_block_13,
+.tdc-ico-td_block_14,
+.tdc-ico-td_block_15,
+.tdc-ico-td_block_16,
+.tdc-ico-td_block_17,
+.tdc-ico-td_block_18,
+.tdc-ico-td_block_19,
+.tdc-ico-td_block_20,
+.tdc-ico-td_block_21,
+.tdc-ico-td_block_22,
+.tdc-ico-td_block_23,
+.tdc-ico-td_block_24,
+.tdc-ico-td_block_25 {
+  height: 24px;
+  background: url('../images/sidebar/big_grid1.png');
+  background-repeat: no-repeat;
+  margin-bottom: 5px;
+}
+.tdc-element-id {
+  margin-left: 48px;
+  position: relative;
+  top: 3px;
 }
 /*
   Breadcrumbs
@@ -233,8 +270,8 @@
 }
 #tdc-restore {
   position: fixed;
-  left: 0;
-  bottom: 100px;
+  left: 20px;
+  bottom: 50px;
   font-size: 12px;
   color: #FFFFFF;
   background-color: #000;
@@ -242,8 +279,8 @@
 #tdc-restore-content {
   display: none;
   position: fixed;
-  left: 50px;
-  bottom: 100px;
+  left: 70px;
+  bottom: 50px;
   font-size: 12px;
   color: #000000;
   background-color: #fff;
@@ -262,30 +299,52 @@
 /*
   Properties
 */
-.tdc-property-title {
-  font-size: 12px;
-  margin-bottom: 3px;
-  color: #000000;
-}
-.tdc-property-wrap {
-  margin-bottom: 13px;
-}
-.tdc-property-wrap input[type=text],
-.tdc-property-wrap select {
+#td-tab-general input[type=text],
+#td-tab-filter input[type=text],
+#td-tab-ajax input[type=text],
+#td-tab-extra input[type=text],
+#td-tab-general select,
+#td-tab-filter select,
+#td-tab-ajax select,
+#td-tab-extra select {
   box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   max-width: 100%;
+  width: 100%;
   font-size: 12px;
   padding: 4px 8px;
 }
-.tdc-property-textfield input {
-  width: 100%;
+#td-tab-css input[type=text] {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 }
+#td-tab-css select {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  max-width: 100%;
+  width: 100%;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+.tdc-property-wrap {
+  margin-bottom: 13px;
+}
+.tdc-property-wrap .tdc-property-title {
+  font-size: 12px;
+  margin-bottom: 3px;
+  color: #000000;
+}
+#td-tab-css .tdc-property-wrap:nth-of-type(2),
+#td-tab-css .tdc-property-wrap:nth-of-type(3),
 .tdc-property-colorpicker {
   position: relative;
   margin-bottom: 1px;
 }
+#td-tab-css .tdc-property-wrap:nth-of-type(2) .tdc-property .wp-picker-container .wp-color-result,
+#td-tab-css .tdc-property-wrap:nth-of-type(3) .tdc-property .wp-picker-container .wp-color-result,
 .tdc-property-colorpicker .tdc-property .wp-picker-container .wp-color-result {
   box-shadow: none;
   -webkit-box-shadow: none;
@@ -297,9 +356,13 @@
   top: -3px;
   right: -6px;
 }
+#td-tab-css .tdc-property-wrap:nth-of-type(2) .tdc-property .wp-picker-container .wp-color-result:after,
+#td-tab-css .tdc-property-wrap:nth-of-type(3) .tdc-property .wp-picker-container .wp-color-result:after,
 .tdc-property-colorpicker .tdc-property .wp-picker-container .wp-color-result:after {
   display: none;
 }
+#td-tab-css .tdc-property-wrap:nth-of-type(2) .tdc-property .wp-picker-container .button,
+#td-tab-css .tdc-property-wrap:nth-of-type(3) .tdc-property .wp-picker-container .button,
 .tdc-property-colorpicker .tdc-property .wp-picker-container .button {
   font-size: 11px;
   color: #000 !important;
@@ -309,10 +372,54 @@
   margin: 6px 0 2px 6px !important;
   height: 27px !important;
 }
+#td-tab-css .tdc-property-wrap:nth-of-type(2) .tdc-property .wp-picker-container input.wp-color-picker[type="text"],
+#td-tab-css .tdc-property-wrap:nth-of-type(3) .tdc-property .wp-picker-container input.wp-color-picker[type="text"],
 .tdc-property-colorpicker .tdc-property .wp-picker-container input.wp-color-picker[type="text"] {
-  margin: 6px 0 0px 0px !important;
+  margin: 6px 0 0 0 !important;
   height: 27px !important;
-  width: 218px;
+  width: 218px !important;
+}
+#td-tab-css .tdc-property-wrap:nth-of-type(2) .tdc-property .wp-picker-container .iris-picker,
+#td-tab-css .tdc-property-wrap:nth-of-type(3) .tdc-property .wp-picker-container .iris-picker,
+.tdc-property-colorpicker .tdc-property .wp-picker-container .iris-picker {
+  border-bottom: none;
+  margin: 6px 0 0 0;
+  width: 271px !important;
+}
+#td-tab-css .tdc-property-wrap:nth-of-type(2) .tdc-property .wp-picker-container .iris-picker .iris-square,
+#td-tab-css .tdc-property-wrap:nth-of-type(3) .tdc-property .wp-picker-container .iris-picker .iris-square,
+.tdc-property-colorpicker .tdc-property .wp-picker-container .iris-picker .iris-square {
+  width: 76%;
+  margin-right: 31px;
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+#td-tab-css .tdc-property-wrap:nth-of-type(2) .tdc-property .wp-picker-container .iris-picker .iris-strip,
+#td-tab-css .tdc-property-wrap:nth-of-type(3) .tdc-property .wp-picker-container .iris-picker .iris-strip,
+.tdc-property-colorpicker .tdc-property .wp-picker-container .iris-picker .iris-strip {
+  top: 11px;
+}
+#td-tab-css .tdc-property-wrap:nth-of-type(2) .tdc-property .wp-picker-container .iris-picker .iris-palette-container,
+#td-tab-css .tdc-property-wrap:nth-of-type(3) .tdc-property .wp-picker-container .iris-picker .iris-palette-container,
+.tdc-property-colorpicker .tdc-property .wp-picker-container .iris-picker .iris-palette-container {
+  left: 20px;
+  bottom: -15px;
+}
+#td-tab-css .tdc-property-wrap:nth-of-type(2) .tdc-property .wp-picker-container .cs-alpha-wrap,
+#td-tab-css .tdc-property-wrap:nth-of-type(3) .tdc-property .wp-picker-container .cs-alpha-wrap,
+.tdc-property-colorpicker .tdc-property .wp-picker-container .cs-alpha-wrap {
+  position: static;
+  width: 231px;
+  padding: 30px 20px 20px 20px;
+  margin-bottom: 20px;
+}
+#td-tab-css .tdc-property-wrap:nth-of-type(2) .tdc-property .wp-picker-container .cs-alpha-wrap .cs-alpha-text,
+#td-tab-css .tdc-property-wrap:nth-of-type(3) .tdc-property .wp-picker-container .cs-alpha-wrap .cs-alpha-text,
+.tdc-property-colorpicker .tdc-property .wp-picker-container .cs-alpha-wrap .cs-alpha-text {
+  top: 0;
+  right: 24px;
+  color: #888888;
 }
 /*
   css box editor
