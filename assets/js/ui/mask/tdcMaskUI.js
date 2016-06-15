@@ -217,12 +217,12 @@ var tdcMaskUI;
 
             if ( ! _.isUndefined( modelId ) ) {
                 var model = tdcIFrameData.getModel( modelId ),
-                    customTitle =  model.attributes.attrs.custom_title;
+                    modelAttrs =  model.get( 'attrs' );
 
-                if ( '' === customTitle ) {
-                    tdcSidebar.setSidebarInfo( model.get( 'tag' ) );
+                if ( _.has( modelAttrs, 'custom_title') ) {
+                    tdcSidebar.setSidebarInfo( modelAttrs.custom_title );
                 } else {
-                    tdcSidebar.setSidebarInfo( customTitle );
+                    tdcSidebar.setSidebarInfo( model.get( 'tag' ) );
                 }
             }
 

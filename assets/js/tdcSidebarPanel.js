@@ -213,8 +213,14 @@ var tdcSidebarPanel = {};
 
 
         /**
+         * This binds the panel to the model settings
          *
-         * @param $curDomBit - may be a row or column or element DOM etc...
+         * Important! The tdcSidebar.setSettings method set the sidebar panel
+         * It's called once at mousedown to set the sidebar panel (at mousedown because we needed it before mousemove)
+         * It's called later at mouseup to set the sidebar panel, actually to update the breadcrumbs of the sidebar panel
+         * Being called twice, the bindPanelToModel method is called twice
+         *
+         * @param model - the sidebar panel is bound to this model
          */
         bindPanelToModel: function (model) {
 
@@ -245,40 +251,69 @@ var tdcSidebarPanel = {};
 
             var currentGroup = '';
 
+            var currentTabId = tdcSidebar.getCurrentTabId();
 
             // tabs - top
             panelHtml += '<div class="tdc-tabs">';
+
+                var firstElementActive = '',
+                    firstElementInactive = '',
+                    panelHtmlBuffer = '';
+
                 for (cnt = 0; cnt < allGroupNames.length; cnt++) {
 
                     currentGroup = tdcSidebarPanel._fixGroupName(allGroupNames[cnt]);
 
-                    if (cnt === 0) {
-                        panelHtml += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(currentGroup) + '" class="tdc-tab-active">' + currentGroup + '</a>';
-                    } else {
-                        panelHtml += '<a href="#" data-tab-id="td-tab-' + tdcUtil.makeSafeForCSS(currentGroup) + '">' + currentGroup + '</a>';
-                    }
+                    var tabId = tdcUtil.makeSafeForCSS(currentGroup);
 
+                    //tdcDebug.log( tabId );
+
+                    if ( 0 === cnt ) {
+                        firstElementActive = '<a href="#" data-tab-id="td-tab-' + tabId + '" class="tdc-tab-active">' + currentGroup + '</a>';
+                        firstElementInactive = '<a href="#" data-tab-id="td-tab-' + tabId + '">' + currentGroup + '</a>';
+
+                    } else if ( ! _.isUndefined( currentTabId ) && currentTabId === 'td-tab-' + tabId ) {
+                        firstElementActive = firstElementInactive;
+                        panelHtmlBuffer += '<a href="#" data-tab-id="td-tab-' + tabId + '" class="tdc-tab-active">' + currentGroup + '</a>';
+                    } else {
+                        panelHtmlBuffer += '<a href="#" data-tab-id="td-tab-' + tabId + '">' + currentGroup + '</a>';
+                    }
                 }
+                panelHtml += firstElementActive + panelHtmlBuffer;
+
             panelHtml += '</div>';
 
 
             // tabs - content
             panelHtml += '<div class="tdc-tab-content-wrap">';
+
+                var firstElementActive = '',
+                    firstElementInactive = '',
+                    panelHtmlBuffer = '';
+
                 for (cnt = 0; cnt < allGroupNames.length; cnt++) {
                     currentGroup = tdcSidebarPanel._fixGroupName(allGroupNames[cnt]);
 
-                    if (cnt === 0) {
-                        panelHtml += '<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-' + tdcUtil.makeSafeForCSS(currentGroup) + '">';
+                    var tabId = tdcUtil.makeSafeForCSS(currentGroup);
+
+                    if ( 0 === cnt ) {
+                        firstElementActive = '<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-' + tabId + '">';
+                        firstElementInactive = '<div class="tdc-tab-content" id="td-tab-' + tabId + '">';
+
+                    } else if ( ! _.isUndefined( currentTabId ) && currentTabId === 'td-tab-' + tabId ) {
+                        firstElementActive = firstElementInactive;
+                        panelHtmlBuffer += '<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-' + tabId + '">';
                     } else {
-                        panelHtml += '<div class="tdc-tab-content" id="td-tab-' + tdcUtil.makeSafeForCSS(currentGroup) + '">';
+                        panelHtmlBuffer += '<div class="tdc-tab-content" id="td-tab-' + tabId + '">';
                     }
 
-                        // tab content
-                        panelHtml += tdcSidebarPanel._bindGroupAndGetHtml(allGroupNames[cnt], mappedShortCode, model);
+                    // tab content
+                    panelHtmlBuffer += tdcSidebarPanel._bindGroupAndGetHtml(allGroupNames[cnt], mappedShortCode, model);
 
-
-                    panelHtml += '</div>'; // close tab content wrap
+                    panelHtmlBuffer += '</div>'; // close tab content wrap
                 }
+                panelHtml += firstElementActive + panelHtmlBuffer;
+
             panelHtml += '</div>';
 
 
@@ -403,9 +438,6 @@ var tdcSidebarPanel = {};
                 }
 
             })();
-
-
-
 
         },
 

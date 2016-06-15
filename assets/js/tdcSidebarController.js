@@ -166,6 +166,12 @@ var tdcSidebarController = {};
 
                 newJob.blockUid = oldBlockUid; //@todo
 
+                // An entire row/column/inner-row/inner-column is added, so the new content must be rebound
+                var modelLevel = parseInt( updateJob.model.get( 'level' ), 10 );
+                if ( modelLevel < 4 ) {
+                    updateJob.model.set( 'bindNewContent', true );
+                }
+
                 newJob.success_callback = function( data ) {
 
 

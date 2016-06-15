@@ -19,6 +19,8 @@ var tdcSidebar;
         $editInnerRow: undefined,
         $editInnerColumn: undefined,
 
+        _currentTabId: undefined,
+
         // Current model of the CLICKED element (_$currentElement, _$currentRow, _$currentColumn, _$currentInnerRow OR _$currentInnerColumn)
         _currentModel: undefined,
 
@@ -348,23 +350,35 @@ var tdcSidebar;
 
             jQuery( 'body' ).on( 'click', '.tdc-tabs a', function() {
 
-                if (jQuery(this).hasClass('tdc-tab-active') === true) {
+                var $this = jQuery( this );
+
+                tdcSidebar._setCurrentTabId( $this.data( 'tab-id' ) );
+
+                if ( $this.hasClass( 'tdc-tab-active' ) ) {
                     return;
                 }
 
 
                 // the tab
-                jQuery('.tdc-tabs a').removeClass('tdc-tab-active');
-                jQuery(this).addClass('tdc-tab-active');
+                jQuery( '.tdc-tabs a' ).removeClass( 'tdc-tab-active' );
+                $this.addClass('tdc-tab-active');
 
 
                 // content - remove all visible classes
                 jQuery('.tdc-tab-content-wrap .tdc-tab-content').removeClass( 'tdc-tab-content-visible' );
 
                 // add the class to the good content
-                var tabContentId = jQuery(this).data('tab-id');
+                var tabContentId = $this.data('tab-id');
                 jQuery('#' + tabContentId).addClass('tdc-tab-content-visible');
             });
+        },
+
+
+        _setCurrentTabId: function( currentTabId ) {
+            tdcSidebar._currentTabId = currentTabId;
+        },
+        getCurrentTabId: function() {
+            return tdcSidebar._currentTabId;
         },
 
 
