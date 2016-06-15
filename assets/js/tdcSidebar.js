@@ -451,8 +451,12 @@ var tdcSidebar;
          * From now, all sidebar necessary elements (current row, current column, etc) are ready.
          *
          * @param settings - plain object
+         * @param forceBindModelToPanel - optional - boolean - it's sent to the bindPanelToModel.
+         * It allows us to rebind a model to the sidebar panel. The tdcSidebarPanel._currentBoundModel is the current model bound to the sidebar panel.
+         *
+         * Ex. One case when it is necessary to be sent (true), is at moving inner-rows. There, the it's better to force a rebind, to update the inner-row columns settings.
          */
-        setSettings: function( settings ) {
+        setSettings: function( settings, forceBindModelToPanel ) {
 
             // If we have a previous current model, reset its 'current' attribute for removing the 'tdc-element-selected' class from the
             // $el of its backbone view
@@ -541,7 +545,7 @@ var tdcSidebar;
                 // Add the 'tdc-element-selected' class to the $el of the backbone view
                 tdcSidebar._currentModel.set( 'current', true );
 
-                tdcSidebarPanel.bindPanelToModel( tdcSidebar._currentModel );
+                tdcSidebarPanel.bindPanelToModel( tdcSidebar._currentModel, forceBindModelToPanel );
 
                 tdcSidebar._activeBreadcrumbItem();
 
