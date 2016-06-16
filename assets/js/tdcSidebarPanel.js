@@ -22,6 +22,10 @@ var tdcSidebarPanel = {};
         _defaultGroupName: 'General', // where to put params that don't have a group
 
 
+        // Current model bound to the panel @see tdcSidebarPanel.bindPanelToModel
+        _currentBoundModel: undefined,
+
+
         /**
          * Small hook system for Sidebar Panel events
          * @private
@@ -213,7 +217,8 @@ var tdcSidebarPanel = {};
 
 
         /**
-         * This binds the panel to the model settings
+         * This binds the panel to the model settings. The tdcSidebarPanel._currentBoundModel keeps the already bound model, to avoid rebinding.
+         * The rebinding can be allowed using the 'forceRebind' param.
          *
          * Important! The tdcSidebar.setSettings method set the sidebar panel
          * It's called once at mousedown to set the sidebar panel (at mousedown because we needed it before mousemove)
@@ -221,8 +226,14 @@ var tdcSidebarPanel = {};
          * Being called twice, the bindPanelToModel method is called twice
          *
          * @param model - the sidebar panel is bound to this model
+         * @param forceRebind - optional - boolean - if true it force a model to be rebind to the panel.
          */
-        bindPanelToModel: function (model) {
+        bindPanelToModel: function (model, forceRebind ) {
+
+            // Do nothing if the model is already bound @todo See if we need to force a rebind for the same model
+            if ( ! _.isUndefined( tdcSidebarPanel._currentBoundModel ) && tdcSidebarPanel._currentBoundModel.cid === model.cid && ( _.isUndefined( forceRebind ) || ( ! _.isUndefined( forceRebind ) && true !== forceRebind ) ) ) {
+                return;
+            }
 
             // get the mapped shortcode for this model
             var mappedShortCode = window.tdcAdminSettings.mappedShortcodes[model.attributes.tag];
@@ -231,6 +242,9 @@ var tdcSidebarPanel = {};
 
             // step 0 - delete the old panel. HTML + items
             tdcSidebarPanel._deletePanel();
+
+            // Set the currentBoundModel
+            tdcSidebarPanel._currentBoundModel = model;
 
 
             // step 1 - make the tabs
@@ -509,6 +523,9 @@ var tdcSidebarPanel = {};
 
             // @todo The hook callback stack should be cleaned!
             tdcSidebarPanel._hook._hooks = [];
+
+            // the current bound model is deleted
+            tdcSidebarPanel._currentBoundModel = undefined;
 
             jQuery('.tdc-breadcrumbs').hide();
             jQuery('.tdc-inspector .tdc-current-element-head').empty();

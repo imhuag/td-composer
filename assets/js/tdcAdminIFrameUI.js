@@ -222,7 +222,7 @@ var tdcAdminIFrameUI;
                             var $el = jQuery( el );
 
                             $el.find( '.tdc-inner-row').wrap( '<div class="tdc-element-inner-row"></div>');
-                            $el.find( '.td_block_wrap').wrap( '<div class="tdc-element"></div>' );
+                            $el.find( '.td_block_wrap').wrap( '<div class="tdc-element"></div>');
                         });
 
 
@@ -427,6 +427,8 @@ var tdcAdminIFrameUI;
                         $content.find( '.tdc-inner-row').wrap( '<div class="tdc-element-inner-row"></div>');
                         $content.find( '.td_block_wrap' ).wrap( '<div class="tdc-element"></div>' );
 
+
+
                         // all tdc-inner-columns
                         // all tdc-element of the tdc-inner-column, moved to the tdc-elements
                         $content.find( '.tdc-inner-row' ).each(function( index, el ) {
@@ -513,6 +515,7 @@ var tdcAdminIFrameUI;
 
                         $content.find( '.td_block_wrap' ).wrap( '<div class="tdc-element"></div>' );
 
+
                         // all tdc-inner-columns
                         // all tdc-element of the tdc-inner-column, moved to the tdc-elements
                         $content.find( '.tdc-inner-row' ).each(function( index, el ) {
@@ -568,6 +571,7 @@ var tdcAdminIFrameUI;
                     window.addInnerColumnWrappers = function( $content ) {
 
                         $content.find( '.td_block_wrap' ).wrap( '<div class="tdc-element"></div>' );
+
 
                         // all tdc-inner-columns
                         // all tdc-element of the tdc-inner-column, moved to the tdc-elements

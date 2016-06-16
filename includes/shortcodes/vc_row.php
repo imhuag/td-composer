@@ -7,8 +7,6 @@
  */
 
 
-// we inherit from td_block to add easier support for ajax + js on the frontend in the future
-// @todo trebuie vazut daca lasam mostenirea asta....
 class vc_row extends tdc_composer_block {
 
 	function render($atts, $content = null) {
@@ -28,7 +26,7 @@ class vc_row extends tdc_composer_block {
 		$buffy .= '</div>';
 
 
-		if (tdc_state::is_live_editor_iframe()) {
+		if (tdc_state::is_live_editor_iframe() || tdc_state::is_live_editor_ajax()) {
 			$buffy = '<div class="tdc-row">' . $buffy . '</div>';
 		}
 

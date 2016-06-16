@@ -230,19 +230,3 @@ function register_external_shortcodes() {
 	);
 }
 
-
-/*
-@todo mai trebuie adougate astea la toate elementele
-array(
-	'type' => 'el_id',
-	'heading' => __('Row ID', 'td_composer'),
-	'param_name' => 'el_id',
-	'description' => __('Enter row ID (Note: make sure it is unique and valid', 'td_composer'),
-),
-array(
-	'type' => 'textfield',
-	'heading' => __('Extra class name', 'td_composer'),
-	'param_name' => 'el_class',
-	'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer'),
-),
-*/

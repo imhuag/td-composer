@@ -42,8 +42,19 @@ class tdc_composer_block {
 		$class = $this->get_att('class');
 
 
+
+		$el_class = $this->get_att('el_class');
+
+		// on live editor we replace the smart sidebar class for now, due to js issues
+		if (tdc_state::is_live_editor_ajax() || tdc_state::is_live_editor_iframe()) {
+			$el_class = str_replace('td-ss-row', 'td-ss-row-tdc-placeholder', $el_class);
+		}
+
+
+
+
 		// add the vc el_class classes
-		$class .= ' ' . $this->get_att('el_class');;
+		$class .= ' ' . $el_class;
 
 
 
