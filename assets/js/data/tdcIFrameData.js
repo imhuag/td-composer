@@ -705,7 +705,7 @@ var tdcIFrameData,
                         }
 
                         // Set the mask current container
-                        tdcMaskUI.setContentAtMouseUp( this.$el );
+                        //tdcMaskUI.setContentAtMouseUp( this.$el );
                     }
                 }
             });
