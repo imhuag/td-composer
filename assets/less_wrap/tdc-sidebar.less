@@ -74,7 +74,7 @@
   top: 43px;
   right: 0;
   bottom: 50px;
-  overflow: hidden;
+  overflow-y: scroll;
   z-index: 2;
 
   .tdc-sidebar-modal-content {
@@ -336,7 +336,6 @@
 /*
   Properties
 */
-
 #td-tab-general,
 #td-tab-filter,
 #td-tab-ajax,
@@ -358,6 +357,7 @@
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
+    z-index: 2;
   }
 
   select {
@@ -373,6 +373,7 @@
 
 .tdc-property-wrap {
   margin-bottom: 13px;
+  position: relative;
 
   .tdc-property-title {
     font-size: 12px;
@@ -381,12 +382,13 @@
   }
 }
 
-#td-tab-css .tdc-property-wrap:nth-of-type(2),
-#td-tab-css .tdc-property-wrap:nth-of-type(3),
+
+/*
+  color picker
+*/
 .tdc-property-colorpicker {
   position: relative;
   margin-bottom: 1px;
-
 
   .tdc-property .wp-picker-container {
 
@@ -460,79 +462,191 @@
   }
 }
 
+
+/*
+  small input boxes
+*/
+.tdc-input-small {
+  position: absolute;
+  top: -8px;
+  right: -1px;
+
+
+  input[type=text] {
+    width: 42px;
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
 /*
   css box editor
 */
-
 .tdc-box-margin {
-  border: 1px solid #f8cb9c;
+  border: 1px solid #ddd;
   //background-color: #f8cb9c;
   position: relative;
   width: 270px;
   height: 220px;
+  margin-top: 30px;
+  margin-bottom: 14px;
+
+  .tdc-margin-label {
+    position: absolute;
+    top: 0;
+    left: 4px;
+    font-size: 10px;
+    color: #888
+  }
 }
 
 
 .tdc-box-border {
-  border: 1px solid #f3e2b0;
-  //background-color: white;
+  border: 1px dashed #ddd;
+  background-color: #f7f7f7;
   position: relative;
-  width:184px;
-  height:159px;
-  left:42px;
-  top:30px;
+  width: 152px;
+  height: 136px;
+  left: 58px;
+  top: 41px;
+
+  .tdc-border-label {
+    position: absolute;
+    bottom: -18px;
+    right: -2px;
+    font-size: 10px;
+    color: #888
+  }
 }
 
 
 .tdc-box-padding {
-  border: 1px solid #c3deb7;
-  //background-color: #c3deb7;
+  border: 1px dashed #ddd;
+  background-color: #fff;
   position: relative;
-  width:100px;
-  height:100px;
-  left:41px;
-  top:28px;
+  width: 130px;
+  height: 114px;
+  left: 10px;
+  top: 10px;
+
+  .tdc-padding-label {
+    position: absolute;
+    top: 0;
+    left: 4px;
+    font-size: 10px;
+    color: #888
+  }
 }
 
 
 .tdc-css-box-input {
-  width: 36px;
-
+  width: 32px;
+  height: 21px;
   font-size: 11px;
   text-align: center;
-  //height: 22px;
-
 }
 
-.tdc-css-box-input-top {
+/*
+  top boxes
+*/
+.tdc-css-box-input-top-margin {
   position: absolute;
-  margin-left: -18px;
-  top:2px;
-  left: 50%;
+  top: 7px;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
-.tdc-css-box-input-right {
+.tdc-css-box-input-top-border {
+  position: absolute;
+  top: -6px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.tdc-css-box-input-top-padding {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+/*
+  right boxes
+*/
+.tdc-css-box-input-right-margin {
   position: absolute;
   margin-top: -11px;
-  top:50%;
-  right:2px;
-
+  top: 50%;
+  right: 7px;
 }
 
-.tdc-css-box-input-bottom {
-  position: absolute;
-  margin-left: -18px;
-  bottom:2px;
-  left: 50%;
-}
-
-.tdc-css-box-input-left {
+.tdc-css-box-input-right-border {
   position: absolute;
   margin-top: -11px;
-  top:50%;
-  left:2px;
+  top: 50%;
+  right: -12px;
 }
 
+.tdc-css-box-input-right-padding {
+  position: absolute;
+  margin-top: -11px;
+  top: 50%;
+  right: 17px;
+}
+
+/*
+  bottom boxes
+*/
+.tdc-css-box-input-bottom-margin {
+  position: absolute;
+  bottom: 7px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.tdc-css-box-input-bottom-border {
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.tdc-css-box-input-bottom-padding {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+/*
+  left boxes
+*/
+.tdc-css-box-input-left-margin {
+  position: absolute;
+  margin-top: -11px;
+  top: 50%;
+  left: 7px;
+}
+
+.tdc-css-box-input-left-border {
+  position: absolute;
+  margin-top: -11px;
+  top: 50%;
+  left: -12px;
+}
+
+.tdc-css-box-input-left-padding {
+  position: absolute;
+  margin-top: -11px;
+  top: 50%;
+  left: 17px;
+}
 
 .tdc-css-bg-image-wrap {
   width: 66px;
