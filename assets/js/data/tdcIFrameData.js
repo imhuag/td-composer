@@ -950,18 +950,8 @@ var tdcIFrameData,
 
                     // Exception for the elements on the level 4 which are 'closed' type
                     // Add the 'content' property to the attrs, because it needs to be treated as the other elements of attrs
-                    if ( 4 === parseInt( level, 10 ) ) {
-
-                        if ( ! _.isUndefined( element.shortcode.content ) ) {
-                            element.shortcode.attrs.named.content = element.shortcode.content;
-                        }
-
-                        // Insert the 'post_id' into attrs of the model
-                        // It's necessary when the shortcode is built and sent to the server, and on the server the global $post is not known. The post is specified by this 'post_id' param
-                        // Ex. youtube video shortcode
-                        if ( ! _.has( element.shortcode.attrs.named, 'post_id' ) ) {
-                            element.shortcode.attrs.named.post_id = window.tdcPostSettings.postId;
-                        }
+                    if ( 4 === parseInt( level, 10 ) && ! _.isUndefined( element.shortcode.content ) ) {
+                        element.shortcode.attrs.named.content = element.shortcode.content;
                     }
 
 
@@ -1448,8 +1438,7 @@ var tdcIFrameData,
                             'content': '',
                             'attrs': {
                                 'ajax_pagination': 'next_prev',
-                                'custom_title': shortcodeName,
-                                'post_id': window.tdcPostSettings.postId
+                                'custom_title': shortcodeName
                             },
                             'tag': shortcodeName,
                             'type': 'single',
