@@ -177,3 +177,7 @@ html.tdc-active #wpadminbar {
 #tdc-rows .tdc-rev-slider:after {
   content: 'Rev Slider';
 }
+.tdc-external-shortcode {
+  height: 50px;
+  border: 1px solid red;
+}
