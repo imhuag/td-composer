@@ -222,6 +222,7 @@
 .tdc-inspector {
   padding-top: 3px;
   background-color: #fff;
+  height: 717px;
 }
 .tdc-tabs {
   padding: 0 12px;
@@ -260,7 +261,6 @@
   padding: 15px 13px 15px 14px;
   background-color: #fff;
   position: relative;
-  height: 620px;
 }
 .tdc-tab-content-wrap:before {
   content: '';
@@ -290,8 +290,8 @@
   height: 43px;
 }
 #tdc-recycle {
-  position: relative;
-  bottom: 136px;
+  position: absolute;
+  bottom: 63px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -301,6 +301,7 @@
   border: 1px dashed #bbb;
   width: 258px;
   height: 90px;
+  z-index: 20;
 }
 #tdc-recycle.active {
   color: #fff;
