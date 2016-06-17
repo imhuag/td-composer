@@ -59,6 +59,40 @@ function tdc_on_admin_head() {
 }
 
 
+add_filter( 'the_content', 'tdc_on_the_content' );
+function tdc_on_the_content( $content ) {
+
+	$mappedShortcodes = tdc_mapper::get_mapped_shortcodes();
+
+	//var_dump( $mappedShortcodes ); die;
+
+	global $shortcode_tags;
+
+	if (empty($shortcode_tags) || !is_array($shortcode_tags))
+		return $content;
+
+	// Find all registered tag names in $content.
+	preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $content, $matches );
+	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
+
+	if ( empty( $tagnames ) ) {
+		return $content;
+	}
+
+	foreach( $tagnames as $tagname ) {
+		if ( ! array_key_exists( $tagname, $mappedShortcodes ) ) {
+			add_shortcode( $tagname, 'tdc_external_shortcode' );
+		}
+	}
+
+	return $content;
+}
+
+function tdc_external_shortcode($atts, $content, $name) {
+	return '<div class="td_block_wrap tdc-external-shortcode">Shortcode: ' . $name .'</div>';
+}
+
+
 /**
  * WP-admin - Edit page with tagDiv composer
  */
@@ -226,8 +260,14 @@ if (!empty($td_action)) {
 
 
 
+add_filter( 'page_row_actions', 'tdc_add_composer_actions', 10, 2 );
+function tdc_add_composer_actions( $actions, $post ) {
+
+	$actions['edit_tdc_composer'] = '<a href="' . admin_url('post.php?post_id=' . $post->ID . '&td_action=tdc') . '">Edit with TD Composer</a>';
 
 
+	return $actions;
+}
 
 
 

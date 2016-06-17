@@ -49,6 +49,7 @@ var tdcJobManager = {};
             this.shortcode = job.shortcode;
             this.columns = job.columns;
             this.jobId = tdcJobManager._generateJobId();
+            this.postId = window.tdcPostSettings.postId;
 
             // reply - this will be added by the server when we get back the instance of this
             this.replyHtml = '';

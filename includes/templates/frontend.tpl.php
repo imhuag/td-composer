@@ -48,7 +48,7 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 	<!-- the composer sidebar -->
 	<div id="tdc-sidebar">
 		<div class="tdc-top-buttons">
-			<a href="#" class="tdc-add-element tdc-active-element">
+			<a href="#" class="tdc-add-element">
 				Add element
 				<i class="tdc-icon-add"></i>
 			</a>

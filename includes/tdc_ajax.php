@@ -23,7 +23,45 @@ function tdc_register_api_routes() {
 		'methods'  => 'POST',
 		'callback' => array ('tdc_ajax', 'on_ajax_save_post'),
 	));
+}
 
+
+add_action( 'save_post', 'tdc_on_save_post', 10, 3 );
+function tdc_on_save_post( $post_id, $post, $update) {
+	if ($update === false) {
+		update_post_meta($post_id, 'tdc_dirty_content', 1);
+	} else {
+		$tdcContent = get_post_meta($post_id, 'tdc_content', true);
+		if ( $tdcContent !== $post->post_content) {
+			update_post_meta($post_id, 'tdc_dirty_content', 1);
+		}
+	}
+}
+
+
+add_action( 'current_screen', 'tdc_on_current_screen' );
+function tdc_on_current_screen() {
+
+	$current_screen = get_current_screen();
+
+	if ($current_screen->post_type === 'page' && isset($_GET['post'])) {
+
+		$isTdcDirtyContent = get_post_meta($_GET['post'], 'tdc_dirty_content', true);
+
+		if (isset($isTdcDirtyContent) && $isTdcDirtyContent === '0') {
+			ob_start();
+			?>
+
+			<script>
+
+				alert( 'Content compatible with TagDiv Composer! Modify it carefully' );
+
+			</script>
+
+			<?php
+			echo ob_get_clean();
+		}
+	}
 }
 
 
@@ -149,6 +187,9 @@ class tdc_ajax {
 				foreach ($errors as $error) {
 					$parameters['errors'][] = $error;
 				}
+			} else {
+				update_post_meta($post_id, 'tdc_dirty_content', 0);
+				update_post_meta($post_id, 'tdc_content', $post_content);
 			}
 		}
 		die(json_encode($parameters));
