@@ -52,9 +52,8 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 				Add element
 				<i class="tdc-icon-add"></i>
 			</a>
-			<a href="#" class="tdc-save-page">
-				<i class="tdc-icon-save"></i>
-			</a>
+			<a href="#" class="tdc-save-page"></a>
+			<a href="#" class="tdc-close-page"></a>
 		</div>
 
 
