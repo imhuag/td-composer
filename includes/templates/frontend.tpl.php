@@ -89,7 +89,13 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 
 		<div class="tdc-sidebar-bottom">
 			<div id="tdc-recycle">
-				Recycle
+				<div class="tdc-delete-text">Drag here to <span>Delete</span></div>
+			</div>
+			<div class="tdc-sidebar-close">
+				<a href="#"></a>
+			</div>
+			<div class="tdc-bullet">
+				<a href="#"></a>
 			</div>
 		</div>
 
@@ -98,9 +104,6 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		</div>
 
 		<div id="tdc-restore-content">
-		</div>
-
-		<div class="tdc-sidebar-info">
 		</div>
 
 		<!-- modal window -->

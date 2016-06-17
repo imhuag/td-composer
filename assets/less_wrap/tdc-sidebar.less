@@ -193,7 +193,6 @@
   top: 3px;
 }
 
-
 /*
   Breadcrumbs
 */
@@ -279,6 +278,7 @@
   padding: 15px 15px 15px 12px;
   background-color: #fff;
   position: relative;
+  height: 620px;
 
   &:before {
     content: '';
@@ -308,34 +308,88 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  background-color: #2489c2;
-  text-align: center;
-  line-height: 41px;
-  color: white;
-  text-decoration: none;
+  background-color: #333;
+  height: 43px;
 }
 
-.tdc-sidebar-bottom.active {
-  background-color: #b554c2;
-}
-
-.tdc-sidebar-info {
-  position: fixed;
+#tdc-recycle {
+  position: absolute;
+  bottom: 63px;
   left: 0;
-  bottom: 0;
-  font-size: 12px;
-  color: #FFFFFF;
-  background-color: #000;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  color: #888;
+  background-color: #eaeaea;
+  border: 1px dashed #bbb;
+  width: 260px;
+  height: 90px;
 }
+
+#tdc-recycle.active {
+  color: #fff;
+  background-color: #e1624f;
+}
+
+.tdc-delete-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  line-height: 19px;
+
+  span {
+    display: block;
+    text-transform: uppercase;
+    font-size: 14px;
+  }
+}
+
+.tdc-sidebar-close {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background: url('../images/sidebar/arrow_left.png');
+  background-repeat: no-repeat;
+  position: relative;
+  top: 11px;
+  left: 11px;
+
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.tdc-bullet {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background: url('../images/sidebar/bullet.png');
+  background-repeat: no-repeat;
+  position: relative;
+  top: 12px;
+  left: 20px;
+
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
 
 #tdc-restore {
   position: fixed;
   left: 20px;
-  bottom: 50px;
+  bottom: 200px;
   font-size: 12px;
   color: #FFFFFF;
   background-color: #000;
 }
+
 #tdc-restore-content {
   display: none;
   position: fixed;
@@ -376,7 +430,7 @@
       border: 1px solid #ddd;
       position: absolute;
       top: -2px;
-      right: -6px;
+      right: -5px;
 
       &:after {
         display: none;
@@ -476,6 +530,18 @@
     font-size: 12px;
     padding: 0 4px;
   }
+
+  .tdc-property-sort {
+    position: relative;
+
+    select {
+      max-width: 60%;
+      width: 120px;
+      position: absolute;
+      top: -7px;
+      right: 0;
+    }
+  }
 }
 
 #td-tab-css {
@@ -491,10 +557,13 @@
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
-    max-width: 99.5%;
-    width: 99.5%;
+    max-width: 60%;
+    width: 120px;
     font-size: 12px;
     padding: 0 4px;
+    position: absolute;
+    top: -7px;
+    right: 0;
   }
 }
 
@@ -507,7 +576,7 @@
 .tdc-border-radius .tdc-property {
   position: absolute;
   top: -7px;
-  right: -1px;
+  right: 2px;
   width: 42px;
 
   input[type=text] {
@@ -526,7 +595,6 @@
 .tdc-property-category_ids,
 .tdc-property-tag_slug,
 .tdc-property-autors_id,
-.tdc-property-installed_post_types,
 .tdc-property-td_ajax_filter_type,
 .tdc-property-td_ajax_filter_ids,
 .tdc-property-td_filter_default_txt,
@@ -534,26 +602,37 @@
   margin-bottom: 13px;
 }
 
-.tdc-border-style,
+.tdc-border-style {
+  position: relative;
+  margin-bottom: 24px;
+}
+
 .tdc-property-custom_url {
   margin-bottom: 19px;
 }
 
 .tdc-border-color,
 .tdc-property-header_color {
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
-.tdc-border-radius {
-  margin-bottom: 22px;
+.tdc-border-radius,
+.tdc-property-installed_post_types {
+  margin-bottom: 23px;
 }
 
-.tdc-bg-color,
+.tdc-bg-color {
+  margin-bottom: 5px;
+}
 .tdc-property-header_text_color {
   margin-bottom: 1px;
 }
 
-.tdc-bg-style,
+.tdc-bg-style {
+  position: relative;
+  margin-bottom: 23px;
+}
+
 .tdc-property-custom_title {
   margin-bottom: 13px;
 }
@@ -562,11 +641,22 @@
   margin-bottom: 27px;
 }
 
-
 .tdc-bg-upload {
+
+  .tdc-property-title {
+    margin-bottom: 6px;
+  }
+
   .tdc-css-bg-image-wrap {
-    vertical-align: top;
+    vertical-align: middle;
+    overflow: hidden;
     display: inline-block;
+
+    img {
+      width: auto;
+      height: 100%;
+      max-width: none;
+    }
   }
 
   .tdc-css-bg-remove {
@@ -574,7 +664,7 @@
     font-size: 11px;
     color: #000;
     border: 1px solid #DDDDDD;
-    padding: 0 10px;
+    padding: 4px 10px 5px 10px;
     margin-left: 18px;
   }
 }
@@ -589,7 +679,7 @@
   width: 270px;
   height: 220px;
   margin-top: 3px;
-  margin-bottom: 14px;
+  margin-bottom: 24px;
 
   .tdc-margin-label {
     position: absolute;
