@@ -955,6 +955,7 @@ var tdcIFrameData,
                     }
 
 
+
                     model = new tdcIFrameData.TdcModel({
                         'content' : element.content,
                         'attrs' : element.shortcode.attrs.named,
@@ -1431,15 +1432,13 @@ var tdcIFrameData,
                     destinationChildCollection = destinationModel.get( 'childCollection' );
 
                     var shortcodeName = $draggedElement.data( 'shortcodeName' ),
-                        shortcodeTitle = $draggedElement.html(),
 
                     // Define the model
                         elementModel = new tdcIFrameData.TdcModel({
                             'content': '',
                             'attrs': {
                                 'ajax_pagination': 'next_prev',
-                                'custom_title': shortcodeTitle,
-                                'post_id': window.tdcPostSettings.postId
+                                'custom_title': shortcodeName
                             },
                             'tag': shortcodeName,
                             'type': 'single',

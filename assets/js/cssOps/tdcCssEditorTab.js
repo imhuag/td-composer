@@ -133,7 +133,7 @@ var tdcCssEditorTab = {};
             $body.on( 'click', '.tdc-css-bg-remove', function(event) {
                 var $imgBackgroundImage = jQuery('.tdc-css-bg-image');
                 $imgBackgroundImage.addClass('tdc-no-image-selected');
-                $imgBackgroundImage.attr('src', window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img_upload.png');
+                $imgBackgroundImage.attr('src', window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img.png');
 
                 // fire the bg change event
                 var model = tdcIFrameData.getModel( $imgBackgroundImage.data('model_id') );
@@ -238,7 +238,7 @@ var tdcCssEditorTab = {};
                 {value: 'initial', display: 'Initial'},
                 {value: 'inherit', display: 'Inherit'}
             ];
-            buffy += '<div class="tdc-property-wrap">';
+            buffy += '<div class="tdc-property-wrap tdc-border-style">';
             buffy += '<div class="tdc-property-title">Border style:</div>';
             buffy += '<div class="tdc-property tdc-select-short">';
             buffy += '<select class="tdc-css-border-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
@@ -250,7 +250,7 @@ var tdcCssEditorTab = {};
 
             // border color
             var borderColorPickerId = _.uniqueId();
-            buffy += '<div class="tdc-property-wrap tdc-property-colorpicker">';
+            buffy += '<div class="tdc-property-wrap tdc-property-colorpicker tdc-border-color">';
             buffy += '<div class="tdc-property-title">Border color:</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<input class="tdc-css-border-color" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' id="' + borderColorPickerId + '" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('border-color') + '"/>';
@@ -262,9 +262,9 @@ var tdcCssEditorTab = {};
 
 
             // border radius
-            buffy += '<div class="tdc-property-wrap">';
+            buffy += '<div class="tdc-property-wrap tdc-border-radius">';
             buffy += '<div class="tdc-property-title">Border radius:</div>';
-            buffy += '<div class="tdc-property tdc-input-small">';
+            buffy += '<div class="tdc-property">';
             buffy += '<input class="tdc-css-border-radius" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="" type="text" value="' + tdcCssParser.getPropertyValueClean('border-radius') + '"/>';
             buffy += '</div>';
             buffy += '</div>';
@@ -272,7 +272,7 @@ var tdcCssEditorTab = {};
 
             // bg color
             var bgColorPickerId = _.uniqueId();
-            buffy += '<div class="tdc-property-wrap tdc-property-colorpicker">';
+            buffy += '<div class="tdc-property-wrap tdc-property-colorpicker tdc-bg-color">';
             buffy += '<div class="tdc-property-title">Background color:</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<input class="tdc-css-background-color" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' id="' + bgColorPickerId + '" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('background-color') + '"/>';
@@ -292,7 +292,7 @@ var tdcCssEditorTab = {};
                 {value: 'no-repeat', display: 'No repeat'},
                 {value: 'repeat', display: 'Repeat'}
             ];
-            buffy += '<div class="tdc-property-wrap">';
+            buffy += '<div class="tdc-property-wrap tdc-bg-style">';
             buffy += '<div class="tdc-property-title">Background style:</div>';
             buffy += '<div class="tdc-property tdc-select-short">';
             buffy += '<select class="tdc-css-bg-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
@@ -303,7 +303,7 @@ var tdcCssEditorTab = {};
 
 
             // bg upload
-            buffy += '<div class="tdc-property-wrap">';
+            buffy += '<div class="tdc-property-wrap tdc-bg-upload">';
             buffy += '<div class="tdc-property-title">Background upload:</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<div class="tdc-css-bg-image-wrap">';
