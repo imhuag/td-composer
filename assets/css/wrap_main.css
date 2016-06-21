@@ -12,14 +12,18 @@
   -webkit-box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 /*
   Top buttons
 */
 .tdc-top-buttons {
   height: 43px;
+  width: 100%;
   background-color: #4eb2ec;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .tdc-top-buttons .tdc-add-element {
   display: block;
@@ -70,6 +74,9 @@
 /*
   Modal window
 */
+.tdc-sidebar-modal-wrap {
+  overflow: hidden;
+}
 .tdc-sidebar-modal {
   display: none;
   background-color: #fff;
@@ -80,6 +87,7 @@
   bottom: 50px;
   overflow-y: scroll;
   z-index: 30;
+  width: 317px;
 }
 .tdc-sidebar-modal .tdc-sidebar-modal-content {
   padding: 13px 20px 20px 20px;
@@ -220,9 +228,11 @@
   inspector + tabs
 */
 .tdc-inspector {
-  padding-top: 3px;
+  margin-top: 46px;
   background-color: #fff;
-  height: 717px;
+  overflow-y: scroll;
+  width: 317px;
+  height: 750px;
 }
 .tdc-tabs {
   padding: 0 12px;
@@ -257,7 +267,7 @@
 .tdc-tab-content-wrap {
   -webkit-box-shadow: -5px 0 6px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -5px 0 6px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: -5px 0 6px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
   padding: 15px 13px 15px 14px;
   background-color: #fff;
   position: relative;
@@ -534,6 +544,7 @@
   width: 42px;
   font-size: 12px;
   padding: 4px 8px;
+  text-align: right;
 }
 /*
   vertical spacing
