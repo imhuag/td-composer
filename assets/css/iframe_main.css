@@ -73,7 +73,7 @@ html.tdc-active #wpadminbar {
 }
 #tdc-mask {
   position: absolute;
-  font-size: 11px;
+  font-size: 10px;
   pointer-events: none;
   left: 0;
   top: 0;
@@ -83,61 +83,57 @@ html.tdc-active #wpadminbar {
 #tdc-mask-content {
   width: 0;
   height: 0;
-  background-color: #2d6b92;
+  background-color: #4db2ec;
   opacity: 0.3;
   pointer-events: none;
   position: absolute;
   z-index: 2;
 }
-.tdc-content-row {
-  background-color: rgba(45, 107, 146, 0.5) !important;
-}
-.tdc-content-column {
-  background-color: rgba(45, 107, 146, 0.6) !important;
-}
-.tdc-content-inner-row {
-  background-color: rgba(45, 107, 146, 0.7) !important;
-}
-.tdc-content-inner-column {
-  background-color: rgba(45, 107, 146, 0.8) !important;
-}
 #tdc-mask-row,
 #tdc-mask-column,
 #tdc-mask-inner-row,
 #tdc-mask-inner-column {
-  width: 85px;
-  height: 20px;
   position: absolute;
   pointer-events: all;
 }
 #tdc-mask-row {
-  background-color: #b40000;
+  background-color: #ee5734;
   color: #FFFFFF;
   top: 0;
   left: 0;
+  width: 60px;
+  height: 17px;
 }
 #tdc-mask-column {
-  background-color: #000000;
+  background-color: #363636;
   color: #FFFFFF;
   top: 0;
-  left: 85px;
+  left: 60px;
+  width: 77px;
+  height: 17px;
 }
 #tdc-mask-inner-row {
-  background-color: #b40000;
+  background-color: #ee5734;
   color: #FFFFFF;
-  top: 20px;
+  top: 17px;
   left: 0;
+  width: 90px;
+  height: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 #tdc-mask-inner-column {
-  background-color: #000000;
+  background-color: #363636;
   color: #FFFFFF;
-  top: 20px;
-  left: 85px;
+  top: 17px;
+  left: 90px;
+  width: 108px;
+  height: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 .tdc-mask-handler-drag {
-  float: left;
-  width: 85px;
-  padding-left: 3px;
+  position: absolute;
+  top: -2px;
+  left: 19px;
   cursor: pointer;
 }
 #tdc-mask-handler {
@@ -180,4 +176,39 @@ html.tdc-active #wpadminbar {
 .tdc-external-shortcode {
   height: 50px;
   border: 1px solid red;
+}
+.tdc-mask-edit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 17px;
+  height: 17px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+.tdc-mask-edit .tdc-icon-edit {
+  width: 14px;
+  height: 14px;
+  background: url('../images/sidebar/edit.png');
+  background-repeat: no-repeat;
+  position: relative;
+  top: 1px;
+  right: -1px;
+}
+.tdc-mask-arrow-horizontal {
+  width: 14px;
+  height: 14px;
+  background: url('../images/sidebar/drag-horizontal.png');
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 2px;
+  left: 3px;
+}
+.tdc-mask-arrow-vertical {
+  width: 14px;
+  height: 14px;
+  background: url('../images/sidebar/drag-vertical.png');
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 2px;
+  left: 3px;
 }
