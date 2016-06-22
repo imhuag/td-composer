@@ -48,48 +48,59 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 	<!-- the composer sidebar -->
 	<div id="tdc-sidebar">
 		<div class="tdc-top-buttons">
-			<a href="#" class="tdc-add-element">
+			<div class="tdc-add-element tdc-active-element">
 				Add element
-				<i class="tdc-icon-add"></i>
-			</a>
-			<a href="#" class="tdc-save-page">
-				<i class="tdc-icon-save"></i>
-			</a>
-		</div>
-
-
-		<!-- breadcrumbs browser -->
-		<div class="tdc-breadcrumbs">
-			<div id="tdc-breadcrumb-row">
-				<a href="#">row</a>
+				<span class="tdc-icon-add"></span>
+				<a href="#"></a>
 			</div>
-			<div id="tdc-breadcrumb-column">
-				<span class="tdc-breadcrumb-arrow"></span>
-				<a href="#">column</a>
+			<div class="tdc-save-page">
+				<span class="tdc-icon-save"></span>
+				<a href="#"></a>
 			</div>
-			<div id="tdc-breadcrumb-inner-row">
-				<span class="tdc-breadcrumb-arrow"></span>
-				<a href="#">inner-row</a>
-			</div>
-			<div id="tdc-breadcrumb-inner-column">
-				<span class="tdc-breadcrumb-arrow"></span>
-				<a href="#">inner-column</a>
+			<div class="tdc-close-page">
+				<span class="tdc-icon-close"></span>
+				<a href="#"></a>
 			</div>
 		</div>
 
 
 		<!-- the inspector -->
 		<div class="tdc-inspector">
+			<!-- breadcrumbs browser -->
+			<div class="tdc-breadcrumbs">
+				<div id="tdc-breadcrumb-row">
+					<a href="#">row</a>
+				</div>
+				<div id="tdc-breadcrumb-column">
+					<span class="tdc-breadcrumb-arrow"></span>
+					<a href="#">column</a>
+				</div>
+				<div id="tdc-breadcrumb-inner-row">
+					<span class="tdc-breadcrumb-arrow"></span>
+					<a href="#">inner-row</a>
+				</div>
+				<div id="tdc-breadcrumb-inner-column">
+					<span class="tdc-breadcrumb-arrow"></span>
+					<a href="#">inner-column</a>
+				</div>
+			</div>
 			<div class="tdc-current-element-head">
 			</div>
 			<div class="tdc-tabs-wrapper">
 			</div>
 		</div>
 
-
 		<div class="tdc-sidebar-bottom">
+			<div class="tdc-sidebar-close">
+				<span class="tdc-icon-sidebar-close"></span>
+				<a href="#"></a>
+			</div>
+			<div class="tdc-bullet">
+				<span class="tdc-icon-bullet"></span>
+				<a href="#"></a>
+			</div>
 			<div id="tdc-recycle">
-				Recycle
+				<div class="tdc-delete-text">Drag here to <span>Delete</span></div>
 			</div>
 		</div>
 
@@ -100,40 +111,39 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		<div id="tdc-restore-content">
 		</div>
 
-		<div class="tdc-sidebar-info">
-		</div>
-
 		<!-- modal window -->
-		<div class="tdc-sidebar-modal tdc-sidebar-modal-elements">
-			<div class="tdc-sidebar-modal-search">
-			<input type=text placeholder=Search name=Search>
-			<a href="#" class="tdc-modal-close"></a>
-			</div>
-			<div class="tdc-sidebar-modal-content">
-				<!-- sidebar elements list -->
-				<div class="tdc-sidebar-elements">
-					<?php
+		<div class="tdc-sidebar-modal-wrap">
+			<div class="tdc-sidebar-modal tdc-sidebar-modal-elements">
+				<div class="tdc-sidebar-modal-search">
+				<input type=text placeholder=Search name=Search>
+				<a href="#" class="tdc-modal-close"></a>
+				</div>
+				<div class="tdc-sidebar-modal-content">
+					<!-- sidebar elements list -->
+					<div class="tdc-sidebar-elements">
+						<?php
 
-					$mapped_shortcodes = tdc_mapper::get_mapped_shortcodes();
+						$mapped_shortcodes = tdc_mapper::get_mapped_shortcodes();
 
-					foreach ($mapped_shortcodes as $mapped_shortcode ) {
+						foreach ($mapped_shortcodes as $mapped_shortcode ) {
 
-						if ( 'vc_row' === $mapped_shortcode['base'] ) {
-							echo '<div class="tdc-sidebar-element tdc-row-temp tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
-							continue;
+							if ( 'vc_row' === $mapped_shortcode['base'] ) {
+								echo '<div class="tdc-sidebar-element tdc-row-temp tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
+								continue;
+							}
+
+							if ( 'vc_row_inner' === $mapped_shortcode['base'] ) {
+								echo '<div class="tdc-sidebar-element tdc-element-inner-row-temp tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
+								continue;
+							}
+
+							if ( isset($mapped_shortcode['map_in_visual_composer']) && true === $mapped_shortcode['map_in_visual_composer'] ) {
+								echo '<div class="tdc-sidebar-element tdc-element tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
+							}
 						}
 
-						if ( 'vc_row_inner' === $mapped_shortcode['base'] ) {
-							echo '<div class="tdc-sidebar-element tdc-element-inner-row-temp tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
-							continue;
-						}
-
-						if ( isset($mapped_shortcode['map_in_visual_composer']) && true === $mapped_shortcode['map_in_visual_composer'] ) {
-							echo '<div class="tdc-sidebar-element tdc-element tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
-						}
-					}
-
-					?>
+						?>
+					</div>
 				</div>
 			</div>
 		</div>

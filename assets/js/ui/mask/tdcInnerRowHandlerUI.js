@@ -60,7 +60,7 @@ var tdcInnerRowHandlerUI;
 
             // Create the handler jquery object and append it to the mask wrapper
             var $handlerWrapper = jQuery( '<div id="' + tdcInnerRowHandlerUI._handlerCssClass + '"></div>'),
-                $handlerDrag = jQuery( '<div class="tdc-mask-handler-drag">' + tdcInnerRowHandlerUI._handlerText + '</div>' );
+                $handlerDrag = jQuery( '<div class="tdc-mask-arrow-vertical"></div><div class="tdc-mask-handler-drag">' + tdcInnerRowHandlerUI._handlerText + '</div><div class="tdc-mask-edit"><div class="tdc-icon-edit"></div></div>' );
 
             $handlerWrapper.append( $handlerDrag );
 
