@@ -48,12 +48,19 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 	<!-- the composer sidebar -->
 	<div id="tdc-sidebar">
 		<div class="tdc-top-buttons">
-			<a href="#" class="tdc-add-element">
+			<div class="tdc-add-element tdc-active-element">
 				Add element
-				<i class="tdc-icon-add"></i>
-			</a>
-			<a href="#" class="tdc-save-page"></a>
-			<a href="#" class="tdc-close-page"></a>
+				<span class="tdc-icon-add"></span>
+				<a href="#"></a>
+			</div>
+			<div class="tdc-save-page">
+				<span class="tdc-icon-save"></span>
+				<a href="#"></a>
+			</div>
+			<div class="tdc-close-page">
+				<span class="tdc-icon-close"></span>
+				<a href="#"></a>
+			</div>
 		</div>
 
 
@@ -83,12 +90,13 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 			</div>
 		</div>
 
-
 		<div class="tdc-sidebar-bottom">
 			<div class="tdc-sidebar-close">
+				<span class="tdc-icon-sidebar-close"></span>
 				<a href="#"></a>
 			</div>
 			<div class="tdc-bullet">
+				<span class="tdc-icon-bullet"></span>
 				<a href="#"></a>
 			</div>
 			<div id="tdc-recycle">
