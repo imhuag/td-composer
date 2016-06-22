@@ -22,6 +22,7 @@ require_once('shortcodes/vc_column.php' );
 require_once('shortcodes/vc_column_inner.php' );
 require_once('shortcodes/vc_column_text.php' );
 require_once('shortcodes/vc_raw_html.php' );
+require_once('shortcodes/vc_empty_space.php' );
 require_once('shortcodes/vc_widget_sidebar.php' );
 
 // mapper and internal map
@@ -38,6 +39,29 @@ require_once('tdc_map.php');
 add_action( 'admin_head', 'tdc_on_admin_head' );
 function tdc_on_admin_head() {
 
+	//map_not_registered_shortcodes();
+
+	$mappedShortcodes = tdc_mapper::get_mapped_shortcodes();
+
+	global $wp_registered_sidebars;
+
+	foreach ( $mappedShortcodes as &$mappedShortcode ) {
+		if ( 'vc_widget_sidebar' === $mappedShortcode[ 'base' ] ) {
+			foreach ( $mappedShortcode[ 'params' ] as &$param ) {
+				if ( 'sidebar_id' === $param[ 'param_name' ] ) {
+
+					$param[ 'value' ][ __( '- Please select a sidebar -', 'td_composer' ) ] = '';
+
+					foreach ( $wp_registered_sidebars as $key => $val ) {
+						$param[ 'value' ][ $val[ 'name' ] ] = $key;
+					}
+					break;
+				}
+			}
+			break;
+		}
+	}
+
 	// the settings that we load in wp-admin and wrapper. We need json to be sure we don't get surprises with the encoding/escaping
 	$tdc_admin_settings = array(
 		'adminUrl' => admin_url(),
@@ -45,52 +69,20 @@ function tdc_on_admin_head() {
 		'wpRestUrl' => rest_url(),
 		'permalinkStructure' => get_option('permalink_structure'),
 		'pluginUrl' => TDC_URL,
-		'mappedShortcodes' => tdc_mapper::get_mapped_shortcodes() // get ALL the mapped shortcodes / we should turn off pretty print
+		'mappedShortcodes' => $mappedShortcodes // get ALL the mapped shortcodes / we should turn off pretty print
 	);
 
 	ob_start();
 	?>
 	<script>
 		window.tdcAdminSettings = <?php echo json_encode( $tdc_admin_settings );?>;
+		//console.log(window.tdcAdminSettings);
 	</script>
 	<?php
 	$buffer = ob_get_clean();
 	echo $buffer;
 }
 
-
-add_filter( 'the_content', 'tdc_on_the_content' );
-function tdc_on_the_content( $content ) {
-
-	$mappedShortcodes = tdc_mapper::get_mapped_shortcodes();
-
-	//var_dump( $mappedShortcodes ); die;
-
-	global $shortcode_tags;
-
-	if (empty($shortcode_tags) || !is_array($shortcode_tags))
-		return $content;
-
-	// Find all registered tag names in $content.
-	preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $content, $matches );
-	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
-
-	if ( empty( $tagnames ) ) {
-		return $content;
-	}
-
-	foreach( $tagnames as $tagname ) {
-		if ( ! array_key_exists( $tagname, $mappedShortcodes ) ) {
-			add_shortcode( $tagname, 'tdc_external_shortcode' );
-		}
-	}
-
-	return $content;
-}
-
-function tdc_external_shortcode($atts, $content, $name) {
-	return '<div class="td_block_wrap tdc-external-shortcode">Shortcode: ' . $name .'</div>';
-}
 
 
 /**
@@ -156,7 +148,83 @@ if ( false === $tmpJobId ) {
 // Add external shortcodes
 if ( tdc_state::is_live_editor_iframe() || tdc_state::is_live_editor_ajax() ) {
 	register_external_shortcodes();
+
+//	// Change the callbacks of the shortcodes not registered in TagDiv Composer
+//	// Important! Here it's too late to map these shortcodes, the mapping should be where the '$tdc_admin_settings' is set (@see 'admin_head' action)
+//	add_filter( 'the_content', 'tdc_on_the_content' );
+//	function tdc_on_the_content( $content ) {
+//
+//		$mappedShortcodes = tdc_mapper::get_mapped_shortcodes();
+//
+//		//var_dump( $mappedShortcodes ); die;
+//
+//		global $shortcode_tags;
+//
+//		if (empty($shortcode_tags) || !is_array($shortcode_tags))
+//			return $content;
+//
+//		// Find all registered tag names in $content.
+//		preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $content, $matches );
+//		$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
+//
+//		if ( empty( $tagnames ) ) {
+//			return $content;
+//		}
+//
+//		foreach( $tagnames as $tagname ) {
+//			if ( ! array_key_exists( $tagname, $mappedShortcodes ) ) {
+//				add_shortcode( $tagname, 'tdc_external_shortcode' );
+//			}
+//		}
+//
+//		global $vc_shortcodes;
+//
+//		foreach( $vc_shortcodes as $vc_shortcode ) {
+//			add_shortcode( $vc_shortcode, 'tdc_external_shortcode' );
+//		}
+//
+//		return $content;
+//	}
 }
+
+
+function tdc_external_shortcode($atts, $content, $name) {
+	return '<div class="td_block_wrap tdc-external-shortcode">Shortcode: ' . $name .'</div>';
+}
+
+
+//function tdc_map_not_registered_shortcodes($postId) {
+//	$currentPost = get_post($postId);
+//
+//	$mappedShortcodes = tdc_mapper::get_mapped_shortcodes();
+//
+//	//var_dump( $mappedShortcodes ); die;
+//
+//	global $shortcode_tags;
+//
+//	if (empty($shortcode_tags) || !is_array($shortcode_tags))
+//		return;
+//
+//	// Find all registered tag names in $content.
+//	preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $currentPost->post_content, $matches );
+//	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
+//
+//	if ( empty( $tagnames ) ) {
+//		return;
+//	}
+//
+//	foreach( $tagnames as $tagname ) {
+//		if ( ! array_key_exists( $tagname, $mappedShortcodes ) ) {
+//			add_shortcode( $tagname, 'tdc_external_shortcode' );
+//		}
+//	}
+//
+//	global $vc_shortcodes;
+//
+//	foreach( $vc_shortcodes as $vc_shortcode ) {
+//		add_shortcode( $vc_shortcode, 'tdc_external_shortcode' );
+//	}
+//}
 
 
 
@@ -257,10 +325,85 @@ if (!empty($td_action)) {
 
 
 
-
-
-
-
+//global $vc_shortcodes;
+//
+//$vc_shortcodes = array(
+//	'vc_btn',
+//	'vc_icon',
+//	'vc_tta_tabs',
+//	'vc_tta_section'
+//);
+//
+//
+//
+//function map_not_registered_shortcodes() {
+//
+//	global $post;
+//
+//	if (!isset($post)) {
+//		return;
+//	}
+//
+//	$mappedShortcodes = tdc_mapper::get_mapped_shortcodes();
+//
+//	//var_dump( $mappedShortcodes ); die;
+//
+//	global $shortcode_tags;
+//
+//	//var_dump($shortcode_tags); die;
+//
+//	if (empty($shortcode_tags) || !is_array($shortcode_tags))
+//		return;
+//
+//	// Find all registered tag names in $content.
+//	preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $post->post_content, $matches );
+//	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
+//
+//	if ( empty( $tagnames ) ) {
+//		return;
+//	}
+//
+//	foreach( $tagnames as $tagname ) {
+//		if ( ! array_key_exists( $tagname, $mappedShortcodes ) ) {
+//
+//			tdc_mapper::map(
+//				array(
+//					'map_in_visual_composer' => true,
+//					'base' => $tagname,
+//					'name' => $tagname,
+//					'params' => array(
+//						array(
+//							'type' => 'textfield',
+//							'heading' => 'Extra class name',
+//							'param_name' => 'el_class',
+//							'description' => '',
+//						)
+//					)
+//				)
+//			);
+//		}
+//	}
+//
+//	global $vc_shortcodes;
+//
+//	foreach ($vc_shortcodes as $vc_shortcode) {
+//		tdc_mapper::map(
+//			array(
+//				'map_in_visual_composer' => true,
+//				'base' => $vc_shortcode,
+//				'name' => $vc_shortcode,
+//				'params' => array(
+//					array(
+//						'type' => 'textfield',
+//						'heading' => 'Extra class name',
+//						'param_name' => 'el_class',
+//						'description' => '',
+//					)
+//				)
+//			)
+//		);
+//	}
+//}
 
 
 

@@ -28,6 +28,11 @@ function tdc_load_internal_shortcodes() {
 	td_global_blocks::add_lazy_shortcode('vc_column');
 	td_global_blocks::add_lazy_shortcode('vc_row_inner');
 	td_global_blocks::add_lazy_shortcode('vc_column_inner');
+
+	td_global_blocks::add_lazy_shortcode('vc_column_text');
+	td_global_blocks::add_lazy_shortcode('vc_raw_html');
+	td_global_blocks::add_lazy_shortcode('vc_empty_space');
+	td_global_blocks::add_lazy_shortcode('vc_widget_sidebar');
 }
 
 
@@ -183,6 +188,152 @@ tdc_mapper::map(
 	)
 );
 
+tdc_mapper::map(
+	array(
+		'map_in_visual_composer' => true,
+		'base' => 'vc_column_text',
+		'name' => __( 'Column text', 'td_composer' ),
+		'icon' => 'icon-wpb-column-text',
+		'category' => __( 'Content', 'td_composer' ),
+		'description' => __( 'Column text description', 'td_composer' ),
+		'params' => array(
+			array(
+				"param_name" => "content",
+				"type" => "textarea_html",
+				"holder" => "div",
+				"class" => "",
+				"heading" => 'Text',
+				"value" => "",
+				"description" => 'Enter your content.'
+			),
+			array(
+				'type' => 'textfield',
+				'heading' => __( 'Extra class name', 'td_composer' ),
+				'param_name' => 'el_class',
+				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
+				'value' => '',
+			),
+
+			array (
+				'param_name' => 'css',
+				'value' => '',
+				'type' => 'css_editor',
+				'heading' => 'Css',
+				'group' => 'Design options',
+			)
+		),
+	)
+);
+
+tdc_mapper::map(
+	array(
+		'map_in_visual_composer' => true,
+		'base' => 'vc_raw_html',
+		'name' => __( 'Raw html', 'td_composer' ),
+		'icon' => 'icon-wpb-raw-html',
+		'category' => __( 'Content', 'td_composer' ),
+		'description' => __( 'Raw html description', 'td_composer' ),
+		'params' => array(
+			array(
+				"param_name" => "content",
+				"type" => "textarea_raw_html",
+				"holder" => "div",
+				"class" => "",
+				"heading" => 'Text',
+				"value" => "",
+				"description" => 'Enter your content.'
+			),
+			array(
+				'type' => 'textfield',
+				'heading' => __( 'Extra class name', 'td_composer' ),
+				'param_name' => 'el_class',
+				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
+				'value' => '',
+			),
+
+			array (
+				'param_name' => 'css',
+				'value' => '',
+				'type' => 'css_editor',
+				'heading' => 'Css',
+				'group' => 'Design options',
+			)
+		),
+	)
+);
+
+tdc_mapper::map(
+	array(
+		'map_in_visual_composer' => true,
+		'base' => 'vc_empty_space',
+		'name' => __( 'Empty space', 'td_composer' ),
+		'icon' => 'icon-wpb-empty-space',
+		'category' => __( 'Content', 'td_composer' ),
+		'description' => __( 'Empty space description', 'td_composer' ),
+		'params' => array(
+			array(
+				'type' => 'textfield',
+				'heading' => __( 'Height', 'td_composer' ),
+				'param_name' => 'height',
+				'description' => __( 'Custom height of the empty space.', 'td_composer' ),
+				'value' => '32px',
+			),
+			array(
+				'type' => 'textfield',
+				'heading' => __( 'Extra class name', 'td_composer' ),
+				'param_name' => 'el_class',
+				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
+				'value' => '',
+			),
+
+			array (
+				'param_name' => 'css',
+				'value' => '',
+				'type' => 'css_editor',
+				'heading' => 'Css',
+				'group' => 'Design options',
+			)
+		),
+	)
+);
+
+
+tdc_mapper::map(
+	array(
+		'map_in_visual_composer' => true,
+		'base' => 'vc_widget_sidebar',
+		'name' => __( 'Widget sidebar', 'td_composer' ),
+		'icon' => 'icon-wpb-layout_sidebar',
+		'category' => __( 'Content', 'td_composer' ),
+		'description' => __( 'Widget sidebar description', 'td_composer' ),
+		'params' => array(
+			array(
+				'type' => 'textfield',
+				'heading' => __( 'Widget title', 'td_composer' ),
+				'param_name' => 'title',
+				'description' => __( 'Enter text used as widget title (Note: located above content element).', 'td_composer' ),
+				'value' => '',
+			),
+			array (
+				'param_name' => 'sidebar_id',
+				'heading' => 'Sidebar',
+				'type' => 'dropdown',
+
+				// The parameter is set at 'admin_head' action, there the global $wp_registered_sidebars being set (otherwise it could be set at 'init')
+				// Important! Here is too early to use the global $wp_registered_sidebars, because it isn't set
+				'value' => array(),
+				'class' => 'tdc-widget-sidebar-dropdown'
+			),
+			array(
+				'type' => 'textfield',
+				'heading' => __( 'Extra class name', 'td_composer' ),
+				'param_name' => 'el_class',
+				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
+				'value' => ''
+			),
+		),
+	)
+);
 
 function register_external_shortcodes() {
 

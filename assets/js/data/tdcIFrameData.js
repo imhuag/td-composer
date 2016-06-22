@@ -1289,7 +1289,10 @@ var tdcIFrameData,
                 // 'td_block_text_with_title' Exception
                 // It is level 4 element and a closed modelType. It's 'content' attribute is inside and not as attribute.
 
-                if ( 'td_block_text_with_title' === modelTag ) {
+                if ( 'td_block_text_with_title' === modelTag ||
+                    'vc_column_text' === modelTag ||
+                    'vc_raw_html' === modelTag
+                ) {
 
                     _.map( modelAttrs, function( val, key ) {
                         if ( 'content' === key ) {
@@ -1437,8 +1440,8 @@ var tdcIFrameData,
                         elementModel = new tdcIFrameData.TdcModel({
                             'content': '',
                             'attrs': {
-                                'ajax_pagination': 'next_prev',
-                                'custom_title': shortcodeName
+                                //'ajax_pagination': 'next_prev',
+                                //'custom_title': shortcodeName
                             },
                             'tag': shortcodeName,
                             'type': 'single',
