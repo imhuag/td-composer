@@ -189,7 +189,16 @@ var tdcCssEditorTab = {};
             //console.log(model.get('attrs')['css']);
 
             var buffy = '';
+
+            buffy += '<div class="tdc-responsive-buttons">';
+                buffy += '<div class="tdc-responsive-desktop"><span class="tdc-desktop-icon"></span></div>';
+                buffy += '<div class="tdc-responsive-tablet-landscape"><span class="tdc-tablet-landscape-icon"></span></div>';
+                buffy += '<div class="tdc-responsive-tablet-portrait"><span class="tdc-tablet-portrait-icon"></span></div>';
+                buffy += '<div class="tdc-responsive-phone"><span class="tdc-phone-icon"></span></div>';
+            buffy += '</div>';
+
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
+
             buffy += '<div class="tdc-box-margin">';
                 buffy += '<div class="tdc-margin-label">Margin</div>';
                 buffy += '<input data-tdc-for="marginTop" class="tdc-css-box-input tdc-css-box-input-top-margin" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('margin-top') + '" placeholder="-" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '/>';
