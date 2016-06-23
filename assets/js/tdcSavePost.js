@@ -61,9 +61,9 @@ var tdcSavePost;
 
                     if ( 'success' === textStatus ) {
                         if ( _.isObject( data ) && _.has( data, 'errors' ) ) {
-                            alert( data.errors );
+                            new tdcNotice.notice( data.errors, true, false );
                         } else {
-                            alert( textStatus );
+                            new tdcNotice.notice( textStatus, false, true );
                         }
                     }
 

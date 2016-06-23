@@ -9,8 +9,25 @@
   -webkit-box-shadow: 0 0 8px 2px rgba(0,0,0, 0.10);
   -moz-box-shadow: 0 0 8px 2px rgba(0,0,0, 0.10);
   box-shadow: 0 0 8px 2px rgba(0,0,0, 0.10);
-  overflow: hidden;
-  padding-bottom: 119px;
+  //overflow: hidden;
+  //padding-bottom: 119px;
+  transition: left 0.4s ease;
+}
+
+.tdc-sidebar-hidden {
+  left: -300px !important;
+}
+
+.tdc-sidebar-inline {
+  position: absolute !important;
+  top: -32px !important;
+  bottom: 10px !important;
+  height: 1109px;
+}
+
+.test1 {
+  left: 0;
+  transition: all 0.4s ease;
 }
 
 /*
@@ -306,6 +323,10 @@
 /*
   inspector + tabs
 */
+.tdc-inspector-wrap {
+  overflow: hidden;
+}
+
 .tdc-inspector {
   background-color: #fff;
   overflow-y: scroll;
@@ -402,6 +423,7 @@
   width: 258px;
   height: 90px;
   z-index: 20;
+  display: none;
 }
 
 #tdc-recycle.active {
@@ -468,6 +490,7 @@
   top: 0;
   left: 0;
   cursor: pointer;
+  z-index: 51;
 
   &:hover {
     background-color: #000;
@@ -488,6 +511,13 @@
     width: 100%;
     height: 100%;
   }
+}
+
+.tdc-sidebar-reopen {
+  position: fixed !important;
+  bottom: 0;
+  left: 0;
+  top: auto !important;
 }
 
 .tdc-bullet {

@@ -48,7 +48,7 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 	<!-- the composer sidebar -->
 	<div id="tdc-sidebar">
 		<div class="tdc-top-buttons">
-			<div class="tdc-add-element tdc-active-element">
+			<div class="tdc-add-element">
 				Add element
 				<span class="tdc-icon-add"></span>
 				<a href="#"></a>
@@ -65,28 +65,30 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 
 
 		<!-- the inspector -->
-		<div class="tdc-inspector">
-			<!-- breadcrumbs browser -->
-			<div class="tdc-breadcrumbs">
-				<div id="tdc-breadcrumb-row">
-					<a href="#">row</a>
+		<div class="tdc-inspector-wrap">
+			<div class="tdc-inspector">
+				<!-- breadcrumbs browser -->
+				<div class="tdc-breadcrumbs">
+					<div id="tdc-breadcrumb-row">
+						<a href="#">row</a>
+					</div>
+					<div id="tdc-breadcrumb-column">
+						<span class="tdc-breadcrumb-arrow"></span>
+						<a href="#">column</a>
+					</div>
+					<div id="tdc-breadcrumb-inner-row">
+						<span class="tdc-breadcrumb-arrow"></span>
+						<a href="#">inner-row</a>
+					</div>
+					<div id="tdc-breadcrumb-inner-column">
+						<span class="tdc-breadcrumb-arrow"></span>
+						<a href="#">inner-column</a>
+					</div>
 				</div>
-				<div id="tdc-breadcrumb-column">
-					<span class="tdc-breadcrumb-arrow"></span>
-					<a href="#">column</a>
+				<div class="tdc-current-element-head">
 				</div>
-				<div id="tdc-breadcrumb-inner-row">
-					<span class="tdc-breadcrumb-arrow"></span>
-					<a href="#">inner-row</a>
+				<div class="tdc-tabs-wrapper">
 				</div>
-				<div id="tdc-breadcrumb-inner-column">
-					<span class="tdc-breadcrumb-arrow"></span>
-					<a href="#">inner-column</a>
-				</div>
-			</div>
-			<div class="tdc-current-element-head">
-			</div>
-			<div class="tdc-tabs-wrapper">
 			</div>
 		</div>
 

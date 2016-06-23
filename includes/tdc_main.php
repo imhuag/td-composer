@@ -65,6 +65,7 @@ function tdc_on_admin_head() {
 	// the settings that we load in wp-admin and wrapper. We need json to be sure we don't get surprises with the encoding/escaping
 	$tdc_admin_settings = array(
 		'adminUrl' => admin_url(),
+		'editPostUrl' => get_edit_post_link( get_the_ID(), '' ),
 		'wpRestNonce' => wp_create_nonce('wp_rest'),
 		'wpRestUrl' => rest_url(),
 		'permalinkStructure' => get_option('permalink_structure'),

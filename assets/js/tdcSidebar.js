@@ -14,6 +14,8 @@ var tdcSidebar;
 
     tdcSidebar = {
 
+        $sidebar: undefined,
+
         $editRow: undefined,
         $editColumn: undefined,
         $editInnerRow: undefined,
@@ -35,9 +37,14 @@ var tdcSidebar;
         $inspector: undefined,
 
         $sidebarInfo: undefined,
+        $closePage: undefined,
+        $tdcBullet: undefined,
+        $sidebarClose: undefined,
 
 
         init: function() {
+
+            tdcSidebar.$sidebar = jQuery( '#tdc-sidebar' );
 
             tdcSidebar.$editRow = jQuery( '#tdc-breadcrumb-row' );
             tdcSidebar.$editRow.data( 'name', 'Row' );
@@ -55,6 +62,9 @@ var tdcSidebar;
             tdcSidebar.$inspector = jQuery( '.tdc-inspector' );
 
             tdcSidebar.$sidebarInfo = jQuery( '.tdc-sidebar-info' );
+            tdcSidebar.$closePage = jQuery( '.tdc-close-page' );
+            tdcSidebar.$tdcBullet = jQuery( '.tdc-bullet' );
+            tdcSidebar.$sidebarClose = jQuery( '.tdc-sidebar-close' );
 
 
             tdcSidebar.$editRow.click(function() {
@@ -153,6 +163,28 @@ var tdcSidebar;
 
             jQuery( '.tdc-sidebar-element').each(function( index, element ) {
                 tdcSidebar._bindElement( jQuery( element ) );
+            });
+
+            tdcSidebar.$closePage.click( function( event ) {
+                if ( true === window.confirm( 'Are you sure you want to close? The content is unsaved!' ) ) {
+                    window.location = window.tdcAdminSettings.editPostUrl;
+                }
+            });
+
+            tdcSidebar.$tdcBullet.click( function( event ) {
+                jQuery( '#tdc-sidebar' ).toggleClass( 'tdc-sidebar-inline' );
+                jQuery( '#tdc-live-iframe-wrapper' ).toggleClass( 'tdc-live-iframe-wrapper-inline' );
+            });
+
+            tdcSidebar.$sidebarClose.click( function( event) {
+                jQuery( this ).toggleClass( 'tdc-sidebar-reopen' );
+
+                tdcSidebar.$sidebar.toggleClass( 'tdc-sidebar-hidden' );
+
+
+                if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) ) {
+                    jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'test1' );
+                }
             });
 
 
@@ -277,14 +309,10 @@ var tdcSidebar;
         _sidebarModal: function () {
             // Sidebar elements modal window - open
             jQuery( '.tdc-add-element' ).click( function(){
-                jQuery( '.tdc-sidebar-modal-elements' ).addClass( 'tdc-modal-open' );
+                var $this = jQuery( this );
+                $this.toggleClass( 'tdc-active-element' );
+                jQuery( '.tdc-sidebar-modal-elements' ).toggleClass( 'tdc-modal-open' );
             });
-
-            // Sidebar elements modal window - close
-            jQuery( '.tdc-modal-close' ).click( function(){
-                jQuery( '.tdc-sidebar-modal-elements' ).removeClass( 'tdc-modal-open' );
-            });
-
         },
 
 

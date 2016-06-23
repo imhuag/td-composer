@@ -42,7 +42,14 @@ body.tdc #wpbody-content {
   width: 100%;
   margin-top: -32px !important;
   transform-origin: bottom right;
-  transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+  //transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: left 0.4s ease;
+}
+
+.tdc-live-iframe-wrapper-inline {
+  left: 300px;
+  position: absolute !important;
+  width: 1620px !important;
 }
 
 #tdc-live-iframe {
@@ -70,4 +77,34 @@ body.tdc #wpbody-content {
 }
 
 
+.tdc-notice-wrapper {
+  position: absolute;
+  top: 0;
+  left: 300px;
+}
+
+.tdc-notice {
+  width: 500px;
+  height: 50px;
+  background-color: green;
+  color: white;
+  margin-top: 2px;
+}
+
+.tdc-notice-error {
+  background-color: red !important;
+}
+
+.tdc-close-notice {
+  border: 1px solid black;
+  width: 20px;
+  height: 20px;
+  right: 0;
+  top: 0;
+  float: right;
+
+  &:after {
+    content: 'x';
+  }
+}
 

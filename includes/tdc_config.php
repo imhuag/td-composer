@@ -60,13 +60,14 @@ class tdc_config {
 		'tdcSidebar'            => '/assets/js/tdcSidebar.js',
 		'tdcSidebarPanel'       => '/assets/js/tdcSidebarPanel.js',
 		'tdcSidebarController'  => '/assets/js/tdcSidebarController.js',
-		'tdcCssParser'  => '/assets/js/cssOps/tdcCssParser.js',
-		'TdcCssGenerator'  => '/assets/js/cssOps/TdcCssGenerator.js',
-		'tdcCssState'  => '/assets/js/cssOps/tdcCssEditorTab.js',
+		'tdcCssParser'          => '/assets/js/cssOps/tdcCssParser.js',
+		'TdcCssGenerator'       => '/assets/js/cssOps/TdcCssGenerator.js',
+		'tdcCssState'           => '/assets/js/cssOps/tdcCssEditorTab.js',
 
-		'tdcColorPicker'      => '/assets/js/tdcColorPicker.js',
-		'cssJs'                 => '/assets/js/external/css.js'
+		'tdcColorPicker'        => '/assets/js/tdcColorPicker.js',
+		'cssJs'                 => '/assets/js/external/css.js',
 
+		'tdcNotice'             => '/assets/js/tdcNotice.js',
 	);
 
 

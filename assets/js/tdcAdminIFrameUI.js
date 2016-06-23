@@ -84,12 +84,10 @@ var tdcAdminIFrameUI;
                 })
                 .load(function(){
 
-                    var $this = jQuery(this);
+                    var $this = jQuery(this),
+                        $iframeContents = $this.contents();
 
-                    var iframeContents = $this.contents();
-
-                    tdcAdminIFrameUI.initContent( iframeContents );
-
+                    tdcAdminIFrameUI.initContent( $iframeContents );
 
                     tdcAdminIFrameUI._liveIframeWindowObject = jQuery(this).get(0).contentWindow;
 
@@ -618,25 +616,26 @@ var tdcAdminIFrameUI;
 
 
 
-                    window.addWrappers( iframeContents );
+                    window.addWrappers( $iframeContents );
 
-                    tdcIFrameData.init( iframeContents );
-                    tdcOperationUI.init( iframeContents );
+                    tdcIFrameData.init( $iframeContents );
+
+                    tdcOperationUI.init( $iframeContents );
+
+
+                    // Add target="_blank" to all anchor links, to prevent
+                    $iframeContents.find( 'a' ).each( function( index, element ) {
+                        element.setAttribute( 'target', '_blank' );
+                    });
                 });
 
 
 
 
 
+
             // append the iFrame!
-            var tdcJqObjWrapper = jQuery( '#tdc-live-iframe-wrapper');
-            if (tdcJqObjWrapper.length === 0) {
-                // die
-                throw "#tdc-live-iframe-wrapper not found in document! We need that to add the iframe with append";
-            }
-            tdcJqObjWrapper.append( tdcAdminIFrameUI._$liveIframe );
-
-
+            jQuery( '#tdc-live-iframe-wrapper').append( tdcAdminIFrameUI._$liveIframe );
         }
 
     };
