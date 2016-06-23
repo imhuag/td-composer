@@ -23,6 +23,11 @@ function tdc_register_api_routes() {
 		'methods'  => 'POST',
 		'callback' => array ('tdc_ajax', 'on_ajax_save_post'),
 	));
+
+	register_rest_route($namespace, '/decode_html_content/', array(
+		'methods'  => 'POST',
+		'callback' => array ('tdc_ajax', 'on_ajax_decode_html_content'),
+	));
 }
 
 
@@ -117,6 +122,7 @@ class tdc_ajax {
 //		echo do_shortcode(stripslashes($request->get_param('shortcode')));  // do shortcode usually renders with the blocks td_block->render method
 //		$reply_html = ob_get_clean();
 
+		//tdc_map_not_registered_shortcodes($request->get_param('postId'));
 
 		$reply_html =  do_shortcode(stripslashes($request->get_param('shortcode')));
 
@@ -191,6 +197,29 @@ class tdc_ajax {
 				update_post_meta($post_id, 'tdc_dirty_content', 0);
 				update_post_meta($post_id, 'tdc_content', $post_content);
 			}
+		}
+		die(json_encode($parameters));
+	}
+
+
+	static function on_ajax_decode_html_content(WP_REST_Request $request) {
+		if (!current_user_can( 'edit_pages' )) {
+			//@todo - ceva eroare sa afisam aici
+			echo 'no permission';
+			die;
+		}
+
+		$parameters = array();
+
+		$action = $_POST[ 'action' ];
+		$post_id = $_POST[ 'post_id' ];
+		$content = $_POST[ 'content' ];
+
+		if ( !isset($action) || 'tdc_ajax_decode_html_content' !== $action || !isset($post_id) || !isset($content)) {
+			$parameters['errors'][] = 'Invalid data';
+
+		} else {
+			$parameters['parsed_content'] = htmlentities( rawurldecode( base64_decode( strip_tags( $content ) ) ) );
 		}
 		die(json_encode($parameters));
 	}

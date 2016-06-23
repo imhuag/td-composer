@@ -208,7 +208,26 @@ var tdcSidebarPanel = {};
             });
 
 
+            // hook the custom innerRow dropdown
+            $body.on('change focus', '.tdc-widget-sidebar-dropdown select', function() {
 
+                // save the oldValue on focus in
+                if (event.type === 'focusin' || event.type === 'focus') { // the select raises a focus event instead of focusin
+                    this.oldValue = this.value;
+                    return;
+                }
+
+                var curValue = jQuery(this).val();
+                var model = tdcIFrameData.getModel( jQuery(this).data('model_id') );
+
+                tdcSidebarController.onUpdate (
+                    model,
+                    jQuery(this).data('param_name'),    // the name of the parameter
+                    this.oldValue,                      // the old value
+                    curValue                 // the new value
+                );
+                this.oldValue = curValue;
+            });
 
 
 
@@ -501,6 +520,9 @@ var tdcSidebarPanel = {};
                 case 'textarea_html':
                     return tdcSidebarPanel.addTextAreaHtml(mappedParameter, model);
 
+                case 'textarea_raw_html':
+                    return tdcSidebarPanel.addTextAreaRawHtml(mappedParameter, model);
+
                 case 'css_editor':
                     return tdcCssEditorTab.addCssEditor(mappedParameter, model);
 
@@ -715,11 +737,9 @@ var tdcSidebarPanel = {};
 
         addTextAreaHtml: function (mappedParameter, model) {
 
-            var editorContent = tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model);
+            var tinymceId = _.uniqueId( 'tdc_tinymce_' );
 
             var buffy = '';
-            //var tinymceId = _.uniqueId( 'tinymce_' );
-            var tinymceId = 'tdctinymce';
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
             buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
             buffy += '<div class="tdc-property">';
@@ -769,6 +789,75 @@ var tdcSidebarPanel = {};
 
                 newEditor.render();
             });
+
+            return buffy;
+        },
+
+        addTextAreaRawHtml: function (mappedParameter, model) {
+
+            var textareaId = _.uniqueId( 'tdc_textarea_' );
+
+            var buffy = '';
+            buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
+            buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
+            buffy += '<div class="tdc-property">';
+            buffy += '<textarea id="' + textareaId + '" class="tdc-textarea" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '>' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '</textarea>';
+            buffy += '</div>';
+            buffy += '</div>';
+
+            jQuery.ajax({
+                timeout: 10000,
+                type: 'POST',
+
+                // uuid is for browser cache busting
+                url: tdcUtil.getRestEndPoint('td-composer/decode_html_content', 'uuid=' + tdcJobManager._getUniqueID()),
+
+
+                // add the nonce used for cookie authentication
+                beforeSend: function ( xhr ) {
+                    xhr.setRequestHeader( 'X-WP-Nonce', window.tdcAdminSettings.wpRestNonce);
+                },
+                //url: ajaxurl,
+                dataType: 'json',
+                data: {
+                    post_id: window.tdcPostSettings.postId,
+                    action: 'tdc_ajax_decode_html_content',
+                    content: tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model)
+                }
+            }).done(function( data, textStatus, jqXHR ) {
+
+                if ( 'success' === textStatus ) {
+                    if ( _.isObject( data ) && _.has( data, 'errors' ) ) {
+                        alert( data.errors );
+                    } else {
+                        jQuery( '#' + textareaId ).html( data.parsed_content ).show();
+                    }
+                }
+
+            }).fail(function( jqXHR, textStatus, errorThrown ) {
+
+            });
+
+            var $body = jQuery('body');
+
+            $body.on( 'keyup', '#' + textareaId, function(event) {
+
+                var $input = jQuery( event.target ),
+                    model = tdcIFrameData.getModel( $input.data( 'model_id' ) );
+
+                var currentValue = window.btoa( $input.val() ),
+
+                // @todo This should be the content before change
+                    previousValue = currentValue;
+
+                tdcSidebarController.onUpdate (
+                    model,
+                    $input.data( 'param_name' ),    // the name of the parameter
+                    previousValue,                  // the old value
+                    currentValue                    // the new value
+                );
+            });
+
 
             return buffy;
         }
