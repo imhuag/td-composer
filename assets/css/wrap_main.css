@@ -315,7 +315,7 @@
   -webkit-box-shadow: -5px 0 6px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -5px 0 6px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
-  padding: 15px 13px 15px 14px;
+  padding: 18px 13px 15px 14px;
   background-color: #fff;
   position: relative;
 }
@@ -459,6 +459,114 @@
   float: left;
 }
 /*
+  responsive buttons
+*/
+.tdc-responsive-buttons {
+  width: 270px;
+  height: 28px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+}
+.tdc-responsive-buttons .tdc-responsive-desktop {
+  width: 67px;
+  height: 28px;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.tdc-responsive-buttons .tdc-responsive-desktop .tdc-desktop-icon {
+  width: 20px;
+  height: 20px;
+  background: url('../images/sidebar/desktop-black.png');
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 5px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+.tdc-responsive-buttons .tdc-responsive-desktop:active {
+  background-color: #4eb2ec;
+}
+.tdc-responsive-buttons .tdc-responsive-desktop:active .tdc-desktop-icon {
+  background: url('../images/sidebar/desktop-white.png');
+}
+.tdc-responsive-buttons .tdc-responsive-tablet-landscape {
+  width: 67px;
+  height: 28px;
+  position: relative;
+  display: inline-block;
+  border-left: 1px solid #ddd;
+  cursor: pointer;
+}
+.tdc-responsive-buttons .tdc-responsive-tablet-landscape .tdc-tablet-landscape-icon {
+  width: 20px;
+  height: 20px;
+  background: url('../images/sidebar/tablet-l-black.png');
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 4px;
+  left: -1px;
+  right: 0;
+  margin: 0 auto;
+}
+.tdc-responsive-buttons .tdc-responsive-tablet-landscape:active {
+  background-color: #4eb2ec;
+}
+.tdc-responsive-buttons .tdc-responsive-tablet-landscape:active .tdc-tablet-landscape-icon {
+  background: url('../images/sidebar/tablet-l-white.png');
+}
+.tdc-responsive-buttons .tdc-responsive-tablet-portrait {
+  width: 67px;
+  height: 28px;
+  position: relative;
+  display: inline-block;
+  border-left: 1px solid #ddd;
+  cursor: pointer;
+}
+.tdc-responsive-buttons .tdc-responsive-tablet-portrait .tdc-tablet-portrait-icon {
+  width: 20px;
+  height: 20px;
+  background: url('../images/sidebar/tablet-p-black.png');
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 4px;
+  left: -1px;
+  right: 0;
+  margin: 0 auto;
+}
+.tdc-responsive-buttons .tdc-responsive-tablet-portrait:active {
+  background-color: #4eb2ec;
+}
+.tdc-responsive-buttons .tdc-responsive-tablet-portrait:active .tdc-tablet-portrait-icon {
+  background: url('../images/sidebar/tablet-p-white.png');
+}
+.tdc-responsive-buttons .tdc-responsive-phone {
+  width: 66px;
+  height: 28px;
+  position: relative;
+  display: inline-block;
+  border-left: 1px solid #ddd;
+  cursor: pointer;
+}
+.tdc-responsive-buttons .tdc-responsive-phone .tdc-phone-icon {
+  width: 20px;
+  height: 20px;
+  background: url('../images/sidebar/phone-black.png');
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 4px;
+  left: -2px;
+  right: 0;
+  margin: 0 auto;
+}
+.tdc-responsive-buttons .tdc-responsive-phone:active {
+  background-color: #4eb2ec;
+}
+.tdc-responsive-buttons .tdc-responsive-phone:active .tdc-phone-icon {
+  background: url('../images/sidebar/phone-white.png');
+}
+/*
   color picker
 */
 .tdc-property-colorpicker {
@@ -481,7 +589,7 @@
   display: none;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .wp-picker-input-wrap {
-  margin-top: 12px;
+  margin-top: 8px;
   margin-bottom: 2px;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .button {
@@ -652,7 +760,7 @@
   margin-bottom: 14px;
 }
 .tdc-bg-color {
-  margin-bottom: 2px;
+  margin-bottom: -2px;
 }
 .tdc-property-installed_post_types {
   margin-bottom: 23px;
@@ -660,7 +768,7 @@
 .tdc-property-header_color,
 .tdc-border-color,
 .tdc-property-header_text_color {
-  margin-bottom: 1px;
+  margin-bottom: -3px;
 }
 .tdc-bg-style {
   position: relative;
