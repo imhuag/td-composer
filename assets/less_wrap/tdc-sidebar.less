@@ -132,32 +132,29 @@
 /*
   Modal window
 */
-
-.tdc-sidebar-modal-wrap {
-  overflow: hidden;
-}
-
 .tdc-sidebar-modal {
   display: none;
   background-color: #fff;
   position: absolute;
   left: 0;
-  top: 43px;
   right: 0;
-  bottom: 63px;
-  overflow-y: scroll;
+  top: 43px;
+  bottom: 43px;
   z-index: 100;
-  width: 317px;
-  margin-top: 20px;
+  overflow: hidden;
 
   .tdc-sidebar-modal-content {
-    padding: 13px 20px 20px 20px;
+    overflow-y: scroll;
+    width: 317px;
+    height: 100%;
+    margin-left: 20px;
+
   }
 
   // search (wrapper)
   .tdc-sidebar-modal-search {
     position: relative;
-    margin: 0 20px 3px 20px;
+    margin: 20px;
     border-bottom: 1px solid #ddd;
 
     input[type=text] {
@@ -202,6 +199,10 @@
 .tdc-ico-vc_row,
 .tdc-ico-vc_row_inner,
 .tdc-ico-rev_slider,
+.tdc-ico-vc_column_text,
+.tdc-ico-vc_raw_html,
+.tdc-ico-vc_empty_space,
+.tdc-ico-vc_widget_sidebar,
 .tdc-ico-td_block_1,
 .tdc-ico-td_block_2,
 .tdc-ico-td_block_3,
@@ -640,7 +641,6 @@
     }
   }
 }
-
 
 
 /*
