@@ -39,6 +39,7 @@ body.tdc #wpbody-content {
 
 #tdc-live-iframe-wrapper {
   position: absolute;
+  left: 0;
   width: 100%;
   margin-top: -32px !important;
   transform-origin: bottom right;
@@ -47,9 +48,9 @@ body.tdc #wpbody-content {
 }
 
 .tdc-live-iframe-wrapper-inline {
-  left: 300px;
+  left: 300px !important;
+  transition: left 0.4s ease;
   position: absolute !important;
-  width: 1620px !important;
 }
 
 #tdc-live-iframe {

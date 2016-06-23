@@ -174,6 +174,8 @@ var tdcSidebar;
             tdcSidebar.$tdcBullet.click( function( event ) {
                 jQuery( '#tdc-sidebar' ).toggleClass( 'tdc-sidebar-inline' );
                 jQuery( '#tdc-live-iframe-wrapper' ).toggleClass( 'tdc-live-iframe-wrapper-inline' );
+
+                tdcEvents.doCheck();
             });
 
             tdcSidebar.$sidebarClose.click( function( event) {
@@ -183,8 +185,10 @@ var tdcSidebar;
 
 
                 if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) ) {
-                    jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'test1' );
+                    jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-live-iframe-wrapper-inline' );
                 }
+
+                tdcEvents.doCheck();
             });
 
 

@@ -219,8 +219,15 @@ var tdcOperationUI;
                 $draggedElement = tdcOperationUI.getDraggedElement();
 
             if ( ! _.isUndefined( $draggedElement ) ) {
+
+                // If sidebar is inline, consider it at $helper position
+                var addLeft = 0;
+                if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline') ) {
+                    addLeft = tdcSidebar.$sidebar.width();
+                }
+
                 $helper.css({
-                    left: mouseEvent.clientX - 50,
+                    left: mouseEvent.clientX - 50 + addLeft,
                     top: mouseEvent.clientY - 50
                 });
                 $helper.show();

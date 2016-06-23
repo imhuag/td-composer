@@ -18,6 +18,7 @@ class tdc_config {
 		//'tdcDebug'              => '/assets/js/tdcDebug.js',
 		'tdcShortcodeParser'    => '/assets/js/tdcShortcodeParser.js',
 		'tdcInit'               => '/assets/js/wp-admin/tdcInit.js',  //@todo this should load only on edit post in wp-admin
+		'tdcEvents'             => '/assets/js/tdcEvents.js',
 	);
 
 

@@ -6,6 +6,7 @@
 /* global _:{} */
 
 /* global tdcShortcodeParser:{} */
+/* global tdcEvents:{} */
 
 var tdcInit = {};
 
@@ -32,7 +33,6 @@ var tdcInit = {};
 
         $catslist: undefined,
         catslistValue: '',
-
 
 
         init: function() {
@@ -135,6 +135,7 @@ var tdcInit = {};
     jQuery(window).ready(function(){
 
         tdcInit.init();
+        tdcEvents.init();
 
     });
 
