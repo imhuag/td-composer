@@ -40,6 +40,7 @@ var tdcSidebar;
         $closePage: undefined,
         $tdcBullet: undefined,
         $sidebarClose: undefined,
+        $sidebarOpen: undefined,
 
 
         init: function() {
@@ -65,6 +66,7 @@ var tdcSidebar;
             tdcSidebar.$closePage = jQuery( '.tdc-close-page' );
             tdcSidebar.$tdcBullet = jQuery( '.tdc-bullet' );
             tdcSidebar.$sidebarClose = jQuery( '.tdc-sidebar-close' );
+            tdcSidebar.$sidebarOpen = jQuery( '.tdc-sidebar-open' );
 
 
             tdcSidebar.$editRow.click(function() {
@@ -179,9 +181,9 @@ var tdcSidebar;
             });
 
             tdcSidebar.$sidebarClose.click( function( event) {
-                jQuery( this ).toggleClass( 'tdc-sidebar-reopen' );
 
-                tdcSidebar.$sidebar.toggleClass( 'tdc-sidebar-hidden' );
+                tdcSidebar.$sidebar.addClass( 'tdc-sidebar-hidden' );
+                tdcSidebar.$sidebarOpen.addClass( 'tdc-sidebar-reopen' );
 
 
                 if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) ) {
@@ -191,6 +193,18 @@ var tdcSidebar;
                 tdcEvents.doCheck();
             });
 
+            tdcSidebar.$sidebarOpen.click( function( event) {
+
+                tdcSidebar.$sidebar.removeClass( 'tdc-sidebar-hidden' );
+                tdcSidebar.$sidebarOpen.removeClass( 'tdc-sidebar-reopen' );
+
+
+                if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) ) {
+                    jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-live-iframe-wrapper-inline' );
+                }
+
+                tdcEvents.doCheck();
+            });
 
             tdcSidebar._sidebarModal();
             tdcSidebar._liveInspectorTabs();

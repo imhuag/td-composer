@@ -11,7 +11,7 @@
   box-shadow: 0 0 8px 2px rgba(0,0,0, 0.10);
   //overflow: hidden;
   //padding-bottom: 119px;
-  transition: left 0.4s ease;
+  transition: left 0.4s ease-in-out;
 }
 
 .tdc-sidebar-hidden {
@@ -62,12 +62,6 @@
       background-repeat: no-repeat;
     }
 
-    a {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
     &:hover {
       background-color: #268ac2;
     }
@@ -107,12 +101,6 @@
       background: url('../images/sidebar/save.png');
       background-repeat: no-repeat;
     }
-
-    a {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
   }
 
   .tdc-close-page {
@@ -135,12 +123,6 @@
       width: 20px;
       background: url('../images/sidebar/x.png');
       background-repeat: no-repeat;
-    }
-
-    a {
-      display: block;
-      width: 100%;
-      height: 100%;
     }
   }
 }
@@ -193,7 +175,7 @@
     top: 2px;
     height: 20px;
     width: 20px;
-    background: url('../images/sidebar/close-20.png');
+    background: url('../images/sidebar/search.png');
   }
 
   .tdc-element-icon {
@@ -446,6 +428,7 @@
   }
 }
 
+
 .tdc-sidebar-close {
   width: 43px;
   height: 43px;
@@ -468,20 +451,42 @@
     top: 11px;
     left: 11px;
   }
+}
 
-  a {
-    display: block;
-    width: 100%;
-    height: 100%;
+.tdc-sidebar-open {
+  width: 43px;
+  height: 43px;
+  position: fixed;
+  bottom: 0;
+  left: -43px;
+  cursor: pointer;
+  z-index: 52;
+  -webkit-box-shadow: -5px 0 6px 2px rgba(0,0,0, 0.1);
+  -moz-box-shadow: -5px 0 6px 2px rgba(0,0,0, 0.1);
+  box-shadow: 0 0 6px 2px rgba(0,0,0, 0.1);
+  //transition: left 0.4s ease-in-out 0.4s;
+
+  //&:hover {
+  //  background-color: #000;
+  //}
+
+  .tdc-icon-sidebar-open {
+    width: 20px;
+    height: 20px;
+    background: url('../images/sidebar/arrow_open.png');
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 11px;
+    left: 11px;
   }
 }
 
 .tdc-sidebar-reopen {
-  position: fixed !important;
-  bottom: 0;
+  //transition: none !important;
+  transition: left 0.4s ease-in-out 0.4s;
   left: 0;
-  top: auto !important;
 }
+
 
 .tdc-bullet {
   width: 43px;
@@ -503,12 +508,6 @@
     position: absolute;
     top: 12px;
     left: 12px;
-  }
-
-  a {
-    display: block;
-    width: 100%;
-    height: 100%;
   }
 }
 
@@ -773,7 +772,9 @@
 #td-tab-general,
 #td-tab-filter,
 #td-tab-ajax,
-#td-tab-extra {
+#td-tab-extra,
+#td-tab-exchange,
+#td-tab-weather {
 
   input[type=text] {
     box-shadow: none;
@@ -798,7 +799,13 @@
 
   .tdc-property-tdc_row_columns_modifier,
   .tdc-property-sort,
-  .tdc-property-ajax_pagination {
+  .tdc-property-ajax_pagination,
+  .tdc-property-w_units,
+  .tdc-property-e_rate_decimals,
+  .tdc-property-spot_id,
+  .tdc-property-playlist_auto_play,
+  .tdc-property-navigation,
+  .tdc-property-style {
     select {
       max-width: 60%;
       width: 120px;
@@ -866,18 +873,36 @@
 .tdc-property-td_ajax_filter_ids,
 .tdc-property-td_filter_default_txt,
 .tdc-property-el_id,
-.tdc-property-el_class {
+.tdc-property-el_class,
+.tdc-property-alias,
+.tdc-property-title,
+.tdc-widget-sidebar-dropdown,
+.tdc-property-custom_title,
+.tdc-property-e_base_currency,
+.tdc-property-e_rate_decimals,
+.tdc-property-w_units,
+.tdc-property-roles,
+.tdc-property-exclude,
+.tdc-property-playlist_title {
   margin-bottom: 13px;
 }
 
-.tdc-property-ajax_pagination {
-  margin-top: 9px;
-  margin-bottom: 19px;
+.tdc-property-custom_url,
+.tdc-property-w_location,
+.tdc-property-e_custom_rates,
+.tdc-property-content,
+.tdc-property-offset,
+.tdc-property-sort,
+.tdc-property-include,
+.tdc-property-playlist_yt,
+.tdc-property-playlist_v {
+  margin-bottom: 15px;
 }
 
+.tdc-property-ajax_pagination,
 .tdc-property-tdc_row_columns_modifier {
-  margin-bottom: 20px;
   margin-top: 9px;
+  margin-bottom: 20px;
 }
 
 .tdc-border-radius,
@@ -886,15 +911,20 @@
   margin-bottom: 19px;
 }
 
-.tdc-property-custom_url {
+.tdc-property-td_grid_style,
+.tdc-property-autoplay {
   margin-bottom: 14px;
 }
 
+.tdc-property-spot_id,
+.tdc-property-navigation {
+  margin-bottom: 19px;
+  margin-top: 6px;
+}
 
 .tdc-bg-color {
   margin-bottom: -2px;
 }
-
 
 .tdc-property-installed_post_types {
   margin-bottom: 23px;
@@ -911,11 +941,8 @@
   margin-bottom: 19px;
 }
 
-.tdc-property-custom_title {
-  margin-bottom: 13px;
-}
-
-.tdc-property-limit {
+.tdc-property-limit,
+.tdc-property-style {
   margin-bottom: 19px;
 }
 

@@ -51,15 +51,12 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 			<div class="tdc-add-element">
 				Add element
 				<span class="tdc-icon-add"></span>
-				<a href="#"></a>
 			</div>
 			<div class="tdc-save-page">
 				<span class="tdc-icon-save"></span>
-				<a href="#"></a>
 			</div>
 			<div class="tdc-close-page">
 				<span class="tdc-icon-close"></span>
-				<a href="#"></a>
 			</div>
 		</div>
 
@@ -95,11 +92,12 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		<div class="tdc-sidebar-bottom">
 			<div class="tdc-sidebar-close">
 				<span class="tdc-icon-sidebar-close"></span>
-				<a href="#"></a>
+			</div>
+			<div class="tdc-sidebar-open">
+				<span class="tdc-icon-sidebar-open"></span>
 			</div>
 			<div class="tdc-bullet">
 				<span class="tdc-icon-bullet"></span>
-				<a href="#"></a>
 			</div>
 			<div id="tdc-recycle">
 				<div class="tdc-delete-text">Drag here to <span>Delete</span></div>
@@ -117,7 +115,7 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		<div class="tdc-sidebar-modal tdc-sidebar-modal-elements">
 			<div class="tdc-sidebar-modal-search">
 			<input type=text placeholder=Search name=Search>
-			<a href="#" class="tdc-modal-close"></a>
+			<span class="tdc-modal-close"></span>
 			</div>
 			<div class="tdc-sidebar-modal-content">
 				<!-- sidebar elements list -->
