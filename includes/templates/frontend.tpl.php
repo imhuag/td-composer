@@ -114,7 +114,7 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		<!-- modal window -->
 		<div class="tdc-sidebar-modal tdc-sidebar-modal-elements">
 			<div class="tdc-sidebar-modal-search">
-			<input type=text placeholder=Search name=Search>
+				<input type="text" placeholder="Search" name="Search">
 			<span class="tdc-modal-close"></span>
 			</div>
 			<div class="tdc-sidebar-modal-content">

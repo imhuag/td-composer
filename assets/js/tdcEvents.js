@@ -35,12 +35,27 @@ var tdcEvents;
 
                 if ( true === tdcEvents._resizeCheckInterval ) {
 
+                    // Sidebar height
                     var $tdcSidebar = jQuery( '#tdc-sidebar' ),
                         $tdcLiveIframeWrapper = jQuery( '#tdc-live-iframe-wrapper' ),
                         newWidth = window.innerWidth;
 
                     $tdcSidebar.css( 'height', window.innerHeight );
 
+
+                    // Inspector height
+                    $tdcSidebar.find( '.tdc-inspector' ).css( 'height', window.innerHeight - 110 );
+
+
+                    // Modal height
+                    $tdcSidebar.find( '.tdc-sidebar-modal' ).css( 'height', window.innerHeight - 100 );
+
+
+                    // Modal content height
+                    $tdcSidebar.find( '.tdc-sidebar-modal-content' ).css( 'height', window.innerHeight - 150 );
+
+
+                    // Iframe
                     if ( $tdcLiveIframeWrapper.hasClass( 'tdc-live-iframe-wrapper-inline' ) ) {
                         newWidth -= $tdcSidebar.width();
                     }
