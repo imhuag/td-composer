@@ -12,7 +12,7 @@
   -webkit-box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
-  transition: left 0.4s ease;
+  transition: left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s;
 }
 .tdc-sidebar-hidden {
   left: -300px !important;
@@ -48,6 +48,11 @@
   padding-left: 14px;
   position: relative;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: all 0.2s ease;
 }
 .tdc-top-buttons .tdc-add-element .tdc-icon-add {
   position: absolute;
@@ -445,7 +450,7 @@
 .tdc-bullet .tdc-icon-bullet {
   width: 20px;
   height: 20px;
-  background: url('../images/sidebar/bullet.png');
+  background: url('../images/sidebar/bullet-empty.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 12px;
@@ -1086,12 +1091,15 @@ body.tdc #wpbody-content {
   width: 100%;
   margin-top: -32px !important;
   transform-origin: bottom right;
-  transition: left 0.4s ease;
+  transition: left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s;
 }
 .tdc-live-iframe-wrapper-inline {
   left: 300px !important;
   transition: left 0.4s ease;
   position: absolute !important;
+}
+.tdc-live-iframe-wrapper-inline .tdc-icon-bullet {
+  background: url('../images/sidebar/bullet.png');
 }
 #tdc-live-iframe {
   margin: 0 auto !important;
