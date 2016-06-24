@@ -40,10 +40,8 @@ var tdcInnerRowHandlerUI;
         // Handler element
         $elementInnerRow: undefined,
 
-        _$handlerWrapper: undefined,
-
         // Handler jquery object
-        _$handlerDrag: undefined,
+        _$handlerWrapper: undefined,
 
         // Initialization flag
         _isInitialized: false,
@@ -58,13 +56,18 @@ var tdcInnerRowHandlerUI;
                 return;
             }
 
+            var handleHtml =
+                '<div id="' + tdcInnerRowHandlerUI._handlerCssClass + '">' +
+                    '<div class="tdc-mask-arrow-vertical"></div>' +
+                    '<div class="tdc-mask-handler-drag">' + tdcInnerRowHandlerUI._handlerText + '</div>' +
+                    '<div class="tdc-mask-edit">' +
+                        '<div class="tdc-icon-edit"></div>' +
+                    '</div>' +
+                '</div>',
+
             // Create the handler jquery object and append it to the mask wrapper
-            var $handlerWrapper = jQuery( '<div id="' + tdcInnerRowHandlerUI._handlerCssClass + '"></div>'),
-                $handlerDrag = jQuery( '<div class="tdc-mask-arrow-vertical"></div><div class="tdc-mask-handler-drag">' + tdcInnerRowHandlerUI._handlerText + '</div><div class="tdc-mask-edit"><div class="tdc-icon-edit"></div></div>' );
+                $handlerWrapper = jQuery( );
 
-            $handlerWrapper.append( $handlerDrag );
-
-            tdcInnerRowHandlerUI._$handlerDrag = $handlerDrag;
             tdcInnerRowHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$handler.append( $handlerWrapper );
@@ -73,7 +76,7 @@ var tdcInnerRowHandlerUI;
 
             // Define the events the $_handlerDrag object will respond to
 
-            tdcInnerRowHandlerUI._$handlerDrag.mousedown( function( event ) {
+            tdcInnerRowHandlerUI._$handlerWrapper.mousedown( function( event ) {
 
                 // Consider only the left button
                 if ( 1 !== event.which ) {
