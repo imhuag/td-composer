@@ -655,7 +655,7 @@ var tdcSidebarPanel = {};
             var buffy = '';
             var colorPickerId = _.uniqueId();
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
-                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
+                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + '</div>';
                 buffy += '<div class="tdc-property">';
                     buffy += '<input ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' id="' + colorPickerId + '" name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '" type="text" value="' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '"/>';
                 buffy += '</div>';

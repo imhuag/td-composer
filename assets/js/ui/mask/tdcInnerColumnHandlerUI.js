@@ -39,10 +39,8 @@ var tdcInnerColumnHandlerUI;
         // Handler element
         $elementInnerColumn: undefined,
 
-        _$handlerWrapper: undefined,
-
         // Handler jquery object
-        _$handlerDrag: undefined,
+        _$handlerWrapper: undefined,
 
         // Initialization flag
         _isInitialized: false,
@@ -57,13 +55,18 @@ var tdcInnerColumnHandlerUI;
                 return;
             }
 
+            var handlerHtml =
+                '<div id="' + tdcInnerColumnHandlerUI._handlerCssClass + '">' +
+                    '<div class="tdc-mask-arrow-horizontal"></div>' +
+                    '<div class="tdc-mask-handler-drag">' + tdcInnerColumnHandlerUI._handlerText + '</div>' +
+                    '<div class="tdc-mask-edit">' +
+                        '<div class="tdc-icon-edit"></div>' +
+                    '</div>' +
+                '</div>',
+
             // Create the handler jquery object and append it to the mask wrapper
-            var $handlerWrapper = jQuery( '<div id="' + tdcInnerColumnHandlerUI._handlerCssClass + '"></div>'),
-                $handlerDrag = jQuery( '<div class="tdc-mask-arrow-horizontal"></div><div class="tdc-mask-handler-drag">' + tdcInnerColumnHandlerUI._handlerText + '</div><div class="tdc-mask-edit"><div class="tdc-icon-edit"></div></div>' );
+                $handlerWrapper = jQuery( handlerHtml );
 
-            $handlerWrapper.append( $handlerDrag );
-
-            tdcInnerColumnHandlerUI._$handlerDrag = $handlerDrag;
             tdcInnerColumnHandlerUI._$handlerWrapper = $handlerWrapper;
 
             tdcMaskUI.$handler.append( $handlerWrapper );
@@ -72,7 +75,7 @@ var tdcInnerColumnHandlerUI;
 
             // Define the events the $_handlerDrag object will respond to
 
-            tdcInnerColumnHandlerUI._$handlerDrag.mousedown( function( event ) {
+            tdcInnerColumnHandlerUI._$handlerWrapper.mousedown( function( event ) {
 
                 // Consider only the left button
                 if ( 1 !== event.which ) {

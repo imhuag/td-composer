@@ -100,7 +100,7 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 				<span class="tdc-icon-bullet"></span>
 			</div>
 			<div id="tdc-recycle">
-				<div class="tdc-delete-text">Drag here to <span>Delete</span></div>
+				<div class="tdc-delete-text"><span>Delete</span></div>
 			</div>
 		</div>
 
