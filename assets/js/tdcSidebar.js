@@ -41,6 +41,7 @@ var tdcSidebar;
         $tdcBullet: undefined,
         $sidebarClose: undefined,
         $sidebarOpen: undefined,
+        $sidebarSearch: undefined,
 
 
         init: function() {
@@ -67,6 +68,7 @@ var tdcSidebar;
             tdcSidebar.$tdcBullet = jQuery( '.tdc-bullet' );
             tdcSidebar.$sidebarClose = jQuery( '.tdc-sidebar-close' );
             tdcSidebar.$sidebarOpen = jQuery( '.tdc-sidebar-open' );
+            tdcSidebar.$sidebarSearch = jQuery( '.tdc-sidebar-modal-search > input' );
 
 
             tdcSidebar.$editRow.click(function() {
@@ -205,7 +207,26 @@ var tdcSidebar;
 
                 tdcEvents.doCheck();
             });
+
+            tdcSidebar.$sidebarSearch.keyup( function( event ) {
+                var $this = jQuery( this );
+
+                jQuery( '.tdc-sidebar-element' ).each( function( index, element) {
+                    var $element = jQuery( element );
+                    if ( -1 === $element.find( '.tdc-element-id').html().toLowerCase().indexOf( $this.val().trim().toLowerCase() ) ) {
+                        $element.hide();
+                    } else {
+                        $element.show();
+                    }
+                });
+            });
+
+
+
+            // @todo This must be tested! Other solution must be found!
             jQuery( 'body').css( 'overflow', 'hidden');
+
+
 
             tdcSidebar._sidebarModal();
             tdcSidebar._liveInspectorTabs();
