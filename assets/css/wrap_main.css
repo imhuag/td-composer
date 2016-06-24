@@ -24,7 +24,7 @@
 }
 .tdc-no-sidebar {
   left: 0 !important;
-  transition: all 0.4s ease;
+  transition: all 0.4s ease-in-out;
 }
 /*
   Top buttons
@@ -360,12 +360,16 @@
   border: 1px dashed #bbb;
   width: 258px;
   height: 90px;
-  z-index: 20;
-  display: none;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+#tdc-recycle.show {
+  opacity: 1;
 }
 #tdc-recycle.active {
   color: #fff;
   background-color: #e1624f;
+  border: none;
 }
 .tdc-delete-text {
   position: absolute;
@@ -418,13 +422,14 @@
   height: 20px;
   background: url('../images/sidebar/arrow_open.png');
   background-repeat: no-repeat;
+  background-color: #fff;
   position: absolute;
   top: 11px;
   left: 11px;
 }
 .tdc-sidebar-reopen {
-  left: 0;
   transition: left 0.4s ease-in-out 0.4s;
+  left: 0;
 }
 .tdc-bullet {
   width: 43px;
