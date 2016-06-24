@@ -222,9 +222,12 @@ var tdcOperationUI;
 
                 // If sidebar is inline, consider it at $helper position
                 var addLeft = 0;
-                if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline') ) {
+                if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) && ! tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-hidden' ) && ! jQuery( mouseEvent.target ).closest( '#tdc-sidebar' ).length ) {
                     addLeft = tdcSidebar.$sidebar.width();
                 }
+
+                //tdcDebug.log(mouseEvent.screenX + ' : ' + mouseEvent.screenY);
+                //tdcDebug.log(mouseEvent.clientX + ' : ' + mouseEvent.clientY);
 
                 $helper.css({
                     left: mouseEvent.clientX - 50 + addLeft,
@@ -245,8 +248,11 @@ var tdcOperationUI;
                 } else {
                     $helper.data( 'tdcElementType', '' );
                 }
+
+                jQuery( '#tdc-recycle' ).addClass( 'show' );
             } else {
                 tdcOperationUI.hideHelper();
+                jQuery( '#tdc-recycle' ).removeClass( 'show' );
             }
         },
 

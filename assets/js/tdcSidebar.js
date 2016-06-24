@@ -183,13 +183,14 @@ var tdcSidebar;
 
                 tdcSidebar.$sidebar.toggleClass( 'tdc-sidebar-hidden' );
 
-
                 if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) ) {
                     jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-live-iframe-wrapper-inline' );
                 }
 
                 tdcEvents.doCheck();
             });
+
+            jQuery( 'body').css( 'overflow', 'hidden');
 
 
             tdcSidebar._sidebarModal();
@@ -556,6 +557,15 @@ var tdcSidebar;
                         // Get the model of the row
                         tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentRow.data( 'model_id' ) );
                     }
+                } else {
+                    tdcSidebar._setCurrentRow( undefined );
+                    tdcSidebar._setCurrentColumn( undefined );
+                    tdcSidebar._setCurrentInnerRow( undefined );
+                    tdcSidebar._setCurrentInnerColumn( undefined );
+                    tdcSidebar._setCurrentElement( undefined );
+
+                    // Undefined current model
+                    tdcSidebar._currentModel = undefined;
                 }
 
             } else {
