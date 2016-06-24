@@ -66,7 +66,7 @@ var tdcInnerRowHandlerUI;
                 '</div>',
 
             // Create the handler jquery object and append it to the mask wrapper
-                $handlerWrapper = jQuery( );
+                $handlerWrapper = jQuery( handleHtml );
 
             tdcInnerRowHandlerUI._$handlerWrapper = $handlerWrapper;
 
