@@ -205,6 +205,7 @@ var tdcSidebar;
 
                 tdcEvents.doCheck();
             });
+            jQuery( 'body').css( 'overflow', 'hidden');
 
             tdcSidebar._sidebarModal();
             tdcSidebar._liveInspectorTabs();
@@ -570,6 +571,15 @@ var tdcSidebar;
                         // Get the model of the row
                         tdcSidebar._currentModel = tdcIFrameData.getModel( settings.$currentRow.data( 'model_id' ) );
                     }
+                } else {
+                    tdcSidebar._setCurrentRow( undefined );
+                    tdcSidebar._setCurrentColumn( undefined );
+                    tdcSidebar._setCurrentInnerRow( undefined );
+                    tdcSidebar._setCurrentInnerColumn( undefined );
+                    tdcSidebar._setCurrentElement( undefined );
+
+                    // Undefined current model
+                    tdcSidebar._currentModel = undefined;
                 }
 
             } else {

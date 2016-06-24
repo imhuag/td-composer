@@ -23,8 +23,6 @@ var tdcRecycleUI;
 
     tdcRecycleUI = {
 
-        _bufferContent: {},
-
         _activeClass: 'active',
 
         _isInitialized: false,
@@ -82,12 +80,12 @@ var tdcRecycleUI;
 
 
         _activate: function() {
-            tdcAdminWrapperUI.$recycle.parent().addClass( tdcRecycleUI._activeClass );
+            tdcAdminWrapperUI.$recycle.addClass( tdcRecycleUI._activeClass );
         },
 
 
         _deactivate: function() {
-            tdcAdminWrapperUI.$recycle.parent().removeClass( tdcRecycleUI._activeClass );
+            tdcAdminWrapperUI.$recycle.removeClass( tdcRecycleUI._activeClass );
         }
 
     };
