@@ -184,6 +184,8 @@
   height: 100%;
   margin-left: 20px;
   cursor: pointer;
+  box-sizing: border-box;
+  padding-bottom: 70px;
 }
 .tdc-sidebar-modal .tdc-sidebar-modal-search {
   position: relative;
@@ -223,13 +225,21 @@
 .tdc-modal-open {
   display: block;
 }
-.tdc-element {
-  height: 24px;
-  margin-bottom: 13px;
-  display: block;
+.tdc-sidebar-element {
+  height: 30px;
+  margin-bottom: 7px;
+  position: relative;
 }
-.tdc-element:hover {
+.tdc-sidebar-element:hover {
   opacity: 0.65;
+}
+.tdc-element-ico {
+  height: 24px;
+  width: 40px;
+  position: absolute;
+  left: 0;
+  top: 3px;
+  background-repeat: no-repeat;
 }
 .tdc-ico-vc_row,
 .tdc-ico-vc_row_inner,
@@ -289,17 +299,12 @@
 .tdc-ico-td_block_exchange,
 .tdc-ico-td_block_instagram,
 .tdc-ico-td_block_social_counter {
-  height: 24px;
-  width: 40px;
-  display: inline-block;
   background: url('../images/sidebar/big_grid1.png');
-  background-repeat: no-repeat;
 }
 .tdc-element-id {
-  margin-left: 56px;
-  position: relative;
-  top: 3px;
+  margin-left: 55px;
   font-size: 12px;
+  line-height: 30px;
   color: #000000;
 }
 /*
