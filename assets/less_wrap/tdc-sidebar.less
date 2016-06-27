@@ -9,7 +9,8 @@
   -webkit-box-shadow: 0 0 8px 2px rgba(0,0,0, 0.10);
   -moz-box-shadow: 0 0 8px 2px rgba(0,0,0, 0.10);
   box-shadow: 0 0 8px 2px rgba(0,0,0, 0.10);
-  transition: left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s;
+  transition: left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s, box-shadow 0.4s ease 0s;
+
 }
 
 .tdc-sidebar-hidden {
@@ -31,6 +32,33 @@
       left: 11px;
     }
   }
+
+  .tdc-top-buttons {
+    width: 301px;
+
+    .tdc-save-page {
+      right: 54px;
+    }
+
+    .tdc-close-page {
+      right: 11px;
+    }
+  }
+
+  .tdc-sidebar-bottom {
+    width: 301px;
+  }
+}
+
+.tdc-sidebar-hidden {
+  .tdc-top-buttons,
+  .tdc-sidebar-bottom {
+    width: 300px;
+  }
+
+  &#tdc-sidebar {
+    border-right: none;
+  }
 }
 
 .tdc-no-sidebar {
@@ -43,7 +71,7 @@
 */
 .tdc-top-buttons {
   height: 43px;
-  width: 100%;
+  width: 300px;
   background-color: #4eb2ec;
   position: absolute;
   top: 0;
@@ -399,7 +427,7 @@
   display: block;
   position: absolute;
   bottom: 0;
-  width: 100%;
+  width: 300px;
   background-color: #333;
   height: 43px;
   z-index: 50;
