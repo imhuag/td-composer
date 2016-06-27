@@ -186,8 +186,6 @@ var tdcSidebar;
                 } else {
                     jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
                 }
-
-                tdcEvents.doCheck();
             });
 
             tdcSidebar.$sidebarClose.click( function( event) {
@@ -206,10 +204,6 @@ var tdcSidebar;
                         jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
                     }
                 }
-
-
-
-                tdcEvents.doCheck();
             });
 
             tdcSidebar.$sidebarOpen.click( function( event) {
@@ -229,8 +223,6 @@ var tdcSidebar;
                         jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
                     }
                 }
-
-                tdcEvents.doCheck();
             });
 
             tdcSidebar.$sidebarSearch.keyup( function( event ) {

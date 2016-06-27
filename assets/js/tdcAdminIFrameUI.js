@@ -72,7 +72,7 @@ var tdcAdminIFrameUI;
                 postMetaVcJsStatus =  window.tdcPostSettings.postMetaVcJsStatus,
                 url = window.tdcPostSettings.postUrl;
 
-            if ( '1' === postMetaDirtyContent && 'true' === postMetaVcJsStatus) {
+            if ( '1' === postMetaDirtyContent || 'true' === postMetaVcJsStatus) {
                 new tdcNotice.notice( 'The current content page hasn\'t been created by TagDiv Composer!', false, false );
             }
 

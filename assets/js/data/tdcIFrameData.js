@@ -1439,6 +1439,9 @@ var tdcIFrameData,
                 return;
             }
 
+            // Mark the content as modified
+            tdcMain.setContentModified();
+
             var $draggedElement = tdcOperationUI.getDraggedElement(),
                 newPosition = $draggedElement.prevAll().length,
                 destinationModel,

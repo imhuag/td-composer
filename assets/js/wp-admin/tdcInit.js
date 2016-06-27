@@ -6,7 +6,6 @@
 /* global _:{} */
 
 /* global tdcShortcodeParser:{} */
-/* global tdcEvents:{} */
 
 var tdcInit = {};
 
@@ -135,7 +134,6 @@ var tdcInit = {};
     jQuery(window).ready(function(){
 
         tdcInit.init();
-        tdcEvents.init();
 
     });
 
