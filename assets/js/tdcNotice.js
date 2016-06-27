@@ -39,11 +39,11 @@ var tdcNotice;
 
             var that = this;
 
-            setTimeout(function() {
-
-                that.$element.remove();
-
-            }, 3000 );
+            //setTimeout(function() {
+            //
+            //    that.$element.remove();
+            //
+            //}, 3000 );
 
             // If we got an error, stop the execution
             if ( 'undefined' !== typeof isError && true === isError ) {
