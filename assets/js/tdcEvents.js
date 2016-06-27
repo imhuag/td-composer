@@ -31,7 +31,7 @@ var tdcEvents;
                 tdcEvents._resizeCheckInterval = true;
             });
 
-            setInterval(function() {
+            setInterval(function() { return;
 
                 if ( true === tdcEvents._resizeCheckInterval ) {
 
