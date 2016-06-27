@@ -44,6 +44,18 @@ var tdcNotice;
             //    that.$element.remove();
             //
             //}, 2000 );
+            var that = this;
+
+            //setTimeout(function() {
+            //
+            //    that.$element.remove();
+            //
+            //}, 2000 );
+
+            // If we got an error, stop the execution
+            if ( 'undefined' !== typeof isError && true === isError ) {
+                throw msg;
+            }
         },
 
         init: function() {

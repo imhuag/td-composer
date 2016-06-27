@@ -756,8 +756,9 @@ var tdcOperationUI;
 
                 if ( ! wasSidebarElementDragged && ! wasElementDragged && ! wasInnerColumnDragged && ! wasInnerRowDragged && ! wasTempInnerRowDragged && ! wasColumnDragged && ! wasRowDragged && ! wasTempRowDragged ) {
 
-                    // @todo This check should be removed - the content should have consistency
-                    alert( '_moveDraggedElement - Error: $draggedElement not valid!' );
+                    new tdcNotice.notice( '_moveDraggedElement Error: $draggedElement not valid!', true, false );
+
+                    //alert( '_moveDraggedElement Error: $draggedElement not valid!' );
                     return;
                 }
 

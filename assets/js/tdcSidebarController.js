@@ -2,10 +2,10 @@
  * Created by ra on 5/13/2016.
  */
 
+/* global tdcNotice:{} */
 
-/* global jQuery:false */
-
-/* global _:false */
+/* global jQuery:{} */
+/* global _:{} */
 
 
 var tdcSidebarController = {};
@@ -51,8 +51,8 @@ var tdcSidebarController = {};
                     return mappedShortCode.params[cnt];
                 }
             }
-
-            throw 'Map value not found for ' + tag + ' ' + paramName;
+            //throw 'Map value not found for ' + tag + ' ' + paramName;
+            new tdcNotice.notice( 'Map value not found for ' + tag + ' ' + paramName, true, false );
         },
 
 

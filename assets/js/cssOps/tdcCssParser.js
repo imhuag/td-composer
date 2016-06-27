@@ -2,6 +2,7 @@
  * Created by ra on 6/10/2016.
  */
 
+/* global tdcNotice:{} */
 
 /* global cssjs:{} */
 
@@ -89,7 +90,10 @@ var tdcCssParser = {};
         getPropertyValueClean:function (cssDirectiveName) {
 
             if ( tdcCssParser._parseRunned === false ) {
-                throw "Parse did not run";
+
+                //throw "Parse did not run";
+
+                new tdcNotice.notice( 'Parse did not run', true, false );
             }
 
 

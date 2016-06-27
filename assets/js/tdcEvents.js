@@ -52,7 +52,7 @@ var tdcEvents;
 
 
                     // Modal content height
-                    $tdcSidebar.find( '.tdc-sidebar-modal-content' ).css( 'height', window.innerHeight - 150 );
+                    $tdcSidebar.find( '.tdc-sidebar-modal-content' ).css( 'height', window.innerHeight - 170 );
 
 
                     // Iframe
