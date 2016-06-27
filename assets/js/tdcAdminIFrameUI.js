@@ -68,7 +68,13 @@ var tdcAdminIFrameUI;
 
         init: function() {
 
-            var url = window.tdcPostSettings.postUrl;
+            var postMetaDirtyContent  = window.tdcPostSettings.postMetaDirtyContent,
+                postMetaVcJsStatus =  window.tdcPostSettings.postMetaVcJsStatus,
+                url = window.tdcPostSettings.postUrl;
+
+            if ( '1' === postMetaDirtyContent && 'true' === postMetaVcJsStatus) {
+                new tdcNotice.notice( 'The current content page hasn\'t been created by TagDiv Composer!', false, false );
+            }
 
             if ( url.indexOf( '?' ) < 0 ) {
                 url += '?td_action=tdc_edit&post_id=' + window.tdcPostSettings.postId;

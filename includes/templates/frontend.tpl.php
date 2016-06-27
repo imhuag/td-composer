@@ -36,10 +36,15 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 ?>
 	<script type="text/javascript">
 
+		// Add 'td_composer' class to html element
+		window.document.documentElement.className += ' td_composer';
+
 		window.tdcPostSettings = {
 			postId: '<?php echo $post->ID; ?>',
 			postUrl: '<?php echo get_permalink($post->ID); ?>',
-			postContent: '<?php echo $postContent; ?>'
+			postContent: '<?php echo $postContent; ?>',
+			postMetaDirtyContent: '<?php echo get_post_meta( $post->ID, 'tdc_dirty_content', true ) ?>',
+			postMetaVcJsStatus: '<?php echo get_post_meta( $post->ID, '_wpb_vc_js_status', true ) ?>'
 		};
 
 	</script>
