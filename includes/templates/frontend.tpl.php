@@ -149,17 +149,17 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 					foreach ($mapped_shortcodes as $mapped_shortcode ) {
 
 						if ( 'vc_row' === $mapped_shortcode['base'] ) {
-							echo '<div class="tdc-sidebar-element tdc-row-temp tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
+							echo '<div class="tdc-sidebar-element tdc-row-temp" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-ico-' . $mapped_shortcode['base'] . '"></div><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
 							continue;
 						}
 
 						if ( 'vc_row_inner' === $mapped_shortcode['base'] ) {
-							echo '<div class="tdc-sidebar-element tdc-element-inner-row-temp tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
+							echo '<div class="tdc-sidebar-element tdc-element-inner-row-temp" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-ico-' . $mapped_shortcode['base'] . '"></div><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
 							continue;
 						}
 
 						if ( isset($mapped_shortcode['map_in_visual_composer']) && true === $mapped_shortcode['map_in_visual_composer'] ) {
-							echo '<div class="tdc-sidebar-element tdc-element tdc-ico-' . $mapped_shortcode['base'] . '" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
+							echo '<div class="tdc-sidebar-element tdc-element" data-shortcode-name="' . $mapped_shortcode['base'] . '"><div class="tdc-ico-' . $mapped_shortcode['base'] . '"></div><div class="tdc-element-id">' . $mapped_shortcode['name'] . '</div></div>';
 						}
 					}
 
