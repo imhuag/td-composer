@@ -3,6 +3,7 @@
  * Created by ra on 5/5/2016.
  */
 
+/* global tdcNotice:{} */
 
 /* global jQuery:{} */
 /* global Backbone:{} */
@@ -177,7 +178,8 @@ var tdcSidebarPanel = {};
                     rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
 
                 } else {
-                    throw 'Invalid row change detected: this.oldValue:' + this.oldValue + ' and curValue: ' + curValue;
+                    //throw 'Invalid row change detected: this.oldValue:' + this.oldValue + ' and curValue: ' + curValue;
+                    new tdcNotice.notice( 'Invalid row change detected: this.oldValue:' + this.oldValue + ' and curValue: ' + curValue, false, true );
                 }
 
                 this.oldValue = curValue;
@@ -828,7 +830,7 @@ var tdcSidebarPanel = {};
 
                 if ( 'success' === textStatus ) {
                     if ( _.isObject( data ) && _.has( data, 'errors' ) ) {
-                        alert( data.errors );
+                        new tdcNotice.notice( data.errors, true, false );
                     } else {
                         jQuery( '#' + textareaId ).html( data.parsed_content ).show();
                     }

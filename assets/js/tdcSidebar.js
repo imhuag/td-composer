@@ -2,6 +2,8 @@
  * Created by ra on 3/23/2016.
  */
 
+/* global tdcNotice:{} */
+
 /* global jQuery:{} */
 /* global Backbone:{} */
 /* global _:{} */
@@ -178,6 +180,12 @@ var tdcSidebar;
             tdcSidebar.$tdcBullet.click( function( event ) {
                 jQuery( '#tdc-sidebar' ).toggleClass( 'tdc-sidebar-inline' );
                 jQuery( '#tdc-live-iframe-wrapper' ).toggleClass( 'tdc-live-iframe-wrapper-inline' );
+
+                if ( jQuery( '#tdc-live-iframe-wrapper' ).hasClass( 'tdc-live-iframe-wrapper-inline' ) ) {
+                    jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-live-iframe-wrapper-full' );
+                } else {
+                    jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
+                }
 
                 tdcEvents.doCheck();
             });
@@ -384,8 +392,7 @@ var tdcSidebar;
 
                     if ( ! _.isUndefined( model ) ) {
 
-                        // @todo The message should be moved to the tdc message system
-                        alert( 'td_block_homepage_full_1 este deja in pagina' );
+                        new tdcNotice.notice( 'td_block_homepage_full_1 este deja in pagina', false, true );
                         return;
                     }
                 }

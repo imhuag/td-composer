@@ -36,7 +36,8 @@ var tdcAdminIFrameUI;
          */
         getIframeWindow: function() {
             if (_.isUndefined(tdcAdminIFrameUI._liveIframeWindowObject)) {
-                throw "tdcAdminIFrameUI._liveIframeWindowObject is undefined. AKA: The iFrame window object is undefined. The iFrame was probably not added to the page!"
+                //throw "tdcAdminIFrameUI._liveIframeWindowObject is undefined. AKA: The iFrame window object is undefined. The iFrame was probably not added to the page!"
+                new tdcNotice.notice( 'tdcAdminIFrameUI._liveIframeWindowObject is undefined. AKA: The iFrame window object is undefined. The iFrame was probably not added to the page!', true, false );
             }
             return tdcAdminIFrameUI._liveIframeWindowObject;
         },
