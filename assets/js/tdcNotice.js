@@ -37,13 +37,13 @@ var tdcNotice;
 
             tdcNotice.$_noticeWrapper.append( this.$element );
 
-            var that = this;
-
-            setTimeout(function() {
-
-                that.$element.remove();
-
-            }, 2000 );
+            //var that = this;
+            //
+            //setTimeout(function() {
+            //
+            //    that.$element.remove();
+            //
+            //}, 2000 );
         },
 
         init: function() {

@@ -81,14 +81,21 @@ body.tdc #wpbody-content {
   position: absolute;
   top: 0;
   left: 300px;
+  width: calc(~"100% - 300px");
+}
+
+.tdc-notice,
+.tdc-notice-error {
+  height: 43px;
+  color: white;
+  margin-bottom: 1px;
+  font-size: 14px;
+  line-height: 43px;
+  padding-left: 20px;
 }
 
 .tdc-notice {
-  width: 500px;
-  height: 50px;
-  background-color: green;
-  color: white;
-  margin-top: 2px;
+  background-color: #88be4e;
 }
 
 .tdc-notice-error {
@@ -96,15 +103,14 @@ body.tdc #wpbody-content {
 }
 
 .tdc-close-notice {
-  border: 1px solid black;
   width: 20px;
   height: 20px;
-  right: 0;
-  top: 0;
-  float: right;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  background: url('../images/sidebar/x.png');
+  background-repeat: no-repeat;
+  cursor: pointer;
 
-  &:after {
-    content: 'x';
-  }
 }
 

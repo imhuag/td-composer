@@ -134,7 +134,6 @@ html.tdc-active #wpadminbar {
   position: absolute;
   top: -2px;
   left: 19px;
-  cursor: pointer;
   font-family: 'Open Sans';
 }
 #tdc-mask-handler {
@@ -142,6 +141,7 @@ html.tdc-active #wpadminbar {
   top: 0;
   left: 0;
   z-index: 3;
+  cursor: pointer;
 }
 .td_block_homepage_full_1 {
   height: 50px;
