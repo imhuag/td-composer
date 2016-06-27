@@ -223,6 +223,14 @@
 .tdc-modal-open {
   display: block;
 }
+.tdc-element {
+  height: 24px;
+  margin-bottom: 13px;
+  display: block;
+}
+.tdc-element:hover {
+  opacity: 0.65;
+}
 .tdc-ico-vc_row,
 .tdc-ico-vc_row_inner,
 .tdc-ico-rev_slider,
@@ -282,69 +290,10 @@
 .tdc-ico-td_block_instagram,
 .tdc-ico-td_block_social_counter {
   height: 24px;
+  width: 40px;
+  display: inline-block;
   background: url('../images/sidebar/big_grid1.png');
   background-repeat: no-repeat;
-  margin-bottom: 13px;
-}
-.tdc-ico-vc_row:hover,
-.tdc-ico-vc_row_inner:hover,
-.tdc-ico-rev_slider:hover,
-.tdc-ico-vc_column_text:hover,
-.tdc-ico-vc_raw_html:hover,
-.tdc-ico-vc_empty_space:hover,
-.tdc-ico-vc_widget_sidebar:hover,
-.tdc-ico-td_block_1:hover,
-.tdc-ico-td_block_2:hover,
-.tdc-ico-td_block_3:hover,
-.tdc-ico-td_block_4:hover,
-.tdc-ico-td_block_5:hover,
-.tdc-ico-td_block_6:hover,
-.tdc-ico-td_block_7:hover,
-.tdc-ico-td_block_8:hover,
-.tdc-ico-td_block_9:hover,
-.tdc-ico-td_block_10:hover,
-.tdc-ico-td_block_11:hover,
-.tdc-ico-td_block_12:hover,
-.tdc-ico-td_block_13:hover,
-.tdc-ico-td_block_14:hover,
-.tdc-ico-td_block_15:hover,
-.tdc-ico-td_block_16:hover,
-.tdc-ico-td_block_17:hover,
-.tdc-ico-td_block_18:hover,
-.tdc-ico-td_block_19:hover,
-.tdc-ico-td_block_20:hover,
-.tdc-ico-td_block_21:hover,
-.tdc-ico-td_block_22:hover,
-.tdc-ico-td_block_23:hover,
-.tdc-ico-td_block_24:hover,
-.tdc-ico-td_block_25:hover,
-.tdc-ico-td_block_big_grid_1:hover,
-.tdc-ico-td_block_big_grid_2:hover,
-.tdc-ico-td_block_big_grid_3:hover,
-.tdc-ico-td_block_big_grid_4:hover,
-.tdc-ico-td_block_big_grid_5:hover,
-.tdc-ico-td_block_big_grid_6:hover,
-.tdc-ico-td_block_big_grid_7:hover,
-.tdc-ico-td_block_big_grid_8:hover,
-.tdc-ico-td_block_big_grid_9:hover,
-.tdc-ico-td_block_big_grid_10:hover,
-.tdc-ico-td_block_big_grid_11:hover,
-.tdc-ico-td_block_big_grid_12:hover,
-.tdc-ico-td_block_big_grid_slide:hover,
-.tdc-ico-td_block_trending_now:hover,
-.tdc-ico-td_block_video_youtube:hover,
-.tdc-ico-td_block_video_vimeo:hover,
-.tdc-ico-td_block_ad_box:hover,
-.tdc-ico-td_block_authors:hover,
-.tdc-ico-td_block_homepage_full_1:hover,
-.tdc-ico-td_block_popular_categories:hover,
-.tdc-ico-td_block_slide:hover,
-.tdc-ico-td_block_text_with_title:hover,
-.tdc-ico-td_block_weather:hover,
-.tdc-ico-td_block_exchange:hover,
-.tdc-ico-td_block_instagram:hover,
-.tdc-ico-td_block_social_counter:hover {
-  opacity: 0.65;
 }
 .tdc-element-id {
   margin-left: 56px;
