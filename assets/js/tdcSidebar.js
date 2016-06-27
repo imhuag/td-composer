@@ -183,8 +183,10 @@ var tdcSidebar;
 
                 if ( jQuery( '#tdc-live-iframe-wrapper' ).hasClass( 'tdc-live-iframe-wrapper-inline' ) ) {
                     jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-live-iframe-wrapper-full' );
+                    window.localStorage.setItem( 'tdc-live-iframe-wrapper-inline', 1 );
                 } else {
                     jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
+                    window.localStorage.setItem( 'tdc-live-iframe-wrapper-inline', 0 );
                 }
             });
 
@@ -204,6 +206,8 @@ var tdcSidebar;
                         jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
                     }
                 }
+
+                window.localStorage.setItem( 'tdc_sidebar_hidden', 1 );
             });
 
             tdcSidebar.$sidebarOpen.click( function( event) {
@@ -223,6 +227,8 @@ var tdcSidebar;
                         jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
                     }
                 }
+
+                window.localStorage.setItem( 'tdc_sidebar_hidden', 0 );
             });
 
             tdcSidebar.$sidebarSearch.keyup( function( event ) {
