@@ -362,6 +362,7 @@ var tdcSidebar;
          */
         _closeModal: function() {
             jQuery( '.tdc-sidebar-modal-elements' ).removeClass( 'tdc-modal-open' );
+            jQuery( '.tdc-add-element' ).removeClass( 'tdc-active-element' );
         },
 
 
