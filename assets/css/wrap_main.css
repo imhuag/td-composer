@@ -1146,8 +1146,12 @@ body.tdc #wpbody-content {
 .tdc-notice-wrapper {
   position: absolute;
   top: 0;
-  left: 300px;
+  left: 0;
+  width: 100%;
+}
+.tdc-live-iframe-wrapper-full .tdc-notice-wrapper {
   width: calc(100% - 300px);
+  left: 300px;
 }
 .tdc-notice,
 .tdc-notice-error {
@@ -1157,6 +1161,7 @@ body.tdc #wpbody-content {
   font-size: 14px;
   line-height: 43px;
   padding-left: 20px;
+  position: relative;
 }
 .tdc-notice {
   background-color: #88be4e;

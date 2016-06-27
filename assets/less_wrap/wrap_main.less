@@ -80,6 +80,11 @@ body.tdc #wpbody-content {
 .tdc-notice-wrapper {
   position: absolute;
   top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.tdc-live-iframe-wrapper-full .tdc-notice-wrapper {
   left: 300px;
   width: calc(~"100% - 300px");
 }
@@ -92,6 +97,7 @@ body.tdc #wpbody-content {
   font-size: 14px;
   line-height: 43px;
   padding-left: 20px;
+  position: relative;
 }
 
 .tdc-notice {
@@ -111,6 +117,5 @@ body.tdc #wpbody-content {
   background: url('../images/sidebar/x.png');
   background-repeat: no-repeat;
   cursor: pointer;
-
 }
 
