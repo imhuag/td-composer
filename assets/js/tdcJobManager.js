@@ -66,6 +66,9 @@ var tdcJobManager = {};
          */
         addJob: function (job) {
 
+            // Mark the content as modified
+            tdcMain.setContentModified();
+
             tdcDebug.group('%c tdcJobManager.addJob', 'background-color:#2489c2; color:white');
             //console.log(job);
 

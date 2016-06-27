@@ -12,12 +12,34 @@
 var tdcMain = {};
 
 (function() {
+
     'use strict';
+
     tdcMain = {
+
+        // Set to true when the composer has done changes
+        _contentModified: false,
+
 
         init: function() {
             // init the iframe, from there on we start
             tdcAdminIFrameUI.init();
+
+        },
+
+        /**
+         *
+         * @returns {boolean|*}
+         */
+        getContentModified: function() {
+            return tdcMain._contentModified;
+        },
+
+        /**
+         *
+         */
+        setContentModified: function() {
+            tdcMain._contentModified = true;
         }
 
     };

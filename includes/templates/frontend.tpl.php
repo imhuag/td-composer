@@ -39,6 +39,21 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		// Add 'td_composer' class to html element
 		window.document.documentElement.className += ' td_composer';
 
+		window.onbeforeunload = function ( event) {
+			if ( ! tdcMain.getContentModified() ) {
+				return;
+			}
+			return 'Dialog text here';
+//			if ( ! tdcMain.getContentModified() ) {
+//
+//				alert(111);
+//				return false;
+//			}
+//			var dialogText = 'Dialog text here';
+//			event.returnValue = dialogText;
+//			return dialogText;
+		}
+
 		window.tdcPostSettings = {
 			postId: '<?php echo $post->ID; ?>',
 			postUrl: '<?php echo get_permalink($post->ID); ?>',

@@ -196,6 +196,9 @@ class tdc_ajax {
 			} else {
 				update_post_meta($post_id, 'tdc_dirty_content', 0);
 				update_post_meta($post_id, 'tdc_content', $post_content);
+
+				// Reset the vc status
+				update_post_meta($post_id, '_wpb_vc_js_status', false);
 			}
 		}
 		die(json_encode($parameters));
