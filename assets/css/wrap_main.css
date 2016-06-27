@@ -1148,10 +1148,14 @@ body.tdc #wpbody-content {
   top: 0;
   left: 0;
   width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* 2 */
+  box-sizing: border-box;
+  transition: all 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s;
 }
 .tdc-live-iframe-wrapper-full .tdc-notice-wrapper {
-  width: calc(100% - 300px);
-  left: 300px;
+  padding-left: 300px;
 }
 .tdc-notice,
 .tdc-notice-error {
