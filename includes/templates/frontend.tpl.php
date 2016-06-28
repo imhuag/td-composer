@@ -137,7 +137,7 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		<div class="tdc-sidebar-modal tdc-sidebar-modal-elements">
 			<div class="tdc-sidebar-modal-search">
 				<input type="text" placeholder="Search" name="Search">
-			<span class="tdc-modal-close"></span>
+				<span class="tdc-modal-magnifier"></span>
 			</div>
 			<div class="tdc-sidebar-modal-content">
 				<!-- sidebar elements list -->

@@ -168,7 +168,13 @@
   Modal window
 */
 .tdc-sidebar-modal {
-  display: none;
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0.2s linear, opacity 0.2s linear;
+  -moz-transition: visibility 0.2s linear, opacity 0.2s linear;
+  -o-transition: visibility 0.2s linear, opacity 0.2s linear;
+  transition: visibility 0.2s linear, opacity 0.2s linear;
   background-color: #fff;
   position: absolute;
   left: 0;
@@ -182,10 +188,9 @@
   overflow-y: scroll;
   width: 317px;
   height: 100%;
-  margin-left: 20px;
-  cursor: pointer;
   box-sizing: border-box;
-  padding-bottom: 70px;
+  padding-left: 20px;
+  cursor: pointer;
 }
 .tdc-sidebar-modal .tdc-sidebar-modal-search {
   position: relative;
@@ -206,7 +211,7 @@
   width: 220px;
   font-size: 12px;
 }
-.tdc-sidebar-modal .tdc-modal-close {
+.tdc-sidebar-modal .tdc-modal-magnifier {
   position: absolute;
   right: 0;
   top: 2px;
@@ -223,7 +228,8 @@
   background: url('../images/sidebar/big_grid1.png');
 }
 .tdc-modal-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 .tdc-sidebar-element {
   height: 30px;
@@ -240,6 +246,10 @@
   left: 0;
   top: 3px;
   background-repeat: no-repeat;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .tdc-ico-vc_row,
 .tdc-ico-vc_row_inner,
@@ -312,7 +322,7 @@
 */
 .tdc-breadcrumbs {
   clear: left;
-  padding: 7px 12px 0 12px;
+  padding: 0 12px;
   background-color: #FFFFFF;
   min-height: 20px;
 }
@@ -331,6 +341,7 @@
   background: url('../images/sidebar/breadcrumbs-small-arrow.png');
   position: relative;
   top: 2px;
+  left: 2px;
 }
 .tdc-current-element-head {
   font-size: 14px;
@@ -343,12 +354,15 @@
 */
 .tdc-inspector-wrap {
   overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 53px 0;
 }
 .tdc-inspector {
   background-color: #fff;
   overflow-y: scroll;
   width: 317px;
-  margin-top: 56px;
+  height: 100%;
 }
 .tdc-tabs {
   padding: 0 12px;
