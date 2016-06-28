@@ -177,18 +177,42 @@ var tdcSidebar;
                 }
             });
 
+
+            var localStorageSidebarHidden = window.localStorage.getItem( 'tdc_sidebar_hidden' );
+            var localStorageLiveIframeWrapperInline = window.localStorage.getItem( 'tdc_live_iframe_wrapper_inline' );
+
+            if ( '1' === localStorageSidebarHidden ) {
+                tdcSidebar.$sidebar.addClass( 'tdc-sidebar-hidden' );
+                tdcSidebar.$sidebarOpen.addClass( 'tdc-sidebar-reopen' );
+            }
+
+            if ( '1' === localStorageLiveIframeWrapperInline ) {
+                jQuery( '#tdc-sidebar' ).addClass( 'tdc-sidebar-inline' );
+                jQuery( '#tdc-live-iframe-wrapper' ).addClass( 'tdc-live-iframe-wrapper-inline' );
+                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-live-iframe-wrapper-full' );
+
+                if ( '1' === localStorageSidebarHidden ) {
+                    jQuery( '#tdc-live-iframe-wrapper' ).removeClass( 'tdc-live-iframe-wrapper-inline' );
+                }
+            }
+
+
+
             tdcSidebar.$tdcBullet.click( function( event ) {
                 jQuery( '#tdc-sidebar' ).toggleClass( 'tdc-sidebar-inline' );
                 jQuery( '#tdc-live-iframe-wrapper' ).toggleClass( 'tdc-live-iframe-wrapper-inline' );
 
                 if ( jQuery( '#tdc-live-iframe-wrapper' ).hasClass( 'tdc-live-iframe-wrapper-inline' ) ) {
                     jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-live-iframe-wrapper-full' );
-                    window.localStorage.setItem( 'tdc-live-iframe-wrapper-inline', 1 );
+                    window.localStorage.setItem( 'tdc_live_iframe_wrapper_inline', 1 );
                 } else {
                     jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
-                    window.localStorage.setItem( 'tdc-live-iframe-wrapper-inline', 0 );
+                    window.localStorage.setItem( 'tdc_live_iframe_wrapper_inline', 0 );
                 }
             });
+
+
+
 
             tdcSidebar.$sidebarClose.click( function( event) {
 
