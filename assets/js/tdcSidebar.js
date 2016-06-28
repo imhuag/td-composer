@@ -172,7 +172,15 @@ var tdcSidebar;
             });
 
             tdcSidebar.$closePage.click( function( event ) {
-                if ( true === window.confirm( 'Are you sure you want to close? The content is unsaved!' ) ) {
+                if ( tdcMain.getContentModified() ) {
+                    if ( true === window.confirm( 'The content is unsaved! Are you sure you want to close?' ) ) {
+                        window.location = window.tdcAdminSettings.editPostUrl;
+                    } else {
+                       return;
+                    }
+                }
+
+                if ( true === window.confirm( 'Are you sure you want to close?' ) ) {
                     window.location = window.tdcAdminSettings.editPostUrl;
                 }
             });
@@ -266,6 +274,35 @@ var tdcSidebar;
                         $element.show();
                     }
                 });
+            });
+
+
+
+            tdcSidebar.$inspector.on( 'click', '.tdc-responsive-desktop', function() {
+                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-landscape' );
+                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-portrait' );
+                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-phone' );
+            });
+
+            tdcSidebar.$inspector.on( 'click', '.tdc-responsive-tablet-landscape', function() {
+                jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-responsive-tablet-landscape' );
+
+                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-phone' );
+                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-portrait' );
+            });
+
+            tdcSidebar.$inspector.on( 'click', '.tdc-responsive-tablet-portrait', function() {
+                jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-responsive-tablet-portrait' );
+
+                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-phone' );
+                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-landscape' );
+            });
+
+            tdcSidebar.$inspector.on( 'click', '.tdc-responsive-phone', function() {
+                jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-responsive-phone' );
+
+                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-landscape' );
+                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-portrait' );
             });
 
 

@@ -222,9 +222,13 @@ var tdcOperationUI;
 
                 // If sidebar is inline, consider it at $helper position
                 var addLeft = 0;
-                if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) && ! tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-hidden' ) && ! jQuery( mouseEvent.target ).closest( '#tdc-sidebar' ).length ) {
+                if ( ! jQuery( mouseEvent.target ).closest( '#tdc-sidebar' ).length && tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) && ! tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-hidden' ) ) {
                     addLeft = tdcSidebar.$sidebar.width();
                 }
+
+                //if ( mouseEvent.target.ownerDocument === tdcLiveIframeWrapper.contentWindow.document && jQuery( tdcLiveIframeWrapper.parentElement).hasClass( 'tdc-responsive-tablet-landscape' ) ) {
+                //    addLeft = parseInt( jQuery( tdcLiveIframeWrapper.parentElement).css( 'margin-left').replace( 'px', '') );
+                //}
 
                 //tdcDebug.log(mouseEvent.screenX + ' : ' + mouseEvent.screenY);
                 //tdcDebug.log(mouseEvent.clientX + ' : ' + mouseEvent.clientY);

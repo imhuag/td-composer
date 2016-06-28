@@ -40,8 +40,14 @@ var tdcMain = {};
          */
         setContentModified: function() {
             tdcMain._contentModified = true;
-        }
+        },
 
+        /**
+         *
+         */
+        resetContentModified: function() {
+            tdcMain._contentModified = false;
+        }
     };
     tdcMain.init();
 })();

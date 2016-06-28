@@ -45,9 +45,7 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 			}
 			return 'Dialog text here';
 //			if ( ! tdcMain.getContentModified() ) {
-//
-//				alert(111);
-//				return false;
+//				return;
 //			}
 //			var dialogText = 'Dialog text here';
 //			event.returnValue = dialogText;

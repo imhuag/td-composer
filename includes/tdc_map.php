@@ -203,7 +203,7 @@ tdc_mapper::map(
 				"holder" => "div",
 				"class" => "",
 				"heading" => 'Text',
-				"value" => "",
+				"value" => __('Html code here! Replace this with any non empty html code and that\'s it.', 'td_composer' ),
 				"description" => 'Enter your content.'
 			),
 			array(
@@ -240,7 +240,7 @@ tdc_mapper::map(
 				"holder" => "div",
 				"class" => "",
 				"heading" => 'Text',
-				"value" => "",
+				"value" => base64_encode(__('Html code here! Replace this with any non empty raw html code and that\'s it.', 'td_composer' ) ),
 				"description" => 'Enter your content.'
 			),
 			array(
