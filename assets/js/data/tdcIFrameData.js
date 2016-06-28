@@ -1910,7 +1910,7 @@ var tdcIFrameData,
                                         switch ( widthCollection ) {
                                             case '11':
                                                 // Keep the collection width
-                                                newWidthCollection = '11';
+                                                newWidthCollection = '12_12';
                                                 break;
 
                                             case '23_13':
@@ -1938,6 +1938,8 @@ var tdcIFrameData,
                                         columns = 2;
                                         break;
                                 }
+
+                                //tdcDebug.log( widthDestination + ' : ' +  widthCollection  + ' : ' + newWidthCollection );
 
                                 if ( widthCollection !== newWidthCollection ) {
                                     tdcIFrameData.changeInnerRowModel( elementModel, widthCollection, newWidthCollection );

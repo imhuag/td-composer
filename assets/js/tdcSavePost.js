@@ -65,6 +65,9 @@ var tdcSavePost;
                         } else {
                             new tdcNotice.notice( textStatus, false, true );
                         }
+
+                        // Reset the flag that inform the content has been modified
+                        tdcMain.resetContentModified();
                     }
 
                 }).fail(function( jqXHR, textStatus, errorThrown ) {

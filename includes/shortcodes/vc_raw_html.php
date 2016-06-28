@@ -13,10 +13,14 @@ class vc_raw_html extends tdc_composer_block {
 
 		$atts = shortcode_atts(
 			array(
-				'content' => '',
+				'content' => base64_encode( __('Html code here! Replace this with any non empty raw html code and that\'s it.', 'td_composer' ) ),
 				'el_class' => '',
 				'css_editor' => ''
 			), $atts, 'vc_raw_html' );
+
+		if ( is_null( $content ) || empty( $content ) ) {
+			$content = $atts[ 'content' ];
+		}
 
 		$content = rawurldecode( base64_decode( strip_tags( $content ) ) );
 
