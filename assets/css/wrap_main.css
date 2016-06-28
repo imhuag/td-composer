@@ -40,6 +40,8 @@
   position: absolute !important;
 }
 .tdc-sidebar-inline#tdc-sidebar {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
   box-shadow: none;
 }
 .tdc-sidebar-inline#tdc-sidebar:before {
@@ -190,6 +192,8 @@
   overflow-y: scroll;
   width: 317px;
   height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding-left: 20px;
   cursor: pointer;
@@ -202,11 +206,12 @@
 }
 .tdc-sidebar-modal .tdc-sidebar-modal-search input[type=text] {
   border: none;
-  -webkit-box-shadow: none;
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
   box-shadow: none;
   background-color: #fff;
   color: #888;
@@ -358,6 +363,8 @@
 .tdc-inspector-wrap {
   overflow: hidden;
   height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 53px 0;
 }
@@ -398,8 +405,8 @@
   background-color: #fff;
 }
 .tdc-tab-content-wrap {
-  -webkit-box-shadow: -5px 0 6px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: -5px 0 6px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
   padding: 18px 13px 15px 14px;
   background-color: #fff;
@@ -420,6 +427,45 @@
 }
 .tdc-tab-content-wrap .tdc-tab-content-visible {
   display: block;
+}
+/*
+placeholder when sidebar is empty
+*/
+.tdc-empty-sidebar {
+  width: 100%;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  font-size: 12px;
+  color: #000000;
+}
+.tdc-empty-sidebar .tdc-builder-logo {
+  height: 70px;
+  width: 70px;
+  background: url('../images/sidebar/logo.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+.tdc-empty-sidebar .tdc-start-tips {
+  padding-top: 110px;
+}
+.tdc-empty-sidebar .tdc-start-tips span {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+.tdc-empty-sidebar .tdc-documentation {
+  padding-top: 22px;
+  line-height: 20px;
+  padding-bottom: 20px;
+}
+.tdc-empty-sidebar .tdc-documentation a {
+  text-decoration: none;
 }
 /*
   sidebar bottom
@@ -520,8 +566,8 @@
   background-color: #fff;
   cursor: pointer;
   z-index: 52;
-  -webkit-box-shadow: -5px 0 6px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: -5px 0 6px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
 }
 .tdc-sidebar-open .tdc-icon-sidebar-open {
@@ -705,9 +751,9 @@
   position: relative;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .wp-color-result {
-  box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
+  box-shadow: none;
   height: 25px;
   width: 25px;
   padding: 0;
@@ -783,9 +829,9 @@
 #td-tab-extra input[type=text],
 #td-tab-exchange input[type=text],
 #td-tab-weather input[type=text] {
-  box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
+  box-shadow: none;
   max-width: 99.5%;
   width: 99.5%;
   font-size: 12px;
@@ -797,9 +843,9 @@
 #td-tab-extra select,
 #td-tab-exchange select,
 #td-tab-weather select {
-  box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
+  box-shadow: none;
   max-width: 99.5%;
   width: 99.5%;
   height: 27px;
@@ -869,16 +915,16 @@
 }
 #td-tab-css input[type=text],
 #td-tab-design-options input[type=text] {
-  box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
+  box-shadow: none;
   z-index: 2;
 }
 #td-tab-css select,
 #td-tab-design-options select {
-  box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
+  box-shadow: none;
   max-width: 60%;
   width: 120px;
   font-size: 12px;
@@ -1207,6 +1253,8 @@ body.tdc #wpbody-content {
   -moz-transition: padding 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s;
   -o-transition: padding 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s;
   transition: padding 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .tdc-live-iframe-wrapper-inline {
@@ -1244,8 +1292,8 @@ body.tdc #wpbody-content {
   top: 0;
   left: 0;
   width: 100%;
-  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   -webkit-transition: all 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s;
   -moz-transition: all 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s;

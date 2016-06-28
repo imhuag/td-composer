@@ -7,9 +7,7 @@
   height: 100%;
   background-color: #fff;
   z-index: 1;
-  -webkit-box-shadow: 0 0 8px 2px rgba(0,0,0, 0.10);
-  -moz-box-shadow: 0 0 8px 2px rgba(0,0,0, 0.10);
-  box-shadow: 0 0 8px 2px rgba(0,0,0, 0.10);
+  .box-shadow(0 0 8px 2px rgba(0,0,0, 0.10));
   .transition(left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s, box-shadow 0.4s ease 0s);
 
   &:before {
@@ -35,7 +33,7 @@
   position: absolute !important;
 
   &#tdc-sidebar {
-    box-shadow: none;
+    .box-shadow(none);
 
     &:before {
       opacity: 1;
@@ -199,7 +197,7 @@
     overflow-y: scroll;
     width: 317px;
     height: 100%;
-    box-sizing: border-box;
+    .box-sizing(border-box);
     padding-left: 20px;
     cursor: pointer;
   }
@@ -213,9 +211,8 @@
 
     input[type=text] {
       border: none;
-      -webkit-box-shadow: none;
       .transition(none);
-      box-shadow: none;
+      .box-shadow(none);
       background-color: #fff;
       color: #888;
       outline: 0;
@@ -383,7 +380,7 @@
 .tdc-inspector-wrap {
   overflow: hidden;
   height: 100%;
-  box-sizing: border-box;
+  .box-sizing(border-box);
   padding: 53px 0;
 }
 
@@ -408,9 +405,7 @@
   }
 
   .tdc-tab-active {
-    -webkit-box-shadow: 0 0 6px 2px rgba(0,0,0, 0.1);
-    -moz-box-shadow: 0 0 6px 2px rgba(0,0,0, 0.1);
-    box-shadow: 0 0 6px 2px rgba(0,0,0, 0.1);
+    .box-shadow(0 0 6px 2px rgba(0,0,0, 0.1));
     background-color: #fff;
     position: relative;
     z-index: 1;
@@ -429,9 +424,7 @@
 }
 
 .tdc-tab-content-wrap {
-  -webkit-box-shadow: -5px 0 6px 2px rgba(0,0,0, 0.1);
-  -moz-box-shadow: -5px 0 6px 2px rgba(0,0,0, 0.1);
-  box-shadow: 0 0 6px 2px rgba(0,0,0, 0.1);
+  .box-shadow(0 0 6px 2px rgba(0,0,0, 0.1));
   padding: 18px 13px 15px 14px;
   background-color: #fff;
   position: relative;
@@ -453,6 +446,51 @@
 
   .tdc-tab-content-visible {
     display:block;
+  }
+}
+
+/*
+placeholder when sidebar is empty
+*/
+.tdc-empty-sidebar {
+  width: 100%;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  font-size: 12px;
+  color: @tdc_font_color;
+
+  .tdc-builder-logo {
+    height: 70px;
+    width: 70px;
+    background: url('../images/sidebar/logo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+
+  .tdc-start-tips {
+    padding-top: 110px;
+
+    span {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+  }
+
+  .tdc-documentation {
+    padding-top: 22px;
+    line-height: 20px;
+    padding-bottom: 20px;
+
+    a {
+      text-decoration: none;
+    }
   }
 }
 
@@ -572,9 +610,7 @@
   background-color: #fff;
   cursor: pointer;
   z-index: 52;
-  -webkit-box-shadow: -5px 0 6px 2px rgba(0,0,0, 0.1);
-  -moz-box-shadow: -5px 0 6px 2px rgba(0,0,0, 0.1);
-  box-shadow: 0 0 6px 2px rgba(0,0,0, 0.1);
+  .box-shadow(0 0 6px 2px rgba(0,0,0, 0.1));
 
   //&:hover {
   //  background-color: #000;
@@ -789,9 +825,7 @@
   .tdc-property .wp-picker-container {
 
     .wp-color-result {
-      box-shadow: none;
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
+      .box-shadow(none);
       height: 25px;
       width: 25px;
       padding: 0;
@@ -886,9 +920,7 @@
 #td-tab-weather {
 
   input[type=text] {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
+    .box-shadow(none);
     max-width: 99.5%;
     width: 99.5%;
     font-size: 12px;
@@ -896,9 +928,7 @@
   }
 
   select {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
+    .box-shadow(none);
     max-width: 99.5%;
     width: 99.5%;
     height: 27px;
@@ -929,16 +959,12 @@
 #td-tab-css, #td-tab-design-options {
 
   input[type=text] {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
+    .box-shadow(none);
     z-index: 2;
   }
 
   select {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
+    .box-shadow(none);
     max-width: 60%;
     width: 120px;
     font-size: 12px;
