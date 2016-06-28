@@ -264,6 +264,8 @@ var tdcSidebarPanel = {};
             // step 0 - delete the old panel. HTML + items
             tdcSidebarPanel._deletePanel();
 
+            jQuery('.tdc-empty-sidebar').hide();
+
             // Set the currentBoundModel
             tdcSidebarPanel._currentBoundModel = model;
 
@@ -554,6 +556,8 @@ var tdcSidebarPanel = {};
             jQuery('.tdc-breadcrumbs').hide();
             jQuery('.tdc-inspector .tdc-current-element-head').empty();
             jQuery('.tdc-inspector .tdc-tabs-wrapper').empty();
+
+            jQuery('.tdc-empty-sidebar').show();
         },
 
 
