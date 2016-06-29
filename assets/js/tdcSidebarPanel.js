@@ -476,6 +476,30 @@ var tdcSidebarPanel = {};
 
             })();
 
+
+            /**
+             * Tooltips
+             */
+            (function() {
+
+                jQuery( '.td-tooltip').each(function( index ) {
+
+                    var position = jQuery(this).data('position');
+                    var contentAsHTML = Boolean(jQuery(this).data('content-as-html'));
+
+                    jQuery(this).tooltipster({
+                        contentAsHTML: contentAsHTML,
+                        position: position,
+                        offsetX:5,
+                        offsetY:5,
+                        maxWidth:500,
+                        interactive:true,
+                        //autoClose:false
+                    });
+                });
+
+            })();
+
         },
 
 
@@ -661,7 +685,12 @@ var tdcSidebarPanel = {};
             var buffy = '';
             var colorPickerId = _.uniqueId();
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
-                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + '</div>';
+                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
+
+                if ( _.has( mappedParameter, 'description' ) ) {
+                    buffy += '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + mappedParameter.description + '">?</a>';
+                }
+
                 buffy += '<div class="tdc-property">';
                     buffy += '<input ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' id="' + colorPickerId + '" name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '" type="text" value="' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '"/>';
                 buffy += '</div>';
@@ -675,8 +704,6 @@ var tdcSidebarPanel = {};
 
 
             return buffy;
-
-
         },
 
 
@@ -706,6 +733,11 @@ var tdcSidebarPanel = {};
 
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
                 buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
+
+                if ( _.has( mappedParameter, 'description' ) ) {
+                    buffy += '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + mappedParameter.description + '">?</a>';
+                }
+
                 buffy += '<div class="tdc-property">';
                     buffy += '<select ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '">';
                         buffy += selectOptions;
@@ -731,6 +763,11 @@ var tdcSidebarPanel = {};
             var buffy = '';
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
                 buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
+
+                if ( _.has( mappedParameter, 'description' ) ) {
+                    buffy += '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + mappedParameter.description + '">?</a>';
+                }
+
                 buffy += '<div class="tdc-property">';
                     buffy += '<input ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '" type="text" value="' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '"/>';
                 buffy += '</div>';
@@ -748,6 +785,11 @@ var tdcSidebarPanel = {};
             var buffy = '';
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
             buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
+
+            if ( _.has( mappedParameter, 'description' ) ) {
+                buffy += '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + mappedParameter.description + '">?</a>';
+            }
+
             buffy += '<div class="tdc-property">';
             buffy += '<div id="' + tinymceId + '" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '>' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '</div>';
             buffy += '</div>';
@@ -806,6 +848,11 @@ var tdcSidebarPanel = {};
             var buffy = '';
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
             buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':</div>';
+
+            if ( _.has( mappedParameter, 'description' ) ) {
+                buffy += '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + mappedParameter.description + '">?</a>';
+            }
+
             buffy += '<div class="tdc-property">';
             buffy += '<textarea id="' + textareaId + '" class="tdc-textarea" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '>' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '</textarea>';
             buffy += '</div>';
