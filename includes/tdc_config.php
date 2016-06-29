@@ -16,6 +16,7 @@ class tdc_config {
 
 	static $js_files_for_wp_admin = array (
 		//'tdcDebug'              => '/assets/js/tdcDebug.js',
+		'tdcNotice'             => '/assets/js/tdcNotice.js',
 		'tdcShortcodeParser'    => '/assets/js/tdcShortcodeParser.js',
 		'tdcInit'               => '/assets/js/wp-admin/tdcInit.js',  //@todo this should load only on edit post in wp-admin
 	);

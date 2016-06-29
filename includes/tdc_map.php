@@ -43,7 +43,7 @@ tdc_mapper::map(array(
 	'is_container' => true,
 	'icon' => 'tdc-icon-row',
 	'category' => __('Content', 'td_composer'),
-	'description' => __('some desc', 'td_composer'),
+	'description' => __('Row description', 'td_composer'),
 	'params' => array(
 
 
