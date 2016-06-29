@@ -2,11 +2,20 @@
  * Created by ra on 3/23/2016.
  */
 
+/* global tdcIFrameData:{} */
+/* global tdcOperationUI:{} */
+/* global tdcSidebarPanel:{} */
+/* global tdcMaskUI:{} */
+/* global tdcMain:{} */
 /* global tdcNotice:{} */
 
 /* global jQuery:{} */
 /* global Backbone:{} */
 /* global _:{} */
+
+/* jshint -W004 */ // duplicate declarations
+/* jshint -W031 */ // the 'new' side effect
+
 
 var tdcSidebar;
 
@@ -16,12 +25,12 @@ var tdcSidebar;
 
     tdcSidebar = {
 
-        $sidebar: undefined,
+        $_sidebar: undefined,
 
-        $editRow: undefined,
-        $editColumn: undefined,
-        $editInnerRow: undefined,
-        $editInnerColumn: undefined,
+        $_editRow: undefined,
+        $_editColumn: undefined,
+        $_editInnerRow: undefined,
+        $_editInnerColumn: undefined,
 
         _currentTabId: undefined,
 
@@ -35,45 +44,48 @@ var tdcSidebar;
         _$currentInnerRow: undefined,
         _$currentInnerColumn: undefined,
 
-        $currentElementHead: undefined,
-        $inspector: undefined,
+        $_currentElementHead: undefined,
+        $_inspector: undefined,
 
-        $sidebarInfo: undefined,
-        $closePage: undefined,
-        $tdcBullet: undefined,
-        $sidebarClose: undefined,
-        $sidebarOpen: undefined,
-        $sidebarSearch: undefined,
+        $_sidebarInfo: undefined,
+        $_sidebarClosePage: undefined,
+        $_sidebarBullet: undefined,
+        $_sidebarClose: undefined,
+        $_sidebarOpen: undefined,
+        $_sidebarSearch: undefined,
+
+        $_liveIframeWrapper: undefined,
 
 
         init: function() {
 
-            tdcSidebar.$sidebar = jQuery( '#tdc-sidebar' );
+            tdcSidebar.$_sidebar = jQuery( '#tdc-sidebar' );
+            tdcSidebar.$_liveIframeWrapper = jQuery( '#tdc-live-iframe-wrapper' );
 
-            tdcSidebar.$editRow = jQuery( '#tdc-breadcrumb-row' );
-            tdcSidebar.$editRow.data( 'name', 'Row' );
+            tdcSidebar.$_editRow = tdcSidebar.$_sidebar.find( '#tdc-breadcrumb-row' );
+            tdcSidebar.$_editRow.data( 'name', 'Row' );
 
-            tdcSidebar.$editColumn = jQuery( '#tdc-breadcrumb-column' );
-            tdcSidebar.$editColumn.data( 'name', 'Column' );
+            tdcSidebar.$_editColumn = tdcSidebar.$_sidebar.find( '#tdc-breadcrumb-column' );
+            tdcSidebar.$_editColumn.data( 'name', 'Column' );
 
-            tdcSidebar.$editInnerRow = jQuery( '#tdc-breadcrumb-inner-row' );
-            tdcSidebar.$editInnerRow.data( 'name', 'Inner Row' );
+            tdcSidebar.$_editInnerRow = tdcSidebar.$_sidebar.find( '#tdc-breadcrumb-inner-row' );
+            tdcSidebar.$_editInnerRow.data( 'name', 'Inner Row' );
 
-            tdcSidebar.$editInnerColumn = jQuery( '#tdc-breadcrumb-inner-column' );
-            tdcSidebar.$editInnerColumn.data( 'name', 'Inner Column' );
+            tdcSidebar.$_editInnerColumn = tdcSidebar.$_sidebar.find( '#tdc-breadcrumb-inner-column' );
+            tdcSidebar.$_editInnerColumn.data( 'name', 'Inner Column' );
 
-            tdcSidebar.$currentElementHead = jQuery( '.tdc-current-element-head' );
-            tdcSidebar.$inspector = jQuery( '.tdc-inspector' );
+            tdcSidebar.$_currentElementHead = tdcSidebar.$_sidebar.find( '.tdc-current-element-head:first' );
+            tdcSidebar.$_inspector = tdcSidebar.$_sidebar.find( '.tdc-inspector:first' );
 
-            tdcSidebar.$sidebarInfo = jQuery( '.tdc-sidebar-info' );
-            tdcSidebar.$closePage = jQuery( '.tdc-close-page' );
-            tdcSidebar.$tdcBullet = jQuery( '.tdc-bullet' );
-            tdcSidebar.$sidebarClose = jQuery( '.tdc-sidebar-close' );
-            tdcSidebar.$sidebarOpen = jQuery( '.tdc-sidebar-open' );
-            tdcSidebar.$sidebarSearch = jQuery( '.tdc-sidebar-modal-search > input' );
+            tdcSidebar.$_sidebarInfo = tdcSidebar.$_sidebar.find( '.tdc-sidebar-info:first' );
+            tdcSidebar.$_sidebarClosePage = tdcSidebar.$_sidebar.find( '.tdc-close-page:first' );
+            tdcSidebar.$_sidebarBullet = tdcSidebar.$_sidebar.find( '.tdc-bullet:first' );
+            tdcSidebar.$_sidebarClose = tdcSidebar.$_sidebar.find( '.tdc-sidebar-close:first' );
+            tdcSidebar.$_sidebarOpen = tdcSidebar.$_sidebar.find( '.tdc-sidebar-open:first' );
+            tdcSidebar.$_sidebarSearch = tdcSidebar.$_sidebar.find( '.tdc-sidebar-modal-search:first > input' );
 
 
-            tdcSidebar.$editRow.click(function() {
+            tdcSidebar.$_editRow.click(function() {
 
                 tdcSidebar.setSettings({
                     '$currentRow': tdcSidebar.getCurrentRow()
@@ -95,7 +107,7 @@ var tdcSidebar;
             });
 
 
-            tdcSidebar.$editColumn.click(function() {
+            tdcSidebar.$_editColumn.click(function() {
 
                 tdcSidebar.setSettings({
                     '$currentRow': tdcSidebar.getCurrentRow(),
@@ -118,7 +130,7 @@ var tdcSidebar;
             });
 
 
-            tdcSidebar.$editInnerRow.click(function() {
+            tdcSidebar.$_editInnerRow.click(function() {
 
                 tdcSidebar.setSettings({
                     '$currentRow': tdcSidebar.getCurrentRow(),
@@ -142,7 +154,7 @@ var tdcSidebar;
             });
 
 
-            tdcSidebar.$editInnerColumn.click(function() {
+            tdcSidebar.$_editInnerColumn.click(function() {
 
                 tdcSidebar.setSettings({
                     '$currentRow': tdcSidebar.getCurrentRow(),
@@ -171,7 +183,7 @@ var tdcSidebar;
                 tdcSidebar._bindElement( jQuery( element ) );
             });
 
-            tdcSidebar.$closePage.click( function( event ) {
+            tdcSidebar.$_sidebarClosePage.click( function( event ) {
                 if ( tdcMain.getContentModified() ) {
                     if ( true === window.confirm( 'The content is unsaved! Are you sure you want to close?' ) ) {
                         window.location = window.tdcAdminSettings.editPostUrl;
@@ -190,80 +202,95 @@ var tdcSidebar;
             var localStorageLiveIframeWrapperInline = window.localStorage.getItem( 'tdc_live_iframe_wrapper_inline' );
 
             if ( '1' === localStorageSidebarHidden ) {
-                tdcSidebar.$sidebar.addClass( 'tdc-sidebar-hidden' );
-                tdcSidebar.$sidebarOpen.addClass( 'tdc-sidebar-reopen' );
+
+                tdcMain.setSidebarHidden();
+
+                tdcSidebar.$_sidebar.addClass( 'tdc-sidebar-hidden' );
+                tdcSidebar.$_sidebarOpen.addClass( 'tdc-sidebar-reopen' );
             }
 
             if ( '1' === localStorageLiveIframeWrapperInline ) {
-                jQuery( '#tdc-sidebar' ).addClass( 'tdc-sidebar-inline' );
-                jQuery( '#tdc-live-iframe-wrapper' ).addClass( 'tdc-live-iframe-wrapper-inline' );
-                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-live-iframe-wrapper-full' );
+
+                tdcMain.setSidebarInline();
+
+                tdcSidebar.$_sidebar.addClass( 'tdc-sidebar-inline' );
+                tdcSidebar.$_liveIframeWrapper
+                    .addClass( 'tdc-live-iframe-wrapper-inline' )
+                    .removeClass( 'tdc-live-iframe-wrapper-full' );
 
                 if ( '1' === localStorageSidebarHidden ) {
-                    jQuery( '#tdc-live-iframe-wrapper' ).removeClass( 'tdc-live-iframe-wrapper-inline' );
+                    tdcSidebar.$_liveIframeWrapper.removeClass( 'tdc-live-iframe-wrapper-inline' );
                 }
             }
 
 
+            tdcSidebar.$_sidebarBullet.click( function( event ) {
+                tdcSidebar.$_sidebar.toggleClass( 'tdc-sidebar-inline' );
+                tdcSidebar.$_liveIframeWrapper.toggleClass( 'tdc-live-iframe-wrapper-inline' );
 
-            tdcSidebar.$tdcBullet.click( function( event ) {
-                jQuery( '#tdc-sidebar' ).toggleClass( 'tdc-sidebar-inline' );
-                jQuery( '#tdc-live-iframe-wrapper' ).toggleClass( 'tdc-live-iframe-wrapper-inline' );
+                if ( tdcSidebar.$_liveIframeWrapper.hasClass( 'tdc-live-iframe-wrapper-inline' ) ) {
+                    tdcSidebar.$_liveIframeWrapper.removeClass( 'tdc-live-iframe-wrapper-full' );
 
-                if ( jQuery( '#tdc-live-iframe-wrapper' ).hasClass( 'tdc-live-iframe-wrapper-inline' ) ) {
-                    jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-live-iframe-wrapper-full' );
+                    tdcMain.setSidebarInline();
                     window.localStorage.setItem( 'tdc_live_iframe_wrapper_inline', 1 );
+
                 } else {
-                    jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
+                    tdcSidebar.$_liveIframeWrapper.addClass( 'tdc-live-iframe-wrapper-full' );
+
+                    tdcMain.resetSidebarInline();
                     window.localStorage.setItem( 'tdc_live_iframe_wrapper_inline', 0 );
                 }
             });
 
 
+            tdcSidebar.$_sidebarClose.click( function( event) {
 
+                tdcSidebar.$_sidebar.addClass( 'tdc-sidebar-hidden' );
+                tdcSidebar.$_sidebarOpen.addClass( 'tdc-sidebar-reopen' );
 
-            tdcSidebar.$sidebarClose.click( function( event) {
-
-                tdcSidebar.$sidebar.addClass( 'tdc-sidebar-hidden' );
-                tdcSidebar.$sidebarOpen.addClass( 'tdc-sidebar-reopen' );
-
-                if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) ) {
-                    jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-live-iframe-wrapper-inline' );
+                if ( tdcSidebar.$_sidebar.hasClass( 'tdc-sidebar-inline' ) ) {
+                    tdcSidebar.$_liveIframeWrapper.toggleClass( 'tdc-live-iframe-wrapper-inline' );
                 }
 
-                if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-hidden' ) ) {
-                    jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-live-iframe-wrapper-full' );
-                } else {
-                    if ( ! jQuery( '#tdc-live-iframe-wrapper').hasClass( 'tdc-live-iframe-wrapper-inline' ) ) {
-                        jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
-                    }
+                if ( tdcSidebar.$_sidebar.hasClass( 'tdc-sidebar-hidden' ) ) {
+
+                    tdcSidebar.$_liveIframeWrapper.removeClass( 'tdc-live-iframe-wrapper-full' );
+
+                } else if ( ! tdcSidebar.$_liveIframeWrapper.hasClass( 'tdc-live-iframe-wrapper-inline' ) ) {
+
+                    tdcSidebar.$_liveIframeWrapper.addClass( 'tdc-live-iframe-wrapper-full' );
                 }
 
+                tdcMain.setSidebarHidden();
                 window.localStorage.setItem( 'tdc_sidebar_hidden', 1 );
             });
 
-            tdcSidebar.$sidebarOpen.click( function( event) {
 
-                tdcSidebar.$sidebar.removeClass( 'tdc-sidebar-hidden' );
-                tdcSidebar.$sidebarOpen.removeClass( 'tdc-sidebar-reopen' );
+            tdcSidebar.$_sidebarOpen.click( function( event) {
+
+                tdcSidebar.$_sidebar.removeClass( 'tdc-sidebar-hidden' );
+                tdcSidebar.$_sidebarOpen.removeClass( 'tdc-sidebar-reopen' );
 
 
-                if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) ) {
-                    jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-live-iframe-wrapper-inline' );
+                if ( tdcSidebar.$_sidebar.hasClass( 'tdc-sidebar-inline' ) ) {
+                    tdcSidebar.$_liveIframeWrapper.toggleClass( 'tdc-live-iframe-wrapper-inline' );
                 }
 
-                if ( tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-hidden' ) ) {
-                    jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-live-iframe-wrapper-full' );
-                } else {
-                    if ( ! jQuery( '#tdc-live-iframe-wrapper').hasClass( 'tdc-live-iframe-wrapper-inline' ) ) {
-                        jQuery( '#tdc-live-iframe-wrapper').addClass( 'tdc-live-iframe-wrapper-full' );
-                    }
+                if ( tdcSidebar.$_sidebar.hasClass( 'tdc-sidebar-hidden' ) ) {
+
+                    tdcSidebar.$_liveIframeWrapper.removeClass( 'tdc-live-iframe-wrapper-full' );
+
+                } else if ( ! tdcSidebar.$_liveIframeWrapper.hasClass( 'tdc-live-iframe-wrapper-inline' ) ) {
+
+                    tdcSidebar.$_liveIframeWrapper.addClass( 'tdc-live-iframe-wrapper-full' );
                 }
 
+                tdcMain.resetSidebarHidden();
                 window.localStorage.setItem( 'tdc_sidebar_hidden', 0 );
             });
 
-            tdcSidebar.$sidebarSearch.keyup( function( event ) {
+
+            tdcSidebar.$_sidebarSearch.keyup( function( event ) {
                 var $this = jQuery( this );
 
                 jQuery( '.tdc-sidebar-element' ).each( function( index, element) {
@@ -277,34 +304,33 @@ var tdcSidebar;
             });
 
 
-
-            tdcSidebar.$inspector.on( 'click', '.tdc-responsive-desktop', function() {
-                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-landscape' );
-                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-portrait' );
-                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-phone' );
-            });
-
-            tdcSidebar.$inspector.on( 'click', '.tdc-responsive-tablet-landscape', function() {
-                jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-responsive-tablet-landscape' );
-
-                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-phone' );
-                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-portrait' );
-            });
-
-            tdcSidebar.$inspector.on( 'click', '.tdc-responsive-tablet-portrait', function() {
-                jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-responsive-tablet-portrait' );
-
-                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-phone' );
-                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-landscape' );
-            });
-
-            tdcSidebar.$inspector.on( 'click', '.tdc-responsive-phone', function() {
-                jQuery( '#tdc-live-iframe-wrapper').toggleClass( 'tdc-responsive-phone' );
-
-                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-landscape' );
-                jQuery( '#tdc-live-iframe-wrapper').removeClass( 'tdc-responsive-tablet-portrait' );
-            });
-
+            //tdcSidebar.$_inspector.on( 'click', '.tdc-responsive-desktop', function() {
+            //    tdcSidebar.$_liveIframeWrapper
+            //        .removeClass( 'tdc-responsive-tablet-landscape' )
+            //        .removeClass( 'tdc-responsive-tablet-portrait' )
+            //        .removeClass( 'tdc-responsive-phone' );
+            //});
+            //
+            //tdcSidebar.$_inspector.on( 'click', '.tdc-responsive-tablet-landscape', function() {
+            //    tdcSidebar.$_liveIframeWrapper
+            //        .toggleClass( 'tdc-responsive-tablet-landscape' )
+            //        .removeClass( 'tdc-responsive-phone' )
+            //        .removeClass( 'tdc-responsive-tablet-portrait' );
+            //});
+            //
+            //tdcSidebar.$_inspector.on( 'click', '.tdc-responsive-tablet-portrait', function() {
+            //    tdcSidebar.$_liveIframeWrapper
+            //        .toggleClass( 'tdc-responsive-tablet-portrait' )
+            //        .removeClass( 'tdc-responsive-phone' )
+            //        .removeClass( 'tdc-responsive-tablet-landscape' );
+            //});
+            //
+            //tdcSidebar.$_inspector.on( 'click', '.tdc-responsive-phone', function() {
+            //    tdcSidebar.$_liveIframeWrapper.
+            //        toggleClass( 'tdc-responsive-phone' )
+            //        .removeClass( 'tdc-responsive-tablet-landscape' )
+            //        .removeClass( 'tdc-responsive-tablet-portrait' );
+            //});
 
 
             // @todo This must be tested! Other solution must be found!
@@ -327,61 +353,61 @@ var tdcSidebar;
             var currentModel = tdcSidebar.getCurrentModel(),
                 currentModelTag = currentModel.get( 'tag' ),
 
-            // The html content of the $currentElementHead element
+            // The html content of the $_currentElementHead element
                 currentElementHeadContent = '',
 
-            // The breadcrumb item (tdcSidebar.$editRow, tdcSidebar.$editColumn, .. ) where the mouse events will be passed
+            // The breadcrumb item (tdcSidebar.$_editRow, tdcSidebar.$_editColumn, .. ) where the mouse events will be passed
                 $currentElementHeadRef;
 
             switch ( currentModelTag ) {
 
                 case 'vc_row':
-                    tdcSidebar.$editRow.hide();
-                    tdcSidebar.$editColumn.hide();
-                    tdcSidebar.$editInnerRow.hide();
-                    tdcSidebar.$editInnerColumn.hide();
+                    tdcSidebar.$_editRow.hide();
+                    tdcSidebar.$_editColumn.hide();
+                    tdcSidebar.$_editInnerRow.hide();
+                    tdcSidebar.$_editInnerColumn.hide();
 
-                    currentElementHeadContent = tdcSidebar.$editRow.data( 'name' );
-                    $currentElementHeadRef = tdcSidebar.$editRow;
+                    currentElementHeadContent = tdcSidebar.$_editRow.data( 'name' );
+                    $currentElementHeadRef = tdcSidebar.$_editRow;
 
                     break;
 
                 case 'vc_column':
-                    tdcSidebar.$editRow.show();
-                    tdcSidebar.$editColumn.hide();
-                    tdcSidebar.$editInnerRow.hide();
-                    tdcSidebar.$editInnerColumn.hide();
+                    tdcSidebar.$_editRow.show();
+                    tdcSidebar.$_editColumn.hide();
+                    tdcSidebar.$_editInnerRow.hide();
+                    tdcSidebar.$_editInnerColumn.hide();
 
-                    currentElementHeadContent = tdcSidebar.$editColumn.data( 'name' );
-                    $currentElementHeadRef = tdcSidebar.$editColumn;
+                    currentElementHeadContent = tdcSidebar.$_editColumn.data( 'name' );
+                    $currentElementHeadRef = tdcSidebar.$_editColumn;
 
                     break;
 
                 case 'vc_row_inner':
-                    tdcSidebar.$editRow.show();
+                    tdcSidebar.$_editRow.show();
                     tdcSidebar.$editColumn.show();
-                    tdcSidebar.$editInnerRow.hide();
-                    tdcSidebar.$editInnerColumn.hide();
+                    tdcSidebar.$_editInnerRow.hide();
+                    tdcSidebar.$_editInnerColumn.hide();
 
-                    currentElementHeadContent = tdcSidebar.$editInnerRow.data( 'name' );
-                    $currentElementHeadRef = tdcSidebar.$editInnerRow;
+                    currentElementHeadContent = tdcSidebar.$_editInnerRow.data( 'name' );
+                    $currentElementHeadRef = tdcSidebar.$_editInnerRow;
 
                     break;
 
                 case 'vc_column_inner':
-                    tdcSidebar.$editRow.show();
-                    tdcSidebar.$editColumn.show();
-                    tdcSidebar.$editInnerRow.show();
-                    tdcSidebar.$editInnerColumn.hide();
+                    tdcSidebar.$_editRow.show();
+                    tdcSidebar.$_editColumn.show();
+                    tdcSidebar.$_editInnerRow.show();
+                    tdcSidebar.$_editInnerColumn.hide();
 
-                    currentElementHeadContent = tdcSidebar.$editInnerColumn.data( 'name' );
-                    $currentElementHeadRef = tdcSidebar.$editInnerColumn;
+                    currentElementHeadContent = tdcSidebar.$_editInnerColumn.data( 'name' );
+                    $currentElementHeadRef = tdcSidebar.$_editInnerColumn;
 
                     break;
 
                 default:
-                    tdcSidebar.$editRow.show();
-                    tdcSidebar.$editColumn.show();
+                    tdcSidebar.$_editRow.show();
+                    tdcSidebar.$_editColumn.show();
 
                     currentElementHeadContent = currentModel.get( 'tag' );
                     $currentElementHeadRef = tdcSidebar.getCurrentElement();
@@ -390,18 +416,18 @@ var tdcSidebar;
                         parentModelTag = parentModel.get( 'tag' );
 
                     if ( 'vc_column_inner' === parentModelTag ) {
-                        tdcSidebar.$editInnerRow.show();
-                        tdcSidebar.$editInnerColumn.show();
+                        tdcSidebar.$_editInnerRow.show();
+                        tdcSidebar.$_editInnerColumn.show();
                     } else {
-                        tdcSidebar.$editInnerRow.hide();
-                        tdcSidebar.$editInnerColumn.hide();
+                        tdcSidebar.$_editInnerRow.hide();
+                        tdcSidebar.$_editInnerColumn.hide();
                     }
             }
 
-            // Set the content and reattach the events ('mouseenter' and 'mouseleave') to the tdcSidebar.$currentElementHead
-            tdcSidebar.$currentElementHead.html( currentElementHeadContent );
+            // Set the content and reattach the events ('mouseenter' and 'mouseleave') to the tdcSidebar.$_currentElementHead
+            tdcSidebar.$_currentElementHead.html( currentElementHeadContent );
 
-            tdcSidebar.$currentElementHead.off().mouseenter(function( event ) {
+            tdcSidebar.$_currentElementHead.off().mouseenter(function( event ) {
                 event.preventDefault();
                 $currentElementHeadRef.trigger( event );
 
@@ -410,7 +436,7 @@ var tdcSidebar;
                 $currentElementHeadRef.trigger( event );
             });
 
-            tdcSidebar.$inspector.show();
+            tdcSidebar.$_inspector.show();
         },
 
 
@@ -582,7 +608,7 @@ var tdcSidebar;
          * @param content
          */
         setSidebarInfo: function( content ) {
-            tdcSidebar.$sidebarInfo.html( content );
+            tdcSidebar.$_sidebarInfo.html( content );
         },
 
 

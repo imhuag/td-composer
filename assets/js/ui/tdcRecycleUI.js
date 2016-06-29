@@ -24,6 +24,7 @@ var tdcRecycleUI;
     tdcRecycleUI = {
 
         _activeClass: 'active',
+        _showClass: 'show',
 
         _isInitialized: false,
 
@@ -86,6 +87,23 @@ var tdcRecycleUI;
 
         _deactivate: function() {
             tdcAdminWrapperUI.$recycle.removeClass( tdcRecycleUI._activeClass );
+        },
+
+
+        show: function() {
+            if ( true === tdcMain.getRecycleShown() ) {
+                return;
+            }
+            tdcMain.setRecycleShown();
+            tdcAdminWrapperUI.$recycle.addClass( tdcRecycleUI._showClass );
+        },
+
+        hide: function() {
+            if ( false === tdcMain.getRecycleShown() ) {
+                return;
+            }
+            tdcMain.resetRecycleShown();
+            tdcAdminWrapperUI.$recycle.removeClass( tdcRecycleUI._showClass );
         }
 
     };

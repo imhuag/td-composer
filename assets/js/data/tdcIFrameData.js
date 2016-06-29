@@ -20,8 +20,7 @@
 /* global tdcElementsUI:{} */
 /* global tdcElementUI:{} */
 
-// duplicate declarations
-/* jshint -W004 */
+/* jshint -W004 */ // duplicate declarations
 /* jshint -W031 */ // the 'new' side effect
 
 var tdcIFrameData,
