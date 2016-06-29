@@ -172,7 +172,14 @@ html.tdc-active #wpadminbar {
   border: 1px solid red;
 }
 #tdc-rows .tdc-rev-slider:after {
-  content: 'Rev Slider';
+  content: 'Revolution Slider';
+}
+#tdc-rows .vc_widget_sidebar {
+  height: 50px;
+  border: 1px solid red;
+}
+#tdc-rows .vc_widget_sidebar:after {
+  content: 'Widget Sidebar';
 }
 .tdc-external-shortcode {
   height: 50px;

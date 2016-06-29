@@ -253,71 +253,302 @@
   position: absolute;
   left: 0;
   top: 3px;
+  background: url('../images/sidebar/sprite.png');
   background-repeat: no-repeat;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
-.tdc-ico-vc_row,
-.tdc-ico-vc_row_inner,
-.tdc-ico-rev_slider,
-.tdc-ico-vc_column_text,
-.tdc-ico-vc_raw_html,
-.tdc-ico-vc_empty_space,
-.tdc-ico-vc_widget_sidebar,
-.tdc-ico-td_block_1,
-.tdc-ico-td_block_2,
-.tdc-ico-td_block_3,
-.tdc-ico-td_block_4,
-.tdc-ico-td_block_5,
-.tdc-ico-td_block_6,
-.tdc-ico-td_block_7,
-.tdc-ico-td_block_8,
-.tdc-ico-td_block_9,
-.tdc-ico-td_block_10,
-.tdc-ico-td_block_11,
-.tdc-ico-td_block_12,
-.tdc-ico-td_block_13,
-.tdc-ico-td_block_14,
-.tdc-ico-td_block_15,
-.tdc-ico-td_block_16,
-.tdc-ico-td_block_17,
-.tdc-ico-td_block_18,
-.tdc-ico-td_block_19,
-.tdc-ico-td_block_20,
-.tdc-ico-td_block_21,
-.tdc-ico-td_block_22,
-.tdc-ico-td_block_23,
-.tdc-ico-td_block_24,
-.tdc-ico-td_block_25,
-.tdc-ico-td_block_big_grid_1,
-.tdc-ico-td_block_big_grid_2,
-.tdc-ico-td_block_big_grid_3,
-.tdc-ico-td_block_big_grid_4,
-.tdc-ico-td_block_big_grid_5,
-.tdc-ico-td_block_big_grid_6,
-.tdc-ico-td_block_big_grid_7,
-.tdc-ico-td_block_big_grid_8,
-.tdc-ico-td_block_big_grid_9,
-.tdc-ico-td_block_big_grid_10,
-.tdc-ico-td_block_big_grid_11,
-.tdc-ico-td_block_big_grid_12,
-.tdc-ico-td_block_big_grid_slide,
-.tdc-ico-td_block_trending_now,
-.tdc-ico-td_block_video_youtube,
-.tdc-ico-td_block_video_vimeo,
-.tdc-ico-td_block_ad_box,
-.tdc-ico-td_block_authors,
-.tdc-ico-td_block_homepage_full_1,
-.tdc-ico-td_block_popular_categories,
-.tdc-ico-td_block_slide,
-.tdc-ico-td_block_text_with_title,
-.tdc-ico-td_block_weather,
-.tdc-ico-td_block_exchange,
-.tdc-ico-td_block_instagram,
+.tdc-ico-td_block_ad_box {
+  background-position: -5px -5px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_authors {
+  background-position: -55px -5px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_row {
+  background-position: -55px -277px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_row_inner {
+  background-position: -105px -277px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-rev_slider {
+  background-position: -5px -277px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_column_text {
+  background-position: -205px -209px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_raw_html {
+  background-position: -255px -243px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_empty_space {
+  background-position: -255px -209px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_widget_sidebar {
+  background-position: -305px -73px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_1 {
+  background-position: -155px -73px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_2 {
+  background-position: -105px -141px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_3 {
+  background-position: -155px -175px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_4 {
+  background-position: -205px -175px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_5 {
+  background-position: -255px -175px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_6 {
+  background-position: -5px -209px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_7 {
+  background-position: -55px -209px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_8 {
+  background-position: -105px -209px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_9 {
+  background-position: -155px -209px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_10 {
+  background-position: -205px -73px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_11 {
+  background-position: -255px -73px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_12 {
+  background-position: -5px -107px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_13 {
+  background-position: -55px -107px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_14 {
+  background-position: -105px -107px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_15 {
+  background-position: -155px -107px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_16 {
+  background-position: -205px -107px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_17 {
+  background-position: -255px -107px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_18 {
+  background-position: -5px -141px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_19 {
+  background-position: -55px -141px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_20 {
+  background-position: -155px -141px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_21 {
+  background-position: -205px -141px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_22 {
+  background-position: -255px -141px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_23 {
+  background-position: -5px -175px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_24 {
+  background-position: -55px -175px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_25 {
+  background-position: -105px -175px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_1 {
+  background-position: -105px -5px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_2 {
+  background-position: -5px -39px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_3 {
+  background-position: -55px -39px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_4 {
+  background-position: -105px -39px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_5 {
+  background-position: -155px -39px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_6 {
+  background-position: -205px -39px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_7 {
+  background-position: -255px -39px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_8 {
+  background-position: -5px -73px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_9 {
+  background-position: -55px -73px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_10 {
+  background-position: -155px -5px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_11 {
+  background-position: -205px -5px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_12 {
+  background-position: -255px -5px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_big_grid_slide {
+  background-position: -105px -73px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_trending_now {
+  background-position: -155px -243px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_video_youtube {
+  background-position: -305px -107px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_video_vimeo {
+  background-position: -305px -5px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_homepage_full_1 {
+  background-position: -55px -243px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_popular_categories {
+  background-position: -205px -243px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_slide {
+  background-position: -155px -277px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_text_with_title {
+  background-position: -255px -277px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_weather {
+  background-position: -305px -39px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_exchange {
+  background-position: -5px -243px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_instagram {
+  background-position: -105px -243px;
+  width: 40px;
+  height: 24px;
+}
 .tdc-ico-td_block_social_counter {
-  background: url('../images/sidebar/big_grid1.png');
+  background-position: -205px -277px;
+  width: 40px;
+  height: 24px;
 }
 .tdc-element-id {
   margin-left: 55px;
@@ -438,7 +669,7 @@ placeholder when sidebar is empty
   transform: translateY(-50%);
   text-align: center;
   font-size: 12px;
-  color: #000000;
+  color: #666;
 }
 .tdc-empty-sidebar .tdc-builder-logo {
   height: 100px;
@@ -450,6 +681,7 @@ placeholder when sidebar is empty
   left: 0;
   right: 0;
   margin: 0 auto;
+  opacity: 0.6;
 }
 .tdc-empty-sidebar .tdc-start-tips {
   padding-top: 140px;
@@ -644,6 +876,7 @@ placeholder when sidebar is empty
   height: 28px;
   border: 1px solid #ddd;
   margin-bottom: 15px;
+  display: none;
 }
 .tdc-responsive-buttons .tdc-responsive-desktop {
   width: 67px;
