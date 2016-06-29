@@ -223,8 +223,6 @@ var tdcOperationUI;
                 // If sidebar is inline, consider it at $helper position
                 var addLeft = 0;
 
-                tdcDebug.log(mouseEvent.target);
-
                 if ( true === tdcMain.getSidebarInline() &&
                     false === tdcMain.getSidebarHidden() &&
                     ! jQuery( mouseEvent.target ).closest( '#tdc-sidebar' ).length ) {
