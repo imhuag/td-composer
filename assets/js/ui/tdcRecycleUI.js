@@ -8,6 +8,7 @@
 
 /* global tdcAdminWrapperUI:{} */
 /* global tdcOperationUI:{} */
+/* global tdcMain:{} */
 /* global tdcDebug:{} */
 
 /*

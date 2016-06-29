@@ -54,17 +54,16 @@ function tdc_on_current_screen() {
 		$isTdcDirtyContent = get_post_meta($_GET['post'], 'tdc_dirty_content', true);
 
 		if (isset($isTdcDirtyContent) && $isTdcDirtyContent === '0') {
-			ob_start();
-			?>
 
-			<script>
-
-				alert( 'Content compatible with TagDiv Composer! Modify it carefully' );
-
-			</script>
-
+			function tdc_on_admin_notices() {
+				?>
+				<div class="notice notice-success is-dismissible">
+					<p><?php _e( 'Content compatible with TagDiv Composer. Modify it carefully!', 'td_composer' ); ?></p>
+				</div>
 			<?php
-			echo ob_get_clean();
+			}
+
+			add_action( 'admin_notices', 'tdc_on_admin_notices' );
 		}
 	}
 }
