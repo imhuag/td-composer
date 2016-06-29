@@ -385,7 +385,7 @@ var tdcSidebar;
 
                 case 'vc_row_inner':
                     tdcSidebar.$_editRow.show();
-                    tdcSidebar.$editColumn.show();
+                    tdcSidebar.$_editColumn.show();
                     tdcSidebar.$_editInnerRow.hide();
                     tdcSidebar.$_editInnerColumn.hide();
 
