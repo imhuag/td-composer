@@ -222,8 +222,14 @@ var tdcOperationUI;
 
                 // If sidebar is inline, consider it at $helper position
                 var addLeft = 0;
-                if ( ! jQuery( mouseEvent.target ).closest( '#tdc-sidebar' ).length && tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-inline' ) && ! tdcSidebar.$sidebar.hasClass( 'tdc-sidebar-hidden' ) ) {
-                    addLeft = tdcSidebar.$sidebar.width();
+
+                tdcDebug.log(mouseEvent.target);
+
+                if ( true === tdcMain.getSidebarInline() &&
+                    false === tdcMain.getSidebarHidden() &&
+                    ! jQuery( mouseEvent.target ).closest( '#tdc-sidebar' ).length ) {
+
+                    addLeft = tdcSidebar.$_sidebar.width();
                 }
 
                 //if ( mouseEvent.target.ownerDocument === tdcLiveIframeWrapper.contentWindow.document && jQuery( tdcLiveIframeWrapper.parentElement).hasClass( 'tdc-responsive-tablet-landscape' ) ) {
@@ -253,10 +259,12 @@ var tdcOperationUI;
                     $helper.data( 'tdcElementType', '' );
                 }
 
-                jQuery( '#tdc-recycle' ).addClass( 'show' );
+                tdcRecycleUI.show();
+
             } else {
                 tdcOperationUI.hideHelper();
-                jQuery( '#tdc-recycle' ).removeClass( 'show' );
+
+                tdcRecycleUI.hide();
             }
         },
 

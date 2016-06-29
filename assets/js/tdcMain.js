@@ -17,8 +17,21 @@ var tdcMain = {};
 
     tdcMain = {
 
-        // Set to true when the composer has done changes
+        // Set to true when the TagDiv Composer has changed the content
         _contentModified: false,
+
+        // Set to true when the sidebar and the content are inline
+        // Used because otherwise the sidebar must be checked
+        _sidebarInline: false,
+
+        // Set to true when the sidebar is hidden
+        // Used because otherwise the sidebar must be checked
+        _sidebarHidden: false,
+
+        // Set to false when the sidebar is hidden
+        // Used because otherwise the recycle must be checked
+        _recycleShown: false,
+
 
 
         init: function() {
@@ -27,7 +40,9 @@ var tdcMain = {};
 
         },
 
+
         /**
+         * True if the TagDiv composer data structured has changed
          *
          * @returns {boolean|*}
          */
@@ -36,18 +51,53 @@ var tdcMain = {};
         },
 
         /**
-         *
+         * Called when the TagDiv composer data structured has changed
          */
         setContentModified: function() {
             tdcMain._contentModified = true;
         },
 
         /**
-         *
+         * Reset the '_contentModified' flag.
+         * Usually it's done after saving, when the post content and the TagDiv composer are synchronized
          */
         resetContentModified: function() {
             tdcMain._contentModified = false;
+        },
+
+
+        setSidebarInline: function() {
+            tdcMain._sidebarInline = true;
+        },
+        getSidebarInline: function() {
+            return tdcMain._sidebarInline;
+        },
+        resetSidebarInline: function() {
+            tdcMain._sidebarInline = false;
+        },
+
+
+        setSidebarHidden: function() {
+            tdcMain._sidebarHidden = true;
+        },
+        getSidebarHidden: function() {
+            return tdcMain._sidebarHidden;
+        },
+        resetSidebarHidden: function() {
+            tdcMain._sidebarHidden = false;
+        },
+
+
+        setRecycleShown: function() {
+            tdcMain._recycleShown = true;
+        },
+        getRecycleShown: function() {
+            return tdcMain._recycleShown;
+        },
+        resetRecycleShown: function() {
+            tdcMain._recycleShown = false;
         }
     };
+
     tdcMain.init();
 })();
