@@ -78,21 +78,21 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 			</div>
 		</div>
 
+		<div class="tdc-empty-sidebar">
+			<div class="tdc-builder-logo"></div>
+			<div class="tdc-start-tips">
+				<span>Welcome!</span>
+				Add an element to begin
+			</div>
+			<div class="tdc-documentation">
+				For more information, please read the <a href="#">DOCUMENTATION</a>
+			</div>
+		</div>
+
 
 		<!-- the inspector -->
 		<div class="tdc-inspector-wrap">
 			<div class="tdc-inspector">
-				<div class="tdc-empty-sidebar">
-					<div class="tdc-builder-logo"></div>
-					<div class="tdc-start-tips">
-						<span>Welcome!</span>
-						Add an element to begin
-					</div>
-					<div class="tdc-documentation">
-						For more information, please read the <a href="#">DOCUMENTATION</a>
-					</div>
-				</div>
-
 				<!-- breadcrumbs browser -->
 				<div class="tdc-breadcrumbs">
 					<div id="tdc-breadcrumb-row">
