@@ -1535,7 +1535,7 @@ body.tdc #wpbody-content {
 #tdc-dragged-helper {
   display: none;
   position: fixed;
-  border: 1px solid blue;
+  border: 1px solid #398ecd;
   width: 100px;
   height: 100px;
   top: 0;

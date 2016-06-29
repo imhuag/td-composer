@@ -1,54 +1,43 @@
-@import "../less_wrap/mixin.less";
-
 html.tdc-active {
   margin: 0 !important;
 }
-
 html.tdc-active #wpadminbar {
   display: none;
 }
-
 .no-hover {
   pointer-events: none;
 }
-
 .yes-hover {
   pointer-events: all;
 }
-
 .tdc-elements {
-  min-height: 50px; /* used when only the placeholder is inside and it's hidden */
+  min-height: 50px;
+  /* used when only the placeholder is inside and it's hidden */
 }
-
 .tdc-elements:empty {
   border: 1px dashed #aeef40;
   height: 50px;
 }
-
 .tdc-element,
 .tdc-element-column,
 .tdc-element-inner-row,
 .tdc-element-inner-column {
   cursor: pointer;
 }
-
 .tdc-element img,
 .tdc-element a {
   pointer-events: none;
   cursor: pointer;
 }
-
 .tdc-dragged {
-  opacity: 0.75 !important; // overwrite the tdc-element-selected opacity
+  opacity: 0.75 !important;
 }
-
 .tdc-element-empty {
   border: 1px solid #4eb2ec;
   width: 100%;
   min-height: 50px;
   cursor: default;
 }
-
 .tdc-element-empty:before {
   content: 'EMPTY ELEMENT - not dragged, auto removed, only for handlers';
   font-size: 12px;
@@ -58,11 +47,6 @@ html.tdc-active #wpadminbar {
   height: 100%;
   color: #666;
 }
-
-//.tdc-inner-column .tdc-elements > .tdc-element-empty {
-//  border: 1px solid #4eb2ec;
-//}
-
 #tdc-placeholder {
   display: none;
   height: 50px;
@@ -72,28 +56,14 @@ html.tdc-active #wpadminbar {
   z-index: 100000;
   margin-top: -25px;
   border: 1px dashed #aeef40;
-  background-color: rgba(174,239,64,0.4);
+  background-color: rgba(174, 239, 64, 0.4);
 }
-
-//.tdc-inner-column .tdc-elements > #tdc-placeholder {
-//  background-color: rgba(174,239,64,0.4);
-//}
-
-//.tdc-columns > #tdc-placeholder {
-//  background-color: white;
-//}
-//
-//.tdc-inner-columns > #tdc-placeholder {
-//  background-color: greenyellow;
-//}
-
 .vertical {
   width: 50px !important;
   height: 200px !important;
   margin-top: auto !important;
   right: auto !important;
 }
-
 #tdc-mask {
   position: absolute;
   font-size: 10px;
@@ -101,9 +71,8 @@ html.tdc-active #wpadminbar {
   left: 0;
   top: 0;
   width: 0;
-  min-height: 50px; // the height of an empty element
+  min-height: 50px;
 }
-
 #tdc-mask-content {
   width: 0;
   height: 0;
@@ -113,7 +82,6 @@ html.tdc-active #wpadminbar {
   position: absolute;
   z-index: 2;
 }
-
 #tdc-mask-row,
 #tdc-mask-column,
 #tdc-mask-inner-row,
@@ -121,7 +89,6 @@ html.tdc-active #wpadminbar {
   position: absolute;
   pointer-events: all;
 }
-
 #tdc-mask-row {
   background-color: #ee5734;
   color: #FFFFFF;
@@ -130,7 +97,6 @@ html.tdc-active #wpadminbar {
   width: 60px;
   height: 17px;
 }
-
 #tdc-mask-column {
   background-color: #363636;
   color: #FFFFFF;
@@ -139,7 +105,6 @@ html.tdc-active #wpadminbar {
   width: 76px;
   height: 17px;
 }
-
 #tdc-mask-inner-row {
   background-color: #ee5734;
   color: #FFFFFF;
@@ -149,7 +114,6 @@ html.tdc-active #wpadminbar {
   height: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
-
 #tdc-mask-inner-column {
   background-color: #363636;
   color: #FFFFFF;
@@ -159,14 +123,12 @@ html.tdc-active #wpadminbar {
   height: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
-
 .tdc-mask-handler-drag {
   position: absolute;
   top: -2px;
   left: 19px;
   font-family: 'Open Sans';
 }
-
 #tdc-mask-handler {
   position: absolute;
   top: 0;
@@ -174,90 +136,78 @@ html.tdc-active #wpadminbar {
   z-index: 3;
   cursor: pointer;
 }
-
 .td_block_homepage_full_1 {
   height: 50px;
   border: 1px solid #4eb2ec;
-
-  &:after {
-    content: 'Homepage Post Element';
-    font-size: 12px;
-    line-height: 16px;
-    padding: 7px 10px;
-    display: block;
-    height: 100%;
-    color: #666;
-  }
 }
-
+.td_block_homepage_full_1:after {
+  content: 'Homepage Post Element';
+  font-size: 12px;
+  line-height: 16px;
+  padding: 7px 10px;
+  display: block;
+  height: 100%;
+  color: #666;
+}
 #tdc-rows .tdc-add-block {
   height: 50px;
   border: 1px solid #4eb2ec;
-
-  &:after {
-    content: 'Add Box Element';
-    font-size: 12px;
-    line-height: 16px;
-    padding: 7px 10px;
-    display: block;
-    height: 100%;
-    color: #666;
-  }
 }
-
+#tdc-rows .tdc-add-block:after {
+  content: 'Add Box Element';
+  font-size: 12px;
+  line-height: 16px;
+  padding: 7px 10px;
+  display: block;
+  height: 100%;
+  color: #666;
+}
 .tdc-big-grid-slide {
   height: 50px;
   border: 1px solid #4eb2ec;
-
-  &:after {
-    content: 'Big Grid Slide must be in a ROW / 3 COLUMNS';
-    font-size: 12px;
-    line-height: 16px;
-    padding: 7px 10px;
-    display: block;
-    height: 100%;
-    color: #666;
-  }
 }
-
+.tdc-big-grid-slide:after {
+  content: 'Big Grid Slide must be in a ROW / 3 COLUMNS';
+  font-size: 12px;
+  line-height: 16px;
+  padding: 7px 10px;
+  display: block;
+  height: 100%;
+  color: #666;
+}
 .tdc-element-selected {
   opacity: 0.8;
 }
-
 #tdc-rows .tdc-rev-slider {
   height: 50px;
   border: 1px solid #4eb2ec;
-
-  &:after {
-    content: 'Revolution Slider';
-    font-size: 12px;
-    line-height: 16px;
-    padding: 7px 10px;
-    display: block;
-    height: 100%;
-    color: #666;
-  }
 }
-
+#tdc-rows .tdc-rev-slider:after {
+  content: 'Revolution Slider';
+  font-size: 12px;
+  line-height: 16px;
+  padding: 7px 10px;
+  display: block;
+  height: 100%;
+  color: #666;
+}
 #tdc-rows .vc_widget_sidebar {
   height: 50px;
   border: 1px solid #4eb2ec;
-
-  &:after {
-    content: 'Widget Sidebar';
-    font-size: 12px;
-    line-height: 16px;
-    padding: 7px 10px;
-    display: block;
-    height: 100%;
-    color: #666;
-  }
+}
+#tdc-rows .vc_widget_sidebar:after {
+  content: 'Widget Sidebar';
+  font-size: 12px;
+  line-height: 16px;
+  padding: 7px 10px;
+  display: block;
+  height: 100%;
+  color: #666;
 }
 .tdc-external-shortcode {
   height: 50px;
   border: 1px solid #4eb2ec;
 }
-
 .tdc-mask-edit {
   position: absolute;
   top: 0;
@@ -265,17 +215,17 @@ html.tdc-active #wpadminbar {
   width: 17px;
   height: 17px;
   border-left: 1px solid rgba(255, 255, 255, 0.3);
-
-  .tdc-icon-edit {
-    background: url('../images/sidebar/spritesheet.png');
-    background-repeat: no-repeat;
-    position: relative;
-    top: 1px;
-    right: -1px;
-    .stitches-sprite(-113px, -65px, 14px, 14px);
-  }
 }
-
+.tdc-mask-edit .tdc-icon-edit {
+  background: url('../images/sidebar/spritesheet.png');
+  background-repeat: no-repeat;
+  position: relative;
+  top: 1px;
+  right: -1px;
+  background-position: -113px -65px;
+  width: 14px;
+  height: 14px;
+}
 .tdc-mask-arrow-horizontal,
 .tdc-mask-arrow-vertical {
   background: url('../images/sidebar/spritesheet.png');
@@ -284,11 +234,13 @@ html.tdc-active #wpadminbar {
   top: 2px;
   left: 3px;
 }
-
 .tdc-mask-arrow-horizontal {
-  .stitches-sprite(-65px, -65px, 14px, 14px);
+  background-position: -65px -65px;
+  width: 14px;
+  height: 14px;
 }
-
 .tdc-mask-arrow-vertical {
-  .stitches-sprite(-89px, -65px, 14px, 14px);
+  background-position: -89px -65px;
+  width: 14px;
+  height: 14px;
 }
