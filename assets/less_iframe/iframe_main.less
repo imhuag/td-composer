@@ -369,33 +369,28 @@ html.tdc-active #wpadminbar {
   border-left: 1px solid rgba(255, 255, 255, 0.3);
 
   .tdc-icon-edit {
-    width: 14px;
-    height: 14px;
-    background: url('../images/sidebar/edit.png');
+    background: url('../images/sidebar/spritesheet.png');
     background-repeat: no-repeat;
     position: relative;
     top: 1px;
     right: -1px;
-
+    .stitches-sprite(-113px, -65px, 14px, 14px);
   }
 }
 
-.tdc-mask-arrow-horizontal {
-  width: 14px;
-  height: 14px;
-  background: url('../images/sidebar/drag-horizontal.png');
+.tdc-mask-arrow-horizontal,
+.tdc-mask-arrow-vertical {
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 2px;
   left: 3px;
 }
 
+.tdc-mask-arrow-horizontal {
+  .stitches-sprite(-65px, -65px, 14px, 14px);
+}
+
 .tdc-mask-arrow-vertical {
-  width: 14px;
-  height: 14px;
-  background: url('../images/sidebar/drag-vertical.png');
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 2px;
-  left: 3px;
+  .stitches-sprite(-89px, -65px, 14px, 14px);
 }
