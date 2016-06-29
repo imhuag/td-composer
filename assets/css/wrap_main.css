@@ -708,6 +708,7 @@ placeholder when sidebar is empty
 }
 .tdc-empty-sidebar .tdc-documentation a {
   text-decoration: none;
+  font-size: 14px;
 }
 /*
   sidebar bottom
