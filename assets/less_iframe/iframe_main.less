@@ -16,8 +16,6 @@ html.tdc-active #wpadminbar {
   pointer-events: all;
 }
 
-
-
 .tdc-elements {
   min-height: 50px; /* used when only the placeholder is inside and it's hidden */
 }
@@ -26,84 +24,6 @@ html.tdc-active #wpadminbar {
   border: 1px dashed green;
   height: 50px;
 }
-
-
-
-
-//.tdc-elements:before {
-//  content: '';
-//  position: absolute;
-//  height: 100%;
-//  top: 0;
-//  left: 24px;
-//  right: 24px;
-//  pointer-events: none;
-//  z-index: 2;
-//}
-//
-//.tdc-elements-active.tdc-elements:before {
-//  border: 1px dashed cyan !important;
-//}
-//
-//.tdc-elements-hover.tdc-elements:before {
-//  border: 2px dashed #ffff00 !important;
-//}
-
-
-.tdc-row {
-//  padding: 20px 0;
-//  background-color: darkslategray;
-}
-
-.tdc-row:after,
-.tdc-row:before {
-//  content: '';
-//  position: absolute;
-//  pointer-events: none;
-//  z-index: 2;
-//  width: 100%;
-//  border: 1px dashed red;
-}
-
-
-.tdc-rows:before {
-//  content: '';
-//  position: absolute;
-//  width: 100%;
-//  height: 100%;
-//  top: 0;
-//  left: 0;
-//  pointer-events: none;
-//  z-index: 2;
-}
-
-.tdc-rows.tdc-rows-active:before {
-  //border: 1px dashed cyan !important;
-}
-
-.tdc-rows.tdc-rows-hover:before {
-  //border: 2px dashed #ffff00 !important;
-}
-
-
-
-.tdc-element:before {
-//  content: '';
-//  position: absolute;
-//  pointer-events: none;
-//  z-index: 2;
-//  left: 24px;
-//  right: 24px;
-//  height: 100%;
-//  border: 1px dashed red;
-}
-
-.tdc-element:hover::before {
-  //border: 1px dashed white;
-}
-
-
-
 
 .tdc-element,
 .tdc-element-column,
@@ -122,46 +42,8 @@ html.tdc-active #wpadminbar {
   opacity: 0.75 !important; // overwrite the tdc-element-selected opacity
 }
 
-//body{
-//  -webkit-touch-callout: none;
-//  -webkit-user-select: none;
-//  -khtml-user-select: none;
-//  -moz-user-select: none;
-//  -ms-user-select: none;
-//  user-select: none;
-//}
-
-// This is to be sure that tdc-elements are not outside of its 'before' pseudo element
-.tdc-elements {
-  //overflow: hidden; // do not delete it
-}
-
-
-
-
-.tdc-elements {
-  //padding: 20px 0;
-}
-
-.tdc-element-inner-row {
-//  padding: 20px 0;
-//  background-color: #2a5a7e;
-}
-
-.tdc-column .tdc-elements {
-  //background-color: #5a121e;
-}
-
-.tdc-inner-column .tdc-elements {
-  //background-color: #979526 !important;
-}
-
-.tdc-element {
-  //background-color: #4f657d;
-}
-
 .tdc-element-empty {
-  border: 1px solid yellow;
+  border: 1px solid #4eb2ec;
   width: 100%;
   min-height: 50px;
   cursor: default;
@@ -169,24 +51,27 @@ html.tdc-active #wpadminbar {
 
 .tdc-element-empty:before {
   content: 'EMPTY ELEMENT - not dragged, auto removed, only for handlers';
+  font-size: 12px;
+  padding: 2px 10px;
+  display: block;
+  height: 100%;
+  color: #666;
 }
 
 .tdc-inner-column .tdc-elements > .tdc-element-empty {
-  border: 1px solid blue;
+  border: 1px solid #aeef40;
 }
-
 
 #tdc-placeholder {
   display: none;
-  border: 1px dashed red;
   height: 50px;
   width: 100%;
   position: absolute;
   pointer-events: none;
   z-index: 100000;
-  opacity: 0.4;
   margin-top: -25px;
-  background-color: yellow;
+  border: 1px dashed #aeef40;
+  background-color: #aeef40;
 }
 
 .tdc-inner-column .tdc-elements > #tdc-placeholder {
@@ -201,15 +86,12 @@ html.tdc-active #wpadminbar {
   background-color: greenyellow;
 }
 
-
 .vertical {
   width: 50px !important;
   height: 200px !important;
   margin-top: auto !important;
   right: auto !important;
 }
-
-
 
 #tdc-mask {
   position: absolute;
@@ -229,22 +111,7 @@ html.tdc-active #wpadminbar {
   pointer-events: none;
   position: absolute;
   z-index: 2;
-//  top: 0;
-//  left: 0;
 }
-
-//.tdc-content-row {
-//  background-color: rgba(45, 107, 146, 0.50) !important;
-//}
-//.tdc-content-column {
-//  background-color: rgba(45, 107, 146, 0.60) !important;
-//}
-//.tdc-content-inner-row {
-//  background-color: rgba(45, 107, 146, 0.70) !important;
-//}
-//.tdc-content-inner-column {
-//  background-color: rgba(45, 107, 146, 0.80) !important;
-//}
 
 #tdc-mask-row,
 #tdc-mask-column,
@@ -306,8 +173,6 @@ html.tdc-active #wpadminbar {
   z-index: 3;
   cursor: pointer;
 }
-
-
 
 .td_block_homepage_full_1 {
   height: 50px;
@@ -373,7 +238,7 @@ html.tdc-active #wpadminbar {
   .tdc-icon-edit {
     background: url('../images/sidebar/spritesheet.png');
     background-repeat: no-repeat;
-    position: absolute;
+    position: relative;
     top: 1px;
     right: -1px;
     .stitches-sprite(-113px, -65px, 14px, 14px);
