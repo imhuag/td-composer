@@ -48,9 +48,12 @@
   opacity: 1;
 }
 .tdc-sidebar-inline#tdc-sidebar .tdc-icon-bullet {
-  background: url('../images/sidebar/bullet-empty.png');
+  background: url('../images/sidebar/spritesheet.png');
   top: 11px;
   left: 11px;
+  background-position: -54px -35px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-sidebar-inline .tdc-top-buttons {
   z-index: 110;
@@ -107,10 +110,11 @@
   position: absolute;
   top: 11px;
   right: 8px;
-  height: 20px;
-  width: 20px;
-  background: url('../images/sidebar/arrow_right.png');
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
+  background-position: -95px -5px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-top-buttons .tdc-add-element:hover {
   background-color: #268ac2;
@@ -120,8 +124,10 @@
   color: #000000;
 }
 .tdc-top-buttons .tdc-active-element .tdc-icon-add {
-  background: url('../images/sidebar/arrow_down.png');
-  background-repeat: no-repeat;
+  background: url('../images/sidebar/spritesheet.png');
+  background-position: -5px -5px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-top-buttons .tdc-active-element:hover {
   background-color: #fff;
@@ -141,10 +147,11 @@
   position: absolute;
   top: 10px;
   right: 12px;
-  height: 20px;
-  width: 20px;
-  background: url('../images/sidebar/save.png');
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
+  background-position: -125px -5px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-top-buttons .tdc-close-page {
   width: 43px;
@@ -161,10 +168,11 @@
   position: absolute;
   top: 10px;
   right: 11px;
-  height: 20px;
-  width: 20px;
-  background: url('../images/sidebar/x.png');
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
+  background-position: -5px -125px;
+  width: 20px;
+  height: 20px;
 }
 /*
   Modal window
@@ -223,9 +231,10 @@
   position: absolute;
   right: 0;
   top: 2px;
-  height: 20px;
+  background: url('../images/sidebar/spritesheet.png');
+  background-position: -140px -35px;
   width: 20px;
-  background: url('../images/sidebar/search.png');
+  height: 20px;
 }
 .tdc-sidebar-modal .tdc-element-icon {
   position: absolute;
@@ -574,13 +583,14 @@
   text-decoration: underline;
 }
 .tdc-breadcrumb-arrow {
-  width: 10px;
-  height: 10px;
   display: inline-block;
-  background: url('../images/sidebar/breadcrumbs-small-arrow.png');
+  background: url('../images/sidebar/spritesheet.png');
   position: relative;
   top: 2px;
   left: 2px;
+  background-position: -5px -35px;
+  width: 10px;
+  height: 10px;
 }
 .tdc-current-element-head {
   font-size: 14px;
@@ -781,13 +791,14 @@ placeholder when sidebar is empty
   background-color: #000;
 }
 .tdc-sidebar-close .tdc-icon-sidebar-close {
-  width: 20px;
-  height: 20px;
-  background: url('../images/sidebar/arrow_left.png');
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 11px;
   left: 11px;
+  background-position: -35px -5px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-sidebar-open {
   width: 43px;
@@ -803,13 +814,14 @@ placeholder when sidebar is empty
   box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
 }
 .tdc-sidebar-open .tdc-icon-sidebar-open {
-  width: 20px;
-  height: 20px;
-  background: url('../images/sidebar/arrow_open.png');
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 11px;
   left: 11px;
+  background-position: -65px -5px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-sidebar-reopen {
   -webkit-transition: left 0.4s ease 0.4s;
@@ -830,13 +842,14 @@ placeholder when sidebar is empty
   background-color: #000;
 }
 .tdc-bullet .tdc-icon-bullet {
-  width: 20px;
-  height: 20px;
-  background: url('../images/sidebar/bullet.png');
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 12px;
   left: 12px;
+  background-position: -25px -35px;
+  width: 20px;
+  height: 20px;
 }
 #tdc-restore {
   position: fixed;
@@ -886,21 +899,25 @@ placeholder when sidebar is empty
   cursor: pointer;
 }
 .tdc-responsive-buttons .tdc-responsive-desktop .tdc-desktop-icon {
-  width: 20px;
-  height: 20px;
-  background: url('../images/sidebar/desktop-black.png');
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 5px;
   left: 0;
   right: 0;
   margin: 0 auto;
+  background-position: -5px -65px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-responsive-buttons .tdc-responsive-desktop:active {
   background-color: #4eb2ec;
 }
 .tdc-responsive-buttons .tdc-responsive-desktop:active .tdc-desktop-icon {
-  background: url('../images/sidebar/desktop-white.png');
+  background: url('../images/sidebar/spritesheet.png');
+  background-position: -35px -65px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-responsive-buttons .tdc-responsive-tablet-landscape {
   width: 67px;
@@ -911,21 +928,24 @@ placeholder when sidebar is empty
   cursor: pointer;
 }
 .tdc-responsive-buttons .tdc-responsive-tablet-landscape .tdc-tablet-landscape-icon {
-  width: 20px;
-  height: 20px;
-  background: url('../images/sidebar/tablet-l-black.png');
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 4px;
   left: -1px;
   right: 0;
   margin: 0 auto;
+  background-position: -137px -65px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-responsive-buttons .tdc-responsive-tablet-landscape:active {
   background-color: #4eb2ec;
 }
 .tdc-responsive-buttons .tdc-responsive-tablet-landscape:active .tdc-tablet-landscape-icon {
-  background: url('../images/sidebar/tablet-l-white.png');
+  background-position: -5px -95px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-responsive-buttons .tdc-responsive-tablet-portrait {
   width: 67px;
@@ -936,21 +956,24 @@ placeholder when sidebar is empty
   cursor: pointer;
 }
 .tdc-responsive-buttons .tdc-responsive-tablet-portrait .tdc-tablet-portrait-icon {
-  width: 20px;
-  height: 20px;
-  background: url('../images/sidebar/tablet-p-black.png');
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 4px;
   left: -1px;
   right: 0;
   margin: 0 auto;
+  background-position: -35px -95px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-responsive-buttons .tdc-responsive-tablet-portrait:active {
   background-color: #4eb2ec;
 }
 .tdc-responsive-buttons .tdc-responsive-tablet-portrait:active .tdc-tablet-portrait-icon {
-  background: url('../images/sidebar/tablet-p-white.png');
+  background-position: -125px -95px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-responsive-buttons .tdc-responsive-phone {
   width: 66px;
@@ -961,21 +984,24 @@ placeholder when sidebar is empty
   cursor: pointer;
 }
 .tdc-responsive-buttons .tdc-responsive-phone .tdc-phone-icon {
-  width: 20px;
-  height: 20px;
-  background: url('../images/sidebar/phone-black.png');
+  background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 4px;
   left: -2px;
   right: 0;
   margin: 0 auto;
+  background-position: -65px -89px;
+  width: 20px;
+  height: 20px;
 }
 .tdc-responsive-buttons .tdc-responsive-phone:active {
   background-color: #4eb2ec;
 }
 .tdc-responsive-buttons .tdc-responsive-phone:active .tdc-phone-icon {
-  background: url('../images/sidebar/phone-white.png');
+  background-position: -95px -89px;
+  width: 20px;
+  height: 20px;
 }
 /*
   color picker
