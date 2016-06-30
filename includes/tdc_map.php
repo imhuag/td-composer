@@ -51,7 +51,7 @@ tdc_mapper::map(array(
 		// internal modifier - does not update atts
 		array (
 			'param_name' => 'tdc_row_columns_modifier',
-			'heading' => 'Transform this row',
+			'heading' => 'Transform this row:',
 			'type' => 'dropdown',
 			'value' => array (
 				'1/1' => '11',
@@ -65,13 +65,13 @@ tdc_mapper::map(array(
 
 		array(
 			'type' => 'textfield', // should have been vc_el_id but we use textfield
-			'heading' => 'Row ID',
+			'heading' => 'Row ID:',
 			'param_name' => 'el_id',
 			'description' => 'Make sure that this is unique on the page',
 		),
 		array(
 			'type' => 'textfield',
-			'heading' => 'Extra class name',
+			'heading' => 'Extra class name:',
 			'param_name' => 'el_class',
 			'description' => 'Add a class to this row',
 		),
@@ -97,13 +97,13 @@ tdc_mapper::map(
 		'params' => array(
 			array(
 				'type' => 'textfield',
-				'heading' => 'Extra class name',
+				'heading' => 'Extra class name:',
 				'param_name' => 'el_class',
 				'description' => 'Add a class to this row',
 			),
 			array(
 				'type' => 'css_editor',
-				'heading' => __( 'CSS box', 'td_composer' ),
+				'heading' => __( 'CSS box:', 'td_composer' ),
 				'param_name' => 'css',
 				'group' => __( 'Design Options', 'td_composer' ),
 			)
@@ -125,7 +125,7 @@ tdc_mapper::map(
 			// internal modifier - does not update atts
 			array (
 				'param_name' => 'tdc_inner_row_columns_modifier',
-				'heading' => 'Transform this inner row',
+				'heading' => 'Transform this inner row:',
 				'type' => 'dropdown',
 				'value' => array (
 					'1/1' => '11',
@@ -139,13 +139,13 @@ tdc_mapper::map(
 
 			array(
 				'type' => 'textfield', // should have been vc_el_id but we use textfield
-				'heading' => 'Row ID',
+				'heading' => 'Row ID:',
 				'param_name' => 'el_id',
 				'description' => 'Make sure that this is unique on the page',
 			),
 			array(
 				'type' => 'textfield',
-				'heading' => 'Extra class name',
+				'heading' => 'Extra class name:',
 				'param_name' => 'el_class',
 				'description' => 'Add a class to this row',
 			),
@@ -153,7 +153,7 @@ tdc_mapper::map(
 
 			array(
 				'type' => 'css_editor',
-				'heading' => __('CSS box', 'td_composer'),
+				'heading' => __('CSS box:', 'td_composer'),
 				'param_name' => 'css',
 				'group' => __('Design Options', 'td_composer')
 			),
@@ -174,13 +174,13 @@ tdc_mapper::map(
 		'params' => array(
 			array(
 				'type' => 'textfield',
-				'heading' => 'Extra class name',
+				'heading' => 'Extra class name:',
 				'param_name' => 'el_class',
 				'description' => 'Add a class to this row',
 			),
 			array(
 				'type' => 'css_editor',
-				'heading' => __( 'CSS box', 'td_composer' ),
+				'heading' => __( 'CSS box:', 'td_composer' ),
 				'param_name' => 'css',
 				'group' => __( 'Design Options', 'td_composer' ),
 			),
@@ -202,13 +202,13 @@ tdc_mapper::map(
 				"type" => "textarea_html",
 				"holder" => "div",
 				"class" => "",
-				"heading" => 'Text',
+				"heading" => 'Text:',
 				"value" => __('Html code here! Replace this with any non empty html code and that\'s it.', 'td_composer' ),
 				"description" => 'Enter your content.'
 			),
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Extra class name', 'td_composer' ),
+				'heading' => __( 'Extra class name:', 'td_composer' ),
 				'param_name' => 'el_class',
 				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
 				'value' => '',
@@ -218,7 +218,7 @@ tdc_mapper::map(
 				'param_name' => 'css',
 				'value' => '',
 				'type' => 'css_editor',
-				'heading' => 'Css',
+				'heading' => 'Css:',
 				'group' => 'Design options',
 			)
 		),
@@ -239,13 +239,13 @@ tdc_mapper::map(
 				"type" => "textarea_raw_html",
 				"holder" => "div",
 				"class" => "",
-				"heading" => 'Text',
+				"heading" => 'Text:',
 				"value" => base64_encode(__('Html code here! Replace this with any non empty raw html code and that\'s it.', 'td_composer' ) ),
 				"description" => 'Enter your content.'
 			),
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Extra class name', 'td_composer' ),
+				'heading' => __( 'Extra class name:', 'td_composer' ),
 				'param_name' => 'el_class',
 				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
 				'value' => '',
@@ -255,7 +255,7 @@ tdc_mapper::map(
 				'param_name' => 'css',
 				'value' => '',
 				'type' => 'css_editor',
-				'heading' => 'Css',
+				'heading' => 'Css:',
 				'group' => 'Design options',
 			)
 		),
@@ -273,14 +273,14 @@ tdc_mapper::map(
 		'params' => array(
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Height', 'td_composer' ),
+				'heading' => __( 'Height:', 'td_composer' ),
 				'param_name' => 'height',
 				'description' => __( 'Custom height of the empty space.', 'td_composer' ),
 				'value' => '32px',
 			),
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Extra class name', 'td_composer' ),
+				'heading' => __( 'Extra class name:', 'td_composer' ),
 				'param_name' => 'el_class',
 				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
 				'value' => '',
@@ -290,7 +290,7 @@ tdc_mapper::map(
 				'param_name' => 'css',
 				'value' => '',
 				'type' => 'css_editor',
-				'heading' => 'Css',
+				'heading' => 'Css:',
 				'group' => 'Design options',
 			)
 		),
@@ -309,14 +309,14 @@ tdc_mapper::map(
 		'params' => array(
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Widget title', 'td_composer' ),
+				'heading' => __( 'Widget title:', 'td_composer' ),
 				'param_name' => 'title',
 				'description' => __( 'Enter text used as widget title (Note: located above content element).', 'td_composer' ),
 				'value' => '',
 			),
 			array (
 				'param_name' => 'sidebar_id',
-				'heading' => 'Sidebar',
+				'heading' => 'Sidebar:',
 				'type' => 'dropdown',
 
 				// The parameter is set at 'admin_head' action, there the global $wp_registered_sidebars being set (otherwise it could be set at 'init')
@@ -326,7 +326,7 @@ tdc_mapper::map(
 			),
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Extra class name', 'td_composer' ),
+				'heading' => __( 'Extra class name:', 'td_composer' ),
 				'param_name' => 'el_class',
 				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
 				'value' => ''
@@ -355,14 +355,14 @@ function register_external_shortcodes() {
 			'params' => array(
 				array(
 					'type' => 'textfield',
-					'heading' => __( 'Widget title', 'td_composer' ),
+					'heading' => __( 'Widget title:', 'td_composer' ),
 					'param_name' => 'title',
 					'description' => __( 'Enter text used as widget title (Note: located above content element).', 'td_composer' ),
 					'value' => '',
 				),
 				array(
 					'type' => 'textfield',
-					'heading' => __( 'Revolution Slider', 'td_composer' ),
+					'heading' => __( 'Revolution Slider:', 'td_composer' ),
 					'param_name' => 'alias',
 					'admin_label' => true,
 					'value' => '',
@@ -371,7 +371,7 @@ function register_external_shortcodes() {
 				),
 				array(
 					'type' => 'textfield',
-					'heading' => __( 'Extra class name', 'td_composer' ),
+					'heading' => __( 'Extra class name:', 'td_composer' ),
 					'param_name' => 'el_class',
 					'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
 					'value' => '',
