@@ -34,5 +34,4 @@ vc_widget_sidebar
 -  Currently the plugin only works with our themes, we did extensive testing and development on Newspaper but it should also work on Newsmag. We plan to support other themes in the future when the pugin si more stable.
 
 #### Contributing to this project:
-- We are looking for contributors
-https://help.github.com/articles/fork-a-repo/
+- We are looking for contributors https://help.github.com/articles/fork-a-repo/
