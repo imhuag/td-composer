@@ -30,7 +30,7 @@ html.tdc-active #wpadminbar {
   cursor: pointer;
 }
 .tdc-dragged {
-  opacity: 0.75 !important;
+  opacity: 0.5;
 }
 .tdc-element-empty {
   border: 1px solid #4eb2ec;
@@ -191,7 +191,19 @@ html.tdc-active #wpadminbar {
   color: #666;
 }
 .tdc-element-selected {
-  opacity: 0.8;
+  outline: 2px dashed  #e8e8e8;
+}
+.tdc-column.tdc-element-selected {
+  outline: none;
+}
+.tdc-column.tdc-element-selected > .vc_column {
+  outline: 2px dashed  #e8e8e8;
+}
+.tdc-inner-column.tdc-element-selected {
+  outline: none;
+}
+.tdc-inner-column.tdc-element-selected > .vc_column_inner {
+  outline: 2px dashed  #e8e8e8;
 }
 #tdc-rows .tdc-rev-slider {
   height: 50px;

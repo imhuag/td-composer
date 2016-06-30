@@ -39,7 +39,7 @@ html.tdc-active #wpadminbar {
 }
 
 .tdc-dragged {
-  opacity: 0.75 !important; // overwrite the tdc-element-selected opacity
+  opacity: 0.5; // overwrite the tdc-element-selected opacity
 }
 
 .tdc-element-empty {
@@ -224,8 +224,30 @@ html.tdc-active #wpadminbar {
 }
 
 .tdc-element-selected {
-  opacity: 0.8;
+  outline: 2px dashed  #e8e8e8;
 }
+
+
+// columns - they are colapsing and we need to add the outline to the inner wrapper
+.tdc-column.tdc-element-selected {
+  outline: none;
+
+  > .vc_column {
+    outline: 2px dashed  #e8e8e8;
+  }
+}
+
+// columns - they are colapsing and we need to add the outline to the inner wrapper
+.tdc-inner-column.tdc-element-selected {
+  outline: none;
+
+  > .vc_column_inner {
+    outline: 2px dashed  #e8e8e8;
+  }
+}
+
+
+
 
 #tdc-rows .tdc-rev-slider {
   height: 50px;
