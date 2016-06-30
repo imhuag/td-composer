@@ -4,7 +4,8 @@
  * Plugin URI: http://tagdiv.com
  * Description: tagDiv Composer
  * Author: tagDiv
- * Version: 1.0
+ * Version: 1.0 BETA 1
+ * License: GPL v3
  * Author URI: http://tagdiv.com
  */
 
