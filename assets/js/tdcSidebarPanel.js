@@ -762,7 +762,7 @@ var tdcSidebarPanel = {};
             var tooltip = '';
 
             if ( _.has( mappedParameter, 'description' ) ) {
-                tooltip = '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + mappedParameter.description + '">?</a>';
+                tooltip = '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + _.escape( mappedParameter.description ) + '">?</a>';
             }
 
             //console.log(mappedParameter);
