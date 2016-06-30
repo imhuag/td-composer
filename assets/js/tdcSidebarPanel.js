@@ -691,7 +691,7 @@ var tdcSidebarPanel = {};
             var buffy = '';
             var colorPickerId = _.uniqueId();
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
-                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':' + tooltip + '</div>';
+                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + tooltip + '</div>';
                 buffy += '<div class="tdc-property">';
                     buffy += '<input ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' id="' + colorPickerId + '" name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '" type="text" value="' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '"/>';
                 buffy += '</div>';
@@ -738,7 +738,7 @@ var tdcSidebarPanel = {};
             }
 
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
-                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':' + tooltip + '</div>';
+                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + tooltip + '</div>';
                 buffy += '<div class="tdc-property">';
                     buffy += '<select ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '">';
                         buffy += selectOptions;
@@ -768,7 +768,7 @@ var tdcSidebarPanel = {};
             //console.log(mappedParameter);
             var buffy = '';
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
-                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':' + tooltip + '</div>';
+                buffy += '<div class="tdc-property-title">' + mappedParameter.heading + tooltip + '</div>';
                 buffy += '<div class="tdc-property">';
                     buffy += '<input ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '" type="text" value="' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '"/>';
                 buffy += '</div>';
@@ -791,7 +791,7 @@ var tdcSidebarPanel = {};
 
             var buffy = '';
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
-            buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':' + tooltip + '</div>';
+            buffy += '<div class="tdc-property-title">' + mappedParameter.heading + tooltip + '</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<div id="' + tinymceId + '" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '>' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '</div>';
             buffy += '</div>';
@@ -855,7 +855,7 @@ var tdcSidebarPanel = {};
 
             var buffy = '';
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
-            buffy += '<div class="tdc-property-title">' + mappedParameter.heading + ':' + tooltip + '</div>';
+            buffy += '<div class="tdc-property-title">' + mappedParameter.heading + tooltip + '</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<textarea id="' + textareaId + '" class="tdc-textarea" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '>' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '</textarea>';
             buffy += '</div>';
