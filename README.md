@@ -10,7 +10,7 @@ A GPL pagebuilder plugin for WordPress that uses shortcodes to save and reder th
 
 ### What's special?
 - It's somehow compatible with Visual Composer, meaning that it works with some of the same shortcodes.
-- The plugin works side by side with Visual Composer, but 
+- The plugin works side by side with Visual Composer
 - GPL license, open to new contribuitors, maintained and suppoerted by us (tagDiv)
 
 ### Limitations:
