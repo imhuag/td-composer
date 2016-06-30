@@ -153,7 +153,7 @@ html.tdc-active #wpadminbar {
 }
 .td_block_homepage_full_1 {
   height: 50px;
-  border: 1px solid #4eb2ec;
+  border: 1px solid #ec6432;
 }
 .td_block_homepage_full_1:after {
   content: 'Homepage Post Element';
@@ -164,22 +164,9 @@ html.tdc-active #wpadminbar {
   height: 100%;
   color: #666;
 }
-#tdc-rows .tdc-add-block {
-  height: 50px;
-  border: 1px solid #4eb2ec;
-}
-#tdc-rows .tdc-add-block:after {
-  content: 'Add Box Element';
-  font-size: 12px;
-  line-height: 16px;
-  padding: 7px 10px;
-  display: block;
-  height: 100%;
-  color: #666;
-}
 .tdc-big-grid-slide {
   height: 50px;
-  border: 1px solid #4eb2ec;
+  border: 1px solid #ec6432;
 }
 .tdc-big-grid-slide:after {
   content: 'Big Grid Slide must be in a ROW / 3 COLUMNS';
@@ -205,6 +192,23 @@ html.tdc-active #wpadminbar {
 .tdc-inner-column.tdc-element-selected > .vc_column_inner {
   outline: 1px dashed #4eb2ec;
 }
+#tdc-rows .tdc-add-block {
+  height: 50px;
+  border: 1px solid #ec6432;
+}
+#tdc-rows .tdc-add-block:after {
+  content: 'Add Box Element';
+  font-size: 12px;
+  line-height: 16px;
+  padding: 7px 10px;
+  display: block;
+  height: 100%;
+  color: #666;
+}
+#tdc-rows .td_block_authors {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
 #tdc-rows .tdc-rev-slider {
   height: 50px;
   border: 1px solid #ec6432;
@@ -219,7 +223,7 @@ html.tdc-active #wpadminbar {
   color: #666;
 }
 #tdc-rows .vc_widget_sidebar {
-  height: 50px;
+  height: 90px;
   border: 1px solid #ec6432;
 }
 #tdc-rows .vc_widget_sidebar:after {
@@ -230,6 +234,15 @@ html.tdc-active #wpadminbar {
   display: block;
   height: 100%;
   color: #666;
+}
+#tdc-rows .td_block_weather .td-weather-wrap,
+#tdc-rows .vc_column_text p,
+#tdc-rows .vc_raw_html {
+  font-size: 12px;
+  line-height: 16px;
+  padding: 7px 10px;
+  display: block;
+  text-align: left;
 }
 .tdc-external-shortcode {
   height: 50px;

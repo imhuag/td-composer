@@ -735,6 +735,7 @@ placeholder when sidebar is empty
   width: 258px;
   height: 90px;
   opacity: 0;
+  pointer-events: none;
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
@@ -745,6 +746,7 @@ placeholder when sidebar is empty
 }
 #tdc-recycle.show {
   opacity: 1;
+  pointer-events: auto;
 }
 #tdc-recycle.active {
   color: #fff;
@@ -1092,7 +1094,8 @@ placeholder when sidebar is empty
 #td-tab-ajax input[type=text],
 #td-tab-extra input[type=text],
 #td-tab-exchange input[type=text],
-#td-tab-weather input[type=text] {
+#td-tab-weather input[type=text],
+#td-tab-instagram input[type=text] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -1106,7 +1109,8 @@ placeholder when sidebar is empty
 #td-tab-ajax select,
 #td-tab-extra select,
 #td-tab-exchange select,
-#td-tab-weather select {
+#td-tab-weather select,
+#td-tab-instagram select {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -1122,54 +1126,63 @@ placeholder when sidebar is empty
 #td-tab-extra .tdc-property-tdc_row_columns_modifier select,
 #td-tab-exchange .tdc-property-tdc_row_columns_modifier select,
 #td-tab-weather .tdc-property-tdc_row_columns_modifier select,
+#td-tab-instagram .tdc-property-tdc_row_columns_modifier select,
 #td-tab-general .tdc-property-sort select,
 #td-tab-filter .tdc-property-sort select,
 #td-tab-ajax .tdc-property-sort select,
 #td-tab-extra .tdc-property-sort select,
 #td-tab-exchange .tdc-property-sort select,
 #td-tab-weather .tdc-property-sort select,
+#td-tab-instagram .tdc-property-sort select,
 #td-tab-general .tdc-property-ajax_pagination select,
 #td-tab-filter .tdc-property-ajax_pagination select,
 #td-tab-ajax .tdc-property-ajax_pagination select,
 #td-tab-extra .tdc-property-ajax_pagination select,
 #td-tab-exchange .tdc-property-ajax_pagination select,
 #td-tab-weather .tdc-property-ajax_pagination select,
+#td-tab-instagram .tdc-property-ajax_pagination select,
 #td-tab-general .tdc-property-w_units select,
 #td-tab-filter .tdc-property-w_units select,
 #td-tab-ajax .tdc-property-w_units select,
 #td-tab-extra .tdc-property-w_units select,
 #td-tab-exchange .tdc-property-w_units select,
 #td-tab-weather .tdc-property-w_units select,
+#td-tab-instagram .tdc-property-w_units select,
 #td-tab-general .tdc-property-e_rate_decimals select,
 #td-tab-filter .tdc-property-e_rate_decimals select,
 #td-tab-ajax .tdc-property-e_rate_decimals select,
 #td-tab-extra .tdc-property-e_rate_decimals select,
 #td-tab-exchange .tdc-property-e_rate_decimals select,
 #td-tab-weather .tdc-property-e_rate_decimals select,
+#td-tab-instagram .tdc-property-e_rate_decimals select,
 #td-tab-general .tdc-property-spot_id select,
 #td-tab-filter .tdc-property-spot_id select,
 #td-tab-ajax .tdc-property-spot_id select,
 #td-tab-extra .tdc-property-spot_id select,
 #td-tab-exchange .tdc-property-spot_id select,
 #td-tab-weather .tdc-property-spot_id select,
+#td-tab-instagram .tdc-property-spot_id select,
 #td-tab-general .tdc-property-playlist_auto_play select,
 #td-tab-filter .tdc-property-playlist_auto_play select,
 #td-tab-ajax .tdc-property-playlist_auto_play select,
 #td-tab-extra .tdc-property-playlist_auto_play select,
 #td-tab-exchange .tdc-property-playlist_auto_play select,
 #td-tab-weather .tdc-property-playlist_auto_play select,
+#td-tab-instagram .tdc-property-playlist_auto_play select,
 #td-tab-general .tdc-property-navigation select,
 #td-tab-filter .tdc-property-navigation select,
 #td-tab-ajax .tdc-property-navigation select,
 #td-tab-extra .tdc-property-navigation select,
 #td-tab-exchange .tdc-property-navigation select,
 #td-tab-weather .tdc-property-navigation select,
+#td-tab-instagram .tdc-property-navigation select,
 #td-tab-general .tdc-property-style select,
 #td-tab-filter .tdc-property-style select,
 #td-tab-ajax .tdc-property-style select,
 #td-tab-extra .tdc-property-style select,
 #td-tab-exchange .tdc-property-style select,
-#td-tab-weather .tdc-property-style select {
+#td-tab-weather .tdc-property-style select,
+#td-tab-instagram .tdc-property-style select {
   max-width: 60%;
   width: 120px;
   height: 27px;
@@ -1251,7 +1264,11 @@ placeholder when sidebar is empty
 .tdc-property-googleplus,
 .tdc-property-instagram,
 .tdc-property-soundcloud,
-.tdc-property-rss {
+.tdc-property-rss,
+.tdc-property-instagram_id,
+.tdc-property-instagram_header,
+.tdc-property-instagram_images_per_row,
+.tdc-property-instagram_number_of_rows {
   margin-bottom: 13px;
 }
 .tdc-property-custom_url,
