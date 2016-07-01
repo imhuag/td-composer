@@ -1610,6 +1610,10 @@ body.tdc #wpbody-content {
   left: 0;
   background-color: #fff;
 }
+.tdc-notice:last-child:before,
+.tdc-notice-error:last-child:before {
+  display: none;
+}
 .tdc-notice {
   background-color: #88be4e;
 }
