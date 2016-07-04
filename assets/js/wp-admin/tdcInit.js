@@ -61,7 +61,7 @@ var tdcInit = {};
 
                 tdcInit._url = window.tdcAdminSettings.adminUrl + 'post.php?post_id=' + tdcInit.$postId.val() + '&td_action=tdc';
 
-                jQuery( '<a onclick="return tdcInit.savePost( event )" href="' + tdcInit._url + '">TagDiv Composer</a>').insertAfter( 'div#titlediv' );
+                jQuery( '<div class="tdc-panel-icon"></div><a class="tdc-panel-button" onclick="return tdcInit.savePost( event )" href="' + tdcInit._url + '">TagDiv Composer</a>').insertAfter( 'div#titlediv' );
             }
         },
 
