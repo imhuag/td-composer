@@ -19,6 +19,7 @@ var tdcJobManager = {};
 
         /**
          * here we keep all the blockUid - to - jobNumber associations. We use them to discard older jobs and keep the latest ones
+         * @todo - this variable is not cleaned, we just add to it with each job
          */
         _sentJobs: {},
 

@@ -440,17 +440,24 @@ if (!empty($td_action)) {
 //}
 
 
-
+/**
+ * edit with td composer
+ */
 add_filter( 'page_row_actions', 'tdc_add_composer_actions', 10, 2 );
 function tdc_add_composer_actions( $actions, $post ) {
-
 	$actions['edit_tdc_composer'] = '<a href="' . admin_url('post.php?post_id=' . $post->ID . '&td_action=tdc') . '">Edit with TD Composer</a>';
-
-
 	return $actions;
 }
 
 
+
+/* ----------------------------------------------------------------------------
+ * css for wp-admin / backend
+ */
+add_action('admin_enqueue_scripts', 'tdc_load_wp_admin_css');
+function tdc_load_wp_admin_css() {
+	wp_enqueue_style('tdc-wp-admin', TDC_URL . '/td_less_style.css.php?part=tdc-wp-admin.css', false, false );
+}
 
 
 
