@@ -17,7 +17,7 @@ $td_less_files = array (
 		'source' => 'assets/less_wrap/wrap_main.less',
 		'destination' => 'assets/css/wrap_main.css'
 	),
-	'tdc-wp-admin.css' => array (
+	'tdc_wp_admin_main' => array (
 		'source' => 'assets/less_wp_admin/wp_admin_main.less',
 		'destination' => 'assets/css/tdc_wp_admin_main.css'
 	)
