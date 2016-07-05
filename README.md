@@ -8,6 +8,10 @@ Author: tagDiv - Themes for smart people
 #### What's this?
 A GPL pagebuilder plugin for WordPress that uses shortcodes to save and reder the page.
 
+### Download
+- [Download the latest release](https://github.com/opradu/td-composer/releases/download/v1.0-beta.0/td-composer.zip) **(recomended)**
+- or you can run the plugin from this github repo but please note that the built in LESS compiler runs only on windows for now. You can compile your own less files - modify the TDC_USE_LESS constant in td_deploy_mode.php
+
 #### What's special?
 - It's somehow compatible with Visual Composer, meaning that it works with some of the same shortcodes. 
 - Much leaner than other composers / pagebuilders
