@@ -11,7 +11,7 @@
 
 
 
-
+require_once 'td_deploy_mode.php';
 
 
 
