@@ -246,9 +246,6 @@ var tdcInnerRowUI;
 
             var $placeholder = tdcAdminWrapperUI.$placeholder;
 
-            // Adapt the placeholder to look great when it's not on columns and inner-columns
-            tdcOperationUI.setHorizontalPlaceholder();
-
 
             // The mouse position.
             // This is used as a mark value.
@@ -351,19 +348,23 @@ var tdcInnerRowUI;
 
                 // Position the placeholder at the bottom of the screen
                 if ( parseInt( elementOffset.top ) + parseInt( elementOuterHeight ) > parseInt( tdcOperationUI.iframeContents.scrollTop()) + parseInt( window.innerHeight ) ) {
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'fixed',
                         'top': '',
+                        'left': '',
                         'margin-top': '',
+                        'margin-left': '',
                         'bottom': '0',
                         'width': elementOuterWidth
                     });
                 } else {
                     // Reset
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'absolute',
                         'top': '',
+                        'left': '',
                         'margin-top': '',
+                        'margin-left': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
@@ -382,19 +383,23 @@ var tdcInnerRowUI;
 
                 // Position the placeholder at the top of the screen
                 if ( parseInt( elementOffset.top ) < parseInt( tdcOperationUI.iframeContents.scrollTop() ) ) {
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'fixed',
                         'top': '0',
+                        'left': '',
                         'margin-top': '0',
+                        'margin-left': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
                 } else {
                     // Reset
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'absolute',
                         'top': '',
+                        'left': '',
                         'margin-top': '',
+                        'margin-left': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });

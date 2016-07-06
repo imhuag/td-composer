@@ -60,9 +60,6 @@ var tdcElementUI;
 
             var $placeholder = tdcAdminWrapperUI.$placeholder;
 
-            // Adapt the placeholder to look great when it's not on columns and inner-columns
-            tdcOperationUI.setHorizontalPlaceholder();
-
 
             // The mouse position.
             // This is used as a mark value.
@@ -141,17 +138,14 @@ var tdcElementUI;
             }
 
 
-
             // If a 'tdc-element' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
-
-            var elementOuterHeight = currentElementOver.outerHeight( true),
-                elementOuterWidth = currentElementOver.outerWidth( true ),
-                elementOffset = currentElementOver.offset();
+            var elementOuterHeight = tdcOperationUI.getCurrentElementOverOuterHeight(),
+                elementOuterWidth = tdcOperationUI.getCurrentElementOverOuterWidth(),
+                elementOffset = tdcOperationUI.getCurrentElementOverOffset();
 
             //tdcDebug.log( mousePointerValue.Y + ' : ' +  ( elementOffset.top + ( elementOuterHeight / 2 ) ) );
 
             if ( mousePointerValue.Y > elementOffset.top + ( elementOuterHeight / 2 ) ) {
-
 
 
 
@@ -190,7 +184,9 @@ var tdcElementUI;
 
                     $nextElement = $innerRowParent.next();
 
-                    if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    // Important! The 'id' check create troubles on FF/IE
+                    //if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    if ( ! $nextElement.length ) {
                         $innerRowParent.after($placeholder);
 
                         // Update the helper
@@ -204,7 +200,9 @@ var tdcElementUI;
 
                     $nextElement = currentElementOver.next();
 
-                    if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    // Important! The 'id' check create troubles on FF/IE
+                    //if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    if ( ! $nextElement.length ) {
                         currentElementOver.after($placeholder);
 
                         // Update the helper
@@ -220,19 +218,23 @@ var tdcElementUI;
 
                 // Position the placeholder at the bottom of the screen
                 if ( parseInt( elementOffset.top ) + parseInt( elementOuterHeight ) > parseInt( tdcOperationUI.iframeContents.scrollTop()) + parseInt( window.innerHeight ) ) {
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'fixed',
                         'top': '',
+                        'left': '',
                         'margin-top': '',
+                        'margin-left': '',
                         'bottom': '0',
                         'width': elementOuterWidth
                     });
                 } else {
                     // Reset
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'absolute',
                         'top': '',
+                        'left': '',
                         'margin-top': '',
+                        'margin-left': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
@@ -276,7 +278,9 @@ var tdcElementUI;
 
                     $prevElement = $innerRowParent.prev();
 
-                    if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    // Important! The 'id' check create troubles on FF/IE
+                    //if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    if ( ! $prevElement.length ) {
                         $innerRowParent.before($placeholder);
 
                         // Update the helper
@@ -290,7 +294,9 @@ var tdcElementUI;
 
                     $prevElement = currentElementOver.prev();
 
-                    if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    // Important! The 'id' check create troubles on FF/IE
+                    //if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    if ( ! $prevElement.length ) {
                         currentElementOver.before($placeholder);
 
                         // Update the helper
@@ -305,19 +311,23 @@ var tdcElementUI;
 
                 // Position the placeholder at the top of the screen
                 if ( parseInt( elementOffset.top ) < parseInt( tdcOperationUI.iframeContents.scrollTop() ) ) {
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'fixed',
                         'top': '0',
+                        'left': '',
                         'margin-top': '0',
+                        'margin-left': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
                 } else {
                     // Reset
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'absolute',
                         'top': '',
+                        'left': '',
                         'margin-top': '',
+                        'margin-left': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
@@ -351,9 +361,6 @@ var tdcElementUI;
 
             var $placeholder = tdcAdminWrapperUI.$placeholder;
 
-            // Adapt the placeholder to look great when it's not on columns and inner-columns
-            tdcOperationUI.setHorizontalPlaceholder();
-
 
             // The mouse position.
             // This is used as a mark value.
@@ -435,9 +442,13 @@ var tdcElementUI;
 
             // If a 'tdc-element' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
-            var elementOuterHeight = currentElementOver.outerHeight( true),
-                elementOuterWidth = currentElementOver.outerWidth( true ),
-                elementOffset = currentElementOver.offset();
+            //var elementOuterHeight = currentElementOver.outerHeight( true),
+            //    elementOuterWidth = currentElementOver.outerWidth( true ),
+            //    elementOffset = currentElementOver.offset();
+
+            var elementOuterHeight = tdcOperationUI.getCurrentElementOverOuterHeight(),
+                elementOuterWidth = tdcOperationUI.getCurrentElementOverOuterWidth(),
+                elementOffset = tdcOperationUI.getCurrentElementOverOffset();
 
             //tdcDebug.log( mousePointerValue.Y + ' : ' +  ( elementOffset.top + ( elementOuterHeight / 2 ) ) );
 
@@ -481,7 +492,8 @@ var tdcElementUI;
 
                     $nextElement = $innerRowParent.next();
 
-                    if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    //if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    if ( ! $nextElement.length ) {
                         $innerRowParent.after($placeholder);
 
                         // Update the helper
@@ -495,7 +507,8 @@ var tdcElementUI;
 
                     $nextElement = currentElementOver.next();
 
-                    if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    //if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    if ( ! $nextElement.length ) {
                         currentElementOver.after($placeholder);
 
                         // Update the helper
@@ -511,19 +524,23 @@ var tdcElementUI;
 
                 // Position the placeholder at the bottom of the screen
                 if ( parseInt( elementOffset.top ) + parseInt( elementOuterHeight ) > parseInt( tdcOperationUI.iframeContents.scrollTop()) + parseInt( window.innerHeight ) ) {
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'fixed',
                         'top': '',
+                        'left': '',
                         'margin-top': '',
+                        'margin-left': '',
                         'bottom': 0,
                         'width': elementOuterWidth
                     });
                 } else {
                     // Reset
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'absolute',
                         'top': '',
+                        'left': '',
                         'margin-top': -50,
+                        'margin-left': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
@@ -567,7 +584,8 @@ var tdcElementUI;
 
                     $prevElement = $innerRowParent.prev();
 
-                    if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    //if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    if ( ! $prevElement.length ) {
                         $innerRowParent.before($placeholder);
 
                         // Update the helper
@@ -581,7 +599,8 @@ var tdcElementUI;
 
                     $prevElement = currentElementOver.prev();
 
-                    if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    //if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    if ( ! $prevElement.length ) {
                         currentElementOver.before($placeholder);
 
                         // Update the helper
@@ -596,19 +615,23 @@ var tdcElementUI;
 
                 // Position the placeholder at the top of the screen
                 if ( parseInt( elementOffset.top ) < parseInt( tdcOperationUI.iframeContents.scrollTop() ) ) {
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'fixed',
                         'top': 0,
+                        'left': '',
                         'margin-top': 0,
+                        'margin-left': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
                 } else {
                     // Reset
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'absolute',
                         'top': '',
+                        'left': '',
                         'margin-top': 0,
+                        'margin-left': '',
                         'bottom': '',
                         'width': elementOuterWidth
                     });
@@ -688,7 +711,7 @@ var tdcElementUI;
 
                 // Respond only if dragged element is 'tdc-element'
                 if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
-                    tdcDebug.log( 'element mouse up' );
+                    //tdcDebug.log( 'element mouse up' );
 
                     event.preventDefault();
 
@@ -880,7 +903,7 @@ var tdcElementUI;
                     tdcElementUI.positionEmptyElementPlaceholder( event );
                 }
 
-            }).mouseenter(function( event ) {//tdcDebug.log($element);
+            }).mouseenter(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element' or inner row
                 if ( tdcOperationUI.isElementDragged() || ( ( tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isTempInnerRowDragged() ) && $element.hasClass( 'tdc-element-column' ) ) ) {
@@ -922,7 +945,11 @@ var tdcElementUI;
          */
         isInnerColumnFirstElement: function( $element ) {
 
-            var $innerColumn = $element.closest( '.tdc-inner-column' );
+            // Not implemented yet!
+            //return $element.hasClass( 'tdc-first-element' );
+
+            var $column = $element.closest( '.tdc-column' ),
+                $innerColumn = $column.find( '.tdc-inner-column' );
 
             // The checked element is also inside of the inner column
             if ( $innerColumn.length ) {
@@ -939,14 +966,18 @@ var tdcElementUI;
 
 
         /**
-         * Check an element is the first of its inner column parent
+         * Check an element is the last of its inner column parent
          *
          * @param $element
          * @returns {boolean}
          */
         isInnerColumnLastElement: function( $element ) {
 
-            var $innerColumn = $element.closest( '.tdc-inner-column' );
+            // Not implemented yet!
+            //return $element.hasClass( 'tdc-last-element' );
+
+            var $column = $element.closest( '.tdc-column' ),
+                $innerColumn = $column.find( '.tdc-inner-column' );
 
             // The checked element is also inside of the inner column
             if ( $innerColumn.length ) {

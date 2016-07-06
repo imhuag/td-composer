@@ -35,6 +35,7 @@ var tdcMain = {};
 
 
         init: function() {
+
             // init the iframe, from there on we start
             tdcAdminIFrameUI.init();
 

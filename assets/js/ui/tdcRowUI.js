@@ -240,8 +240,6 @@ var tdcRowUI;
 
             var $placeholder = tdcAdminWrapperUI.$placeholder;
 
-            // Adapt the placeholder to look great when it's not on columns and inner-columns
-            tdcOperationUI.setHorizontalPlaceholder();
 
             // The mouse position.
             // This is used as a mark value.
@@ -315,9 +313,13 @@ var tdcRowUI;
 
             // If a 'tdc-row' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
-            var elementOuterHeight = currentElementOver.outerHeight( true ),
-                elementOuterWidth = currentElementOver.outerWidth( true ),
-                elementOffset = currentElementOver.offset();
+            //var elementOuterHeight = currentElementOver.outerHeight( true ),
+            //    elementOuterWidth = currentElementOver.outerWidth( true ),
+            //    elementOffset = currentElementOver.offset();
+
+            var elementOuterHeight = tdcOperationUI.getCurrentElementOverOuterHeight(),
+                elementOuterWidth = tdcOperationUI.getCurrentElementOverOuterWidth(),
+                elementOffset = tdcOperationUI.getCurrentElementOverOffset();
 
             //tdcDebug.log( mousePointerValue.Y + ' : ' +  ( elementOffset.top + ( elementOuterHeight / 2 ) ) );
 
@@ -334,21 +336,25 @@ var tdcRowUI;
 
                 // Position the placeholder at the bottom of the screen
                 if ( parseInt( elementOffset.top ) + parseInt( elementOuterHeight ) > parseInt( tdcOperationUI.iframeContents.scrollTop() ) + parseInt( window.innerHeight ) ) {
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'fixed',
                         'top': '',
+                        'left': '',
                         'right': 'auto',
                         'bottom': '0',
-                        'width': elementOuterWidth
+                        'width': elementOuterWidth,
+                        'margin-left': ''
                     });
                 } else {
                     // Reset
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'absolute',
                         'top': '',
+                        'left': '',
                         'right': '',
                         'bottom': '',
-                        'width': elementOuterWidth
+                        'width': elementOuterWidth,
+                        'margin-left': ''
                     });
                 }
 
@@ -365,21 +371,25 @@ var tdcRowUI;
 
                 // Position the placeholder at the top of the screen
                 if ( parseInt( elementOffset.top ) < parseInt( tdcOperationUI.iframeContents.scrollTop() ) ) {
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'fixed',
                         'top': '0',
+                        'left': '',
                         'right': 'auto',
                         'bottom': '',
-                        'width': elementOuterWidth
+                        'width': elementOuterWidth,
+                        'margin-left': ''
                     });
                 } else {
                     // Reset
-                    $placeholder.css({
+                    tdcOperationUI.setHorizontalPlaceholder({
                         'position': 'absolute',
                         'top': '',
+                        'left': '',
                         'right': '',
                         'bottom': '',
-                        'width': elementOuterWidth
+                        'width': elementOuterWidth,
+                        'margin-left': ''
                     });
                 }
             }

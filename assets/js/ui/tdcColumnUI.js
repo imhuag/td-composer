@@ -349,7 +349,8 @@ var tdcColumnUI;
             // If a 'tdcRow' is dragged and the 'currentElementOver' is not undefined, show and position the placeholder
 
             var elementOuterWidth = currentElementOver.find( '.vc_column_container:first').outerWidth( true ),
-                elementOffset = currentElementOver.offset(),
+                elementOffset = tdcOperationUI.getCurrentElementOverOffset(),
+                //elementOffset = currentElementOver.offset(),
 
             // Being floated, all prev columns width must be considered when working with the offset().left
                 extraLeft = 0,
@@ -375,7 +376,8 @@ var tdcColumnUI;
 
                 var $nextElement = currentElementOver.next();
 
-                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                //if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                if ( ! $nextElement.length) {
                     currentElementOver.after($placeholder);
 
                     // Update the helper
@@ -392,7 +394,8 @@ var tdcColumnUI;
 
                 var $prevElement = currentElementOver.prev();
 
-                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                //if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                if ( ! $prevElement.length ) {
                     currentElementOver.before($placeholder);
 
                     // Update the helper

@@ -30,10 +30,14 @@ var tdcOperationUI;
         iframeContents: undefined,
 
         // The 'tdc-element', 'tdc-inner-column', 'tdc-element-inner-row', 'tdc-column' or 'tdc-row'  being dragged
-        _draggedElement: undefined,
+        _draggedElement: {
+            $element: undefined
+        },
 
         // The 'tdc-element', 'tdc-inner-column', 'tdc-element-inner-row', 'tdc-column' or 'tdc-row' where the 'draggedElement' is over
-        _currentElementOver: undefined,
+        _currentElementOver: {
+            $element: undefined
+        },
 
         // Css class of empty element
         _emptyElementClass: 'tdc-element-empty',
@@ -130,34 +134,128 @@ var tdcOperationUI;
 
                 tdcOperationUI.hideHelper();
             });
-
-            window.test = function() {
-                tdcDebug.log( 1 );
-            };
         },
 
 
 
 
-        setDraggedElement: function( draggedElement ) {
-            tdcOperationUI._draggedElement = draggedElement;
-        },
+        setDraggedElement: function( $draggedElement ) {
+            tdcOperationUI._draggedElement.$element = $draggedElement;
 
+            if ( ! _.isUndefined( $draggedElement ) ) {
+
+                tdcOperationUI._draggedElement.classes = $draggedElement[0].className.split( ' ' );
+            }
+        },
 
         getDraggedElement: function() {
-            return tdcOperationUI._draggedElement;
+            return tdcOperationUI._draggedElement.$element;
+        },
+
+        /**
+         * Helper function used to work with tdcOperationUI._draggedElement
+         * Important! It was added to avoid working with tdcOperationUI._draggedElement.$element, which can involve supplementary jquery callbacks
+         *
+         * @param cssClass
+         * @returns {boolean}
+         */
+        hasClassDraggedElement: function( cssClass ) {
+            if ( ! _.isUndefined( tdcOperationUI._draggedElement.$element ) ) {
+                return -1 !== tdcOperationUI._draggedElement.classes.indexOf( cssClass );
+            }
+        },
+
+        /**
+         * Helper function used to work with tdcOperationUI._draggedElement
+         * Important! It was added to avoid working with tdcOperationUI._draggedElement.$element, which can involve supplementary jquery callbacks
+         *
+         * @param cssClass
+         */
+        addClassDraggedElement: function( cssClass ) {
+            if ( ! _.isUndefined( tdcOperationUI._draggedElement.$element ) ) {
+                tdcOperationUI._draggedElement.$element.addClass( cssClass );
+            }
         },
 
 
 
 
-        setCurrentElementOver: function( currentElementOver ) {
-            tdcOperationUI._currentElementOver = currentElementOver;
+        setCurrentElementOver: function( $currentElementOver ) {
+
+            // Do not set if the existing tdcOperationUI._currentElementOver.$element and the $currentElementOver are the same objects
+            if ( _.isUndefined( $currentElementOver ) && _.isUndefined( tdcOperationUI._currentElementOver.$element ) ) {
+                return;
+            }
+
+            // Do not set if the existing tdcOperationUI._currentElementOver.$element and the $currentElementOver are the same objects
+            if ( ! _.isUndefined( $currentElementOver ) && ! _.isUndefined( tdcOperationUI._currentElementOver.$element ) && $currentElementOver.is( tdcOperationUI._currentElementOver.$element.get(0) ) ) {
+                return;
+            }
+
+            tdcOperationUI._currentElementOver.$element = $currentElementOver;
+
+            if ( ! _.isUndefined( $currentElementOver ) ) {
+                tdcOperationUI._currentElementOver.elementOuterHeight = $currentElementOver.outerHeight( true);
+                tdcOperationUI._currentElementOver.elementOuterWidth = $currentElementOver.outerWidth( true );
+                tdcOperationUI._currentElementOver.elementOffset = $currentElementOver.offset();
+            }
         },
 
 
         getCurrentElementOver: function() {
-            return tdcOperationUI._currentElementOver;
+            return tdcOperationUI._currentElementOver.$element;
+        },
+
+        /**
+         * Helper function
+         *
+         * @returns {*}
+         */
+        getCurrentElementOverOuterHeight: function() {
+            if ( ! _.isUndefined( tdcOperationUI._currentElementOver.$element ) && ! _.isUndefined( tdcOperationUI._currentElementOver.elementOuterHeight ) ) {
+            //if ( 'undefined' !== typeof tdcOperationUI._currentElementOver.$element && 'undefined' !== typeof tdcOperationUI._currentElementOver.elementOuterHeight ) {
+                return tdcOperationUI._currentElementOver.elementOuterHeight;
+            }
+        },
+
+        /**
+         * Helper function
+         *
+         * @returns {*}
+         */
+        getCurrentElementOverOuterWidth: function() {
+            if ( ! _.isUndefined( tdcOperationUI._currentElementOver.$element ) && ! _.isUndefined( tdcOperationUI._currentElementOver.elementOuterWidth ) ) {
+            //if ( 'undefined' !== typeof tdcOperationUI._currentElementOver.$element && 'undefined' !== typeof tdcOperationUI._currentElementOver.elementOuterWidth ) {
+                return tdcOperationUI._currentElementOver.elementOuterWidth;
+            }
+        },
+
+        /**
+         * Helper function
+         *
+         * @returns {*}
+         */
+        getCurrentElementOverOffset: function() {
+            if ( ! _.isUndefined( tdcOperationUI._currentElementOver.$element ) && ! _.isUndefined( tdcOperationUI._currentElementOver.elementOffset ) ) {
+            //if ( 'undefined' !== typeof tdcOperationUI._currentElementOver.$element && 'undefined' !== typeof tdcOperationUI._currentElementOver.elementOffset ) {
+                return tdcOperationUI._currentElementOver.elementOffset;
+            }
+        },
+
+
+
+        _placeholderCacheCssSettings: {
+            classes: undefined,
+            props: undefined
+        },
+
+        setPlaceholderCss: function( cssSettings ) {
+
+            if ( _.isUndefined( tdcOperationUI._placeholderCacheCssSettings ) || ! _.isEqual( tdcOperationUI._placeholderCacheCssSettings, cssSettings ) ) {
+
+                tdcOperationUI._placeholderCacheCssSettings = cssSettings;
+                tdcAdminWrapperUI.$placeholder.css( cssSettings );
+            }
         },
 
 
@@ -166,8 +264,8 @@ var tdcOperationUI;
         activeDraggedElement: function( currentElement ) {
             tdcOperationUI.setDraggedElement( currentElement );
 
-            if ( ! tdcOperationUI._draggedElement.hasClass( 'tdc-dragged' ) ) {
-                tdcOperationUI._draggedElement.addClass( 'tdc-dragged' );
+            if ( ! tdcOperationUI.hasClassDraggedElement( 'tdc-dragged' ) ) {
+                tdcOperationUI.addClassDraggedElement( 'tdc-dragged' );
                 //tdcDebug.log( 'ACTIVATE' );
                 //tdcDebug.log( draggedElement );
             }
@@ -226,6 +324,7 @@ var tdcOperationUI;
                 if ( true === tdcMain.getSidebarInline() &&
                     false === tdcMain.getSidebarHidden() &&
                     ! jQuery( mouseEvent.target ).closest( '#tdc-sidebar' ).length ) {
+                    //! jQuery( '#tdc-sidebar').find( mouseEvent.target ).length ) {
 
                     addLeft = tdcSidebar.$_sidebar.width();
                 }
@@ -243,19 +342,19 @@ var tdcOperationUI;
                 });
                 $helper.show();
 
-                if ( $draggedElement.hasClass( 'tdc-row' ) ) {
-                    $helper.data( 'tdcElementType', 'ROW' );
-                } else if ( $draggedElement.hasClass( 'tdc-column' ) ) {
-                    $helper.data( 'tdcElementType', 'COLUMN' );
-                } else if ( $draggedElement.hasClass( 'tdc-element-inner-row' ) ) {
-                    $helper.data( 'tdcElementType', 'INNER ROW' );
-                } else if ( $draggedElement.hasClass( 'tdc-inner-column' ) ) {
-                    $helper.data( 'tdcElementType', 'INNER COLUMN' );
-                } else if ( $draggedElement.hasClass( 'tdc-element' ) ) {
-                    $helper.data( 'tdcElementType', 'ELEMENT' );
-                } else {
-                    $helper.data( 'tdcElementType', '' );
-                }
+                //if ( $draggedElement.hasClass( 'tdc-row' ) ) {
+                //    $helper.data( 'tdcElementType', 'ROW' );
+                //} else if ( $draggedElement.hasClass( 'tdc-column' ) ) {
+                //    $helper.data( 'tdcElementType', 'COLUMN' );
+                //} else if ( $draggedElement.hasClass( 'tdc-element-inner-row' ) ) {
+                //    $helper.data( 'tdcElementType', 'INNER ROW' );
+                //} else if ( $draggedElement.hasClass( 'tdc-inner-column' ) ) {
+                //    $helper.data( 'tdcElementType', 'INNER COLUMN' );
+                //} else if ( $draggedElement.hasClass( 'tdc-element' ) ) {
+                //    $helper.data( 'tdcElementType', 'ELEMENT' );
+                //} else {
+                //    $helper.data( 'tdcElementType', '' );
+                //}
 
                 tdcRecycleUI.show();
 
@@ -409,7 +508,7 @@ var tdcOperationUI;
             // 'tdc-row-temp' is the row of the sidebar
             // This has been added to differentiate between the empty row template from the sidebar and an existing row template
 
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( tdcRowUI.getElementCssClass() ) ;
+            return !_.isUndefined( draggedElement ) && tdcOperationUI.hasClassDraggedElement( tdcRowUI.getElementCssClass() ) ;
         },
 
 
@@ -449,7 +548,7 @@ var tdcOperationUI;
             // 'tdc-row-temp' is the row of the sidebar
             // This has been added to differentiate between the empty row template from the sidebar and an existing row template
 
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-row-temp' ) ;
+            return !_.isUndefined( draggedElement ) && tdcOperationUI.hasClassDraggedElement( 'tdc-row-temp' ) ;
         },
 
 
@@ -463,10 +562,11 @@ var tdcOperationUI;
         isColumnDragged: function( $siblingColumn ) {
 
             var draggedElement = tdcOperationUI.getDraggedElement(),
-                result = !_.isUndefined( draggedElement ) && draggedElement.hasClass( tdcColumnUI.getElementCssClass() );
+                result = !_.isUndefined( draggedElement ) && tdcOperationUI.hasClassDraggedElement( tdcColumnUI.getElementCssClass() );
 
             if ( ! _.isUndefined( $siblingColumn ) ) {
-                result = result && ( $siblingColumn.closest( '.tdc-columns').find( '.tdc-column.tdc-dragged' ).length > 0 );
+                //result = result && ( $siblingColumn.closest( '.tdc-columns').find( '.tdc-column.tdc-dragged' ).length > 0 );
+                result = result && ( ( $siblingColumn.siblings( '.tdc-column.tdc-dragged' ).length > 0 ) || $siblingColumn.hasClass( 'tdc-dragged' ) );
             }
             return result;
         },
@@ -509,7 +609,7 @@ var tdcOperationUI;
             // 'tdc-element-inner-row-temp' is the inner row of the sidebar
             // This has been added to differentiate between the empty inner row template from the sidebar and an existing inner row template
 
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( tdcInnerRowUI.getElementCssClass() ) ;
+            return !_.isUndefined( draggedElement ) && tdcOperationUI.hasClassDraggedElement( tdcInnerRowUI.getElementCssClass() ) ;
         },
 
 
@@ -552,7 +652,7 @@ var tdcOperationUI;
             // 'tdc-element-inner-row-temp' is the inner row of the sidebar
             // This has been added to differentiate between the empty inner row template from the sidebar and an existing inner row template
 
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-element-inner-row-temp' );
+            return !_.isUndefined( draggedElement ) && tdcOperationUI.hasClassDraggedElement( 'tdc-element-inner-row-temp' );
         },
 
 
@@ -568,10 +668,11 @@ var tdcOperationUI;
         isInnerColumnDragged: function( $siblingInnerColumn ) {
 
             var draggedElement = tdcOperationUI.getDraggedElement(),
-                result = !_.isUndefined( draggedElement ) && draggedElement.hasClass( tdcInnerColumnUI.getElementCssClass() );
+                result = !_.isUndefined( draggedElement ) && tdcOperationUI.hasClassDraggedElement( tdcInnerColumnUI.getElementCssClass() );
 
             if ( ! _.isUndefined( $siblingInnerColumn ) ) {
-                result = result && ( $siblingInnerColumn.closest( '.tdc-inner-columns').find( '.tdc-inner-column.tdc-dragged' ).length > 0 );
+                //result = result && ( $siblingInnerColumn.closest( '.tdc-inner-columns').find( '.tdc-inner-column.tdc-dragged' ).length > 0 );
+                result = result && ( ( $siblingInnerColumn.siblings( '.tdc-inner-column.tdc-dragged' ).length > 0 ) || $siblingInnerColumn.hasClass( 'tdc-dragged' ) );
             }
             return result;
         },
@@ -610,7 +711,7 @@ var tdcOperationUI;
         isElementDragged: function() {
             var draggedElement = tdcOperationUI.getDraggedElement();
 
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-element' );
+            return !_.isUndefined( draggedElement ) && tdcOperationUI.hasClassDraggedElement( 'tdc-element' );
         },
 
 
@@ -622,33 +723,55 @@ var tdcOperationUI;
         isSidebarElementDragged: function() {
             var draggedElement = tdcOperationUI.getDraggedElement();
 
-            return !_.isUndefined( draggedElement ) && draggedElement.hasClass( 'tdc-sidebar-element' );
+            return !_.isUndefined( draggedElement ) && tdcOperationUI.hasClassDraggedElement( 'tdc-sidebar-element' );
         },
 
 
         /**
          * Helper function used by 'setHorizontalPlaceholder' and 'setVerticalPlaceholder' functions
          *
-         * @param classes
-         * @param props
-         * @private
+         * @param classes - string
+         * @param props - object
          */
-        _setPlaceholder: function( classes, props ) {
+        setPlaceholder: function( classes, props ) {
 
             var $placeholder = tdcAdminWrapperUI.$placeholder;
 
-            if ( _.isArray( classes ) ) {
-                _.each( classes, function( element, index, list) {
-                    $placeholder.addClass( element );
-                });
-            } else if ( _.isString( classes ) ) {
-                $placeholder.addClass( classes );
-            } else {
-                $placeholder.attr( 'class', '' );
+            // cache - classes
+            if ( _.isUndefined( tdcOperationUI._placeholderCacheCssSettings.classes ) ||
+                ( ! _.isUndefined( tdcOperationUI._placeholderCacheCssSettings.classes ) &&
+                tdcOperationUI._placeholderCacheCssSettings.classes !== classes ) )  {
+
+                tdcOperationUI._placeholderCacheCssSettings.classes = classes;
+
+                if ( classes.length ) {
+                    $placeholder.addClass( classes );
+                } else {
+                    $placeholder.attr( 'class', '' );
+                }
+
+                //if ( _.isArray( classes ) ) {
+                //    _.each( classes, function( element, index, list) {
+                //        $placeholder.addClass( element );
+                //    });
+                //} else
+                //if ( _.isString( classes ) ) {
+                //    $placeholder.addClass( classes );
+                //} else {
+                //    $placeholder.attr( 'class', '' );
+                //}
             }
 
+            // cache - props
             if ( _.isObject( props ) ) {
-                $placeholder.css( props );
+
+                if ( _.isUndefined( tdcOperationUI._placeholderCacheCssSettings.props ) ||
+                    ( ! _.isUndefined( tdcOperationUI._placeholderCacheCssSettings.props ) &&
+                    ! _.isEqual( tdcOperationUI._placeholderCacheCssSettings.props, props ) ) ) {
+
+                    tdcOperationUI._placeholderCacheCssSettings.props = props;
+                    $placeholder.css( props );
+                }
             }
         },
 
@@ -656,14 +779,8 @@ var tdcOperationUI;
         /**
          * Set the placeholder as horizontal (its default css settings) for element, row and inner-row
          */
-        setHorizontalPlaceholder: function() {
-            tdcOperationUI._setPlaceholder( null, {
-                'top': '',
-                'left': '',
-                'bottom': '',
-                'margin-left': '',
-                'position': ''
-            });
+        setHorizontalPlaceholder: function( props ) {
+            tdcOperationUI.setPlaceholder( '', props );
         },
 
 
@@ -673,7 +790,7 @@ var tdcOperationUI;
          * @param props
          */
         setVerticalPlaceholder: function( props ) {
-            tdcOperationUI._setPlaceholder( ['vertical'], props);
+            tdcOperationUI.setPlaceholder( 'vertical', props);
         },
 
 
