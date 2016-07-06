@@ -45,12 +45,14 @@ html.tdc-active #wpadminbar {
 .tdc-element-empty {
   border: 1px solid #4eb2ec;
   width: 100%;
-  min-height: 50px;
+  max-height: 50px;
+  overflow: hidden;
   cursor: default;
 }
 
 .tdc-element-empty:before {
-  content: 'EMPTY ELEMENT - not dragged, auto removed, only for handlers';
+  text-align: center;
+  content: 'EMPTY ELEMENT';
   font-size: 12px;
   line-height: 47px;
   display: block;

@@ -1067,7 +1067,7 @@ placeholder when sidebar is empty
   position: static;
   width: 231px;
   padding: 30px 20px 20px 20px;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .cs-alpha-wrap .cs-alpha-text {
   top: 0;
@@ -1570,6 +1570,10 @@ body.tdc #wpbody-content {
   z-index: 2;
   pointer-events: none;
   color: #FFFFFF;
+  -webkit-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 .minimize {
   transform: scale(0.175);
