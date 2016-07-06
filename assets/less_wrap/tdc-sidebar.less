@@ -633,8 +633,8 @@ placeholder when sidebar is empty
   border: 1px dashed #bbb;
   width: 258px;
   height: 90px;
-  //z-index: 20;
   opacity: 0;
+  pointer-events: none;
 
   .transition(all 0.4s ease);
 
@@ -647,6 +647,7 @@ placeholder when sidebar is empty
 
 #tdc-recycle.show {
   opacity: 1;
+  pointer-events: auto;
 }
 
 #tdc-recycle.active {
@@ -1031,7 +1032,8 @@ placeholder when sidebar is empty
 #td-tab-ajax,
 #td-tab-extra,
 #td-tab-exchange,
-#td-tab-weather {
+#td-tab-weather,
+#td-tab-instagram {
 
   input[type=text] {
     .box-shadow(none);
@@ -1145,7 +1147,11 @@ placeholder when sidebar is empty
 .tdc-property-googleplus,
 .tdc-property-instagram,
 .tdc-property-soundcloud,
-.tdc-property-rss {
+.tdc-property-rss,
+.tdc-property-instagram_id,
+.tdc-property-instagram_header,
+.tdc-property-instagram_images_per_row,
+.tdc-property-instagram_number_of_rows{
   margin-bottom: 13px;
 }
 
@@ -1414,3 +1420,5 @@ placeholder when sidebar is empty
   height: 300px;
   display: none;
 }
+
+

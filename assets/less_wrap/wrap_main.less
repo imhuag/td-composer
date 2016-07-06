@@ -92,11 +92,9 @@ body.tdc #wpbody-content {
   transform: translate3d(0, 0, 0);
 }
 
-
 .minimize {
   transform: scale(0.175);
 }
-
 
 .tdc-notice-wrapper {
   position: absolute;
@@ -130,6 +128,12 @@ body.tdc #wpbody-content {
     top: 43px;
     left: 0;
     background-color: #fff;
+  }
+
+  &:last-child {
+    &:before {
+      display: none;
+    }
   }
 }
 

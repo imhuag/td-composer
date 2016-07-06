@@ -1,21 +1,35 @@
 <?php
 /**
- * Used only on dev! - it is removed from the package by our deploy ;)
+ * quick LESS compiler for development. Works only on windows for now, uses node + less.js
+ * You can turn of this compile from @see td_deploy_mode.php - set TDC_USE_LESS to false
  * V2.0
  */
+
+//
 require_once 'includes/external/td_node_less/td_less_compiler.php';
 
 
-// this array is used by td_deploy to compile all the files
-// it is also used by the live compiler
+/**
+* The list of less files that need to be compiled. You can use your own compiler to compile the less files
+ */
 $td_less_files = array (
+
+	// less file used in the iframe when the live editor is on
 	'iframe_main' => array (
 		'source' => 'assets/less_iframe/iframe_main.less',
 		'destination' => 'assets/css/iframe_main.css'
 	),
+
+	// less file used on the wrapper of the iframe while editing the page. It is not loaded in wp-admin
 	'wrap_main' => array (
 		'source' => 'assets/less_wrap/wrap_main.less',
 		'destination' => 'assets/css/wrap_main.css'
+	),
+
+	// less file for wp-admin
+	'tdc_wp_admin_main' => array (
+		'source' => 'assets/less_wp_admin/wp_admin_main.less',
+		'destination' => 'assets/css/tdc_wp_admin_main.css'
 	)
 );
 

@@ -52,8 +52,7 @@ html.tdc-active #wpadminbar {
 .tdc-element-empty:before {
   content: 'EMPTY ELEMENT - not dragged, auto removed, only for handlers';
   font-size: 12px;
-  line-height: 16px;
-  padding: 7px 10px;
+  line-height: 47px;
   display: block;
   height: 100%;
   color: #666;
@@ -180,28 +179,13 @@ html.tdc-active #wpadminbar {
 
 .td_block_homepage_full_1 {
   height: 50px;
-  border: 1px solid #4eb2ec;
+  border: 1px solid #ec6432;
 
   &:after {
+    text-align: center;
     content: 'Homepage Post Element';
     font-size: 12px;
-    line-height: 16px;
-    padding: 7px 10px;
-    display: block;
-    height: 100%;
-    color: #666;
-  }
-}
-
-#tdc-rows .tdc-add-block {
-  height: 50px;
-  border: 1px solid #4eb2ec;
-
-  &:after {
-    content: 'Add Box Element';
-    font-size: 12px;
-    line-height: 16px;
-    padding: 7px 10px;
+    line-height: 47px;
     display: block;
     height: 100%;
     color: #666;
@@ -210,13 +194,13 @@ html.tdc-active #wpadminbar {
 
 .tdc-big-grid-slide {
   height: 50px;
-  border: 1px solid #4eb2ec;
+  border: 1px solid #ec6432;
 
   &:after {
+    text-align: center;
     content: 'Big Grid Slide must be in a ROW / 3 COLUMNS';
     font-size: 12px;
-    line-height: 16px;
-    padding: 7px 10px;
+    line-height: 47px;
     display: block;
     height: 100%;
     color: #666;
@@ -246,35 +230,56 @@ html.tdc-active #wpadminbar {
   }
 }
 
-#tdc-rows .tdc-rev-slider {
-  height: 50px;
-  border: 1px solid #ec6432;
+#tdc-rows {
+  .tdc-add-block {
+    height: 50px;
+    border: 1px solid #ec6432;
 
-  &:after {
-    content: 'Revolution Slider';
-    font-size: 12px;
-    line-height: 16px;
-    padding: 7px 10px;
-    display: block;
-    height: 100%;
-    color: #666;
+    &:after {
+      text-align: center;
+      content: 'Add Box Element';
+      font-size: 12px;
+      line-height: 47px;
+      display: block;
+      height: 100%;
+      color: #666;
+    }
+  }
+
+  .td_block_authors {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .tdc-rev-slider {
+    height: 50px;
+    border: 1px solid #ec6432;
+
+    &:after {
+      text-align: center;
+      content: 'Revolution Slider';
+      font-size: 12px;
+      line-height: 47px;
+      display: block;
+      height: 100%;
+      color: #666;
+    }
+  }
+
+  .vc_widget_sidebar {
+    border: 1px solid #ec6432;
+
+    &:after {
+      text-align: center;
+      content: 'Widget Sidebar';
+      font-size: 12px;
+      display: block;
+      height: 100%;
+      color: #666;
+    }
   }
 }
 
-#tdc-rows .vc_widget_sidebar {
-  height: 50px;
-  border: 1px solid #ec6432;
-
-  &:after {
-    content: 'Widget Sidebar';
-    font-size: 12px;
-    line-height: 16px;
-    padding: 7px 10px;
-    display: block;
-    height: 100%;
-    color: #666;
-  }
-}
 .tdc-external-shortcode {
   height: 50px;
   border: 1px solid #ec6432;
