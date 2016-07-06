@@ -9,14 +9,14 @@ Author: tagDiv - Themes for smart people
 A GPL pagebuilder plugin for WordPress that uses shortcodes to save and reder the page.
 
 ### Download
-- [Download the latest release](https://github.com/opradu/td-composer/releases/latest) **(recomended)**
+- [Download the latest release](https://github.com/tagDiv/td-composer/releases/latest) **(recomended)**
 - or you can run the plugin from this github repo but please note that the built in LESS compiler runs only on windows for now. You can compile your own less files - modify the TDC_USE_LESS constant in td_deploy_mode.php
 
 #### Blocks auto resize to the avilable width:
-![blocks](https://raw.githubusercontent.com/opradu/td-composer/master/github-site/Animation1.gif?token=AE_CY7mcJFFk223Q-QQgTAuKkhiLqy9kks5XhO3wwA%3D%3D)
+![blocks](https://raw.githubusercontent.com/tagDiv/td-composer/master/github-site/Animation1.gif?token=AE_CY7mcJFFk223Q-QQgTAuKkhiLqy9kks5XhO3wwA%3D%3D)
 
 #### Frontend live editor:
-![blocks](https://raw.githubusercontent.com/opradu/td-composer/master/github-site/Animation2.gif?token=AE_CY5UD9_NcRLMgOuB_L41hiXUbXu0xks5XhO3ywA%3D%3D)
+![blocks](https://raw.githubusercontent.com/tagDiv/td-composer/master/github-site/Animation2.gif?token=AE_CY5UD9_NcRLMgOuB_L41hiXUbXu0xks5XhO3ywA%3D%3D)
 
 
 #### What's special?
