@@ -684,7 +684,7 @@ var tdcSidebarPanel = {};
 
             var tooltip = '';
 
-            if ( _.has( mappedParameter, 'description' ) ) {
+            if ( _.has( mappedParameter, 'description' ) && '' !== mappedParameter.description ) {
                 tooltip = '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + mappedParameter.description + '">?</a>';
             }
 
@@ -733,7 +733,7 @@ var tdcSidebarPanel = {};
 
             var tooltip = '';
 
-            if ( _.has( mappedParameter, 'description' ) ) {
+            if ( _.has( mappedParameter, 'description' ) && '' !== mappedParameter.description ) {
                 tooltip = '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + mappedParameter.description + '">?</a>';
             }
 
@@ -761,7 +761,7 @@ var tdcSidebarPanel = {};
 
             var tooltip = '';
 
-            if ( _.has( mappedParameter, 'description' ) ) {
+            if ( _.has( mappedParameter, 'description' ) && '' !== mappedParameter.description ) {
                 tooltip = '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + _.escape( mappedParameter.description ) + '">?</a>';
             }
 
@@ -783,7 +783,7 @@ var tdcSidebarPanel = {};
 
             var tooltip = '';
 
-            if ( _.has( mappedParameter, 'description' ) ) {
+            if ( _.has( mappedParameter, 'description' ) && '' !== mappedParameter.description ) {
                 tooltip = '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + mappedParameter.description + '">?</a>';
             }
 
@@ -849,7 +849,7 @@ var tdcSidebarPanel = {};
 
             var tooltip = '';
 
-            if ( _.has( mappedParameter, 'description' ) ) {
+            if ( _.has( mappedParameter, 'description' ) && '' !== mappedParameter.description ) {
                 tooltip = '<a href="#" class="td-tooltip" data-position="right" data-content-as-html="true" title="' + mappedParameter.description + '">?</a>';
             }
 
