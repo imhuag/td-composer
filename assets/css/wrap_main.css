@@ -1085,9 +1085,8 @@ placeholder when sidebar is empty
   color: #000000;
   margin-bottom: 4px;
 }
-.tdc-property-wrap .tdc-property-title a.td-tooltip {
-  left: 5px;
-  top: 0;
+.tdc-property-title span[title] {
+  cursor: pointer;
 }
 #td-tab-general input[type=text],
 #td-tab-filter input[type=text],
