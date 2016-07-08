@@ -680,6 +680,19 @@ var tdcSidebarPanel = {};
             return oldGroupName;
         },
 
+
+        /**
+         * The public method that should ensure the sidebar panel is cleaned and ready to be repopulated with items.
+         * Here we should include any other clean operations
+         */
+        clearPanel: function() {
+
+            // @todo Maybe the sidebar panel should be cleaned! For the moment, only the deletePanel is called
+            tdcSidebarPanel._deletePanel();
+        },
+
+
+
         addColorpicker: function (mappedParameter, model) {
 
             var tooltip = '';

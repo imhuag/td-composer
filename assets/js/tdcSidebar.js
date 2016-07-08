@@ -738,6 +738,9 @@ var tdcSidebar;
 
                 // Close the sidebar modal 'Add Elements'
                 tdcSidebar._closeModal();
+
+            } else {
+                tdcSidebarPanel.clearPanel();
             }
         }
 

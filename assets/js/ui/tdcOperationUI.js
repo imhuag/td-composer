@@ -14,6 +14,7 @@
 /* global tdcInnerRowUI:{} */
 /* global tdcInnerColumnUI:{} */
 /* global tdcElementUI:{} */
+/* global tdcSidebar:{} */
 
 /* global tdcRecycleUI:{} */
 
@@ -89,6 +90,14 @@ var tdcOperationUI;
 
             iframeContents.mousedown(function(event) {
                 //tdcDebug.log( 'contents mouse down' );
+
+                tdcSidebar.setSettings({
+                    '$currentRow': undefined,
+                    '$currentColumn': undefined,
+                    '$currentInnerRow': undefined,
+                    '$currentInnerColumn': undefined,
+                    '$currentElement' : undefined
+                });
 
             }).mouseup(function(event) {
                 //tdcDebug.log( 'contents mouse up' );
@@ -985,8 +994,7 @@ var tdcOperationUI;
                         draggedBlockUid: draggedBlockUid
                     });
 
-                    // @todo Maybe the sidebar panel should be cleaned! For the moment, only the private _deletePanel is called
-                    tdcSidebarPanel._deletePanel();
+                    tdcSidebarPanel.clearPanel();
 
                     return;
                 }
