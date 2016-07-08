@@ -129,9 +129,6 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 			<div class="tdc-bullet">
 				<span class="tdc-icon-bullet"></span>
 			</div>
-			<div id="tdc-recycle">
-				<div class="tdc-delete-text"><span>Delete</span></div>
-			</div>
 			<div class="tdc-sidebar-info"></div>
 		</div>
 

@@ -618,6 +618,16 @@ var tdcAdminIFrameUI;
                     };
 
 
+                    // The 'recycle' object is created, added to the iframe content and the tdcAdminWrapperUI.$recycle reference updated
+                    var $tdcRecycle = jQuery(
+                        '<div id="tdc-recycle">' +
+                            '<div class="tdc-delete-text"><span>Delete</span></div>' +
+                        '</div>' );
+
+                    $iframeContents.find( 'body').prepend( $tdcRecycle );
+
+                    tdcAdminWrapperUI.$recycle = $tdcRecycle;
+
 
 
                     window.addWrappers( $iframeContents );

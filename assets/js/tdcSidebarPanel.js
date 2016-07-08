@@ -814,6 +814,9 @@ var tdcSidebarPanel = {};
 
                 var newEditor = tinymce.createEditor( tinymceId, {
 
+                    // Disable menu bar
+                    menubar: false,
+
                     setup: function( editor ) {
 
                         var $input = jQuery( '#' + tinymceId );
