@@ -321,3 +321,59 @@ html.tdc-active #wpadminbar {
 .tdc-mask-arrow-vertical {
   .stitches-sprite(-89px, -65px, 14px, 14px);
 }
+
+#tdc-recycle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #888;
+  background-color: #eaeaea;
+  border: 1px dashed #bbb;
+  width: 258px;
+  height: 90px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10000;
+  .transition(all 0.4s ease);
+
+  .tdc-delete-text:first-child {
+    &:before {
+      content: 'Drag here to';
+    }
+  }
+}
+
+#tdc-recycle.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#tdc-recycle.active {
+  color: #fff;
+  background-color: #e1624f;
+  border: 1px solid #e1624f;
+
+  .tdc-delete-text:first-child {
+    &:before {
+      content: 'Drop here to';
+    }
+  }
+
+}
+
+.tdc-delete-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  line-height: 19px;
+
+  span {
+    display: block;
+    text-transform: uppercase;
+    font-size: 14px;
+  }
+}

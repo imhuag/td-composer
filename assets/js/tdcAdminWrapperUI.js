@@ -12,16 +12,11 @@ var tdcAdminWrapperUI;
 
     tdcAdminWrapperUI = {
 
-
-        //_tdcJqObjSettings: undefined,
-        //_tdcJqObjElements: undefined,  //@todo
-        //_tdcJqObjInspector: undefined,
-        //_tdcJqObjAdd: undefined,
-        //_tdcJqObjSave: undefined,
-
         $placeholder: undefined,
         $helper: undefined,
 
+        // The reference is initialized at tdcAdminIFrameUI.init(), the 'recycle' element being added to the iframe content
+        // Important! This was necessary to solve a FF bug: mouse hover events don't trigger outside of the iframe, when the mouse comes from the iframe, having selected an element (the left button mouse pressed )
         $recycle: undefined,
 
 
@@ -39,8 +34,6 @@ var tdcAdminWrapperUI;
 
             tdcAdminWrapperUI.$helper = jQuery('<div id="' + tdcAdminWrapperUI.helperId + '"></div>');
             tdcAdminWrapperUI.$placeholder = jQuery('<div id="' + tdcAdminWrapperUI.placeholderId + '"></div>');
-
-            tdcAdminWrapperUI.$recycle = jQuery( '#tdc-recycle' );
 
 
             jQuery('body').append( tdcAdminWrapperUI.$helper );
