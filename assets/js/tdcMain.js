@@ -90,7 +90,7 @@ var tdcMain = {};
 
 
         setRecycleShown: function() {
-            tdcMain._recycleShown = true;
+            tdcMain._recycleShown = tdcOperationUI.isRowDragged() || tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isElementDragged();
         },
         getRecycleShown: function() {
             return tdcMain._recycleShown;
