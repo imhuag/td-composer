@@ -9,24 +9,26 @@ Author: tagDiv - Themes for smart people
 A GPL pagebuilder plugin for WordPress that uses shortcodes to save and reder the page.
 
 ### Download
-- [Download the latest release](https://github.com/opradu/td-composer/releases/download/v1.0-beta.0/td-composer.zip) **(recomended)**
-- or you can run the plugin from this github repo but please note that the built in LESS compiler runs only on windows for now. You can compile your own less files - modify the TDC_USE_LESS constant in td_deploy_mode.php
+- [Download the latest release](https://github.com/tagDiv/td-composer/releases/latest) **(recommended)**
+- or you can run the plugin from this github repo but please note that the built-in LESS compiler runs only on Windows for now. You can compile your own less files - modify the TDC_USE_LESS constant in td_deploy_mode.php
 
-#### Blocks auto resize to the avilable width:
-![blocks](https://raw.githubusercontent.com/opradu/td-composer/master/github-site/Animation1.gif?token=AE_CY7mcJFFk223Q-QQgTAuKkhiLqy9kks5XhO3wwA%3D%3D)
+#### Blocks auto resize to the available width:
+<img src="https://raw.githubusercontent.com/tagDiv/td-composer/master/github-site/Animation1.gif?token=AE_CY7mcJFFk223Q-QQgTAuKkhiLqy9kks5XhO3wwA%3D%3D" width="480">
+
 
 #### Frontend live editor:
-![blocks](https://raw.githubusercontent.com/opradu/td-composer/master/github-site/Animation2.gif?token=AE_CY5UD9_NcRLMgOuB_L41hiXUbXu0xks5XhO3ywA%3D%3D)
+<img src="https://raw.githubusercontent.com/tagDiv/td-composer/master/github-site/Animation2.gif?token=AE_CY5UD9_NcRLMgOuB_L41hiXUbXu0xks5XhO3ywA%3D%3D" width="480">
+
 
 
 #### What's special?
-- It's somehow compatible with Visual Composer, meaning that it works with some of the same shortcodes. 
-- Much leaner than other composers / pagebuilders
+- It's somehow compatible with Visual Composer's shortcodes 
+- It's much faster than other composers / pagebuilders
 - The plugin works side by side with Visual Composer
 - GPL license, open to new contribuitors, maintained and suppoerted by us (tagDiv)
-- Fully custom drag and drop code, we don't rely on external libraries like dragable/droable.
+- Custom drag and drop code, we don't rely on external libraries and we aim for the perfect user experience
 
-We have implemented the following shortcodes: 
+We've implemented the following shortcodes: 
 ```
 rev_slider
 vc_column
@@ -41,8 +43,8 @@ vc_widget_sidebar
 ```
 
 #### Limitations:
--  We generally recomand that you create the pages with tagDiv Composer, we don't have full support for pages generated with Visual Composer but some of them may work
--  Currently the plugin only works with our themes, we did extensive testing and development on Newspaper but it should also work on Newsmag. We plan to support other themes in the future when the pugin si more stable.
+-  We generally recommend that you create the pages with tagDiv Composer, we don't have full support for pages generated with Visual Composer but some of them may work
+-  Currently the plugin only works with our themes, we did extensive testing and development on Newspaper but it should also work on Newsmag. We plan to support other themes in the future when the plugin is more stable.
 
 #### Contributing to this project:
 - We are looking for contributors https://help.github.com/articles/fork-a-repo/
