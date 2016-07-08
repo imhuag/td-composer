@@ -33,7 +33,13 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 
 
 //@todo - refactorizare aici json_encode
+//<link rel="stylesheet" href="http://basehold.it/22">
 ?>
+
+
+
+
+
 	<script type="text/javascript">
 
 		// Add 'td_composer' class to html element
@@ -79,14 +85,11 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		</div>
 
 		<div class="tdc-empty-sidebar">
-			<div class="tdc-builder-logo"></div>
 			<div class="tdc-start-tips">
 				<span>Welcome!</span>
-				Add an element to begin
+				Add or click an element to begin. Thanks for using tagDiv Composer!
 			</div>
-			<div class="tdc-documentation">
-				For more information, please read the <a href="#">DOCUMENTATION</a>
-			</div>
+
 		</div>
 
 
