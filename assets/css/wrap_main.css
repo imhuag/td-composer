@@ -595,7 +595,7 @@
 .tdc-current-element-head {
   font-size: 14px;
   margin-top: 0;
-  padding: 0 10px 20px 12px;
+  padding: 2px 10px 19px 12px;
   color: #000000;
 }
 /*
@@ -607,7 +607,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 53px 0;
+  padding: 51px 0;
 }
 .tdc-inspector {
   background-color: #fff;
@@ -675,40 +675,19 @@ placeholder when sidebar is empty
 .tdc-empty-sidebar {
   width: 100%;
   position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 99px;
   text-align: center;
-  font-size: 12px;
-  color: #666;
-}
-.tdc-empty-sidebar .tdc-builder-logo {
-  height: 100px;
-  width: 100px;
-  background: url('../images/sidebar/logo.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  opacity: 0.6;
+  color: #000000;
 }
 .tdc-empty-sidebar .tdc-start-tips {
-  padding-top: 140px;
+  padding: 12px;
+  line-height: 22px;
+  font-size: 14px;
 }
 .tdc-empty-sidebar .tdc-start-tips span {
   display: block;
-  font-size: 18px;
-  margin-bottom: 4px;
-}
-.tdc-empty-sidebar .tdc-documentation {
-  padding-top: 22px;
-  line-height: 20px;
-  padding-bottom: 20px;
-}
-.tdc-empty-sidebar .tdc-documentation a {
-  text-decoration: none;
-  font-size: 14px;
+  font-size: 23px;
+  margin-bottom: 14px;
 }
 /*
   sidebar bottom
@@ -721,53 +700,6 @@ placeholder when sidebar is empty
   background-color: #333;
   height: 43px;
   z-index: 50;
-}
-#tdc-recycle {
-  position: absolute;
-  bottom: 63px;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  color: #888;
-  background-color: #eaeaea;
-  border: 1px dashed #bbb;
-  width: 258px;
-  height: 90px;
-  opacity: 0;
-  pointer-events: none;
-  -webkit-transition: all 0.4s ease;
-  -moz-transition: all 0.4s ease;
-  -o-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-}
-#tdc-recycle .tdc-delete-text:first-child:before {
-  content: 'Drag here to';
-}
-#tdc-recycle.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-#tdc-recycle.active {
-  color: #fff;
-  background-color: #e1624f;
-  border: 1px solid #e1624f;
-}
-#tdc-recycle.active .tdc-delete-text:first-child:before {
-  content: 'Drop here to';
-}
-.tdc-delete-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  line-height: 19px;
-}
-.tdc-delete-text span {
-  display: block;
-  text-transform: uppercase;
-  font-size: 14px;
 }
 .tdc-sidebar-info {
   display: block;
