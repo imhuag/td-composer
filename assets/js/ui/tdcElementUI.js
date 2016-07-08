@@ -185,8 +185,8 @@ var tdcElementUI;
                     $nextElement = $innerRowParent.next();
 
                     // Important! The 'id' check create troubles on FF/IE
-                    //if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
-                    if ( ! $nextElement.length ) {
+                    if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    //if ( ! $nextElement.length ) {
                         $innerRowParent.after($placeholder);
 
                         // Update the helper
@@ -201,8 +201,8 @@ var tdcElementUI;
                     $nextElement = currentElementOver.next();
 
                     // Important! The 'id' check create troubles on FF/IE
-                    //if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
-                    if ( ! $nextElement.length ) {
+                    if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    //if ( ! $nextElement.length ) {
                         currentElementOver.after($placeholder);
 
                         // Update the helper
@@ -279,8 +279,8 @@ var tdcElementUI;
                     $prevElement = $innerRowParent.prev();
 
                     // Important! The 'id' check create troubles on FF/IE
-                    //if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
-                    if ( ! $prevElement.length ) {
+                    if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    //if ( ! $prevElement.length ) {
                         $innerRowParent.before($placeholder);
 
                         // Update the helper
@@ -295,8 +295,8 @@ var tdcElementUI;
                     $prevElement = currentElementOver.prev();
 
                     // Important! The 'id' check create troubles on FF/IE
-                    //if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
-                    if ( ! $prevElement.length ) {
+                    if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                    //if ( ! $prevElement.length ) {
                         currentElementOver.before($placeholder);
 
                         // Update the helper
@@ -956,8 +956,10 @@ var tdcElementUI;
             // Not implemented yet!
             //return $element.hasClass( 'tdc-first-element' );
 
-            var $column = $element.closest( '.tdc-column' ),
-                $innerColumn = $column.find( '.tdc-inner-column' );
+            //var $column = $element.closest( '.tdc-column' ),
+            //    $innerColumn = $column.find( '.tdc-inner-column' );
+
+            var $innerColumn = $element.closest( '.tdc-inner-column' );
 
             // The checked element is also inside of the inner column
             if ( $innerColumn.length ) {
@@ -984,8 +986,10 @@ var tdcElementUI;
             // Not implemented yet!
             //return $element.hasClass( 'tdc-last-element' );
 
-            var $column = $element.closest( '.tdc-column' ),
-                $innerColumn = $column.find( '.tdc-inner-column' );
+            //var $column = $element.closest( '.tdc-column' ),
+            //    $innerColumn = $column.find( '.tdc-inner-column' );
+
+            var $innerColumn = $element.closest( '.tdc-inner-column' );
 
             // The checked element is also inside of the inner column
             if ( $innerColumn.length ) {
