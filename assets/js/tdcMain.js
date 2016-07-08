@@ -4,6 +4,8 @@
  * It will initialize the iFrame and after that the whole editor starts
  */
 
+/* global tdcOperationUI:{} */
+
 /* global jQuery:{} */
 
 
@@ -90,7 +92,7 @@ var tdcMain = {};
 
 
         setRecycleShown: function() {
-            tdcMain._recycleShown = true;
+            tdcMain._recycleShown = ( tdcOperationUI.isRowDragged() || tdcOperationUI.isInnerRowDragged() || tdcOperationUI.isElementDragged() ) && ! tdcOperationUI.isSidebarElementDragged();
         },
         getRecycleShown: function() {
             return tdcMain._recycleShown;

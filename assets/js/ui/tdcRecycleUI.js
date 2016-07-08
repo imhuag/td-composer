@@ -96,7 +96,9 @@ var tdcRecycleUI;
                 return;
             }
             tdcMain.setRecycleShown();
-            tdcAdminWrapperUI.$recycle.addClass( tdcRecycleUI._showClass );
+            if ( true === tdcMain.getRecycleShown() ) {
+                tdcAdminWrapperUI.$recycle.addClass( tdcRecycleUI._showClass );
+            }
         },
 
         hide: function() {
