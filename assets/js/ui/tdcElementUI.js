@@ -852,6 +852,14 @@ var tdcElementUI;
 
                 event.preventDefault();
 
+                tdcSidebar.setSettings({
+                    '$currentRow': undefined,
+                    '$currentColumn': undefined,
+                    '$currentInnerRow': undefined,
+                    '$currentInnerColumn': undefined,
+                    '$currentElement' : undefined
+                });
+
             }).mousedown(function( event ) {
                 //tdcDebug.log( 'empty element mouse down' );
 
