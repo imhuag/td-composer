@@ -154,6 +154,17 @@ function tdc_on_admin_bar_menu() {
  */
 add_action( 'admin_enqueue_scripts', 'tdc_on_admin_enqueue_scripts' );
 function tdc_on_admin_enqueue_scripts() {
+
+	// load the css
+	if ( true === TDC_USE_LESS ) {
+		wp_enqueue_style('tdc_wp_admin_main', TDC_URL . '/td_less_style.css.php?part=tdc_wp_admin_main', false, false );
+	} else {
+		wp_enqueue_style('tdc_wp_admin_main', TDC_URL . '/assets/css/tdc_wp_admin_main.css', false, false);
+	}
+
+
+
+	// load the js
 	tdc_util::enqueue_js_files_array(tdc_config::$js_files_for_wp_admin, array('jquery', 'underscore'));
 
 	// Disable the confirmation messages at leaving pages
@@ -452,29 +463,41 @@ if (!empty($td_action)) {
 /**
  * edit with td composer
  */
-add_filter( 'page_row_actions', 'tdc_add_composer_actions', 10, 2 );
-function tdc_add_composer_actions( $actions, $post ) {
+add_filter( 'page_row_actions', 'tdc_on_page_row_actions', 10, 2 );
+function tdc_on_page_row_actions ( $actions, $post ) {
 	$actions['edit_tdc_composer'] = '<a href="' . admin_url('post.php?post_id=' . $post->ID . '&td_action=tdc') . '">Edit with TD Composer</a>';
 	return $actions;
 }
 
 
 
-/* ----------------------------------------------------------------------------
- * css for wp-admin / backend
- */
-add_action('admin_enqueue_scripts', 'tdc_load_wp_admin_css');
-function tdc_load_wp_admin_css() {
 
-	if ( true === TDC_USE_LESS ) {
-		wp_enqueue_style('tdc_wp_admin_main', TDC_URL . '/td_less_style.css.php?part=tdc_wp_admin_main', false, false );
-	} else {
-		wp_enqueue_style('tdc_wp_admin_main', TDC_URL . '/assets/css/tdc_wp_admin_main.css', false, false);
+
+add_action('admin_head', 'on_admin_head_add_tdc_loader');
+function on_admin_head_add_tdc_loader() {
+	if (!tdc_state::is_live_editor_iframe()) {
+		return;
 	}
+	?>
+	<style>
+		body > * {
+			visibility:hidden;
+		}
 
+		.tdc-fullscreen-loader-wrap {
+			visibility: visible !important;
+		}
+	</style>
+
+
+	<div class="tdc-fullscreen-loader-wrap" style="">
+		<svg class="tdc-loader-svg" viewBox="25 25 50 50">
+			<circle class="tdc-loader-path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"  stroke="#B7B7B7"/>
+		</svg>
+	</div>
+
+	<?php
 }
-
-
 
 
 

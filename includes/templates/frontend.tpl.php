@@ -244,6 +244,9 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 
 	</div>
 
+
+
+
 <?php
 require_once( ABSPATH . 'wp-admin/admin-footer.php' );
 

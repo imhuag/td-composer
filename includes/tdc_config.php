@@ -68,6 +68,9 @@ class tdc_config {
 
 		'tdcColorPicker'        => '/assets/js/tdcColorPicker.js',
 		'cssJs'                 => '/assets/js/external/css.js',
+
+
+		'tdcLoader'                 => '/assets/js/tdcLoader.js',
 	);
 
 
