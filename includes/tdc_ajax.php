@@ -30,15 +30,27 @@ function tdc_register_api_routes() {
 	));
 }
 
-
+/**
+ * Add the 'tdc_dirty_content' flag
+ * 1 - when the post content is altered from wp-admin
+ * 0 - when the post content is set by tagDiv Composer
+ */
 add_action( 'save_post', 'tdc_on_save_post', 10, 3 );
 function tdc_on_save_post( $post_id, $post, $update) {
+
+	// Do nothing for newly created posts
+	$post_status = get_post_status( $post_id );
+	if ( 'auto-draft' === $post_status || 'heartbeat' === @$_POST[ 'action' ] ) {
+		return;
+	}
+
+	// Set the 'tdc_dirty_content' flag
 	if ($update === false) {
-		update_post_meta($post_id, 'tdc_dirty_content', 1);
+		update_post_meta( $post_id, 'tdc_dirty_content', 1 );
 	} else {
 		$tdcContent = get_post_meta($post_id, 'tdc_content', true);
 		if ( $tdcContent !== $post->post_content) {
-			update_post_meta($post_id, 'tdc_dirty_content', 1);
+			update_post_meta($post_id, 'tdc_dirty_content', 1 );
 		}
 	}
 }
