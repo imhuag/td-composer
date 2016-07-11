@@ -376,8 +376,8 @@ var tdcColumnUI;
 
                 var $nextElement = currentElementOver.next();
 
-                //if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
-                if ( ! $nextElement.length) {
+                if ( ! $nextElement.length || ( $nextElement.length && $nextElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                //if ( ! $nextElement.length) {
                     currentElementOver.after($placeholder);
 
                     // Update the helper
@@ -394,8 +394,8 @@ var tdcColumnUI;
 
                 var $prevElement = currentElementOver.prev();
 
-                //if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
-                if ( ! $prevElement.length ) {
+                if ( ! $prevElement.length || ( $prevElement.length && $prevElement.attr( 'id' ) !== tdcAdminWrapperUI.placeholderId ) ) {
+                //if ( ! $prevElement.length ) {
                     currentElementOver.before($placeholder);
 
                     // Update the helper
