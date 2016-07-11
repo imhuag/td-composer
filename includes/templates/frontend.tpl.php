@@ -45,17 +45,13 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 		// Add 'td_composer' class to html element
 		window.document.documentElement.className += ' td_composer';
 
+		// "Starting in Chrome 51, a custom string will no longer be shown to the user. Chrome will still show a dialog to prevent users from losing data, but it’s contents will be set by the browser instead of the web page."
+		// https://developers.google.com/web/updates/2016/04/chrome-51-deprecations?hl=en#remove-custom-messages-in-onbeforeload-dialogs
 		window.onbeforeunload = function ( event) {
 			if ( ! tdcMain.getContentModified() ) {
 				return;
 			}
 			return 'Dialog text here';
-//			if ( ! tdcMain.getContentModified() ) {
-//				return;
-//			}
-//			var dialogText = 'Dialog text here';
-//			event.returnValue = dialogText;
-//			return dialogText;
 		}
 
 		window.tdcPostSettings = {

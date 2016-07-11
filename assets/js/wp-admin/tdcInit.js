@@ -15,6 +15,8 @@ var tdcInit = {};
 
     tdcInit = {
 
+        $formPost: undefined,
+
         _title: 'TagDiv Composer Draft',
 
         _url: '',
@@ -23,6 +25,7 @@ var tdcInit = {};
         $titlePromptText: undefined,
         $content: undefined,
         $contentTextareaClone: undefined,
+        $originalPostStatus: undefined,
 
         $_wpnonce: undefined,
         $postType: undefined,
@@ -36,21 +39,22 @@ var tdcInit = {};
 
         init: function() {
 
-            var $formPost = jQuery( '#post' );
-            if ( $formPost.length ) {
+            tdcInit.$formPost = jQuery( '#post' );
+            if ( tdcInit.$formPost.length ) {
 
-                tdcInit.$formPost = $formPost;
-                tdcInit.$title = $formPost.find( '#title' );
-                tdcInit.$titlePromptText = $formPost.find( '#title-prompt-text' );
-                tdcInit.$content = $formPost.find( '#content' );
-                tdcInit.$contentTextareaClone = $formPost.find( '#content-textarea-clone' );
+                tdcInit.$formPost = tdcInit.$formPost;
+                tdcInit.$title = tdcInit.$formPost.find( '#title' );
+                tdcInit.$titlePromptText = tdcInit.$formPost.find( '#title-prompt-text' );
+                tdcInit.$content = tdcInit.$formPost.find( '#content' );
+                tdcInit.$contentTextareaClone = tdcInit.$formPost.find( '#content-textarea-clone' );
+                tdcInit.$originalPostStatus = tdcInit.$formPost.find( '#original_post_status' );
 
-                tdcInit.$_wpnonce = $formPost.find( '#_wpnonce' );
-                tdcInit.$postType = $formPost.find( '#post_type' );
-                tdcInit.$postId = $formPost.find( '#post_ID' );
-                tdcInit.$postAuthor = $formPost.find( '#post_author' );
-                tdcInit.$excerpt = $formPost.find( '#excerpt' );
-                tdcInit.$catslist = $formPost.find( 'input[type=checkbox][name^=post_category]' );
+                tdcInit.$_wpnonce = tdcInit.$formPost.find( '#_wpnonce' );
+                tdcInit.$postType = tdcInit.$formPost.find( '#post_type' );
+                tdcInit.$postId = tdcInit.$formPost.find( '#post_ID' );
+                tdcInit.$postAuthor = tdcInit.$formPost.find( '#post_author' );
+                tdcInit.$excerpt = tdcInit.$formPost.find( '#excerpt' );
+                tdcInit.$catslist = tdcInit.$formPost.find( 'input[type=checkbox][name^=post_category]' );
 
                 _.each( tdcInit.$catslist, function( element, index, list ) {
                     var $element = jQuery( element );
@@ -81,7 +85,17 @@ var tdcInit = {};
                 4: []
             });
 
-            var parsedContent = tdcShortcodeParser.parse(0, tdcInit.$contentTextareaClone.html() );
+            var parsedContent = [],
+                textToParse = '';
+
+
+            if ( 'draft' === tdcInit.$originalPostStatus.val() ) {
+                textToParse = tdcInit.$formPost.find( '.wp-editor-area' ).html();
+            } else {
+                textToParse = tdcInit.$contentTextareaClone.html();
+            }
+
+            parsedContent = tdcShortcodeParser.parse(0, textToParse );
 
             if ( ! parsedContent.length ) {
                 var content = tdcInit.$contentTextareaClone.text().replace( /&nbsp;/g,'' ) + '[vc_row][vc_column][/vc_column][/vc_row]';

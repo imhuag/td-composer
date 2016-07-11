@@ -186,10 +186,13 @@ var tdcSidebar;
             tdcSidebar.$_sidebarClosePage.click( function( event ) {
                 if ( tdcMain.getContentModified() ) {
                     if ( true === window.confirm( 'The content is unsaved! Are you sure you want to close?' ) ) {
+
+                        // window.onbeforeunload is disabled, otherwise a new info popup will show
+                        window.onbeforeunload = null;
+
                         window.location = window.tdcAdminSettings.editPostUrl;
-                    } else {
-                       return;
                     }
+                    return;
                 }
 
                 if ( true === window.confirm( 'Are you sure you want to close?' ) ) {
