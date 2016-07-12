@@ -490,11 +490,7 @@ function on_admin_head_add_tdc_loader() {
 	</style>
 
 
-	<div class="tdc-fullscreen-loader-wrap" style="">
-		<svg class="tdc-loader-svg" viewBox="25 25 50 50">
-			<circle class="tdc-loader-path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"  stroke="#B7B7B7"/>
-		</svg>
-	</div>
+	<div class="tdc-fullscreen-loader-wrap" style=""></div>
 
 	<?php
 }
