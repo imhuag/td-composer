@@ -41,6 +41,13 @@ var tdcAdminWrapperUI;
 
 
             jQuery( '.tdc-save-page').click( function( event ) {
+
+                if (jQuery(this).hasClass('tdc-saving-loader')) {
+                    return;
+                }
+
+                jQuery(this).addClass('tdc-saving-loader'); // show the loading animation instead of the button
+
                 tdcSavePost.save();
             });
         }

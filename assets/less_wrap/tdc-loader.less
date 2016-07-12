@@ -36,7 +36,9 @@
   }
 }
 
-
+/*
+  full screen loader
+*/
 .tdc-fullscreen-loader-wrap {
   position: absolute;
   left: 0;
@@ -58,13 +60,30 @@
   animation: rotating 6s linear infinite;
 }
 
-//body.tdcComposerLoaded {
-//
-//  > * {
-//    visibility: visible;
-//  }
-//
-//  .tdc-fullscreen-loader-wrap {
-//    display: none;
-//  }
-//}
+body.tdcComposerLoaded {
+
+  > * {
+    visibility: visible;
+  }
+
+  .tdc-fullscreen-loader-wrap {
+    display: none;
+  }
+}
+
+
+/*
+  save button loader
+*/
+.tdc-saving-loader {
+  background-color: transparent !important;
+  .tdc-icon-save {
+    background-position: 3px 2px !important;
+    background: transparent url("../images/loader-small.gif") no-repeat;
+  }
+}
+
+
+/*
+  Open editor loader - it's not here, it's in assets/less_wp_admin/wp_admin_main.less
+*/

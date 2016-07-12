@@ -59,6 +59,8 @@ var tdcSavePost;
                     }
                 }).done(function( data, textStatus, jqXHR ) {
 
+                    jQuery( '.tdc-save-page').removeClass('tdc-saving-loader'); // remove the loading animation
+
                     if ( 'success' === textStatus ) {
                         if ( _.isObject( data ) && _.has( data, 'errors' ) ) {
                             new tdcNotice.notice( data.errors, true, false );

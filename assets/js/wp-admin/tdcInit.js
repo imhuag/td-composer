@@ -113,6 +113,8 @@ var tdcInit = {};
          */
         savePost: function( event ) {
 
+            jQuery('.tdc-panel-button').addClass('tdc-open-editor-loader'); // this class is not removed ever because the browser should refresh
+
             tdcInit._checkPostContent();
 
             // Do the request and redirect at success
