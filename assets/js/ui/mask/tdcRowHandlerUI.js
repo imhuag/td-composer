@@ -88,7 +88,7 @@ var tdcRowHandlerUI;
                 // Send the event to its 'tdc-row' element
                 tdcRowHandlerUI._triggerEvent( event );
 
-            }).mouseup( function() {
+            }).mouseup( function( event ) {
 
                 // Send the event to its 'tdc-row' element
                 tdcRowHandlerUI._triggerEvent( event );

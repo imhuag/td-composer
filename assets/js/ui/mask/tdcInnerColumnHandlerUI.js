@@ -89,7 +89,7 @@ var tdcInnerColumnHandlerUI;
                 // Send the event to its 'tdc-inner-column' element
                 tdcInnerColumnHandlerUI._triggerEvent( event );
 
-            }).mouseup( function() {
+            }).mouseup( function( event ) {
 
                 // Send the event to its 'tdc-inner-column' element
                 tdcInnerColumnHandlerUI._triggerEvent( event );

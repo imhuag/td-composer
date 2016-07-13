@@ -89,7 +89,7 @@ var tdcColumnHandlerUI;
                 // Send the event to its 'tdc-column' element
                 tdcColumnHandlerUI._triggerEvent( event );
 
-            }).mouseup( function() {
+            }).mouseup( function( event ) {
 
                 // Send the event to its 'tdc-column' element
                 tdcColumnHandlerUI._triggerEvent( event );
