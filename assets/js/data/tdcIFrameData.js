@@ -178,10 +178,11 @@ var tdcIFrameData,
                             tdcDebug.log( job );
                         };
 
-                        var $draggedElement = tdcOperationUI.getDraggedElement();
-
                         // 'tdc-dropped' remove the loader
-                        $draggedElement.addClass( 'tdc-dropped' );
+                        var $draggedElement = tdcOperationUI.getDraggedElement();
+                        if ( ! _.isUndefined( $draggedElement ) ) {
+                            $draggedElement.addClass( 'tdc-dropped' );
+                        }
 
                         tdcJobManager.addJob( newJob );
                     }
