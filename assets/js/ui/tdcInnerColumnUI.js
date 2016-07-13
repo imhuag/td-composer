@@ -120,6 +120,9 @@ var tdcInnerColumnUI;
 
                     event.preventDefault();
 
+                    // Clear the 'tdc-ready-to-move' class
+                    tdcOperationUI.clearReadyToMove();
+
                     tdcOperationUI.deactiveDraggedElement();
                     tdcOperationUI.hideHelper();
 
@@ -132,9 +135,6 @@ var tdcInnerColumnUI;
                 }
                 // Set the mask current container at mouse up
                 tdcMaskUI.setContentAtMouseUp( $element );
-
-                // Clear the 'tdc-ready-to-move' class
-                tdcOperationUI.clearReadyToMove();
 
             }).mousemove(function( event ) {
 

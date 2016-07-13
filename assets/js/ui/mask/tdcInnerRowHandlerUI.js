@@ -90,7 +90,7 @@ var tdcInnerRowHandlerUI;
                 // Send the event to its 'tdc-inner-row' element
                 tdcInnerRowHandlerUI._triggerEvent( event );
 
-            }).mouseup( function() {
+            }).mouseup( function( event ) {
 
                 // Send the event to its 'tdc-inner-row' element
                 tdcInnerRowHandlerUI._triggerEvent( event );
