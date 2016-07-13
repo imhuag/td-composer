@@ -48,7 +48,11 @@ var tdcInnerColumnHandlerUI;
 
 
 
-        init: function() {
+        init: function( forceReinitialization ) {
+
+            if ( ! _.isUndefined( forceReinitialization ) && true === forceReinitialization ) {
+                tdcInnerColumnHandlerUI._isInitialized = false;
+            }
 
             // Do nothing if it's already initialized
             if ( tdcInnerColumnHandlerUI._isInitialized ) {

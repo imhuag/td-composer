@@ -448,7 +448,7 @@ var tdcSidebar;
          *
          * @private
          */
-        _closeModal: function() {
+        closeModal: function() {
             jQuery( '.tdc-sidebar-modal-elements' ).removeClass( 'tdc-modal-open' );
             jQuery( '.tdc-add-element' ).removeClass( 'tdc-active-element' );
         },
@@ -740,7 +740,7 @@ var tdcSidebar;
                 tdcSidebar._activeBreadcrumbItem();
 
                 // Close the sidebar modal 'Add Elements'
-                tdcSidebar._closeModal();
+                tdcSidebar.closeModal();
 
             } else {
                 tdcSidebarPanel.clearPanel();

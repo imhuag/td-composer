@@ -31,7 +31,11 @@ var tdcRecycleUI;
 
 
 
-        init: function() {
+        init: function( forceReinitialization ) {
+
+            if ( ! _.isUndefined( forceReinitialization ) && true === forceReinitialization ) {
+                tdcRecycleUI._isInitialized = false;
+            }
 
             // Do nothing if it's already initialized
             if ( tdcRecycleUI._isInitialized ) {

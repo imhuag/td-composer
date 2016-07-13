@@ -49,7 +49,11 @@ var tdcInnerRowHandlerUI;
 
 
 
-        init: function() {
+        init: function( forceReinitialization ) {
+
+            if ( ! _.isUndefined( forceReinitialization ) && true === forceReinitialization ) {
+                tdcInnerRowHandlerUI._isInitialized = false;
+            }
 
             // Do nothing if it's already initialized
             if ( tdcInnerRowHandlerUI._isInitialized ) {

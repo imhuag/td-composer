@@ -42,6 +42,10 @@ var tdcAdminWrapperUI;
 
             jQuery( '.tdc-save-page').click( function( event ) {
 
+                //document.getElementById('tdc-live-iframe').src = document.getElementById('tdc-live-iframe').src;
+                //
+                //return;
+
                 if (jQuery(this).hasClass('tdc-saving-loader')) {
                     return;
                 }

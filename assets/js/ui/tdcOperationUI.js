@@ -50,7 +50,7 @@ var tdcOperationUI;
 
 
 
-        init: function( iframeContents ) {
+        init: function( iframeContents, forceReinitialization ) {
 
             // @todo Not ok window variables
             window.previousMouseClientX = 0;
@@ -65,13 +65,13 @@ var tdcOperationUI;
             tdcInnerColumnUI.init( tdcOperationUI.iframeContents );
             tdcElementUI.init( tdcOperationUI.iframeContents );
 
-            tdcRecycleUI.init();
+            tdcRecycleUI.init( forceReinitialization );
 
 
 
             tdcAdminWrapperUI.$mask = jQuery('<div id="' + tdcAdminWrapperUI.maskId + '"></div>');
             tdcOperationUI.iframeContents.find( 'body' ).append( tdcAdminWrapperUI.$mask );
-            tdcMaskUI.init( tdcAdminWrapperUI.$mask );
+            tdcMaskUI.init( tdcAdminWrapperUI.$mask, forceReinitialization );
 
 
             jQuery( window ).mouseup(function( event ) {
@@ -99,10 +99,13 @@ var tdcOperationUI;
                     '$currentElement' : undefined
                 });
 
+                // Close the sidebar modal 'Add Elements'
+                tdcSidebar.closeModal();
+
             }).mouseup(function(event) {
                 //tdcDebug.log( 'contents mouse up' );
 
-                tdcOperationUI.deactiveDraggedElement();
+                tdcOperationUI.deactiveDraggedElement() ;
                 tdcOperationUI.hideHelper();
 
                 tdcOperationUI.setCurrentElementOver( undefined );
@@ -264,6 +267,24 @@ var tdcOperationUI;
 
                 tdcOperationUI._placeholderCacheCssSettings = cssSettings;
                 tdcAdminWrapperUI.$placeholder.css( cssSettings );
+            }
+        },
+
+
+
+
+        setReadyToMove: function() {
+            var $draggedElement = tdcOperationUI.getDraggedElement();
+            if ( ! _.isUndefined( $draggedElement ) ) {
+                $draggedElement.addClass( 'tdc-ready-to-move' );
+            }
+        },
+
+
+        clearReadyToMove: function() {
+            var $draggedElement = tdcOperationUI.getDraggedElement();
+            if ( ! _.isUndefined( $draggedElement ) ) {
+                $draggedElement.removeClass( 'tdc-ready-to-move' );
             }
         },
 
