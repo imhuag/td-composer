@@ -707,6 +707,9 @@ var tdcElementUI;
                     screenY: event.screenY
                 });
 
+                // Set the 'tdc-ready-to-move' class
+                tdcOperationUI.setReadyToMove();
+
             }).mouseup(function( event ) {
 
                 // Respond only if dragged element is 'tdc-element'
@@ -728,6 +731,9 @@ var tdcElementUI;
                 }
                 // Set the mask current container at mouse up
                 tdcMaskUI.setContentAtMouseUp( $element );
+
+                // Clear the 'tdc-ready-to-move' class
+                tdcOperationUI.clearReadyToMove();
 
             }).mousemove(function( event ) {
 
@@ -763,6 +769,9 @@ var tdcElementUI;
                     // Reset the mouse coordinates
                     // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
                     tdcElementUI._setMouseCoordinates( undefined );
+
+                    // Clear the 'tdc-ready-to-move' class
+                    tdcOperationUI.clearReadyToMove();
                 }
 
             }).mouseenter(function( event ) {

@@ -73,7 +73,11 @@ var tdcMaskUI;
 
 
 
-    init: function( $wrapper ) {
+    init: function( $wrapper, forceReinitialization ) {
+
+        if ( ! _.isUndefined( forceReinitialization ) && true === forceReinitialization ) {
+            tdcMaskUI._isInitialized = false;
+        }
 
         if ( tdcMaskUI._isInitialized ) {
             return;
@@ -88,10 +92,10 @@ var tdcMaskUI;
         tdcMaskUI.$wrapper.append( tdcMaskUI.$handler );
 
 
-        tdcRowHandlerUI.init();
-        tdcColumnHandlerUI.init();
-        tdcInnerRowHandlerUI.init();
-        tdcInnerColumnHandlerUI.init();
+        tdcRowHandlerUI.init( forceReinitialization );
+        tdcColumnHandlerUI.init( forceReinitialization );
+        tdcInnerRowHandlerUI.init( forceReinitialization);
+        tdcInnerColumnHandlerUI.init( forceReinitialization );
 
         tdcMaskUI._isInitialized = true;
     },

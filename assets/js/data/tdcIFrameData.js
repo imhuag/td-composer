@@ -56,7 +56,11 @@ var tdcIFrameData,
          *
          * @param iframeContents
          */
-        init: function( iframeContents ) {
+        init: function( iframeContents, forceReinitialization ) {
+
+            if ( ! _.isUndefined( forceReinitialization ) && true === forceReinitialization ) {
+                tdcIFrameData._isInitialized = false;
+            }
 
             if ( tdcIFrameData._isInitialized ) {
                 return;
@@ -174,6 +178,11 @@ var tdcIFrameData,
                             tdcDebug.log( job );
                         };
 
+                        var $draggedElement = tdcOperationUI.getDraggedElement();
+
+                        // 'tdc-dropped' remove the loader
+                        $draggedElement.addClass( 'tdc-dropped' );
+
                         tdcJobManager.addJob( newJob );
                     }
 
@@ -272,6 +281,10 @@ var tdcIFrameData,
                     tdcDebug.log( 'customRender - Rendering our model' );
 
                     if ( this.model.has( 'html' ) && !_.isUndefined( this.model.get( 'html' ) ) ) {
+
+                        // 'tdc-dropped' class remove the loader
+                        this.$el.removeClass( 'tdc-dropped' );
+
 
                         this.$el.html( this.model.get( 'html' ) );
 

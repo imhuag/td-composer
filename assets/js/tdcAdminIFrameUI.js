@@ -632,9 +632,9 @@ var tdcAdminIFrameUI;
 
                     window.addWrappers( $iframeContents );
 
-                    tdcIFrameData.init( $iframeContents );
+                    tdcIFrameData.init( $iframeContents, true );
                     
-                    tdcOperationUI.init( $iframeContents );
+                    tdcOperationUI.init( $iframeContents, true );
 
 
                     // Add target="_blank" to all anchor links, to prevent

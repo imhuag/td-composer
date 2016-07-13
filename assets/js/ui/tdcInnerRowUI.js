@@ -110,6 +110,9 @@ var tdcInnerRowUI;
                     screenY: event.screenY
                 });
 
+                // Set the 'tdc-ready-to-move' class
+                tdcOperationUI.setReadyToMove();
+
             }).mouseup(function( event ) {
                 //tdcDebug.log( 'inner row element mouse up' );
 
@@ -120,6 +123,9 @@ var tdcInnerRowUI;
 
                 // Set the mask current container at mouse up
                 tdcMaskUI.setContentAtMouseUp( $element );
+
+                // Clear the 'tdc-ready-to-move' class
+                tdcOperationUI.clearReadyToMove();
 
             }).mousemove(function( event ) {
 
@@ -155,6 +161,9 @@ var tdcInnerRowUI;
                     // Reset the mouse coordinates
                     // SOLVE A CHROME BUG - mousemove event triggered after mousedown!
                     tdcInnerRowUI._setMouseCoordinates( undefined );
+
+                    // Clear the 'tdc-ready-to-move' class
+                    tdcOperationUI.clearReadyToMove();
                 }
 
             }).mouseenter(function(event) {
