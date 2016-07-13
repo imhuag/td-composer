@@ -95,22 +95,22 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 				<!-- breadcrumbs browser -->
 				<div class="tdc-breadcrumbs">
 					<div id="tdc-breadcrumb-row">
-						<a href="#">row</a>
+						<a href="#" title="The parent row.">row</a>
 					</div>
 					<div id="tdc-breadcrumb-column">
 						<span class="tdc-breadcrumb-arrow"></span>
-						<a href="#">column</a>
+						<a href="#" title="The parent column.">column</a>
 					</div>
 					<div id="tdc-breadcrumb-inner-row">
 						<span class="tdc-breadcrumb-arrow"></span>
-						<a href="#">inner-row</a>
+						<a href="#" title="The parent inner row.">inner-row</a>
 					</div>
 					<div id="tdc-breadcrumb-inner-column">
 						<span class="tdc-breadcrumb-arrow"></span>
-						<a href="#">inner-column</a>
+						<a href="#" title="The parent inner column.">inner-column</a>
 					</div>
 				</div>
-				<div class="tdc-current-element-head">
+				<div class="tdc-current-element-head" title="This is the type of the current selected element.">
 				</div>
 				<div class="tdc-tabs-wrapper">
 				</div>

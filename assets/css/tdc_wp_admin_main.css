@@ -8,7 +8,7 @@
   left: 0;
   top: 0;
   box-sizing: border-box;
-  width: 36px;
+  width: 37px;
   height: 36px;
   border-radius: 4px 0 0 4px;
   background: url('../images/sidebar/logo-symbol.png');
@@ -19,10 +19,10 @@
 .tdc-panel-link {
   box-sizing: border-box;
   background-color: #4db2ec;
-  width: 118px;
+  width: 128px;
   height: 36px;
   cursor: pointer;
-  margin-left: 36px;
+  margin-left: 37px;
   border-radius: 0 4px 4px 0;
   transition: all 0.4s ease;
   text-align: center;
@@ -40,4 +40,11 @@
   display: block;
   width: 100%;
   height: 100%;
+}
+/*
+  Open editor loader
+*/
+.tdc-open-editor-loader .tdc-panel-icon {
+  background-position: 10px 9px !important;
+  background: #4db2ec url("../images/loader-small.gif") no-repeat;
 }

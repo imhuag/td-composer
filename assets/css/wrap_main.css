@@ -132,7 +132,7 @@
 .tdc-top-buttons .tdc-active-element:hover {
   background-color: #fff;
 }
-.tdc-top-buttons .tdc-save-page {
+.tdc-save-page {
   width: 44px;
   height: 43px;
   position: absolute;
@@ -140,10 +140,10 @@
   right: 53px;
   cursor: pointer;
 }
-.tdc-top-buttons .tdc-save-page:hover {
+.tdc-save-page:hover {
   background-color: #268ac2;
 }
-.tdc-top-buttons .tdc-save-page .tdc-icon-save {
+.tdc-save-page .tdc-icon-save {
   position: absolute;
   top: 10px;
   right: 12px;
@@ -153,7 +153,7 @@
   width: 20px;
   height: 20px;
 }
-.tdc-top-buttons .tdc-close-page {
+.tdc-close-page {
   width: 43px;
   height: 43px;
   position: absolute;
@@ -161,10 +161,10 @@
   right: 10px;
   cursor: pointer;
 }
-.tdc-top-buttons .tdc-close-page:hover {
+.tdc-close-page:hover {
   background-color: #268ac2;
 }
-.tdc-top-buttons .tdc-close-page .tdc-icon-close {
+.tdc-close-page .tdc-icon-close {
   position: absolute;
   top: 10px;
   right: 11px;
@@ -597,6 +597,10 @@
   margin-top: 0;
   padding: 2px 10px 19px 12px;
   color: #000000;
+  display: inline-block;
+}
+.tdc-current-element-head:hover {
+  cursor: pointer;
 }
 /*
   inspector + tabs
@@ -1464,6 +1468,9 @@ placeholder when sidebar is empty
     transform: rotate(360deg);
   }
 }
+/*
+  full screen loader
+*/
 .tdc-fullscreen-loader-wrap {
   position: absolute;
   left: 0;
@@ -1482,6 +1489,25 @@ placeholder when sidebar is empty
   -o-animation: rotating 6s linear infinite;
   animation: rotating 6s linear infinite;
 }
+body.tdcComposerLoaded > * {
+  visibility: visible;
+}
+body.tdcComposerLoaded .tdc-fullscreen-loader-wrap {
+  display: none;
+}
+/*
+  save button loader
+*/
+.tdc-saving-loader {
+  background-color: transparent !important;
+}
+.tdc-saving-loader .tdc-icon-save {
+  background-position: 3px 2px !important;
+  background: transparent url("../images/loader-small.gif") no-repeat;
+}
+/*
+  Open editor loader - it's not here, it's in assets/less_wp_admin/wp_admin_main.less
+*/
 body.tdc #adminmenuback,
 body.tdc #adminmenuwrap,
 body.tdc #local-storage-notice,
