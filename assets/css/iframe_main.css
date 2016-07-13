@@ -32,6 +32,9 @@ html.tdc-active #wpadminbar {
 .tdc-dragged {
   opacity: 0.5;
 }
+.tdc-ready-to-move {
+  opacity: 0.8 !important;
+}
 .tdc-element-empty {
   border: 1px solid #4eb2ec;
   width: 100%;
@@ -322,4 +325,7 @@ html.tdc-active #wpadminbar {
   display: block;
   text-transform: uppercase;
   font-size: 14px;
+}
+.td-admin-edit {
+  display: none !important;
 }
