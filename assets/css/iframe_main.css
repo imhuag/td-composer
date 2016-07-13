@@ -33,7 +33,10 @@ html.tdc-active #wpadminbar {
   opacity: 0.5;
 }
 .tdc-ready-to-move {
-  opacity: 0.8 !important;
+  background-color: red;
+}
+.tdc-dropped {
+  background-color: green;
 }
 .tdc-element-empty {
   border: 1px solid #4eb2ec;
