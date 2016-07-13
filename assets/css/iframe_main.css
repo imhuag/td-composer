@@ -29,14 +29,92 @@ html.tdc-active #wpadminbar {
   pointer-events: none;
   cursor: pointer;
 }
+/* ----------------------------------------------------------------------------------------
+  When a element is dragged, starting with the mouse down
+*/
 .tdc-dragged {
   opacity: 0.5;
 }
+/* ----------------------------------------------------------------------------------------
+  When a element is selected (it's settings are opened in the left sidebar)
+*/
+.tdc-element-selected {
+  outline: 1px dashed  #4eb2ec;
+}
+.tdc-column.tdc-element-selected {
+  outline: none;
+}
+.tdc-column.tdc-element-selected > .vc_column {
+  outline: 1px dashed #4eb2ec;
+}
+.tdc-inner-column.tdc-element-selected {
+  outline: none;
+}
+.tdc-inner-column.tdc-element-selected > .vc_column_inner {
+  outline: 1px dashed #4eb2ec;
+}
+/* ----------------------------------------------------------------------------------------
+  When a element is mouse down on
+*/
 .tdc-ready-to-move {
   background-color: red;
 }
+/* ----------------------------------------------------------------------------------------
+  When a element is dropped, the job is running and we're waiting for new content
+*/
+@keyframes tdc-dropped-colorchange {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes tdc-dropped-colorchange {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
 .tdc-dropped {
-  background-color: green;
+  position: relative;
+  max-height: 600px;
+  min-height: 120px;
+  overflow: hidden;
+}
+.tdc-dropped:before {
+  top: 0;
+  left: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  content: '';
+  z-index: 99998;
+  min-height: 100px;
+  background-color: white;
+}
+.tdc-dropped:after {
+  top: 0;
+  left: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: #f1f1f1 url("../images/loader.gif") no-repeat;
+  content: '';
+  z-index: 99999;
+  background-position: center;
+  animation: tdc-dropped-colorchange 1s linear infinite;
+  -webkit-animation: tdc-dropped-colorchange 1s linear infinite;
 }
 .tdc-element-empty {
   border: 1px solid #4eb2ec;
@@ -185,21 +263,6 @@ html.tdc-active #wpadminbar {
   display: block;
   height: 100%;
   color: #666;
-}
-.tdc-element-selected {
-  outline: 1px dashed  #4eb2ec;
-}
-.tdc-column.tdc-element-selected {
-  outline: none;
-}
-.tdc-column.tdc-element-selected > .vc_column {
-  outline: 1px dashed #4eb2ec;
-}
-.tdc-inner-column.tdc-element-selected {
-  outline: none;
-}
-.tdc-inner-column.tdc-element-selected > .vc_column_inner {
-  outline: 1px dashed #4eb2ec;
 }
 #tdc-rows .tdc-add-block {
   height: 50px;
