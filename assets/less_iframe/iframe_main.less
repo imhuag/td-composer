@@ -32,6 +32,15 @@ html.tdc-active #wpadminbar {
   cursor: pointer;
 }
 
+// keep height on tdc-element which contains floated '.td_block_wrap'
+.tdc-element {
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
 .tdc-element img,
 .tdc-element a {
   pointer-events: none;
@@ -396,3 +405,4 @@ html.tdc-active #wpadminbar {
 .td-admin-edit {
   display: none !important;
 }
+
