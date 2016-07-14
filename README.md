@@ -4,6 +4,7 @@ License: GPL V3
 
 Author: tagDiv - Themes for smart people
 
+Support forum: http://forum.tagdiv.com/forum/tagdiv-composer/
 
 #### What's this?
 A GPL pagebuilder plugin for WordPress that uses shortcodes to save and reder the page.
