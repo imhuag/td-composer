@@ -51,15 +51,16 @@ html.tdc-active #wpadminbar {
 /* ----------------------------------------------------------------------------------------
   When a element is selected (it's settings are opened in the left sidebar)
 */
+
 .tdc-element-selected {
-  outline: 1px dashed  #4eb2ec;
+  outline: 2px dashed rgb(212, 212, 212);
 }
 
 .tdc-column.tdc-element-selected { // columns - they are colapsing and we need to add the outline to the inner wrapper
   outline: none;
 
   > .vc_column {
-    outline: 1px dashed #4eb2ec;
+    outline: 2px dashed rgb(212, 212, 212);
   }
 }
 
@@ -67,15 +68,35 @@ html.tdc-active #wpadminbar {
   outline: none;
 
   > .vc_column_inner {
-    outline: 1px dashed #4eb2ec;
+    outline: 2px dashed rgb(212, 212, 212);
   }
 }
+//
+//.tdc-element-selected {
+//  outline: 1px dashed  #4eb2ec;
+//}
+//
+//.tdc-column.tdc-element-selected { // columns - they are colapsing and we need to add the outline to the inner wrapper
+//  outline: none;
+//
+//  > .vc_column {
+//    outline: 1px dashed #4eb2ec;
+//  }
+//}
+//
+//.tdc-inner-column.tdc-element-selected { // columns - they are colapsing and we need to add the outline to the inner wrapper
+//  outline: none;
+//
+//  > .vc_column_inner {
+//    outline: 1px dashed #4eb2ec;
+//  }
+//}
 
 /* ----------------------------------------------------------------------------------------
   When a element is mouse down on
 */
 .tdc-ready-to-move {
-  background-color: red;
+  opacity: 0.9 !important;
 }
 
 
@@ -100,7 +121,7 @@ html.tdc-active #wpadminbar {
   //background-color: green;
   position: relative;
 
-  max-height: 600px;
+  max-height: 550px;
   min-height: 120px;
   overflow: hidden;
 
@@ -216,10 +237,20 @@ html.tdc-active #wpadminbar {
   opacity: 0.3;
   pointer-events: none;
   position: absolute;
-  z-index: 2;
+  z-index: 99999;
   display: none;
 }
 
+
+.tdc-content-row,
+.tdc-content-inner-row {
+  opacity: 1 !important;
+  background-color: rgba(131, 203, 236, 0.12) !important;
+  outline: 1px solid rgba(78, 178, 236, 0.3) !important;
+}
+
+
+// the mask controls for row / column etc that appear on top left
 #tdc-mask-row,
 #tdc-mask-column,
 #tdc-mask-inner-row,
@@ -229,7 +260,7 @@ html.tdc-active #wpadminbar {
 }
 
 #tdc-mask-row {
-  background-color: #ee5734;
+  background-color: #ee5734 !important;
   color: #FFFFFF;
   top: 0;
   left: 0;

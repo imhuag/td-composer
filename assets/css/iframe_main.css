@@ -39,25 +39,25 @@ html.tdc-active #wpadminbar {
   When a element is selected (it's settings are opened in the left sidebar)
 */
 .tdc-element-selected {
-  outline: 1px dashed  #4eb2ec;
+  outline: 2px dashed #d4d4d4;
 }
 .tdc-column.tdc-element-selected {
   outline: none;
 }
 .tdc-column.tdc-element-selected > .vc_column {
-  outline: 1px dashed #4eb2ec;
+  outline: 2px dashed #d4d4d4;
 }
 .tdc-inner-column.tdc-element-selected {
   outline: none;
 }
 .tdc-inner-column.tdc-element-selected > .vc_column_inner {
-  outline: 1px dashed #4eb2ec;
+  outline: 2px dashed #d4d4d4;
 }
 /* ----------------------------------------------------------------------------------------
   When a element is mouse down on
 */
 .tdc-ready-to-move {
-  background-color: red;
+  opacity: 0.9 !important;
 }
 /* ----------------------------------------------------------------------------------------
   When a element is dropped, the job is running and we're waiting for new content
@@ -86,7 +86,7 @@ html.tdc-active #wpadminbar {
 }
 .tdc-dropped {
   position: relative;
-  max-height: 600px;
+  max-height: 550px;
   min-height: 120px;
   overflow: hidden;
 }
@@ -181,8 +181,14 @@ html.tdc-active #wpadminbar {
   opacity: 0.3;
   pointer-events: none;
   position: absolute;
-  z-index: 2;
+  z-index: 99999;
   display: none;
+}
+.tdc-content-row,
+.tdc-content-inner-row {
+  opacity: 1 !important;
+  background-color: rgba(131, 203, 236, 0.12) !important;
+  outline: 1px solid rgba(78, 178, 236, 0.3) !important;
 }
 #tdc-mask-row,
 #tdc-mask-column,
@@ -192,7 +198,7 @@ html.tdc-active #wpadminbar {
   pointer-events: all;
 }
 #tdc-mask-row {
-  background-color: #ee5734;
+  background-color: #ee5734 !important;
   color: #FFFFFF;
   top: 0;
   left: 0;
