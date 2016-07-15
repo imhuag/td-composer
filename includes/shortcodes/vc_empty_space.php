@@ -20,6 +20,16 @@ class vc_empty_space extends tdc_composer_block {
 
 		$inline_css = ( (float) $atts['height'] >= 0.0 ) ? ' style="height: ' . esc_attr( $atts['height'] ) . '"' : '';
 
-		return '<div class="wpb_wrapper td_block_wrap ' . $this->get_block_classes( array( $atts['el_class'] ) ) . '" ' . $inline_css . '>' . $this->get_block_css() . '</div>';
+
+
+		$editing_class = '';
+		$editing_text = '';
+		if (tdc_state::is_live_editor_iframe() || tdc_state::is_live_editor_ajax()) {
+			$editing_class = 'tdc-editing-vc_empty_space';
+			$editing_text = '<div class="tdc-editing-text">Empty space</div>';
+		}
+
+
+		return '<div class="wpb_wrapper td_block_wrap ' . $this->get_block_classes( array( $atts['el_class'], $editing_class ) ) . '" ' . $inline_css . '>' . $this->get_block_css() . $editing_text .  '</div>';
 	}
 }

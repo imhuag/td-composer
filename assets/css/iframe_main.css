@@ -1,3 +1,21 @@
+/**
+  Custom code for small blocks modifications when editing the page with tdc composer
+*/
+.tdc-editing-vc_empty_space {
+  outline: 2px dotted #e8e8e8;
+}
+.tdc-editing-vc_empty_space .tdc-editing-text {
+  position: absolute;
+  top: 50%;
+  font-size: 14px;
+  margin-top: -11px;
+  width: 100%;
+  text-align: center;
+  color: #dddddd;
+}
+.tdc-element-selected .tdc-editing-vc_empty_space {
+  outline: none;
+}
 html.tdc-active {
   margin: 0 !important;
 }
@@ -23,6 +41,11 @@ html.tdc-active #wpadminbar {
 .tdc-element-inner-row,
 .tdc-element-inner-column {
   cursor: pointer;
+}
+.tdc-element:after {
+  content: '';
+  display: block;
+  clear: both;
 }
 .tdc-element img,
 .tdc-element a {
@@ -89,6 +112,7 @@ html.tdc-active #wpadminbar {
   max-height: 550px;
   min-height: 120px;
   overflow: hidden;
+  margin-bottom: 45px;
 }
 .tdc-dropped:before {
   top: 0;
