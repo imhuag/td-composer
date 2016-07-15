@@ -43,6 +43,7 @@ class vc_column extends tdc_composer_block {
 
 		$buffy = '<div class="' . $this->get_block_classes(array('wpb_column', 'vc_column_container', $td_pb_class)) . '">';
 				$buffy .= '<div class="wpb_wrapper">';
+					$buffy .= $this->get_block_css();
 					$buffy .= $this->do_shortcode($content);
 				$buffy .= '</div>';
 		$buffy .= '</div>';
