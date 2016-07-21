@@ -34,55 +34,7 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 
 //@todo - refactorizare aici json_encode
 //<link rel="stylesheet" href="http://basehold.it/22">
-
-
-
-
-
-
-
-$theme_options = get_option(TD_THEME_OPTIONS_NAME);
-
-
-//echo '<pre>';
-//print_r( $theme_options );
-//echo '</pre>';
-
-//foreach ( $theme_options as $key_theme_option => &$val_theme_option ) {
-//	if ( is_string( $val_theme_option ) ) {
-//		$theme_options[ $key_theme_option ] = addslashes( $val_theme_option );
-//	}
-//}
-
-$tdc_theme_options = array(
-);
-foreach ( $theme_options as $current_key => $current_setting ) {
-	if ( 'tds_header_style' == $current_key ) {
-		$tdc_theme_options[ $current_key ] = array(
-			'group' => 'HEADER',
-			'subgroup' => 'Header Style',
-			'name'   => 'HEADER STYLE',
-			'value'  => $current_setting,
-			'type'   => 'dropdown',
-			'values' => td_api_header_style::_helper_generate_tds_header_style()
-		);
-	}
-	if ( 'tds_top_bar' == $current_key ) {
-		$tdc_theme_options[ $current_key ] = array(
-			'group' => 'HEADER',
-			'subgroup' => 'Top Bar',
-			'name' => 'ENABLE TOP BAR',
-			'value' => $current_setting,
-			'type' => 'checkbox',
-			'true_value' => '',
-			'false_value' => 'hide_top_bar'
-		);
-	}
-}
 ?>
-
-
-
 
 
 	<script type="text/javascript">
@@ -105,46 +57,8 @@ foreach ( $theme_options as $current_key => $current_setting ) {
 			postContent: '<?php echo $postContent; ?>',
 			postMetaDirtyContent: '<?php echo get_post_meta( $post->ID, 'tdc_dirty_content', true ) ?>',
 			postMetaVcJsStatus: '<?php echo get_post_meta( $post->ID, '_wpb_vc_js_status', true ) ?>',
-			themeSettings: <?php echo json_encode( $tdc_theme_options ); ?>
 		};
 
-		//alert(window.tdcPostSettings.themeSettings);
-
-	</script>
-
-<!--<div id="test-header" style="position: fixed; z-index: 99999; left: 0; top: 0; width: 200px; height: 70px; background-color: white; border: 1px solid black">-->
-<!--	header-->
-<!--	</div>-->
-
-<script>
-	jQuery( '#test-header').click(function() {
-		jQuery.ajax({
-			timeout: 10000,
-			type: 'POST',
-
-			// uuid is for browser cache busting
-			url: tdcUtil.getRestEndPoint('td-composer/get_header', 'uuid=' + tdcJobManager._getUniqueID()),
-			dataType: 'json',
-
-			beforeSend: function ( xhr ) {
-				xhr.setRequestHeader( 'X-WP-Nonce', window.tdcAdminSettings.wpRestNonce);
-			}
-
-
-		}).done(function( data, textStatus, jqXHR ) {
-			tdcAdminIFrameUI.$liveIframeHeader.html( data['content'] );
-			tdcAdminIFrameUI._liveIframeWindowObject.loadMenu();
-
-//			tdcAdminIFrameUI._liveIframeWindowObject.tdAffix.init({
-//				menu_selector: '.td-header-menu-wrap',
-//				menu_wrap_selector: '.td-header-menu-wrap-full',
-//				tds_snap_menu: tdcAdminIFrameUI._liveIframeWindowObject.tdUtil.getBackendVar('tds_snap_menu'),
-//				tds_snap_menu_logo: tdcAdminIFrameUI._liveIframeWindowObject.tdUtil.getBackendVar('tds_logo_on_sticky'),
-//				menu_affix_height: 48,   // value must be set because it can't be computed at runtime because at the time of td_affix.init() we can have no affixed menu on page
-//				menu_affix_height_on_mobile: 54
-//			});
-		});
-	});
 	</script>
 
 	<!-- the composer sidebar -->

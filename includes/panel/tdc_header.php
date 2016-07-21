@@ -7,7 +7,7 @@
  */
 ?>
 
-<form id="td_panel_big_form" action="?page=td_theme_panel" method="post">
+<form id="td_panel_big_form" action="?page=td_theme_panel" method="post" target="tdc-live-iframe">
 
 
 	<input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-update-panel") ?>"/>
@@ -38,7 +38,7 @@
 
 <?php echo td_panel_generator::box_end();?>
 
-	<input type="button" id="tdc_button_save_panel" value="SAVE SETTINGS">
+	<input type="submit" id="tdc_button_save_panel" value="SAVE SETTINGS">
 
 </form>
 

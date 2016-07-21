@@ -85,7 +85,8 @@ var tdcAdminIFrameUI;
 
 
 
-            tdcAdminIFrameUI._$liveIframe = jQuery( '<iframe id="tdc-live-iframe" src="' + url + '" scrolling="auto" style="width: 100%; height: 100%"></iframe>' )
+
+            tdcAdminIFrameUI._$liveIframe = jQuery( '<iframe id="tdc-live-iframe" name="tdc-live-iframe" src="' + url + '" scrolling="auto" style="width: 100%; height: 100%"></iframe>' )
                 .load(function(){
 
                     var $this = jQuery(this),
