@@ -70,7 +70,8 @@ class tdc_config {
 		'cssJs'                 => '/assets/js/external/css.js',
 
 
-		'tdcLoader'                 => '/assets/js/tdcLoader.js',
+		'tdcLoader'             => '/assets/js/tdcLoader.js',
+		'tdcThemePanel'         => '/assets/js/tdcThemePanel.js',
 	);
 
 
