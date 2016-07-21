@@ -110,7 +110,7 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 						<a href="#" title="The parent inner column.">inner-column</a>
 					</div>
 				</div>
-				<div class="tdc-current-element-head" title="This is the type of the current selected element.">
+				<div class="tdc-current-element-head" title="This is the type (shortcode) of the current selected element.">
 				</div>
 				<div class="tdc-tabs-wrapper">
 				</div>
