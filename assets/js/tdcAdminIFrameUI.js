@@ -630,6 +630,10 @@ var tdcAdminIFrameUI;
                     tdcAdminWrapperUI.$recycle = $tdcRecycle;
 
 
+                    // This is necessary at iframe reloading
+                    // @see _initStructuredData and _getPostOriginalContentJSON
+                    tdcIFrameData._postOriginalContentJSON = undefined;
+
 
                     window.addWrappers( $iframeContents );
 

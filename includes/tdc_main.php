@@ -340,6 +340,19 @@ if (!empty($td_action)) {
 			// Iframe content post
 			add_filter( 'show_admin_bar', '__return_false' );
 
+			add_filter( 'the_content', 'filter_function_name', 10000, 1 );
+			function filter_function_name( $content ) {
+
+				if ( isset( $_POST['tdc_content'] ) ) {
+
+					//echo $_POST['tdc_content'];die;
+					//return $_POST['tdc_content'];
+					return do_shortcode( stripslashes ( $_POST['tdc_content'] ) );
+				}
+
+				return $content;
+			}
+
 			/**
 			 * iframe enqueue scripts
 			 */

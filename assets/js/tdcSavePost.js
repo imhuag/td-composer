@@ -59,6 +59,11 @@ var tdcSavePost;
                     }
                 }).done(function( data, textStatus, jqXHR ) {
 
+                    // This is necessary at iframe reloading
+                    // @see _initStructuredData and _getPostOriginalContentJSON
+                    window.tdcPostSettings.postContent = tdcSavePost.content;
+
+
                     jQuery( '.tdc-save-page').removeClass('tdc-saving-loader'); // remove the loading animation
 
                     if ( 'success' === textStatus ) {

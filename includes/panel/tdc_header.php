@@ -14,6 +14,8 @@
 	<input type="hidden" name="action" value="td_ajax_update_panel">
 	<input type="hidden" name="tdc_action" value="preview">
 
+	<input type="hidden" id="tdc_content" name="tdc_content" value="">
+
 <!-- HEADER STYLE -->
 <?php echo td_panel_generator::box_start('Header Style'); ?>
 

@@ -20,6 +20,29 @@ var tdcThemePanel;
             tdcThemePanel.$_panel = jQuery( '#tdc-theme-panel' );
 
             jQuery( '#td_panel_big_form').attr( 'action', document.getElementById('tdc-live-iframe').src );
+
+            jQuery( '#tdc_button_save_panel').click(function(event) {
+
+                event.preventDefault();
+
+                var data = {
+                    error: undefined,
+                    getShortcode: ''
+                };
+
+                tdcIFrameData.getShortcodeFromData( data );
+
+                if ( !_.isUndefined( data.error ) ) {
+                    tdcDebug.log( data.error );
+                }
+
+                if ( !_.isUndefined( data.getShortcode ) ) {
+                    jQuery( '#tdc_content').val( data.getShortcode );
+                    window.tdcPostSettings.postContent = data.getShortcode;
+                }
+
+                jQuery(this).closest('form').submit();
+            });
         }
     };
 
