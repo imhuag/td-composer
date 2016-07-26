@@ -86,12 +86,12 @@ class tdc_ajax {
 	static $_td_block__get_block_js_buffer = '';
 	static $_td_block__get_block_uid = '';
 
-	static function on_ajax_render_shortcode (WP_REST_Request $request ) {
+	static function on_ajax_render_shortcode( WP_REST_Request $request ) {
 
 		//sleep(5);
 
 
-		if (!current_user_can( 'edit_pages' )) {
+		if ( ! current_user_can( 'edit_pages' ) ) {
 			//@todo - ceva eroare sa afisam aici
 			echo 'no permission';
 			die;
@@ -106,15 +106,15 @@ class tdc_ajax {
 
 
 
-		td_util::vc_set_column_number($request->get_param('columns'));
+		td_util::vc_set_column_number( $request->get_param( 'columns' ) );
 
 
 		/**
 		 * hook td_block__get_block_js so we can receive the JS for EVAL form the block when do_shortcode is called below
 		 */
-		add_action('td_block__get_block_js', 'tdc_on_td_block__get_block_js', 10, 1);
+		add_action( 'td_block__get_block_js', 'tdc_on_td_block__get_block_js', 10, 1 );
 		/** @param $by_ref_block_obj td_block */
-		function tdc_on_td_block__get_block_js($by_ref_block_obj) {
+		function tdc_on_td_block__get_block_js( $by_ref_block_obj ) {
 			// APPEND to the buffer for eval(). We may do eval on multiple shortcodes and we must gather all the js form all the blocks
 			tdc_ajax::$_td_block__get_block_js_buffer .= $by_ref_block_obj->js_tdc_callback_ajax();
 			tdc_ajax::$_td_block__get_block_uid = $by_ref_block_obj->block_uid;
@@ -135,11 +135,11 @@ class tdc_ajax {
 
 		//tdc_map_not_registered_shortcodes($request->get_param('postId'));
 
-		$reply_html =  do_shortcode(stripslashes($request->get_param('shortcode')));
+		$reply_html = do_shortcode( stripslashes( $request->get_param( 'shortcode' ) ) );
 
 
 		// read the buffer that was set by the 'td_block__get_block_js' hook above
-		if (!empty(self::$_td_block__get_block_js_buffer)) {
+		if ( ! empty( self::$_td_block__get_block_js_buffer ) ) {
 			$parameters['replyJsForEval'] = self::$_td_block__get_block_js_buffer;
 		}
 
@@ -161,14 +161,14 @@ class tdc_ajax {
 		//print_r($request);
 		//die;
 
-		die(json_encode($parameters));
+		die( json_encode( $parameters ) );
 	}
 
 
 
 
-	static function on_ajax_save_post(WP_REST_Request $request) {
-		if (!current_user_can( 'edit_pages' )) {
+	static function on_ajax_save_post( WP_REST_Request $request ) {
+		if ( ! current_user_can( 'edit_pages' ) ) {
 			//@todo - ceva eroare sa afisam aici
 			echo 'no permission';
 			die;
@@ -182,11 +182,11 @@ class tdc_ajax {
 
 		//print_r($request);
 
-		$action = $_POST[ 'action' ];
-		$post_id = $_POST[ 'post_id' ];
-		$post_content = $_POST[ 'content' ];
+		$action       = $_POST['tdc_action'];
+		$post_id      = $_POST['tdc_post_id'];
+		$post_content = $_POST['tdc_content'];
 
-		if ( !isset($action) || 'tdc_ajax_save_post' !== $action || !isset($post_id) || !isset($post_content)) {
+		if ( ! isset( $action ) || 'tdc_ajax_save_post' !== $action || ! isset( $post_id ) || ! isset( $post_content ) ) {
 
 			$parameters['errors'][] = 'Invalid data';
 
@@ -197,27 +197,30 @@ class tdc_ajax {
 			);
 
 			$post_id = wp_update_post( $data_post, true );
-			if (is_wp_error($post_id)) {
+			if ( is_wp_error( $post_id ) ) {
 				$errors = $post_id->get_error_messages();
 
 				$parameters['errors'] = array();
-				foreach ($errors as $error) {
+				foreach ( $errors as $error ) {
 					$parameters['errors'][] = $error;
 				}
 			} else {
-				update_post_meta($post_id, 'tdc_dirty_content', 0);
-				update_post_meta($post_id, 'tdc_content', $post_content);
+				update_post_meta( $post_id, 'tdc_dirty_content', 0 );
+				update_post_meta( $post_id, 'tdc_content', $post_content );
 
 				// Reset the vc status
-				update_post_meta($post_id, '_wpb_vc_js_status', false);
+				update_post_meta( $post_id, '_wpb_vc_js_status', false );
+
+				// Update the live panel settings
+				td_panel_data_source::update();
 			}
 		}
-		die(json_encode($parameters));
+		die( json_encode( $parameters ) );
 	}
 
 
-	static function on_ajax_decode_html_content(WP_REST_Request $request) {
-		if (!current_user_can( 'edit_pages' )) {
+	static function on_ajax_decode_html_content( WP_REST_Request $request ) {
+		if ( ! current_user_can( 'edit_pages' ) ) {
 			//@todo - ceva eroare sa afisam aici
 			echo 'no permission';
 			die;
@@ -225,16 +228,16 @@ class tdc_ajax {
 
 		$parameters = array();
 
-		$action = $_POST[ 'action' ];
-		$post_id = $_POST[ 'post_id' ];
-		$content = $_POST[ 'content' ];
+		$action  = $_POST['action'];
+		$post_id = $_POST['post_id'];
+		$content = $_POST['content'];
 
-		if ( !isset($action) || 'tdc_ajax_decode_html_content' !== $action || !isset($post_id) || !isset($content)) {
+		if ( ! isset( $action ) || 'tdc_ajax_decode_html_content' !== $action || ! isset( $post_id ) || ! isset( $content ) ) {
 			$parameters['errors'][] = 'Invalid data';
 
 		} else {
 			$parameters['parsed_content'] = htmlentities( rawurldecode( base64_decode( strip_tags( $content ) ) ) );
 		}
-		die(json_encode($parameters));
+		die( json_encode( $parameters ) );
 	}
 }

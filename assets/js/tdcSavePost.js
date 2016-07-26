@@ -36,6 +36,9 @@ var tdcSavePost;
             if ( !_.isUndefined( data.getShortcode ) && ! _.isUndefined( window.tdcPostSettings )) {
                 tdcSavePost.content = data.getShortcode;
 
+                tdcLivePanel.$tdcAction.val( 'tdc_ajax_save_post' );
+                tdcLivePanel.$tdcContent.val( tdcSavePost.content );
+
                 tdcDebug.log( tdcSavePost.content );
 
                 jQuery.ajax({
@@ -50,13 +53,8 @@ var tdcSavePost;
                     beforeSend: function ( xhr ) {
                         xhr.setRequestHeader( 'X-WP-Nonce', window.tdcAdminSettings.wpRestNonce);
                     },
-                    //url: ajaxurl,
-                    dataType: 'json',
-                    data: {
-                        post_id: window.tdcPostSettings.postId,
-                        action: 'tdc_ajax_save_post',
-                        content: tdcSavePost.content
-                    }
+                    data: tdcLivePanel.$panel.serialize()
+
                 }).done(function( data, textStatus, jqXHR ) {
 
                     // This is necessary at iframe reloading
