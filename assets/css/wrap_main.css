@@ -1432,6 +1432,28 @@ placeholder when sidebar is empty
   height: 300px;
   display: none;
 }
+#tdc-live-panel .td-box {
+  margin: 0;
+}
+#tdc-live-panel .td-box-header {
+  padding-left: 12px;
+  padding-right: 12px;
+  box-shadow: none;
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+}
+#tdc-live-panel .td-box-content {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+#tdc-live-panel .td-box-control-full {
+  width: 100%;
+}
+#tdc-live-panel .td-wrapper-radio-buttons a {
+  width: auto;
+  max-width: 100%;
+  margin-right: 0;
+}
 /*
   Full screen loader
 */

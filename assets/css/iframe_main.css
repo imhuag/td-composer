@@ -114,6 +114,9 @@ html.tdc-active #wpadminbar {
   overflow: hidden;
   margin-bottom: 45px;
 }
+.tdc-dropped .td-video-play-ico {
+  display: none;
+}
 .tdc-dropped:before {
   top: 0;
   left: 0;
