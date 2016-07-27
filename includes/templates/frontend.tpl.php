@@ -232,6 +232,8 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 	<!-- The live iFrame loads in this wrapper :) -->
 	<div id="tdc-live-iframe-wrapper" class="tdc-live-iframe-wrapper-full"></div>
 
+	<div id="tdc-iframe-cover"></div>
+
 	<div style="height: 1px; visibility: hidden; overflow: hidden;">
 
 		<?php

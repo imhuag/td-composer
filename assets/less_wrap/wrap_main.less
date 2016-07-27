@@ -77,7 +77,39 @@ body.tdc #wpbody-content {
 #tdc-live-iframe {
   margin: 0 auto !important;
   display: block;
+  opacity: 1;
+  -webkit-transition: opacity 0.4s;
+  transition: opacity 0.4s;
 }
+
+.tdc-remove-iframe {
+  opacity: 0 !important;
+}
+
+.tdc-live-iframe-temp {
+  opacity: 0;
+  -webkit-transition: opacity 0.4s;
+  transition: opacity 0.4s;
+}
+
+
+#tdc-iframe-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  opacity: 0;
+  -webkit-transition: opacity 0.4s;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.tdc-iframe-cover-show {
+  opacity: 0.7 !important;
+  pointer-events: all !important;
+}
+
 
 
 #tdc-dragged-helper {

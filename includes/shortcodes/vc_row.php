@@ -25,10 +25,10 @@ class vc_row extends tdc_composer_block {
 			$buffy .= $this->do_shortcode($content);
 		$buffy .= '</div>';
 
-
-		if (tdc_state::is_live_editor_iframe() || tdc_state::is_live_editor_ajax()) {
+		// The following commented code is for the new theme
+		//if (tdc_state::is_live_editor_iframe() || tdc_state::is_live_editor_ajax()) {
 			$buffy = '<div class="tdc-row">' . $buffy . '</div>';
-		}
+		//}
 
 
 

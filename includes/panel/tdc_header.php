@@ -13,7 +13,7 @@
  */
 ?>
 
-<form id="tdc-live-panel" action="" method="post" target="tdc-live-iframe">
+<form id="tdc-live-panel" method="post">
 
 	<input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-update-panel") ?>"/>
 
@@ -32,6 +32,9 @@
 	?>
 
 	<input type="hidden" id="tdc_content" name="tdc_content" value="">
+
+	<input type="hidden" name="td_action" value="tdc_edit">
+	<input type="hidden" name="post_id" value="86">
 
 
 <!-- HEADER STYLE -->

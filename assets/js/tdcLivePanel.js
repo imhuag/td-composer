@@ -16,7 +16,13 @@ var tdcLivePanel;
         $tdcAction: undefined,
         $tdcContent: undefined,
 
+        $tdcIframeCover: undefined,
+
+        _iframeSrc: undefined,
+
         $panel: undefined,
+
+
 
         init: function() {
 
@@ -24,7 +30,50 @@ var tdcLivePanel;
             tdcLivePanel.$tdcAction = tdcLivePanel.$panel.find( '#tdc_action' );
             tdcLivePanel.$tdcContent = tdcLivePanel.$panel.find( '#tdc_content' );
 
-            tdcLivePanel.$panel.on( 'click', '.td-radio-control-option', function(event){
+            tdcLivePanel.$tdcIframeCover = jQuery( '#tdc-iframe-cover' );
+            //tdcLivePanel.$tdcIframeCover.hide();
+
+            tdcLivePanel.$panel.submit({
+                test: 'testare'
+            }, function( eventData ) {
+                //tdcDebug.log( 'eventData' );
+                //tdcDebug.log( eventData );
+
+                var $newTdcLiveIframe = jQuery( '#tdc-live-iframe-temp' );
+
+                $newTdcLiveIframe.load(function() {
+
+                    var $this = jQuery( this );
+
+                    // Just call 'tdcAdminIFrameUI.checkIframe', the load function has been called because of the 'reload frame' browse operation
+                    if ( 'tdc-live-iframe-temp' !== $this.attr( 'id' ) ) {
+                        tdcAdminIFrameUI.checkIframe( $this );
+                        return;
+                    }
+
+                    var $iframeToRemove = jQuery( '#tdc-live-iframe' );
+
+                    tdcLivePanel.$tdcIframeCover.removeClass( 'tdc-iframe-cover-show' );
+                    $iframeToRemove.addClass( 'tdc-remove-iframe' );
+
+                    setTimeout(function() {
+
+                        tdcLivePanel.$tdcIframeCover.hide();
+                        $iframeToRemove.remove();
+
+                        $newTdcLiveIframe.attr( 'id', 'tdc-live-iframe' );
+
+                        tdcAdminIFrameUI.checkIframe( $newTdcLiveIframe );
+
+                        tdcLivePanel.$panel.attr( 'action', '' );
+
+                    }, 400);
+                });
+            });
+
+            tdcLivePanel.$panel.on( 'click', '.td-radio-control-option', function(event) {
+
+                event.preventDefault();
 
                 // Update the hidden field
                 var wrapper_id = jQuery(this).data('control-id');
@@ -36,8 +85,22 @@ var tdcLivePanel;
 
                 var $tdcLiveIframe = jQuery( '#tdc-live-iframe' );
 
-                tdcLivePanel.$panel.attr( 'action', $tdcLiveIframe.attr( 'src' ) );
+                if ( _.isUndefined( tdcLivePanel._iframeSrc ) ) {
+                    tdcLivePanel._iframeSrc = $tdcLiveIframe.attr( 'src' );
+                }
 
+                var unique = 'uid_' + Math.floor((Math.random() * 10000) + 1) + '_' + Math.floor((Math.random() * 100) + 1);
+
+                var $newTdcLiveIframe = jQuery( '<iframe id="tdc-live-iframe-temp" name="' + unique + '" scrolling="auto" src="about:blank" style="width: 100%; height: 100%" class="tdc-live-iframe-temp"></iframe>' );
+
+                $newTdcLiveIframe.insertAfter( $tdcLiveIframe );
+
+
+                tdcLivePanel.$panel.attr( 'target', unique );
+                tdcLivePanel.$panel.attr( 'action', tdcLivePanel._iframeSrc );
+
+                tdcLivePanel.$tdcIframeCover.show();
+                tdcLivePanel.$tdcIframeCover.addClass( 'tdc-iframe-cover-show' );
 
 
                 // Get the new content (the post shortcode) and preview it
@@ -64,8 +127,6 @@ var tdcLivePanel;
                 // This field is restored to 'tdc_ajax_save_post' by the Save button
                 tdcLivePanel.$tdcAction.val( 'preview' );
 
-
-                //tdcAdminIFrameUI._$liveIframe.attr( 'id', 'test' );
 
                 // Do a normal submit
                 tdcLivePanel.$panel.submit();
