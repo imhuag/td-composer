@@ -734,6 +734,17 @@ var tdcOperationUI;
 
 
         /**
+         * Check the $element is row
+         *
+         * @param $element
+         * @returns {*}
+         */
+        isElement: function( $element ) {
+            return $element.hasClass( tdcElementUI.getElementCssClass() );
+        },
+
+
+        /**
          * Check the current dragged element is a 'tdc-element' one
          *
          * @returns {boolean|*}

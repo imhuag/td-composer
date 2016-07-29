@@ -52,6 +52,7 @@ class tdc_config {
 		'tdcColumnHandlerUI'        => '/assets/js/ui/mask/tdcColumnHandlerUI.js',
 		'tdcInnerRowHandlerUI'      => '/assets/js/ui/mask/tdcInnerRowHandlerUI.js',
 		'tdcInnerColumnHandlerUI'   => '/assets/js/ui/mask/tdcInnerColumnHandlerUI.js',
+		'tdcElementHandlerUI'       => '/assets/js/ui/mask/tdcElementHandlerUI.js',
 
 
 

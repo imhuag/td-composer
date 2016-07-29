@@ -20,6 +20,9 @@ var tdcElementUI;
 
     tdcElementUI = {
 
+        // The css class of the handler element
+        _elementCssClass: 'tdc-element',
+
         // Gap top, gap bottom - set the placeholder outside of inner column
         _innerColumnGap: 10,
 
@@ -1011,6 +1014,16 @@ var tdcElementUI;
             }
 
             return false;
+        },
+
+
+
+        /**
+         *
+         * @returns {string}
+         */
+        getElementCssClass: function() {
+            return tdcElementUI._elementCssClass;
         }
 
 

@@ -1234,6 +1234,26 @@ var tdcIFrameData,
 
 
 
+        cloneModel: function( model ) {
+
+            var cloneModel = model.clone(),
+                parentModel = model.get( 'parentModel' );
+
+            if ( _.isUndefined( parentModel ) ) {
+                tdcIFrameData.tdcRows.add( cloneModel );
+            } else {
+                var childCollectionParentModel = parentModel.get( 'childCollection' );
+
+                childCollectionParentModel.add( cloneModel, {
+                    at: childCollectionParentModel.indexOf( model ) + 1,
+                    silent: true
+                });
+            }
+            return cloneModel;
+        },
+
+
+
 
 
         /**
@@ -1504,7 +1524,7 @@ var tdcIFrameData,
                             'parentModel': destinationModel
                         }),
 
-                    // Devine the liveView
+                    // Define the liveView
                         elementView = new tdcIFrameData.TdcLiveView({
                             model: elementModel,
                             el: $draggedElement[0]

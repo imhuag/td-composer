@@ -15,6 +15,7 @@
 /* global tdcColumnHandlerUI:{} */
 /* global tdcInnerRowHandlerUI:{} */
 /* global tdcInnerColumnHandlerUI:{} */
+/* global tdcElementHandlerUI:{} */
 
 /* global tdcRowUI:{} */
 ///* global tdcColumnUI:{} */
@@ -86,16 +87,16 @@ var tdcMaskUI;
         tdcMaskUI.$wrapper = $wrapper;
 
         tdcMaskUI.$content = jQuery( '<div id="tdc-mask-content"></div>' );
-        tdcMaskUI.$handler = jQuery( '<div id="tdc-mask-handler"></div>' );
+        tdcMaskUI.$handlerStructure = jQuery( '<div id="tdc-mask-handler-structure"></div>' );
 
         tdcMaskUI.$wrapper.after( tdcMaskUI.$content );
-        tdcMaskUI.$wrapper.append( tdcMaskUI.$handler );
-
+        tdcMaskUI.$wrapper.append( tdcMaskUI.$handlerStructure );
 
         tdcRowHandlerUI.init( forceReinitialization );
         tdcColumnHandlerUI.init( forceReinitialization );
         tdcInnerRowHandlerUI.init( forceReinitialization);
         tdcInnerColumnHandlerUI.init( forceReinitialization );
+        tdcElementHandlerUI.init( forceReinitialization );
 
         tdcMaskUI._isInitialized = true;
     },

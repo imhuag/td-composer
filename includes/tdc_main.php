@@ -276,7 +276,7 @@ function tdc_external_shortcode($atts, $content, $name) {
 if (!empty($td_action)) {
 
 	// $_GET['post_id'] is requiered from now on
-	$post_id = tdc_util::get_get_val('post_id');
+	$post_id = tdc_util::get_get_val( 'post_id' );
 	if (empty($post_id)) {
 		tdc_util::error(__FILE__, __FUNCTION__, 'No post_id received via GET');
 		die;

@@ -40,8 +40,11 @@ var tdcInnerRowHandlerUI;
         // Handler element
         $elementInnerRow: undefined,
 
-        // Handler jquery object
+        // Wrapper Handler jquery object
         _$handlerWrapper: undefined,
+
+        // Clone Handler jquery object
+        _$handlerClone: undefined,
 
         // Initialization flag
         _isInitialized: false,
@@ -60,21 +63,19 @@ var tdcInnerRowHandlerUI;
                 return;
             }
 
-            var handleHtml =
+            var handlerHtml =
                 '<div id="' + tdcInnerRowHandlerUI._handlerCssClass + '">' +
                     '<div class="tdc-mask-arrow-vertical"></div>' +
                     '<div class="tdc-mask-handler-drag">' + tdcInnerRowHandlerUI._handlerText + '</div>' +
-                    '<div class="tdc-mask-edit">' +
-                        '<div class="tdc-icon-edit"></div>' +
-                    '</div>' +
-                '</div>',
+                '</div>';
 
             // Create the handler jquery object and append it to the mask wrapper
-                $handlerWrapper = jQuery( handleHtml );
+            tdcInnerRowHandlerUI._$handlerWrapper = jQuery( handlerHtml );
 
-            tdcInnerRowHandlerUI._$handlerWrapper = $handlerWrapper;
+            tdcInnerRowHandlerUI._$handlerClone = jQuery( '<div class="tdc-mask-clone"></div>' );
 
-            tdcMaskUI.$handler.append( $handlerWrapper );
+            tdcInnerRowHandlerUI._$handlerWrapper.append( tdcInnerRowHandlerUI._$handlerClone );
+            tdcMaskUI.$handlerStructure.append( tdcInnerRowHandlerUI._$handlerWrapper );
 
 
 
@@ -103,34 +104,33 @@ var tdcInnerRowHandlerUI;
 
             }).mouseenter(function( event ) {
 
-                // Send the event to its 'tdc-inner-row' element
-                tdcMaskUI.show();
-                tdcInnerRowHandlerUI._triggerEvent( event );
-
-            }).mouseleave( function( event ) {
-
-                // Send the event to its 'tdc-inner-row' element
-                tdcInnerRowHandlerUI._triggerEvent( event );
-            });
-
-
-
-            // Define the events for _$handlerWrapper
-            // Show/hide the mask when the header mask is wider than the element
-
-            tdcInnerRowHandlerUI._$handlerWrapper.mouseenter(function( event ) {
-
+                // Define the events for _$handlerWrapper
+                // Show/hide the mask when the header mask is wider than the element
                 event.preventDefault();
                 tdcMaskUI.setCurrentContainer( tdcInnerRowHandlerUI.$elementInnerRow );
                 tdcMaskUI.show();
 
             }).mouseleave( function( event ) {
 
+                // Define the events for _$handlerWrapper
+                // Show/hide the mask when the header mask is wider than the element
                 event.preventDefault();
                 tdcMaskUI.setCurrentContainer( undefined );
                 tdcMaskUI.hide();
             });
 
+
+            tdcInnerRowHandlerUI._$handlerClone.mousedown( function( event ) {
+                // Consider only the left button
+                if ( 1 !== event.which ) {
+                    return;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                alert( 'clone inner row' );
+            });
 
 
             // The final step of initialization is to add the handler object to the mask handlers and to mark it has initialized

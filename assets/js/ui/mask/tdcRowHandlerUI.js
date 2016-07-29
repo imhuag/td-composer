@@ -38,8 +38,11 @@ var tdcRowHandlerUI;
         // Handler element
         $elementRow: undefined,
 
-        // Handler jquery object
+        // Wrapper Handler jquery object
         _$handlerWrapper: undefined,
+
+        // Clone Handler jquery object
+        _$handlerClone: undefined,
 
         // Initialization flag
         _isInitialized: false,
@@ -58,22 +61,19 @@ var tdcRowHandlerUI;
                 return;
             }
 
-            var handleHtml =
+            var handlerHtml =
                 '<div id="' + tdcRowHandlerUI._handlerCssClass + '">' +
                     '<div class="tdc-mask-arrow-vertical"></div>' +
                     '<div class="tdc-mask-handler-drag">' + tdcRowHandlerUI._handlerText + '</div>' +
-                    '<div class="tdc-mask-edit">' +
-                        '<div class="tdc-icon-edit"></div>' +
-                    '</div>' +
-                '</div>',
+                '</div>';
 
             // Create the handler jquery object and append it to the mask wrapper
-                $handlerWrapper = jQuery( handleHtml );
+            tdcRowHandlerUI._$handlerWrapper = jQuery( handlerHtml );
 
-            tdcRowHandlerUI._$handlerWrapper = $handlerWrapper;
+            tdcRowHandlerUI._$handlerClone = jQuery( '<div class="tdc-mask-clone"></div>' );
 
-            tdcMaskUI.$handler.append( $handlerWrapper );
-
+            tdcRowHandlerUI._$handlerWrapper.append( tdcRowHandlerUI._$handlerClone );
+            tdcMaskUI.$handlerStructure.append( tdcRowHandlerUI._$handlerWrapper );
 
 
             // Define the events the $_handlerDrag object will respond to
@@ -101,33 +101,34 @@ var tdcRowHandlerUI;
 
             }).mouseenter(function( event ) {
 
-                // Send the event to its 'tdc-row' element
-                tdcMaskUI.show();
-                tdcRowHandlerUI._triggerEvent( event );
-
-            }).mouseleave( function( event ) {
-
-                // Send the event to its 'tdc-row' element
-                tdcRowHandlerUI._triggerEvent( event );
-
-            });
-
-
-
-            // Define the events for _$handlerWrapper
-            // Show/hide the mask when the header mask is wider than the element
-
-            tdcRowHandlerUI._$handlerWrapper.mouseenter(function( event ) {
-
+                // Define the events for _$handlerWrapper
+                // Show/hide the mask when the header mask is wider than the element
                 event.preventDefault();
                 tdcMaskUI.setCurrentContainer( tdcRowHandlerUI.$elementRow );
                 tdcMaskUI.show();
 
             }).mouseleave( function( event ) {
 
+                // Define the events for _$handlerWrapper
+                // Show/hide the mask when the header mask is wider than the element
                 event.preventDefault();
                 tdcMaskUI.setCurrentContainer( undefined );
                 tdcMaskUI.hide();
+
+            });
+
+
+
+            tdcRowHandlerUI._$handlerClone.mousedown( function( event ) {
+                // Consider only the left button
+                if ( 1 !== event.which ) {
+                    return;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                alert( 'clone row' );
             });
 
 
