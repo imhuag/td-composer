@@ -191,7 +191,7 @@ var tdcElementHandlerUI;
 
 
                 // Get the shortcode rendered
-                elementModel.getShortcodeRender( destinationColParam, '', false );
+                cloneModel.getShortcodeRender( destinationColParam, '', false );
 
                 tdcOperationUI.setDraggedElement( undefined );
 
