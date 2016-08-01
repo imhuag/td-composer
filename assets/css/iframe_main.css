@@ -220,7 +220,8 @@ html.tdc-active #wpadminbar {
 #tdc-mask-row,
 #tdc-mask-column,
 #tdc-mask-inner-row,
-#tdc-mask-inner-column {
+#tdc-mask-inner-column,
+#tdc-mask-element {
   position: absolute;
   pointer-events: all;
 }
@@ -229,15 +230,15 @@ html.tdc-active #wpadminbar {
   color: #FFFFFF;
   top: 0;
   left: 0;
-  width: 60px;
+  width: 61px;
   height: 17px;
 }
 #tdc-mask-column {
   background-color: #363636;
   color: #FFFFFF;
   top: 0;
-  left: 60px;
-  width: 76px;
+  left: 61px;
+  width: 60px;
   height: 17px;
 }
 #tdc-mask-inner-row {
@@ -245,7 +246,7 @@ html.tdc-active #wpadminbar {
   color: #FFFFFF;
   top: 17px;
   left: 0;
-  width: 87px;
+  width: 88px;
   height: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
@@ -253,8 +254,8 @@ html.tdc-active #wpadminbar {
   background-color: #363636;
   color: #FFFFFF;
   top: 17px;
-  left: 87px;
-  width: 103px;
+  left: 88px;
+  width: 87px;
   height: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
@@ -264,10 +265,11 @@ html.tdc-active #wpadminbar {
   left: 19px;
   font-family: 'Open Sans';
 }
-#tdc-mask-handler {
+#tdc-mask-handler-structure {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
   z-index: 4;
   cursor: pointer;
 }
@@ -296,6 +298,36 @@ html.tdc-active #wpadminbar {
   display: block;
   height: 100%;
   color: #666;
+}
+#tdc-mask-element {
+  background-color: #363636 !important;
+  color: #FFFFFF;
+  top: 0;
+  right: 0;
+  width: 34px;
+  height: 17px;
+  cursor: pointer;
+}
+#tdc-mask-element .tdc-mask-element-delete {
+  background: url('../images/sidebar/spritesheet.png');
+  background-repeat: no-repeat;
+  background-position: -38px -126px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 17px;
+  height: 17px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+#tdc-mask-element .tdc-mask-element-clone {
+  background: url('../images/sidebar/spritesheet.png');
+  background-repeat: no-repeat;
+  background-position: -112px -63px;
+  position: absolute;
+  top: 0;
+  right: 18px;
+  width: 17px;
+  height: 17px;
 }
 #tdc-rows .tdc-add-block {
   height: 50px;
@@ -342,23 +374,19 @@ html.tdc-active #wpadminbar {
   height: 50px;
   border: 1px solid #ec6432;
 }
-.tdc-mask-edit {
+.tdc-mask-clone {
+  background: url('../images/sidebar/spritesheet.png');
+  background-repeat: no-repeat;
+  background-position: -112px -63px;
+  width: 14px;
+  height: 14px;
   position: absolute;
   top: 0;
   right: 0;
-  width: 17px;
+  width: 18px;
   height: 17px;
   border-left: 1px solid rgba(255, 255, 255, 0.3);
-}
-.tdc-mask-edit .tdc-icon-edit {
-  background: url('../images/sidebar/spritesheet.png');
-  background-repeat: no-repeat;
-  position: relative;
-  top: 1px;
-  right: -1px;
-  background-position: -113px -65px;
-  width: 14px;
-  height: 14px;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
 }
 .tdc-mask-arrow-horizontal,
 .tdc-mask-arrow-vertical {
