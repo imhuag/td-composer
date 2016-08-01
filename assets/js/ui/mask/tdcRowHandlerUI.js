@@ -128,7 +128,45 @@ var tdcRowHandlerUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                alert( 'clone row' );
+                var elementModelId = tdcRowHandlerUI.$elementRow.data( 'model_id');
+
+                // @todo This check should be removed - the content should have consistency
+                if ( _.isUndefined( elementModelId ) ) {
+                    new tdcNotice.notice( 'tdcRowHandlerUI -> tdcRowHandlerUI._$handlerClone Error: Element model id is not in $draggedElement data!', true, false );
+                    return;
+                }
+
+                var elementModel = tdcIFrameData.getModel( elementModelId );
+
+                // @todo This check should be removed - the content should have consistency
+                if ( _.isUndefined(elementModel ) ) {
+                    new tdcNotice.notice( 'tdcRowHandlerUI -> tdcRowHandlerUI._$handlerClone Error: Element model not in structure data!', true, false );
+                    return;
+                }
+
+                // Clone the element model
+                var cloneModel = tdcIFrameData.cloneModel( elementModel );
+
+                // Insert the cloned element after the current element
+                tdcOperationUI.setDraggedElement( jQuery( '<div class="tdc-row">Cloned row</div>' ) );
+                var $draggedElement = tdcOperationUI.getDraggedElement();
+
+                $draggedElement.insertAfter( tdcRowHandlerUI.$elementRow );
+                tdcRowUI.bindRow( $draggedElement );
+
+                // Define the row liveView
+                var rowView = new tdcIFrameData.TdcLiveView({
+                    model: cloneModel,
+                    el: $draggedElement[0]
+                });
+
+                // Set the data model id to the liveView jquery element
+                $draggedElement.data( 'model_id', cloneModel.cid );
+
+                // Get the shortcode rendered
+                cloneModel.getShortcodeRender( 1, '', true);
+
+                tdcOperationUI.setDraggedElement( undefined );
             });
 
 

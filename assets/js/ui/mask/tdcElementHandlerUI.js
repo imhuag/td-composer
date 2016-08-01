@@ -158,9 +158,11 @@ var tdcElementHandlerUI;
                     return;
                 }
 
+                // Clone the element model
+                var cloneModel = tdcIFrameData.cloneModel( elementModel );
 
                 // Insert the cloned element after the current element
-                tdcOperationUI.setDraggedElement( jQuery( '<div class="tdc-element">Clone block</div>' ) );
+                tdcOperationUI.setDraggedElement( jQuery( '<div class="tdc-element">Cloned Element</div>' ) );
                 var $draggedElement = tdcOperationUI.getDraggedElement();
 
                 $draggedElement.insertAfter( tdcElementHandlerUI.$element );
@@ -176,9 +178,6 @@ var tdcElementHandlerUI;
 
                 var destinationColParam = tdcIFrameData._getDestinationCol();
 
-                // Clone the element model
-                var cloneModel = tdcIFrameData.cloneModel( elementModel );
-
                 // Define the liveView
                 var elementView = new tdcIFrameData.TdcLiveView({
                     model: cloneModel,
@@ -191,7 +190,7 @@ var tdcElementHandlerUI;
 
 
                 // Get the shortcode rendered
-                cloneModel.getShortcodeRender( destinationColParam, '', false );
+                cloneModel.getShortcodeRender( destinationColParam, '', true );
 
                 tdcOperationUI.setDraggedElement( undefined );
 

@@ -129,7 +129,47 @@ var tdcInnerRowHandlerUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                alert( 'clone inner row' );
+                var elementModelId = tdcInnerRowHandlerUI.$elementInnerRow.data( 'model_id');
+
+                // @todo This check should be removed - the content should have consistency
+                if ( _.isUndefined( elementModelId ) ) {
+                    new tdcNotice.notice( 'tdcInnerRowHandlerUI -> tdcInnerRowHandlerUI._$handlerClone Error: Element model id is not in $draggedElement data!', true, false );
+                    return;
+                }
+
+                var elementModel = tdcIFrameData.getModel( elementModelId );
+
+                // @todo This check should be removed - the content should have consistency
+                if ( _.isUndefined(elementModel ) ) {
+                    new tdcNotice.notice( 'tdcInnerRowHandlerUI -> tdcInnerRowHandlerUI._$handlerClone Error: Element model not in structure data!', true, false );
+                    return;
+                }
+
+                // Clone the element model
+                var cloneModel = tdcIFrameData.cloneModel( elementModel );
+
+                // Insert the cloned element after the current element
+                tdcOperationUI.setDraggedElement( jQuery( '<div class="tdc-element-inner-row">Cloned Inner Row</div>' ) );
+                var $draggedElement = tdcOperationUI.getDraggedElement();
+
+                $draggedElement.insertAfter( tdcInnerRowHandlerUI.$elementInnerRow );
+                tdcInnerRowUI.bindInnerRow( $draggedElement );
+
+                var destinationColParam = tdcIFrameData._getDestinationCol();
+
+                // Define the inner row liveView
+                var innerRowView = new tdcIFrameData.TdcLiveView({
+                    model: cloneModel,
+                    el: $draggedElement[0]
+                });
+
+                // Set the data model id to the liveView jquery element
+                $draggedElement.data( 'model_id', cloneModel.cid );
+
+                // Get the shortcode rendered
+                cloneModel.getShortcodeRender( destinationColParam, '', true);
+
+                tdcOperationUI.setDraggedElement( undefined );
             });
 
 
