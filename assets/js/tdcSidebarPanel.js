@@ -175,7 +175,7 @@ var tdcSidebarPanel = {};
                     ( ( '13_13_13' === this.oldValue ) && ( '11' === curValue || '23_13' === curValue || '13_23' === curValue ) ) ) {
 
                     tdcIFrameData.changeRowModel( rowModel, this.oldValue, curValue );
-                    rowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());
+                    rowModel.getShortcodeRender( 1, null, true );
 
                 } else {
                     //throw 'Invalid row change detected: this.oldValue:' + this.oldValue + ' and curValue: ' + curValue;
@@ -204,7 +204,7 @@ var tdcSidebarPanel = {};
 
                 tdcIFrameData.changeInnerRowModel( innerRowModel, this.oldValue, curValue);
 
-                innerRowModel.getShortcodeRender( 1, null, true, Math.random() + Math.random() + Math.random());  // clean up the rendom things
+                innerRowModel.getShortcodeRender( 1, null, true );
 
                 this.oldValue = curValue;
             });

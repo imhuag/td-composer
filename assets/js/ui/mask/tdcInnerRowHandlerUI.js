@@ -129,24 +129,23 @@ var tdcInnerRowHandlerUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                var elementModelId = tdcInnerRowHandlerUI.$elementInnerRow.data( 'model_id');
+                var innerRowModelId = tdcInnerRowHandlerUI.$elementInnerRow.data( 'model_id');
 
                 // @todo This check should be removed - the content should have consistency
-                if ( _.isUndefined( elementModelId ) ) {
+                if ( _.isUndefined( innerRowModelId ) ) {
                     new tdcNotice.notice( 'tdcInnerRowHandlerUI -> tdcInnerRowHandlerUI._$handlerClone Error: Element model id is not in $draggedElement data!', true, false );
                     return;
                 }
 
-                var elementModel = tdcIFrameData.getModel( elementModelId );
+                var innerRowModel = tdcIFrameData.getModel( innerRowModelId );
 
                 // @todo This check should be removed - the content should have consistency
-                if ( _.isUndefined(elementModel ) ) {
+                if ( _.isUndefined(innerRowModel ) ) {
                     new tdcNotice.notice( 'tdcInnerRowHandlerUI -> tdcInnerRowHandlerUI._$handlerClone Error: Element model not in structure data!', true, false );
                     return;
                 }
 
-                // Clone the element model
-                var cloneModel = tdcIFrameData.cloneModel( elementModel );
+                // New sibling model for the element model
 
                 // Insert the cloned element after the current element
                 tdcOperationUI.setDraggedElement( jQuery( '<div class="tdc-element-inner-row">Cloned Inner Row</div>' ) );
@@ -155,19 +154,50 @@ var tdcInnerRowHandlerUI;
                 $draggedElement.insertAfter( tdcInnerRowHandlerUI.$elementInnerRow );
                 tdcInnerRowUI.bindInnerRow( $draggedElement );
 
-                var destinationColParam = tdcIFrameData._getDestinationCol();
+                var newPosition = $draggedElement.prevAll().length;
+
+                // Define the inner row model
+                var cloneInnerRowModel = new tdcIFrameData.TdcModel({
+                        'content': '',
+                        'attrs': {},
+                        'tag': 'vc_row_inner',
+                        'type': 'closed',
+                        'level': 2,
+                        'parentModel': innerRowModel.get( 'parentModel' )
+                    }),
 
                 // Define the inner row liveView
-                var innerRowView = new tdcIFrameData.TdcLiveView({
-                    model: cloneModel,
-                    el: $draggedElement[0]
-                });
+                    cloneInnerRowView = new tdcIFrameData.TdcLiveView({
+                        model: cloneInnerRowModel,
+                        el: $draggedElement[0]
+                    }),
+
+                // Define the inner column model
+                    cloneInnerColumnModel = new tdcIFrameData.TdcModel({
+                        'content': '',
+                        'attrs': {},
+                        'tag': 'vc_column_inner',
+                        'type': 'closed',
+                        'level': 3,
+                        'parentModel': cloneInnerRowModel
+                    });
 
                 // Set the data model id to the liveView jquery element
-                $draggedElement.data( 'model_id', cloneModel.cid );
+                $draggedElement.data( 'model_id', cloneInnerRowModel.cid );
+
+                innerRowModel.get( 'parentModel' ).get( 'childCollection' ).add( cloneInnerRowModel, { at: newPosition } );
+
+                var childCollectionInnerRow = new tdcIFrameData.TdcCollection();
+                childCollectionInnerRow.add( cloneInnerColumnModel );
+                cloneInnerRowModel.set( 'childCollection', childCollectionInnerRow );
+
+                var childCollectionColumn = new tdcIFrameData.TdcCollection();
+                cloneInnerColumnModel.set( 'childCollection', childCollectionColumn );
+
+                var destinationColParam = tdcIFrameData._getDestinationCol();
 
                 // Get the shortcode rendered
-                cloneModel.getShortcodeRender( destinationColParam, '', true);
+                cloneInnerRowModel.getShortcodeRender( destinationColParam, '', true, innerRowModel );
 
                 tdcOperationUI.setDraggedElement( undefined );
             });

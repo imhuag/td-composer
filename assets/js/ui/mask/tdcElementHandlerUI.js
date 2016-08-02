@@ -158,8 +158,17 @@ var tdcElementHandlerUI;
                     return;
                 }
 
+
                 // Clone the element model
-                var cloneModel = tdcIFrameData.cloneModel( elementModel );
+                var cloneModel = elementModel.clone(),
+                    parentModel = elementModel.get( 'parentModel'),
+                    childCollectionParentModel = parentModel.get( 'childCollection' );
+
+                childCollectionParentModel.add( cloneModel, {
+                    at: childCollectionParentModel.indexOf( elementModel ) + 1,
+                    silent: true
+                });
+
 
                 // Insert the cloned element after the current element
                 tdcOperationUI.setDraggedElement( jQuery( '<div class="tdc-element">Cloned Element</div>' ) );

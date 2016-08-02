@@ -128,24 +128,23 @@ var tdcRowHandlerUI;
                 event.preventDefault();
                 event.stopPropagation();
 
-                var elementModelId = tdcRowHandlerUI.$elementRow.data( 'model_id');
+                var rowModelId = tdcRowHandlerUI.$elementRow.data( 'model_id');
 
                 // @todo This check should be removed - the content should have consistency
-                if ( _.isUndefined( elementModelId ) ) {
+                if ( _.isUndefined( rowModelId ) ) {
                     new tdcNotice.notice( 'tdcRowHandlerUI -> tdcRowHandlerUI._$handlerClone Error: Element model id is not in $draggedElement data!', true, false );
                     return;
                 }
 
-                var elementModel = tdcIFrameData.getModel( elementModelId );
+                var rowModel = tdcIFrameData.getModel( rowModelId );
 
                 // @todo This check should be removed - the content should have consistency
-                if ( _.isUndefined(elementModel ) ) {
+                if ( _.isUndefined(rowModel ) ) {
                     new tdcNotice.notice( 'tdcRowHandlerUI -> tdcRowHandlerUI._$handlerClone Error: Element model not in structure data!', true, false );
                     return;
                 }
 
-                // Clone the element model
-                var cloneModel = tdcIFrameData.cloneModel( elementModel );
+                // New sibling model for the element model
 
                 // Insert the cloned element after the current element
                 tdcOperationUI.setDraggedElement( jQuery( '<div class="tdc-row">Cloned row</div>' ) );
@@ -154,17 +153,49 @@ var tdcRowHandlerUI;
                 $draggedElement.insertAfter( tdcRowHandlerUI.$elementRow );
                 tdcRowUI.bindRow( $draggedElement );
 
+                var newPosition = $draggedElement.prevAll().length;
+
+
+                // Define the row model
+                var cloneRowModel = new tdcIFrameData.TdcModel({
+                        'content': '',
+                        'attrs': {},
+                        'tag': 'vc_row',
+                        'type': 'closed',
+                        'level': 0,
+                        'parentModel': undefined
+                    }),
+
                 // Define the row liveView
-                var rowView = new tdcIFrameData.TdcLiveView({
-                    model: cloneModel,
-                    el: $draggedElement[0]
-                });
+                    cloneRowView = new tdcIFrameData.TdcLiveView({
+                        model: cloneRowModel,
+                        el: $draggedElement[0]
+                    }),
+
+                // Define the column model
+                    cloneColumnModel = new tdcIFrameData.TdcModel({
+                        'content': '',
+                        'attrs': {},
+                        'tag': 'vc_column',
+                        'type': 'closed',
+                        'level': 1,
+                        'parentModel': cloneRowModel
+                    });
 
                 // Set the data model id to the liveView jquery element
-                $draggedElement.data( 'model_id', cloneModel.cid );
+                $draggedElement.data( 'model_id', cloneRowModel.cid );
+
+                tdcIFrameData.tdcRows.add( cloneRowModel, { at: newPosition } );
+
+                var childCollectionRow = new tdcIFrameData.TdcCollection();
+                childCollectionRow.add( cloneColumnModel );
+                cloneRowModel.set( 'childCollection', childCollectionRow );
+
+                var childCollectionColumn = new tdcIFrameData.TdcCollection();
+                cloneColumnModel.set( 'childCollection', childCollectionColumn );
 
                 // Get the shortcode rendered
-                cloneModel.getShortcodeRender( 1, '', true);
+                cloneRowModel.getShortcodeRender( 1, '', true, rowModel );
 
                 tdcOperationUI.setDraggedElement( undefined );
             });

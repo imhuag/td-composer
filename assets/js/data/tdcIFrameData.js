@@ -105,8 +105,7 @@ var tdcIFrameData,
             tdcIFrameData.TdcModel = Backbone.Model.extend({
 
                 // Get the shortcode rendered
-                //@todo cleanup liveViewId a devenit draggedBlockUid. liveViewId nu mai e folosit.
-                getShortcodeRender: function( columns, draggedBlockUid, bindNewContent, liveViewId ) {
+                getShortcodeRender: function( columns, draggedBlockUid, bindNewContent, modelToClone ) {
                     var model = this;
 
                     var data = {
@@ -115,7 +114,12 @@ var tdcIFrameData,
                     };
 
                     // Get the shortcode using the _checkModelData builder function
-                    tdcIFrameData._checkModelData( model, data );
+                    if ( _.isUndefined( modelToClone ) ) {
+                        tdcIFrameData._checkModelData( model, data );
+                    } else {
+                        tdcIFrameData._checkModelData( modelToClone, data );
+                    }
+
 
                     if ( ! _.isUndefined( data.getShortcode ) ) {
 
@@ -1233,29 +1237,6 @@ var tdcIFrameData,
 
 
 
-
-        cloneModel: function( model ) {
-
-            var cloneModel = model.clone(),
-                parentModel = model.get( 'parentModel' );
-
-            if ( _.isUndefined( parentModel ) ) {
-                tdcIFrameData.tdcRows.add( cloneModel );
-            } else {
-                var childCollectionParentModel = parentModel.get( 'childCollection' );
-
-                childCollectionParentModel.add( cloneModel, {
-                    at: childCollectionParentModel.indexOf( model ) + 1,
-                    silent: true
-                });
-            }
-            return cloneModel;
-        },
-
-
-
-
-
         /**
          * Helper function used to check if a model of the current structure data, respects the shortcode levels.
          * It stops if an error occurred.
@@ -1976,7 +1957,7 @@ var tdcIFrameData,
 
                                 if ( widthCollection !== newWidthCollection ) {
                                     tdcIFrameData.changeInnerRowModel( elementModel, widthCollection, newWidthCollection );
-                                    elementModel.getShortcodeRender( columns, null, true, Math.random() + Math.random() + Math.random() );
+                                    elementModel.getShortcodeRender( columns, null, true );
                                 }
                             }
                         }
