@@ -129,8 +129,7 @@ var tdcElementHandlerUI;
 
                     tdcOperationUI.setDraggedElement( undefined );
 
-                    // @todo Maybe this is not necessary
-                    //tdcSidebarPanel.clearPanel();
+                    tdcSidebarPanel.clearPanel();
                 }
             });
 
