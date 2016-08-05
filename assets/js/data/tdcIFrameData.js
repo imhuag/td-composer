@@ -291,7 +291,14 @@ var tdcIFrameData,
                         this.$el.removeClass( 'tdc-dropped' );
 
 
+
                         this.$el.html( this.model.get( 'html' ) );
+
+                        // Add the 'tdc-block-min' class
+                        if ( 0 === parseInt( this.$el.find( '.td_block_wrap').height() ) ) {
+                            this.$el.find( '.td_block_wrap').addClass( 'tdc-block-empty' );
+                        }
+
 
 
 
@@ -2363,7 +2370,7 @@ var tdcIFrameData,
 
                 // Stop if models number doesn't match the DOM elements number
                 if ( collection.models.length !== tdc_row.length ) {
-
+                    //alert( collection.models.length + ' : ' + tdc_row.length );
                     errors[ _.keys(errors).length ] = {
                         collection: collection,
                         jqDOMElements: tdc_row,
@@ -2514,7 +2521,7 @@ var tdcIFrameData,
                     var blockUId;
 
                     if ( 4 === model.get( 'level') ) {
-                        var $tdBlockInner = $element.find( '.td_block_inner');
+                        var $tdBlockInner = $element.find( '.td_block_inner' );
 
                         if ( $tdBlockInner.length ) {
                             blockUId = $tdBlockInner.attr( 'id' );

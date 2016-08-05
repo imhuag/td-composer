@@ -198,7 +198,10 @@ var tdcAdminIFrameUI;
                     var $el = jQuery(el);
 
                     $el.find('.tdc-inner-row').wrap('<div class="tdc-element-inner-row"></div>');
-                    $el.find('.td_block_wrap').wrap('<div class="tdc-element"></div>');
+
+                    var $tdBlockWrap = $el.find('.td_block_wrap');
+                    window.checkTdBlockWrap( $tdBlockWrap );
+                    $tdBlockWrap.wrap('<div class="tdc-element"></div>');
                 });
 
 
@@ -302,7 +305,10 @@ var tdcAdminIFrameUI;
                     var $el = jQuery(el);
 
                     $el.find('.tdc-inner-row').wrap('<div class="tdc-element-inner-row"></div>');
-                    $el.find('.td_block_wrap').wrap('<div class="tdc-element"></div>');
+
+                    var $tdBlockWrap = $el.find('.td_block_wrap');
+                    window.checkTdBlockWrap( $tdBlockWrap );
+                    $tdBlockWrap.wrap('<div class="tdc-element"></div>');
                 });
 
 
@@ -401,8 +407,10 @@ var tdcAdminIFrameUI;
                 // all tdc-inner-rows
                 // all tdc-elements
                 $content.find('.tdc-inner-row').wrap('<div class="tdc-element-inner-row"></div>');
-                $content.find('.td_block_wrap').wrap('<div class="tdc-element"></div>');
 
+                var $tdBlockWrap = $content.find('.td_block_wrap');
+                window.checkTdBlockWrap( $tdBlockWrap );
+                $tdBlockWrap.wrap('<div class="tdc-element"></div>');
 
 
                 // all tdc-inner-columns
@@ -489,7 +497,9 @@ var tdcAdminIFrameUI;
 
             window.addInnerRowWrappers = function ($content) {
 
-                $content.find('.td_block_wrap').wrap('<div class="tdc-element"></div>');
+                var $tdBlockWrap = $content.find('.td_block_wrap');
+                window.checkTdBlockWrap( $tdBlockWrap );
+                $tdBlockWrap.wrap('<div class="tdc-element"></div>');
 
 
                 // all tdc-inner-columns
@@ -546,7 +556,9 @@ var tdcAdminIFrameUI;
 
             window.addInnerColumnWrappers = function ($content) {
 
-                $content.find('.td_block_wrap').wrap('<div class="tdc-element"></div>');
+                var $tdBlockWrap = $content.find('.td_block_wrap');
+                window.checkTdBlockWrap( $tdBlockWrap );
+                $tdBlockWrap.wrap('<div class="tdc-element"></div>');
 
 
                 // all tdc-inner-columns
@@ -589,6 +601,18 @@ var tdcAdminIFrameUI;
 
                     $element.append($emptyElement);
                 });
+            };
+
+
+            /**
+             * Add the 'tdc-block-min' class (it add a min-height to allow catching elements)
+             *
+             * @param $tdBlockWrap
+             */
+            window.checkTdBlockWrap = function( $tdBlockWrap ) {
+                if ( 0 === parseInt( $tdBlockWrap.height() ) ) {
+                    $tdBlockWrap.addClass( 'tdc-block-empty' );
+                }
             };
 
 
