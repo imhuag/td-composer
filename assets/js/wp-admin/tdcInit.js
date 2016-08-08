@@ -42,7 +42,6 @@ var tdcInit = {};
             tdcInit.$formPost = jQuery( '#post' );
             if ( tdcInit.$formPost.length ) {
 
-                tdcInit.$formPost = tdcInit.$formPost;
                 tdcInit.$title = tdcInit.$formPost.find( '#title' );
                 tdcInit.$titlePromptText = tdcInit.$formPost.find( '#title-prompt-text' );
                 tdcInit.$content = tdcInit.$formPost.find( '#content' );
@@ -65,7 +64,9 @@ var tdcInit = {};
 
                 tdcInit._url = window.tdcAdminSettings.adminUrl + 'post.php?post_id=' + tdcInit.$postId.val() + '&td_action=tdc';
 
-                jQuery( '<div class="tdc-panel-button"><div class="tdc-panel-icon"></div><div class="tdc-panel-link"><a onclick="return tdcInit.savePost( event )" href="' + tdcInit._url + '">TagDiv Composer</a></div></div>').insertAfter( 'div#titlediv' );
+                if ( 'page' === tdcInit.$postType.val() ) {
+                    jQuery( '<div class="tdc-panel-button"><div class="tdc-panel-icon"></div><div class="tdc-panel-link"><a onclick="return tdcInit.savePost( event )" href="' + tdcInit._url + '">TagDiv Composer</a></div></div>').insertAfter( 'div#titlediv' );
+                }
             }
         },
 
