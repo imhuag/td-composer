@@ -109,6 +109,100 @@ var tdcSidebarPanel = {};
 
 
 
+            // checkbox hook
+            $body.on('focus change', '.tdc-property-checkbox input', function(event) {
+
+                // save the oldValue on focus in
+                if (event.type === 'focusin') {
+                    this.oldValue = this.value;
+                    return;
+                }
+
+                var $this = jQuery( this );
+
+                var curValue = $this.val();
+                if ( !$this.is( ':checked' ) ) {
+                    curValue = '';
+                }
+
+                var model = tdcIFrameData.getModel( $this.data('model_id') );
+
+                tdcSidebarController.onUpdate (
+                    model,
+                    $this.data( 'param_name' ),    // the name of the parameter
+                    this.oldValue,                      // the old value
+                    curValue                 // the new value
+                );
+                this.oldValue = curValue;
+            });
+
+
+
+            // on image click
+            $body.on( 'click', '.tdc-image', function(event) {
+
+                var $this = jQuery(this);
+                window.original_send_to_editor = window.send_to_editor;
+                wp.media.editor.open( $this );
+
+                window.send_to_editor = function(html) {
+                    var img_link = jQuery('img', html).attr('src');
+                    if(typeof img_link === 'undefined') {
+                        img_link = jQuery(html).attr('src');
+                    }
+
+                    $this.closest( '.tdc-property' ).find('.tdc-image-remove').removeClass('tdc-hidden-button');
+
+                    $this.attr('src', img_link);
+                    $this.removeClass('tdc-no-image-selected');
+
+                    //reset the send_to_editor function to its original state
+                    window.send_to_editor = window.original_send_to_editor;
+
+                    //close the modal window
+                    tb_remove();
+
+                    var curValue = '';
+
+                    if ( ! $this.hasClass( 'tdc-no-image-selected' ) ) {
+                        curValue = $this.attr( 'src' );
+                    }
+
+                    // fire the bg change event
+                    var model = tdcIFrameData.getModel( $this.data('model_id') );
+                    tdcSidebarController.onUpdate (
+                        model,
+                        $this.data('param_name'),    // the name of the parameter
+                        '',                     // the old value
+                        curValue                 // the new value
+                    );
+                };
+                return false;
+
+            });
+
+            // on remove image button click
+            $body.on( 'click', '.tdc-image-remove', function(event) {
+                var $this = jQuery( this ),
+                    $tdcImage = $this.closest( '.tdc-property' ).find('.tdc-image');
+
+                $this.addClass( 'tdc-hidden-button' );
+
+                $tdcImage.addClass('tdc-no-image-selected');
+                $tdcImage.attr('src', window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img.png');
+
+                // fire the bg change event
+                var model = tdcIFrameData.getModel( $tdcImage.data('model_id') );
+                tdcSidebarController.onUpdate (
+                    model,
+                    $tdcImage.data('param_name'),    // the name of the parameter
+                    '',                      // the old value
+                    ''                 // the new value
+                );
+            });
+
+
+
 
 
             // colorpicker (change for colrpicker, keyup for clear)
@@ -520,6 +614,12 @@ var tdcSidebarPanel = {};
                 case 'dropdown':
                     return tdcSidebarPanel.addDropDown(mappedParameter, model);
 
+                case 'checkbox':
+                    return tdcSidebarPanel.addCheckBox( mappedParameter, model );
+
+                case 'image':
+                    return tdcSidebarPanel.addUploadImage( mappedParameter, model );
+
                 case 'textfield':
                     return tdcSidebarPanel.addTextField(mappedParameter, model);
 
@@ -737,6 +837,75 @@ var tdcSidebarPanel = {};
             buffy += '</div>';
 
 
+
+            return buffy;
+        },
+
+
+
+        addCheckBox: function( mappedParameter, model ) {
+            var tooltip = '';
+            if ( _.has( mappedParameter, 'description' ) && '' !== mappedParameter.description ) {
+                tooltip = ' title="' + mappedParameter.description + '" ';
+            }
+
+            var checked = '';
+            if ( '' !== tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) ) {
+                checked = ' checked ';
+            }
+
+            var buffy = '';
+            buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
+            buffy += '<div class="tdc-property-title"><span' + tooltip + '>' + mappedParameter.heading + '</span></div>';
+            buffy += '<div class="tdc-property">';
+            buffy += '<input ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="' + tdcSidebarPanel._getParameterDomName(mappedParameter) + '" type="checkbox" value="yes" ' + checked + '/>';
+            buffy += '</div>';
+            buffy += '</div>';
+
+
+            return buffy;
+        },
+
+
+        addUploadImage: function (mappedParameter, model) {
+
+            var tooltip = '';
+            if ( _.has( mappedParameter, 'description' ) && '' !== mappedParameter.description ) {
+                tooltip = ' title="' + mappedParameter.description + '" ';
+            }
+
+            var buffy = '';
+
+            // bg upload
+            buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
+            buffy += '<div class="tdc-property-title"><span' + tooltip + '>' + mappedParameter.heading + '</span></div>';
+            buffy += '<div class="tdc-property">';
+            buffy += '<div class="tdc-image-wrap">';
+            buffy += '<img class="tdc-no-image-selected tdc-image" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' src="'  + window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img.png" />';
+            buffy += '</div>';
+            buffy += '<a class="tdc-image-remove tdc-hidden-button" href="#" >Remove</a>';
+            buffy += '</div>';
+            buffy += '</div>';
+
+            tdcSidebarPanel._hook.addAction( 'panel_rendered', function () {
+
+                // read the value and show the image + remove button
+                var currentImageUrl = tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model);
+                if (currentImageUrl !== '') {
+                    jQuery('.tdc-image').each( function( index, element ) {
+                        var $element = jQuery( element );
+                        if ( mappedParameter.param_name === $element.data( 'param_name' ) ) {
+                            $element
+                                .attr( 'src', currentImageUrl )
+                                .removeClass('tdc-no-image-selected');
+
+                            $element.closest( '.tdc-property' ).find('.tdc-image-remove').removeClass('tdc-hidden-button');
+
+                            return;
+                        }
+                    });
+                }
+            });
 
             return buffy;
         },
