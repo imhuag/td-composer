@@ -632,6 +632,9 @@ var tdcSidebarPanel = {};
                 case 'css_editor':
                     return tdcCssEditorTab.addCssEditor(mappedParameter, model);
 
+                case 'horizontal_separator':
+                    return tdcSidebarPanel.addSeparatorHorizontal();
+
                 default:
                     return mappedParameter.param_name + ' - ' + mappedParameter.type + '<br>';
             }
@@ -1075,10 +1078,16 @@ var tdcSidebarPanel = {};
 
 
             return buffy;
+        },
+
+
+        addSeparatorHorizontal: function() {
+            var buffy = '';
+
+            buffy += '<div class="tdc-sidebar-horizontal-separator">...............</div>';
+
+            return buffy;
         }
-
-
-
 
 
 
