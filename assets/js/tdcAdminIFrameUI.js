@@ -59,7 +59,7 @@ var tdcAdminIFrameUI;
          */
         initContent: function( $iframeContents ) {
             if ( ! $iframeContents.find( '.tdc-row' ).length ) {
-                $iframeContents.find( '.td-main-content-wrap .td-container' ).prepend( '<div class="tdc-row"><div class="vc_row wpb_row td-pb-row"><div class="tdc-column"><div class="td-pb-span12 wpb_column vc_column_container"><div class="wpb_wrapper"></div></div></div></div></div>' );
+                $iframeContents.find( '.tdc-content-wrap' ).prepend( '<div class="tdc-row"><div class="vc_row wpb_row td-pb-row"><div class="tdc-column"><div class="td-pb-span12 wpb_column vc_column_container"><div class="wpb_wrapper"></div></div></div></div></div>' );
 
                 window.tdcPostSettings.postContent += '[vc_row][vc_column][/vc_column][/vc_row]';
             }
