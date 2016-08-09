@@ -1024,251 +1024,6 @@ placeholder when sidebar is empty
 .tdc-property-title span[title] {
   cursor: pointer;
 }
-#td-tab-general input[type=text],
-#td-tab-filter input[type=text],
-#td-tab-ajax input[type=text],
-#td-tab-extra input[type=text],
-#td-tab-exchange input[type=text],
-#td-tab-weather input[type=text],
-#td-tab-instagram input[type=text] {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  max-width: 99.5%;
-  width: 99.5%;
-  font-size: 12px;
-  padding: 4px 8px;
-}
-#td-tab-general select,
-#td-tab-filter select,
-#td-tab-ajax select,
-#td-tab-extra select,
-#td-tab-exchange select,
-#td-tab-weather select,
-#td-tab-instagram select {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  max-width: 99.5%;
-  width: 99.5%;
-  height: 27px;
-  font-size: 12px;
-  padding: 0 4px;
-}
-#td-tab-general .tdc-property-tdc_row_columns_modifier select,
-#td-tab-filter .tdc-property-tdc_row_columns_modifier select,
-#td-tab-ajax .tdc-property-tdc_row_columns_modifier select,
-#td-tab-extra .tdc-property-tdc_row_columns_modifier select,
-#td-tab-exchange .tdc-property-tdc_row_columns_modifier select,
-#td-tab-weather .tdc-property-tdc_row_columns_modifier select,
-#td-tab-instagram .tdc-property-tdc_row_columns_modifier select,
-#td-tab-general .tdc-property-sort select,
-#td-tab-filter .tdc-property-sort select,
-#td-tab-ajax .tdc-property-sort select,
-#td-tab-extra .tdc-property-sort select,
-#td-tab-exchange .tdc-property-sort select,
-#td-tab-weather .tdc-property-sort select,
-#td-tab-instagram .tdc-property-sort select,
-#td-tab-general .tdc-property-ajax_pagination select,
-#td-tab-filter .tdc-property-ajax_pagination select,
-#td-tab-ajax .tdc-property-ajax_pagination select,
-#td-tab-extra .tdc-property-ajax_pagination select,
-#td-tab-exchange .tdc-property-ajax_pagination select,
-#td-tab-weather .tdc-property-ajax_pagination select,
-#td-tab-instagram .tdc-property-ajax_pagination select,
-#td-tab-general .tdc-property-w_units select,
-#td-tab-filter .tdc-property-w_units select,
-#td-tab-ajax .tdc-property-w_units select,
-#td-tab-extra .tdc-property-w_units select,
-#td-tab-exchange .tdc-property-w_units select,
-#td-tab-weather .tdc-property-w_units select,
-#td-tab-instagram .tdc-property-w_units select,
-#td-tab-general .tdc-property-e_rate_decimals select,
-#td-tab-filter .tdc-property-e_rate_decimals select,
-#td-tab-ajax .tdc-property-e_rate_decimals select,
-#td-tab-extra .tdc-property-e_rate_decimals select,
-#td-tab-exchange .tdc-property-e_rate_decimals select,
-#td-tab-weather .tdc-property-e_rate_decimals select,
-#td-tab-instagram .tdc-property-e_rate_decimals select,
-#td-tab-general .tdc-property-spot_id select,
-#td-tab-filter .tdc-property-spot_id select,
-#td-tab-ajax .tdc-property-spot_id select,
-#td-tab-extra .tdc-property-spot_id select,
-#td-tab-exchange .tdc-property-spot_id select,
-#td-tab-weather .tdc-property-spot_id select,
-#td-tab-instagram .tdc-property-spot_id select,
-#td-tab-general .tdc-property-playlist_auto_play select,
-#td-tab-filter .tdc-property-playlist_auto_play select,
-#td-tab-ajax .tdc-property-playlist_auto_play select,
-#td-tab-extra .tdc-property-playlist_auto_play select,
-#td-tab-exchange .tdc-property-playlist_auto_play select,
-#td-tab-weather .tdc-property-playlist_auto_play select,
-#td-tab-instagram .tdc-property-playlist_auto_play select,
-#td-tab-general .tdc-property-navigation select,
-#td-tab-filter .tdc-property-navigation select,
-#td-tab-ajax .tdc-property-navigation select,
-#td-tab-extra .tdc-property-navigation select,
-#td-tab-exchange .tdc-property-navigation select,
-#td-tab-weather .tdc-property-navigation select,
-#td-tab-instagram .tdc-property-navigation select,
-#td-tab-general .tdc-property-style select,
-#td-tab-filter .tdc-property-style select,
-#td-tab-ajax .tdc-property-style select,
-#td-tab-extra .tdc-property-style select,
-#td-tab-exchange .tdc-property-style select,
-#td-tab-weather .tdc-property-style select,
-#td-tab-instagram .tdc-property-style select {
-  max-width: 60%;
-  width: 120px;
-  height: 27px;
-  position: absolute;
-  top: -7px;
-  right: -1px;
-}
-#td-tab-css input[type=text],
-#td-tab-design-options input[type=text] {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  z-index: 2;
-}
-#td-tab-css select,
-#td-tab-design-options select {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  max-width: 60%;
-  width: 120px;
-  font-size: 12px;
-  padding: 0 4px;
-  position: absolute;
-  top: -7px;
-  right: 0;
-}
-/*
-  small input boxes
-*/
-.tdc-property-limit .tdc-property,
-.tdc-property-offset .tdc-property,
-.tdc-border-radius .tdc-property {
-  position: absolute;
-  top: -6px;
-  right: 2px;
-  width: 42px;
-}
-.tdc-property-limit .tdc-property input[type=text],
-.tdc-property-offset .tdc-property input[type=text],
-.tdc-border-radius .tdc-property input[type=text] {
-  width: 42px;
-  font-size: 12px;
-  padding: 4px 8px;
-  text-align: right;
-}
-/*
-  vertical spacing
-*/
-.tdc-property-post_ids,
-.tdc-property-category_id,
-.tdc-property-category_ids,
-.tdc-property-tag_slug,
-.tdc-property-autors_id,
-.tdc-property-td_ajax_filter_type,
-.tdc-property-td_ajax_filter_ids,
-.tdc-property-td_filter_default_txt,
-.tdc-property-el_id,
-.tdc-property-el_class,
-.tdc-property-alias,
-.tdc-property-title,
-.tdc-widget-sidebar-dropdown,
-.tdc-property-custom_title,
-.tdc-property-e_base_currency,
-.tdc-property-e_rate_decimals,
-.tdc-property-w_units,
-.tdc-property-roles,
-.tdc-property-exclude,
-.tdc-property-playlist_title,
-.tdc-property-tdc_inner_row_columns_modifier,
-.tdc-property-height,
-.tdc-property-facebook,
-.tdc-property-facebook_app_id,
-.tdc-property-facebook_security_key,
-.tdc-property-facebook_access_token,
-.tdc-property-twitter,
-.tdc-property-youtube,
-.tdc-property-vimeo,
-.tdc-property-googleplus,
-.tdc-property-instagram,
-.tdc-property-soundcloud,
-.tdc-property-rss,
-.tdc-property-instagram_id,
-.tdc-property-instagram_header,
-.tdc-property-instagram_images_per_row,
-.tdc-property-instagram_number_of_rows {
-  margin-bottom: 13px;
-}
-.tdc-property-custom_url,
-.tdc-property-w_location,
-.tdc-property-e_custom_rates,
-.tdc-property-content,
-.tdc-property-offset,
-.tdc-property-include,
-.tdc-property-playlist_yt,
-.tdc-property-playlist_v,
-.tdc-property-installed_post_types {
-  margin-bottom: 15px;
-}
-.tdc-property-ajax_pagination,
-.tdc-property-tdc_row_columns_modifier {
-  margin-top: 9px;
-  margin-bottom: 20px;
-}
-.tdc-border-radius,
-.tdc-border-style,
-.tdc-property-sort,
-.tdc-bg-style,
-.tdc-property-limit,
-.tdc-property-style {
-  position: relative;
-  margin-bottom: 19px;
-}
-.tdc-property-td_grid_style,
-.tdc-property-autoplay {
-  margin-bottom: 14px;
-}
-.tdc-property-spot_id,
-.tdc-property-navigation {
-  margin-bottom: 19px;
-  margin-top: 6px;
-}
-.tdc-bg-color {
-  margin-bottom: -2px;
-}
-.tdc-property-header_color,
-.tdc-border-color,
-.tdc-property-header_text_color {
-  margin-bottom: -3px;
-}
-.tdc-bg-upload .tdc-property-title {
-  margin-bottom: 6px;
-}
-.tdc-bg-upload .tdc-css-bg-image-wrap {
-  vertical-align: middle;
-  overflow: hidden;
-  display: inline-block;
-}
-.tdc-bg-upload .tdc-css-bg-image-wrap img {
-  width: auto;
-  height: 100%;
-  max-width: none;
-}
-.tdc-bg-upload .tdc-css-bg-remove {
-  text-decoration: none;
-  font-size: 11px;
-  color: #000;
-  border: 1px solid #DDDDDD;
-  padding: 4px 10px 5px 10px;
-  margin-left: 15px;
-}
 /*
   css box editor
 */
@@ -1431,6 +1186,119 @@ placeholder when sidebar is empty
   width: 100%;
   height: 300px;
   display: none;
+}
+input[type=text] {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  font-size: 12px;
+}
+select {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  font-size: 12px;
+}
+/*
+  vertical spacing & textfield & dropdown
+*/
+.tdc-textfield-big {
+  margin-bottom: 13px;
+}
+.tdc-textfield-big input[type=text] {
+  max-width: 99.5%;
+  width: 99.5%;
+  padding: 4px 8px;
+}
+.tdc-textfield-small {
+  margin-bottom: 19px;
+}
+.tdc-textfield-small .tdc-property {
+  position: absolute;
+  top: -6px;
+  right: 2px;
+  width: 42px;
+}
+.tdc-textfield-small .tdc-property input[type=text] {
+  width: 42px;
+  font-size: 12px;
+  padding: 4px 8px;
+  text-align: right;
+}
+.tdc-dropdown-big {
+  margin-bottom: 13px;
+}
+.tdc-dropdown-big select {
+  max-width: 99.5%;
+  width: 99.5%;
+  height: 27px;
+  padding: 0 4px;
+}
+.tdc-dropdown-small {
+  margin-bottom: 19px;
+}
+.tdc-dropdown-small select {
+  max-width: 60%;
+  width: 120px;
+  height: 27px;
+  position: absolute;
+  top: -6px;
+  right: -1px;
+}
+#td-tab-css input[type=text],
+#td-tab-design-options input[type=text] {
+  z-index: 2;
+}
+.tdc-bg-upload .tdc-property-title {
+  margin-bottom: 6px;
+}
+.tdc-bg-upload .tdc-css-bg-image-wrap {
+  vertical-align: middle;
+  overflow: hidden;
+  display: inline-block;
+}
+.tdc-bg-upload .tdc-css-bg-image-wrap img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+}
+.tdc-bg-upload .tdc-css-bg-remove {
+  text-decoration: none;
+  font-size: 11px;
+  color: #000;
+  border: 1px solid #DDDDDD;
+  padding: 4px 10px 5px 10px;
+  margin-left: 15px;
+}
+.tdc-property-installed_post_types,
+.tdc-property-custom_url,
+.tdc-property-w_location,
+.tdc-property-e_custom_rates,
+.tdc-property-content,
+.tdc-property-offset,
+.tdc-property-include,
+.tdc-property-playlist_yt,
+.tdc-property-playlist_v {
+  margin-bottom: 15px !important;
+}
+.tdc-property-colorpicker {
+  margin-bottom: -3px;
+}
+.tdc-property-ajax_pagination,
+.tdc-property-tdc_row_columns_modifier {
+  margin-top: 9px;
+}
+.tdc-property-spot_id,
+.tdc-property-navigation {
+  margin-top: 6px;
+}
+.tdc-border-radius,
+.tdc-border-style,
+.tdc-property-sort,
+.tdc-bg-style,
+.tdc-property-limit,
+.tdc-property-style {
+  position: relative;
 }
 #tdc-live-panel .td-box {
   margin: 0;
