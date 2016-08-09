@@ -264,6 +264,7 @@ html.tdc-active #wpadminbar {
   top: -2px;
   left: 19px;
   font-family: 'Open Sans';
+  line-height: 20px;
 }
 #tdc-mask-handler-structure {
   position: absolute;
@@ -455,4 +456,8 @@ html.tdc-active #wpadminbar {
 }
 .td-admin-edit {
   display: none !important;
+}
+.tdc-block-empty {
+  min-height: 50px;
+  outline: 2px dotted #e8e8e8;
 }
