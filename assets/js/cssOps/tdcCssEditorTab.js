@@ -93,57 +93,57 @@ var tdcCssEditorTab = {};
             });
 
 
-            // on image click
-            $body.on( 'click', '.tdc-css-bg-image', function(event) {
-
-                var $imgBackgroundImage = jQuery(this);
-                window.original_send_to_editor = window.send_to_editor;
-                wp.media.editor.open(jQuery(this));
-
-                window.send_to_editor = function(html) {
-                    var img_link = jQuery('img', html).attr('src');
-                    if(typeof img_link === 'undefined') {
-                        img_link = jQuery(html).attr('src');
-                    }
-
-                    jQuery('.tdc-css-bg-remove').removeClass('tdc-hidden-button');
-
-                    $imgBackgroundImage.attr('src', img_link);
-                    $imgBackgroundImage.removeClass('tdc-no-image-selected');
-
-                    //reset the send_to_editor function to its original state
-                    window.send_to_editor = window.original_send_to_editor;
-
-                    //close the modal window
-                    tb_remove();
-
-                    // fire the bg change event
-                    var model = tdcIFrameData.getModel( $imgBackgroundImage.data('model_id') );
-                    tdcSidebarController.onUpdate (
-                        model,
-                        $imgBackgroundImage.data('param_name'),    // the name of the parameter
-                        '',                      // the old value
-                        tdcCssEditorTab._generateCssAttValue()                 // the new value
-                    );
-                };
-                return false;
-
-            });
-            // on remove image button click
-            $body.on( 'click', '.tdc-css-bg-remove', function(event) {
-                var $imgBackgroundImage = jQuery('.tdc-css-bg-image');
-                $imgBackgroundImage.addClass('tdc-no-image-selected');
-                $imgBackgroundImage.attr('src', window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img.png');
-
-                // fire the bg change event
-                var model = tdcIFrameData.getModel( $imgBackgroundImage.data('model_id') );
-                tdcSidebarController.onUpdate (
-                    model,
-                    $imgBackgroundImage.data('param_name'),    // the name of the parameter
-                    '',                      // the old value
-                    tdcCssEditorTab._generateCssAttValue()                 // the new value
-                );
-            });
+            //// on image click
+            //$body.on( 'click', '.tdc-bg-upload .tdc-image-wrap', function(event) {
+            //
+            //    var $imgBackgroundImage = jQuery(this);
+            //    window.original_send_to_editor = window.send_to_editor;
+            //    wp.media.editor.open(jQuery(this));
+            //
+            //    window.send_to_editor = function(html) {
+            //        var img_link = jQuery('img', html).attr('src');
+            //        if(typeof img_link === 'undefined') {
+            //            img_link = jQuery(html).attr('src');
+            //        }
+            //
+            //        jQuery('.tdc-css-bg-remove').removeClass('tdc-hidden-button');
+            //
+            //        $imgBackgroundImage.attr('src', img_link);
+            //        $imgBackgroundImage.removeClass('tdc-no-image-selected');
+            //
+            //        //reset the send_to_editor function to its original state
+            //        window.send_to_editor = window.original_send_to_editor;
+            //
+            //        //close the modal window
+            //        tb_remove();
+            //
+            //        // fire the bg change event
+            //        var model = tdcIFrameData.getModel( $imgBackgroundImage.data('model_id') );
+            //        tdcSidebarController.onUpdate (
+            //            model,
+            //            $imgBackgroundImage.data('param_name'),    // the name of the parameter
+            //            '',                      // the old value
+            //            tdcCssEditorTab._generateCssAttValue()                 // the new value
+            //        );
+            //    };
+            //    return false;
+            //
+            //});
+            //// on remove image button click
+            //$body.on( 'click', '.tdc-css-bg-remove', function(event) {
+            //    var $imgBackgroundImage = jQuery('.tdc-css-bg-image');
+            //    $imgBackgroundImage.addClass('tdc-no-image-selected');
+            //    $imgBackgroundImage.attr('src', window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img.png');
+            //
+            //    // fire the bg change event
+            //    var model = tdcIFrameData.getModel( $imgBackgroundImage.data('model_id') );
+            //    tdcSidebarController.onUpdate (
+            //        model,
+            //        $imgBackgroundImage.data('param_name'),    // the name of the parameter
+            //        '',                      // the old value
+            //        tdcCssEditorTab._generateCssAttValue()                 // the new value
+            //    );
+            //});
 
 
             // bg style change
@@ -315,23 +315,11 @@ var tdcCssEditorTab = {};
             buffy += '<div class="tdc-property-wrap tdc-bg-upload">';
             buffy += '<div class="tdc-property-title">Background upload:</div>';
             buffy += '<div class="tdc-property">';
-            buffy += '<div class="tdc-css-bg-image-wrap">';
-            buffy += '<img class="tdc-no-image-selected tdc-css-bg-image" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' src="'  + window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img.png" />';
+            buffy += '<div class="tdc-image-wrap tdc-no-image-selected" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' style="background-image: url( \'' + window.tdcAdminSettings.pluginUrl + '/assets/images/sidebar/no_img.png\' )">';
             buffy += '</div>';
-            buffy += '<a class="tdc-css-bg-remove tdc-hidden-button" href="#" >Remove</a>';
+            buffy += '<a class="tdc-image-remove tdc-hidden-button" href="#" >Remove</a>';
             buffy += '</div>';
             buffy += '</div>';
-            tdcSidebarPanel._hook.addAction( 'panel_rendered', function () {
-
-                // read the value and show the image + remove button
-                var currentBgUrl = tdcCssParser.getPropertyValueClean('background-url');
-                if (currentBgUrl !== '') {
-                    jQuery('.tdc-css-bg-image').attr('src', currentBgUrl);
-                    jQuery('.tdc-css-bg-image').removeClass('tdc-no-image-selected');
-
-                    jQuery('.tdc-css-bg-remove').removeClass('tdc-hidden-button');
-                }
-            });
 
 
             return buffy;
@@ -355,25 +343,29 @@ var tdcCssEditorTab = {};
          */
         _generateCssAttValue: function () {
 
-            var cssGenerator = new TdcCssGenerator();
+            var cssGenerator = new TdcCssGenerator(),
+
+                // The css will be generated using only this element
+                $target = jQuery( '#td-tab-css' );
+
 
             // css for padding, border margin (the square inputs)
-            jQuery( ".tdc-css-box-input" ).each(function( index ) {
+            $target.find( ".tdc-css-box-input" ).each(function( index ) {
                 cssGenerator[jQuery(this).data('tdc-for')] = jQuery(this).val();
             });
 
 
-            cssGenerator.backgroundColor = jQuery('.tdc-css-background-color').val();
-            cssGenerator.borderColor = jQuery('.tdc-css-border-color').val();
-            cssGenerator.borderStyle = jQuery('.tdc-css-border-style').val();
-            cssGenerator.borderRadius = jQuery('.tdc-css-border-radius').val();
-            cssGenerator.setBackgroundStyle(jQuery('.tdc-css-bg-style').val());  // custom directive that sets multiple css properties
+            cssGenerator.backgroundColor = $target.find('.tdc-css-background-color').val();
+            cssGenerator.borderColor = $target.find('.tdc-css-border-color').val();
+            cssGenerator.borderStyle = $target.find('.tdc-css-border-style').val();
+            cssGenerator.borderRadius = $target.find('.tdc-css-border-radius').val();
+            cssGenerator.setBackgroundStyle($target.find('.tdc-css-bg-style').val());  // custom directive that sets multiple css properties
 
 
             // bg image, only if we don't have .tdc-no-image-selected
-            var $imgBackgroundImage = jQuery('.tdc-css-bg-image');
+            var $imgBackgroundImage = $target.find('.tdc-image-wrap');
             if ( !$imgBackgroundImage.hasClass('tdc-no-image-selected') ) {
-                cssGenerator.backgroundUrl =   $imgBackgroundImage.attr('src');
+                cssGenerator.backgroundUrl =   $imgBackgroundImage.data('image_link');
             }
 
             var generatedCss = cssGenerator.generateCss();

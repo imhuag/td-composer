@@ -154,6 +154,7 @@ var tdcSidebarPanel = {};
                     $this.closest( '.tdc-property' ).find('.tdc-image-remove').removeClass('tdc-hidden-button');
 
                     $this.attr( 'style', 'background-image: url( \'' + img_link + '\') ');
+                    $this.data( 'image_link', img_link );
                     $this.removeClass('tdc-no-image-selected');
 
                     //reset the send_to_editor function to its original state
@@ -165,7 +166,12 @@ var tdcSidebarPanel = {};
                     var curValue = '';
 
                     if ( ! $this.hasClass( 'tdc-no-image-selected' ) ) {
-                        curValue = img_link;
+
+                        if ( $this.parent().parent( '.tdc-bg-upload' ).length ) {
+                            curValue = tdcCssEditorTab._generateCssAttValue();
+                        } else {
+                            curValue = img_link;
+                        }
                     }
 
                     // fire the bg change event
@@ -189,6 +195,7 @@ var tdcSidebarPanel = {};
                 $this.addClass( 'tdc-hidden-button' );
 
                 $tdcImageWrap.addClass('tdc-no-image-selected');
+                jQuery.removeData( $tdcImageWrap, 'image_link' );
                 $tdcImageWrap.attr('style', 'background-image: url( \'' + window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img.png\'' );
 
                 // fire the bg change event
@@ -892,22 +899,42 @@ var tdcSidebarPanel = {};
             tdcSidebarPanel._hook.addAction( 'panel_rendered', function () {
 
                 // read the value and show the image + remove button
-                var currentImageUrl = tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model);
-                tdcDebug.log( currentImageUrl );
-                if (currentImageUrl !== '') {
-                    jQuery('.tdc-image-wrap').each( function( index, element ) {
-                        var $element = jQuery( element );
-                        if ( mappedParameter.param_name === $element.data( 'param_name' ) ) {
+                var currentImageUrl = tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model),
+                    currentBgUrl = tdcCssParser.getPropertyValueClean( 'background-url' );
+
+                jQuery('.tdc-image-wrap').each( function( index, element ) {
+                    var $element = jQuery( element );
+
+                    //alert( mappedParameter.param_name );
+
+                    if ( $element.parent().parent( '.tdc-bg-upload' ).length && '' !== currentBgUrl ) {
+
+                        $element
+                            .attr( 'style', 'background-image: url(\'' + currentBgUrl + '\'' )
+                            .removeClass('tdc-no-image-selected');
+
+                        $element.data( 'image_link', currentBgUrl );
+
+                        $element.closest( '.tdc-property' ).find( '.tdc-image-remove' ).removeClass( 'tdc-hidden-button' );
+
+                        return;
+                    }
+
+                    if ( mappedParameter.param_name === $element.data( 'param_name' ) ) {
+
+                        if ( '' !== currentImageUrl ) {
                             $element
                                 .attr( 'style', 'background-image: url(\'' + currentImageUrl + '\'' )
                                 .removeClass('tdc-no-image-selected');
 
-                            $element.closest( '.tdc-property' ).find('.tdc-image-remove').removeClass('tdc-hidden-button');
+                            $element.data( 'image_link', currentImageUrl );
 
-                            return;
+                            $element.closest( '.tdc-property' ).find( '.tdc-image-remove' ).removeClass( 'tdc-hidden-button' );
                         }
-                    });
-                }
+
+                        return;
+                    }
+                });
             });
 
             return buffy;
