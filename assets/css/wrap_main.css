@@ -901,14 +901,12 @@ placeholder when sidebar is empty
   top: 50%;
   left: 17px;
 }
-.tdc-css-bg-image-wrap {
-  width: 66px;
-  height: 66px;
-}
-.tdc-css-bg-image-wrap img {
-  max-width: 100%;
-  max-height: 100%;
+.tdc-image-wrap {
+  width: 40px;
+  height: 40px;
   cursor: pointer;
+  background-size: cover;
+  background-position: center center;
 }
 .tdc-hidden-button {
   display: none;
@@ -940,6 +938,21 @@ select {
   max-width: 99.5%;
   width: 99.5%;
   padding: 4px 8px;
+}
+.tdc-textfield-medium {
+  margin-bottom: 19px;
+}
+.tdc-textfield-medium .tdc-property {
+  position: absolute;
+  top: -6px;
+  right: 2px;
+  width: 120px;
+}
+.tdc-textfield-medium .tdc-property input[type=text] {
+  width: 120px;
+  font-size: 12px;
+  padding: 4px 8px;
+  text-align: right;
 }
 .tdc-textfield-small {
   margin-bottom: 19px;
@@ -1030,6 +1043,37 @@ select {
 .tdc-property-limit,
 .tdc-property-style {
   position: relative;
+}
+.tdc-property-checkbox {
+  margin-bottom: 13px;
+}
+.tdc-property-checkbox .tdc-property {
+  position: absolute;
+  top: -2px;
+  right: 0;
+}
+.tdc-property-checkbox .tdc-property input {
+  margin: 0;
+}
+.tdc-property-image {
+  margin-bottom: 13px;
+  line-height: 40px;
+}
+.tdc-property-image .tdc-property {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.tdc-property-image .tdc-image-remove {
+  position: absolute;
+  top: 0;
+  right: 50px;
+  font-size: 12px;
+  text-decoration: none;
+}
+.tdc-sidebar-horizontal-separator {
+  border-bottom: 1px dashed #eeeeee;
+  margin: 25px auto;
 }
 #tdc-live-panel .td-box {
   margin: 0;

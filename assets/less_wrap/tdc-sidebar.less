@@ -977,9 +977,11 @@ placeholder when sidebar is empty
 }
 
 .tdc-image-wrap {
-  width: 66px;
-  height: 66px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
+  background-size: cover;
+  background-position: center center;
 }
 
 .tdc-hidden-button {
@@ -1015,6 +1017,24 @@ select {
     max-width: 99.5%;
     width: 99.5%;
     padding: 4px 8px;
+  }
+}
+
+.tdc-textfield-medium {
+  margin-bottom: 19px;
+
+  .tdc-property {
+    position: absolute;
+    top: -6px;
+    right: 2px;
+    width: 120px;
+
+    input[type=text] {
+      width: 120px;
+      font-size: 12px;
+      padding: 4px 8px;
+      text-align: right;
+    }
   }
 }
 
@@ -1133,4 +1153,43 @@ select {
 }
 
 
+// checkbox
+.tdc-property-checkbox {
+  margin-bottom: 13px;
 
+  .tdc-property {
+    position: absolute;
+    top: -2px;
+    right: 0;
+
+    input {
+      margin: 0;
+    }
+  }
+}
+
+// image
+.tdc-property-image {
+  margin-bottom: 13px;
+  line-height: 40px;
+
+  .tdc-property {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .tdc-image-remove {
+    position: absolute;
+    top: 0;
+    right: 50px;
+    font-size: 12px;
+    text-decoration: none;
+  }
+}
+
+// separator
+.tdc-sidebar-horizontal-separator {
+  border-bottom: 1px dashed #eeeeee;
+  margin: 25px auto;
+}
