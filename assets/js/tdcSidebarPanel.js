@@ -139,7 +139,7 @@ var tdcSidebarPanel = {};
 
 
             // on image click
-            $body.on( 'click', '.tdc-image', function(event) {
+            $body.on( 'click', '.tdc-image-wrap', function(event) {
 
                 var $this = jQuery(this);
                 window.original_send_to_editor = window.send_to_editor;
@@ -153,7 +153,7 @@ var tdcSidebarPanel = {};
 
                     $this.closest( '.tdc-property' ).find('.tdc-image-remove').removeClass('tdc-hidden-button');
 
-                    $this.attr('src', img_link);
+                    $this.attr( 'style', 'background-image: url( \'' + img_link + '\') ');
                     $this.removeClass('tdc-no-image-selected');
 
                     //reset the send_to_editor function to its original state
@@ -165,7 +165,7 @@ var tdcSidebarPanel = {};
                     var curValue = '';
 
                     if ( ! $this.hasClass( 'tdc-no-image-selected' ) ) {
-                        curValue = $this.attr( 'src' );
+                        curValue = img_link;
                     }
 
                     // fire the bg change event
@@ -184,18 +184,18 @@ var tdcSidebarPanel = {};
             // on remove image button click
             $body.on( 'click', '.tdc-image-remove', function(event) {
                 var $this = jQuery( this ),
-                    $tdcImage = $this.closest( '.tdc-property' ).find('.tdc-image');
+                    $tdcImageWrap = $this.closest( '.tdc-property' ).find('.tdc-image-wrap');
 
                 $this.addClass( 'tdc-hidden-button' );
 
-                $tdcImage.addClass('tdc-no-image-selected');
-                $tdcImage.attr('src', window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img.png');
+                $tdcImageWrap.addClass('tdc-no-image-selected');
+                $tdcImageWrap.attr('style', 'background-image: url( \'' + window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img.png\'' );
 
                 // fire the bg change event
-                var model = tdcIFrameData.getModel( $tdcImage.data('model_id') );
+                var model = tdcIFrameData.getModel( $tdcImageWrap.data('model_id') );
                 tdcSidebarController.onUpdate (
                     model,
-                    $tdcImage.data('param_name'),    // the name of the parameter
+                    $tdcImageWrap.data('param_name'),    // the name of the parameter
                     '',                      // the old value
                     ''                 // the new value
                 );
@@ -883,8 +883,7 @@ var tdcSidebarPanel = {};
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
             buffy += '<div class="tdc-property-title"><span' + tooltip + '>' + mappedParameter.heading + '</span></div>';
             buffy += '<div class="tdc-property">';
-            buffy += '<div class="tdc-image-wrap">';
-            buffy += '<img class="tdc-no-image-selected tdc-image" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' src="'  + window.tdcAdminSettings.pluginUrl +  '/assets/images/sidebar/no_img.png" />';
+            buffy += '<div class="tdc-image-wrap tdc-no-image-selected" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' style="background-image: url( \'' + window.tdcAdminSettings.pluginUrl + '/assets/images/sidebar/no_img.png\' )">';
             buffy += '</div>';
             buffy += '<a class="tdc-image-remove tdc-hidden-button" href="#" >Remove</a>';
             buffy += '</div>';
@@ -894,12 +893,13 @@ var tdcSidebarPanel = {};
 
                 // read the value and show the image + remove button
                 var currentImageUrl = tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model);
+                tdcDebug.log( currentImageUrl );
                 if (currentImageUrl !== '') {
-                    jQuery('.tdc-image').each( function( index, element ) {
+                    jQuery('.tdc-image-wrap').each( function( index, element ) {
                         var $element = jQuery( element );
                         if ( mappedParameter.param_name === $element.data( 'param_name' ) ) {
                             $element
-                                .attr( 'src', currentImageUrl )
+                                .attr( 'style', 'background-image: url(\'' + currentImageUrl + '\'' )
                                 .removeClass('tdc-no-image-selected');
 
                             $element.closest( '.tdc-property' ).find('.tdc-image-remove').removeClass('tdc-hidden-button');
