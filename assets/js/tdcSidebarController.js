@@ -204,6 +204,9 @@ var tdcSidebarController = {};
                     tdcDebug.log( job );
                 };
 
+                // Loader image is shown
+                tdcSidebar.getCurrentElement().addClass( 'tdc-dropped' );
+
                 tdcJobManager.addJob( newJob );
             } {
                 //throw "No shortcode for this model!";
