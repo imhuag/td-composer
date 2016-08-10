@@ -312,7 +312,7 @@ var tdcCssEditorTab = {};
 
 
             // bg upload
-            buffy += '<div class="tdc-property-wrap tdc-bg-upload">';
+            buffy += '<div class="tdc-property-wrap tdc-property-image tdc-bg-upload">';
             buffy += '<div class="tdc-property-title">Background upload:</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<div class="tdc-image-wrap tdc-no-image-selected" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' style="background-image: url( \'' + window.tdcAdminSettings.pluginUrl + '/assets/images/sidebar/no_img.png\' )">';
