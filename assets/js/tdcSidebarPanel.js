@@ -1111,7 +1111,7 @@ var tdcSidebarPanel = {};
         addSeparatorHorizontal: function() {
             var buffy = '';
 
-            buffy += '<div class="tdc-sidebar-horizontal-separator">...............</div>';
+            buffy += '<div class="tdc-sidebar-horizontal-separator"></div>';
 
             return buffy;
         }
