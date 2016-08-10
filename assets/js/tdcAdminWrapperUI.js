@@ -40,7 +40,7 @@ var tdcAdminWrapperUI;
             jQuery('body').append( tdcAdminWrapperUI.$placeholder );
 
 
-            jQuery( '.tdc-save-page').click( function( event ) {
+            jQuery( '.tdc-save-page' ).click( function( event ) {
 
                 //document.getElementById('tdc-live-iframe').src = document.getElementById('tdc-live-iframe').src;
                 //
@@ -53,6 +53,11 @@ var tdcAdminWrapperUI;
                 jQuery(this).addClass('tdc-saving-loader'); // show the loading animation instead of the button
 
                 tdcSavePost.save();
+            });
+
+
+            jQuery( '.tdc-view-page' ).click( function( event ) {
+                window.open( window.tdcPostSettings.postUrl, '_blank');
             });
         }
     };

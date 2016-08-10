@@ -68,6 +68,9 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 				Add element
 				<span class="tdc-icon-add"></span>
 			</div>
+			<div class="tdc-view-page">
+				<span class="tdc-icon-view"></span>
+			</div>
 			<div class="tdc-save-page">
 				<span class="tdc-icon-save"></span>
 			</div>
