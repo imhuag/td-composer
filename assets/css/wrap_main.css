@@ -10,9 +10,9 @@
   height: 100%;
   background-color: #fff;
   z-index: 1;
-  -webkit-box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1) !important;
+  -moz-box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1) !important;
   -webkit-transition: left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s, box-shadow 0.4s ease 0s;
   -moz-transition: left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s, box-shadow 0.4s ease 0s;
   -o-transition: left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s, box-shadow 0.4s ease 0s;
@@ -40,9 +40,9 @@
   position: absolute !important;
 }
 .tdc-sidebar-inline#tdc-sidebar {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
 }
 .tdc-sidebar-inline#tdc-sidebar:before {
   opacity: 1;
@@ -239,9 +239,9 @@
   -moz-transition: none;
   -o-transition: none;
   transition: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
   background-color: #fff;
   color: #888;
   outline: 0;
@@ -361,9 +361,9 @@
   font-size: 12px;
 }
 .tdc-tabs .tdc-tab-active {
-  -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
+  -moz-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
   background-color: #fff;
   position: relative;
   z-index: 1;
@@ -379,9 +379,9 @@
   background-color: #fff;
 }
 .tdc-tab-content-wrap {
-  -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
+  -moz-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
   padding: 18px 13px 15px 14px;
   background-color: #fff;
   position: relative;
@@ -478,9 +478,9 @@ placeholder when sidebar is empty
   background-color: #fff;
   cursor: pointer;
   z-index: 52;
-  -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
+  -moz-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
 }
 .tdc-sidebar-open .tdc-icon-sidebar-open {
   background: url('../images/sidebar/spritesheet.png');
@@ -680,7 +680,8 @@ placeholder when sidebar is empty
   margin-bottom: 10px;
 }
 .tdc-property-colorpicker .tdc-property-title {
-  margin-bottom: 0;
+  margin-bottom: 1px;
+  margin-top: -1px;
   line-height: 27px;
 }
 .tdc-property-colorpicker .tdc-property {
@@ -699,16 +700,16 @@ placeholder when sidebar is empty
   float: left;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .wp-color-result {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
   height: 25px;
   width: 25px;
   padding: 0;
   margin: 0;
   border: 1px solid #ddd;
   position: absolute;
-  top: 0;
+  top: 1px;
   right: 0;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .wp-color-result:after {
@@ -921,13 +922,17 @@ placeholder when sidebar is empty
   top: 50%;
   left: 17px;
 }
-input[type=text],
+input,
 select {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
   font-size: 12px;
   margin: 0;
+}
+input[type=radio],
+input[type=checkbox] {
+  border-color: #ddd;
 }
 /*
   vertical spacing & textfield & dropdown
@@ -948,7 +953,7 @@ select {
 }
 .tdc-textfield-big .tdc-property-title {
   margin-bottom: 0;
-  padding-right: 130px;
+  padding-right: 135px;
   line-height: 14px;
   display: table-cell;
   vertical-align: middle;
@@ -962,9 +967,9 @@ select {
   display: table;
 }
 .tdc-textfield-big .tdc-property input[type=text] {
-  width: 120px;
+  width: 130px;
   font-size: 12px;
-  padding: 4px 8px;
+  padding: 4px 6px;
 }
 .tdc-textfield-small {
   margin-bottom: 10px;
@@ -991,7 +996,7 @@ select {
 .tdc-textfield-small .tdc-property input[type=text] {
   width: 50px;
   font-size: 12px;
-  padding: 4px 8px;
+  padding: 4px 6px;
   text-align: right;
 }
 .tdc-property-dropdown {
@@ -1002,6 +1007,30 @@ select {
   height: 27px;
   padding: 0 2px;
 }
+.tdc-dropdown-extrabig {
+  margin-bottom: 10px;
+  line-height: 27px;
+  height: 27px;
+  width: 100%;
+  display: table;
+}
+.tdc-dropdown-extrabig .tdc-property-title {
+  margin-bottom: 0;
+  padding-right: 185px;
+  line-height: 14px;
+  display: table-cell;
+  vertical-align: middle;
+}
+.tdc-dropdown-extrabig select {
+  width: 180px;
+  height: 27px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto 0;
+  display: table;
+}
 .tdc-dropdown-big {
   margin-bottom: 10px;
   line-height: 27px;
@@ -1011,13 +1040,13 @@ select {
 }
 .tdc-dropdown-big .tdc-property-title {
   margin-bottom: 0;
-  padding-right: 125px;
+  padding-right: 135px;
   line-height: 14px;
   display: table-cell;
   vertical-align: middle;
 }
 .tdc-dropdown-big select {
-  width: 120px;
+  width: 130px;
   height: 27px;
   position: absolute;
   top: 0;
@@ -1027,7 +1056,7 @@ select {
   display: table;
 }
 .tdc-dropdown-small {
-  margin-bottom: 19px;
+  margin-bottom: 10px;
   line-height: 27px;
   height: 27px;
   width: 100%;
@@ -1138,7 +1167,7 @@ select {
 }
 .tdc-sidebar-horizontal-separator {
   border-bottom: 1px dashed #eeeeee;
-  margin: 25px auto;
+  margin: 20px auto;
 }
 .tdc-textarea {
   width: 100%;

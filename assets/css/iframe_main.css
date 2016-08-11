@@ -355,10 +355,6 @@ html.tdc-active #wpadminbar {
   height: 100%;
   color: #666;
 }
-#tdc-rows .td_block_authors {
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
 #tdc-rows .tdc-rev-slider {
   height: 50px;
   border: 1px solid #ec6432;

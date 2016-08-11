@@ -707,7 +707,8 @@ placeholder when sidebar is empty
   margin-bottom: 10px;
 
   .tdc-property-title {
-    margin-bottom: 0;
+    margin-bottom: 1px;
+    margin-top: -1px;
     line-height: 27px;
   }
 
@@ -726,7 +727,7 @@ placeholder when sidebar is empty
       margin: 0;
       border: 1px solid #ddd;
       position: absolute;
-      top: 0;
+      top: 1px;
       right: 0;
 
       &:after {
@@ -978,11 +979,15 @@ placeholder when sidebar is empty
 
 
 //input and select general settings
-input[type=text],
+input,
 select {
   .box-shadow(none);
   font-size: 12px;
   margin: 0;
+}
+input[type=radio],
+input[type=checkbox] {
+  border-color: #ddd;
 }
 
 /*
@@ -1008,7 +1013,7 @@ select {
 
   .tdc-property-title {
     margin-bottom: 0;
-    padding-right: 130px;
+    padding-right: 135px;
     line-height: 14px;
     display: table-cell;
     vertical-align: middle;
@@ -1023,9 +1028,9 @@ select {
     display: table;
 
     input[type=text] {
-      width: 120px;
+      width: 130px;
       font-size: 12px;
-      padding: 4px 8px;
+      padding: 4px 6px;
     }
   }
 }
@@ -1056,7 +1061,7 @@ select {
     input[type=text] {
       width: 50px;
       font-size: 12px;
-      padding: 4px 8px;
+      padding: 4px 6px;
       text-align: right;
     }
   }
@@ -1073,6 +1078,33 @@ select {
   }
 }
 
+.tdc-dropdown-extrabig {
+  margin-bottom: 10px;
+  line-height: 27px;
+  height: 27px;
+  width: 100%;
+  display: table;
+
+  .tdc-property-title {
+    margin-bottom: 0;
+    padding-right: 185px;
+    line-height: 14px;
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  select {
+    width: 180px;
+    height: 27px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto 0;
+    display: table;
+  }
+}
+
 .tdc-dropdown-big {
   margin-bottom: 10px;
   line-height: 27px;
@@ -1082,14 +1114,14 @@ select {
 
   .tdc-property-title {
     margin-bottom: 0;
-    padding-right: 125px;
+    padding-right: 135px;
     line-height: 14px;
     display: table-cell;
     vertical-align: middle;
   }
 
   select {
-    width: 120px;
+    width: 130px;
     height: 27px;
     position: absolute;
     top: 0;
@@ -1101,7 +1133,7 @@ select {
 }
 
 .tdc-dropdown-small {
-  margin-bottom: 19px;
+  margin-bottom: 10px;
   line-height: 27px;
   height: 27px;
   width: 100%;
@@ -1234,7 +1266,7 @@ select {
 // separator
 .tdc-sidebar-horizontal-separator {
   border-bottom: 1px dashed #eeeeee;
-  margin: 25px auto;
+  margin: 20px auto;
 }
 
 // textarea
