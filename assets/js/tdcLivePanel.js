@@ -29,12 +29,13 @@ var tdcLivePanel;
             tdcLivePanel.$panel = jQuery( '#tdc-live-panel' );
             tdcLivePanel.$tdcAction = tdcLivePanel.$panel.find( '#tdc_action' );
             tdcLivePanel.$tdcContent = tdcLivePanel.$panel.find( '#tdc_content' );
+            tdcLivePanel.$tdcPageTemplate = tdcLivePanel.$panel.find( '#tdc_page_template' );
 
             tdcLivePanel.$tdcIframeCover = jQuery( '#tdc-iframe-cover' );
             //tdcLivePanel.$tdcIframeCover.hide();
 
             tdcLivePanel.$panel.submit({
-                test: 'testare'
+                //test: 'testare'
             }, function( eventData ) {
                 //tdcDebug.log( 'eventData' );
                 //tdcDebug.log( eventData );
@@ -71,6 +72,70 @@ var tdcLivePanel;
                 });
             });
 
+            tdcLivePanel.$panel.on( 'change', '#page_template', function(event) {
+
+                event.preventDefault();
+
+                // Update the hidden field
+                var $this = jQuery(this),
+                    wrapper_id = $this.data('control-id');
+
+                jQuery('#hidden_' + wrapper_id).val(jQuery(this).closest( '.td-box').attr( 'id' ) );
+
+                tdcLivePanel.$tdcPageTemplate.val( $this.val() );
+
+
+                // Create new iframe
+
+                var $tdcLiveIframe = jQuery( '#tdc-live-iframe' );
+
+                if ( _.isUndefined( tdcLivePanel._iframeSrc ) ) {
+                    tdcLivePanel._iframeSrc = $tdcLiveIframe.attr( 'src' );
+                }
+
+                var uniqueId = 'uid_' + Math.floor((Math.random() * 10000) + 1) + '_' + Math.floor((Math.random() * 100) + 1 ),
+                    $newTdcLiveIframe = jQuery( '<iframe id="tdc-live-iframe-temp" name="' + uniqueId + '" scrolling="auto" src="about:blank" style="width: 100%; height: 100%" class="tdc-live-iframe-temp"></iframe>' );
+
+                $newTdcLiveIframe.insertAfter( $tdcLiveIframe );
+
+
+                tdcLivePanel.$panel.attr( 'target', uniqueId );
+                tdcLivePanel.$panel.attr( 'action', tdcLivePanel._iframeSrc );
+
+                tdcLivePanel.$tdcIframeCover.show();
+                tdcLivePanel.$tdcIframeCover.addClass( 'tdc-iframe-cover-show' );
+
+
+                // Get the new content (the post shortcode) and preview it
+                var data = {
+                    error: undefined,
+                    getShortcode: ''
+                };
+
+                tdcIFrameData.getShortcodeFromData( data );
+
+                if ( !_.isUndefined( data.error ) ) {
+                    tdcDebug.log( data.error );
+                }
+
+                if ( !_.isUndefined( data.getShortcode ) ) {
+
+                    tdcLivePanel.$tdcContent.val( data.getShortcode );
+
+                    // The new post content is set to the global 'window.tdcPostSettings.postContent'
+                    window.tdcPostSettings.postContent = data.getShortcode;
+                }
+
+                // This ensure that nothing will be save to the database
+                // This field is restored to 'tdc_ajax_save_post' by the Save button
+                tdcLivePanel.$tdcAction.val( 'preview' );
+
+
+                // Do a normal submit
+                tdcLivePanel.$panel.submit();
+
+            });
+
             tdcLivePanel.$panel.on( 'click', '.td-radio-control-option', function(event) {
 
                 event.preventDefault();
@@ -81,7 +146,6 @@ var tdcLivePanel;
 
 
                 // Create new iframe
-                //document.getElementById( 'tdc-live-iframe' ).src
 
                 var $tdcLiveIframe = jQuery( '#tdc-live-iframe' );
 
@@ -89,14 +153,13 @@ var tdcLivePanel;
                     tdcLivePanel._iframeSrc = $tdcLiveIframe.attr( 'src' );
                 }
 
-                var unique = 'uid_' + Math.floor((Math.random() * 10000) + 1) + '_' + Math.floor((Math.random() * 100) + 1);
-
-                var $newTdcLiveIframe = jQuery( '<iframe id="tdc-live-iframe-temp" name="' + unique + '" scrolling="auto" src="about:blank" style="width: 100%; height: 100%" class="tdc-live-iframe-temp"></iframe>' );
+                var uniqueId = 'uid_' + Math.floor((Math.random() * 10000) + 1) + '_' + Math.floor((Math.random() * 100) + 1 ),
+                    $newTdcLiveIframe = jQuery( '<iframe id="tdc-live-iframe-temp" name="' + uniqueId + '" scrolling="auto" src="about:blank" style="width: 100%; height: 100%" class="tdc-live-iframe-temp"></iframe>' );
 
                 $newTdcLiveIframe.insertAfter( $tdcLiveIframe );
 
 
-                tdcLivePanel.$panel.attr( 'target', unique );
+                tdcLivePanel.$panel.attr( 'target', uniqueId );
                 tdcLivePanel.$panel.attr( 'action', tdcLivePanel._iframeSrc );
 
                 tdcLivePanel.$tdcIframeCover.show();

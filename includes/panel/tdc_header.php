@@ -26,16 +26,36 @@
 	<input type="hidden" id="tdc_action" name="tdc_action" value="tdc_ajax_save_post">
 	<input type="hidden" id="tdc_post_id" name="tdc_post_id" value="<?php echo $post->ID ?>">
 
-
 	<?php
 		// - 'tdc_content' hidden field is the shortcode of the new content
 	?>
 
 	<input type="hidden" id="tdc_content" name="tdc_content" value="">
+	<input type="hidden" id="tdc_page_template" name="tdc_page_template" value="">
 
-	<input type="hidden" name="td_action" value="tdc_edit">
-	<input type="hidden" name="post_id" value="86">
 
+<!-- WP SETTINGS -->
+<?php echo td_panel_generator::box_start('WP Settings'); ?>
+
+	<select name="page_template" id="page_template">
+		<?php
+		/**
+		 * Filter the title of the default page template displayed in the drop-down.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param string $label   The display value for the default page template title.
+		 * @param string $context Where the option label is displayed. Possible values
+		 *                        include 'meta-box' or 'quick-edit'.
+		 */
+		$template = !empty($post->page_template) ? $post->page_template : false;
+		$default_title = apply_filters( 'default_page_template_title',  __( 'Default Template' ), 'meta-box' );
+		?>
+		<option value="default"><?php echo esc_html( $default_title ); ?></option>
+		<?php page_template_dropdown($template); ?>
+	</select>
+
+<?php echo td_panel_generator::box_end();?>
 
 <!-- HEADER STYLE -->
 <?php echo td_panel_generator::box_start('Header Style'); ?>

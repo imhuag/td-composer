@@ -146,11 +146,11 @@
 .tdc-view-page .tdc-icon-view {
   position: absolute;
   top: 10px;
-  right: 12px;
+  right: 10px;
   background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
-  background-position: -65px -124px;
-  width: 22px;
+  background-position: -63px -124px;
+  width: 24px;
   height: 20px;
 }
 .tdc-save-page {
