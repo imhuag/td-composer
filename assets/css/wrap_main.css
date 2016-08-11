@@ -925,19 +925,19 @@ select {
   width: 100%;
   padding: 4px 8px;
 }
-.tdc-textfield-medium {
+.tdc-textfield-big {
   margin-bottom: 10px;
 }
-.tdc-textfield-medium .tdc-property-title {
+.tdc-textfield-big .tdc-property-title {
   margin-bottom: 0;
 }
-.tdc-textfield-medium .tdc-property {
+.tdc-textfield-big .tdc-property {
   position: absolute;
   top: 0;
   right: 0;
   width: 120px;
 }
-.tdc-textfield-medium .tdc-property input[type=text] {
+.tdc-textfield-big .tdc-property input[type=text] {
   width: 120px;
   font-size: 12px;
   padding: 4px 8px;
