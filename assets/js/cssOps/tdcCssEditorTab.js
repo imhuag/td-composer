@@ -247,7 +247,7 @@ var tdcCssEditorTab = {};
                 {value: 'initial', display: 'Initial'},
                 {value: 'inherit', display: 'Inherit'}
             ];
-            buffy += '<div class="tdc-property-wrap tdc-border-style tdc-dropdown-small">';
+            buffy += '<div class="tdc-property-wrap tdc-border-style tdc-dropdown-big">';
             buffy += '<div class="tdc-property-title">Border style:</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<select class="tdc-css-border-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
@@ -301,7 +301,7 @@ var tdcCssEditorTab = {};
                 {value: 'no-repeat', display: 'No repeat'},
                 {value: 'repeat', display: 'Repeat'}
             ];
-            buffy += '<div class="tdc-property-wrap tdc-bg-style tdc-dropdown-small">';
+            buffy += '<div class="tdc-property-wrap tdc-bg-style tdc-dropdown-big">';
             buffy += '<div class="tdc-property-title">Background style:</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<select class="tdc-css-bg-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';

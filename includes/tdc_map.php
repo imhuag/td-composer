@@ -59,7 +59,7 @@ tdc_mapper::map(array(
 				'1/3 + 2/3' => '13_23',
 				'1/3 + 1/3 + 1/3' => '13_13_13'
 			),
-			'class' => 'tdc-row-col-dropdown tdc-dropdown-small',
+			'class' => 'tdc-row-col-dropdown tdc-dropdown-big',
 		),
 
 
@@ -68,14 +68,14 @@ tdc_mapper::map(array(
 			'heading' => 'Row ID:',
 			'param_name' => 'el_id',
 			'description' => 'Make sure that this is unique on the page',
-			'class' => 'tdc-textfield-big',
+			'class' => '',
 		),
 		array(
 			'type' => 'textfield',
 			'heading' => 'Extra class name:',
 			'param_name' => 'el_class',
 			'description' => 'Add a class to this row',
-			'class' => 'tdc-textfield-big',
+			'class' => '',
 		),
 
 		array(
@@ -102,7 +102,7 @@ tdc_mapper::map(
 				'heading' => 'Extra class name:',
 				'param_name' => 'el_class',
 				'description' => 'Add a class to this row',
-				'class' => 'tdc-textfield-big'
+				'class' => ''
 			),
 			array(
 				'type' => 'css_editor',
@@ -137,7 +137,7 @@ tdc_mapper::map(
 					'1/3 + 2/3' => '13_23',
 					'1/3 + 1/3 + 1/3' => '13_13_13'
 				),
-				'class' => 'tdc-innerRow-col-dropdown tdc-dropdown-small'
+				'class' => 'tdc-innerRow-col-dropdown tdc-dropdown-big'
 			),
 
 			array(
@@ -145,14 +145,14 @@ tdc_mapper::map(
 				'heading' => 'Row ID:',
 				'param_name' => 'el_id',
 				'description' => 'Make sure that this is unique on the page',
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 			),
 			array(
 				'type' => 'textfield',
 				'heading' => 'Extra class name:',
 				'param_name' => 'el_class',
 				'description' => 'Add a class to this row',
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 			),
 
 
@@ -182,7 +182,7 @@ tdc_mapper::map(
 				'heading' => 'Extra class name:',
 				'param_name' => 'el_class',
 				'description' => 'Add a class to this row',
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 			),
 			array(
 				'type' => 'css_editor',
@@ -207,7 +207,7 @@ tdc_mapper::map(
 				"param_name" => "content",
 				"type" => "textarea_html",
 				"holder" => "div",
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 				"heading" => 'Text:',
 				"value" => __('Html code here! Replace this with any non empty html code and that\'s it.', 'td_composer' ),
 				"description" => 'Enter your content.'
@@ -218,7 +218,7 @@ tdc_mapper::map(
 				'param_name' => 'el_class',
 				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
 				'value' => '',
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 			),
 
 			array (
@@ -245,7 +245,7 @@ tdc_mapper::map(
 				"param_name" => "content",
 				"type" => "textarea_raw_html",
 				"holder" => "div",
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 				"heading" => 'Text:',
 				"value" => base64_encode(__('Html code here! Replace this with any non empty raw html code and that\'s it.', 'td_composer' ) ),
 				"description" => 'Enter your content.'
@@ -256,7 +256,7 @@ tdc_mapper::map(
 				'param_name' => 'el_class',
 				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
 				'value' => '',
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 			),
 
 			array (
@@ -285,7 +285,7 @@ tdc_mapper::map(
 				'param_name' => 'height',
 				'description' => __( 'Custom height of the empty space.', 'td_composer' ),
 				'value' => '32px',
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 			),
 			array(
 				'type' => 'textfield',
@@ -293,7 +293,7 @@ tdc_mapper::map(
 				'param_name' => 'el_class',
 				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
 				'value' => '',
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 			),
 
 			array (
@@ -323,7 +323,7 @@ tdc_mapper::map(
 				'param_name' => 'title',
 				'description' => __( 'Enter text used as widget title (Note: located above content element).', 'td_composer' ),
 				'value' => '',
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 			),
 			array (
 				'param_name' => 'sidebar_id',
@@ -333,7 +333,7 @@ tdc_mapper::map(
 				// The parameter is set at 'admin_head' action, there the global $wp_registered_sidebars being set (otherwise it could be set at 'init')
 				// Important! Here is too early to use the global $wp_registered_sidebars, because it isn't set
 				'value' => array(),
-				'class' => 'tdc-widget-sidebar-dropdown tdc-dropdown-big',
+				'class' => 'tdc-widget-sidebar-dropdown',
 			),
 			array(
 				'type' => 'textfield',
@@ -341,7 +341,7 @@ tdc_mapper::map(
 				'param_name' => 'el_class',
 				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
 				'value' => '',
-				'class' => 'tdc-textfield-big',
+				'class' => '',
 			),
 		),
 	)
@@ -371,7 +371,7 @@ function register_external_shortcodes() {
 					'param_name' => 'title',
 					'description' => __( 'Enter text used as widget title (Note: located above content element).', 'td_composer' ),
 					'value' => '',
-					'class' => 'tdc-textfield-big',
+					'class' => '',
 				),
 				array(
 					'type' => 'textfield',
@@ -381,7 +381,7 @@ function register_external_shortcodes() {
 					'value' => '',
 					'save_always' => true,
 					'description' => __( 'Select your Revolution Slider.', 'td_composer' ),
-					'class' => 'tdc-textfield-big',
+					'class' => '',
 				),
 				array(
 					'type' => 'textfield',
@@ -389,7 +389,7 @@ function register_external_shortcodes() {
 					'param_name' => 'el_class',
 					'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
 					'value' => '',
-					'class' => 'tdc-textfield-big',
+					'class' => '',
 				),
 			),
 		)
