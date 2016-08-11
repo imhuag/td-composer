@@ -677,12 +677,26 @@ placeholder when sidebar is empty
 */
 .tdc-property-colorpicker {
   position: relative;
-  height: 27px;
   margin-bottom: 10px;
 }
 .tdc-property-colorpicker .tdc-property-title {
   margin-bottom: 0;
   line-height: 27px;
+}
+.tdc-property-colorpicker .tdc-property {
+  *zoom: 1;
+}
+.tdc-property-colorpicker .tdc-property:before,
+.tdc-property-colorpicker .tdc-property:after {
+  display: table;
+  content: '';
+  line-height: 0;
+}
+.tdc-property-colorpicker .tdc-property:after {
+  clear: both;
+}
+.tdc-property-colorpicker .tdc-property .wp-picker-container {
+  float: left;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .wp-color-result {
   -webkit-box-shadow: none;
@@ -729,7 +743,7 @@ placeholder when sidebar is empty
   left: 10px;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .iris-picker .iris-strip {
-  top: 11px;
+  top: 10px;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .iris-picker .iris-palette-container {
   left: 20px;
@@ -738,13 +752,13 @@ placeholder when sidebar is empty
 .tdc-property-colorpicker .tdc-property .wp-picker-container .cs-alpha-wrap {
   position: static;
   width: 231px;
-  padding: 30px 20px 20px 20px;
-  margin-bottom: 18px;
+  padding: 30px 20px 20px;
+  margin-bottom: 0;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .cs-alpha-wrap .cs-alpha-text {
   top: 0;
   right: 24px;
-  color: #888888;
+  color: #888;
 }
 /*
   Properties
@@ -927,21 +941,30 @@ select {
 }
 .tdc-textfield-big {
   margin-bottom: 10px;
+  line-height: 27px;
+  height: 27px;
+  width: 100%;
+  display: table;
 }
 .tdc-textfield-big .tdc-property-title {
   margin-bottom: 0;
+  padding-right: 130px;
+  line-height: 14px;
+  display: table-cell;
+  vertical-align: middle;
 }
 .tdc-textfield-big .tdc-property {
   position: absolute;
   top: 0;
   right: 0;
-  width: 120px;
+  bottom: 0;
+  margin: auto 0;
+  display: table;
 }
 .tdc-textfield-big .tdc-property input[type=text] {
   width: 120px;
   font-size: 12px;
   padding: 4px 8px;
-  text-align: right;
 }
 .tdc-textfield-small {
   margin-bottom: 10px;
@@ -952,7 +975,7 @@ select {
 }
 .tdc-textfield-small .tdc-property-title {
   margin-bottom: 0;
-  padding-right: 50px;
+  padding-right: 60px;
   line-height: 14px;
   display: table-cell;
   vertical-align: middle;
@@ -964,10 +987,9 @@ select {
   bottom: 0;
   margin: auto 0;
   display: table;
-  width: 42px;
 }
 .tdc-textfield-small .tdc-property input[type=text] {
-  width: 42px;
+  width: 50px;
   font-size: 12px;
   padding: 4px 8px;
   text-align: right;
@@ -978,10 +1000,10 @@ select {
 .tdc-property-dropdown select {
   width: 100%;
   height: 27px;
-  padding: 0 4px;
+  padding: 0 2px;
 }
 .tdc-dropdown-big {
-  margin-bottom: 19px;
+  margin-bottom: 10px;
   line-height: 27px;
   height: 27px;
   width: 100%;
@@ -996,6 +1018,30 @@ select {
 }
 .tdc-dropdown-big select {
   width: 120px;
+  height: 27px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto 0;
+  display: table;
+}
+.tdc-dropdown-small {
+  margin-bottom: 19px;
+  line-height: 27px;
+  height: 27px;
+  width: 100%;
+  display: table;
+}
+.tdc-dropdown-small .tdc-property-title {
+  margin-bottom: 0;
+  padding-right: 60px;
+  line-height: 14px;
+  display: table-cell;
+  vertical-align: middle;
+}
+.tdc-dropdown-small select {
+  width: 50px;
   height: 27px;
   position: absolute;
   top: 0;
@@ -1024,7 +1070,7 @@ select {
 .tdc-property-playlist_yt,
 .tdc-property-playlist_v,
 .tdc-property-td_grid_style {
-  margin-bottom: 15px !important;
+  margin-bottom: 10px !important;
 }
 .tdc-border-radius,
 .tdc-border-style,
@@ -1035,26 +1081,41 @@ select {
   position: relative;
 }
 .tdc-property-checkbox {
-  margin-bottom: 13px;
+  margin-bottom: 10px;
+  line-height: 16px;
+  height: 16px;
+  width: 100%;
+  display: table;
+}
+.tdc-property-checkbox .tdc-property-title {
+  margin-bottom: 0;
+  padding-right: 26px;
+  line-height: 14px;
+  display: table-cell;
+  vertical-align: middle;
 }
 .tdc-property-checkbox .tdc-property {
   position: absolute;
-  top: -2px;
+  top: 0;
   right: 0;
+  bottom: 0;
+  margin: auto 0;
+  display: table;
+  line-height: 1;
 }
 .tdc-property-checkbox .tdc-property input {
   margin: 0;
 }
 .tdc-property-image {
-  margin-bottom: 13px;
-  line-height: 42px;
+  margin-bottom: 10px;
+  line-height: 50px;
 }
 .tdc-property-image .tdc-property-title {
   margin-bottom: 0;
 }
 .tdc-property-image .tdc-image-wrap {
-  width: 42px;
-  height: 42px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
   background-size: cover;
   background-position: center center;
@@ -1070,6 +1131,7 @@ select {
   right: 50px;
   font-size: 12px;
   text-decoration: none;
+  margin-right: 10px;
 }
 .tdc-property-image .tdc-hidden-button {
   display: none;
@@ -1082,6 +1144,18 @@ select {
   width: 100%;
   height: 300px;
   display: none;
+}
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: '';
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
 }
 #tdc-live-panel .td-box {
   margin: 0;

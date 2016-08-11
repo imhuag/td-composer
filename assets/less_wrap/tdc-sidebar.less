@@ -503,10 +503,6 @@ placeholder when sidebar is empty
   z-index: 52;
   .box-shadow(0 0 6px 2px rgba(0,0,0, 0.1));
 
-  //&:hover {
-  //  background-color: #000;
-  //}
-
   .tdc-icon-sidebar-open {
     background: url('../images/sidebar/spritesheet.png');
     background-repeat: no-repeat;
@@ -708,7 +704,6 @@ placeholder when sidebar is empty
 */
 .tdc-property-colorpicker {
   position: relative;
-  height: 27px;
   margin-bottom: 10px;
 
   .tdc-property-title {
@@ -716,7 +711,12 @@ placeholder when sidebar is empty
     line-height: 27px;
   }
 
+  .tdc-property {
+    .clearfix();
+  }
+
   .tdc-property .wp-picker-container {
+    float: left;
 
     .wp-color-result {
       .box-shadow(none);
@@ -767,7 +767,7 @@ placeholder when sidebar is empty
       }
 
       .iris-strip {
-        top: 11px;
+        top: 10px;
       }
 
       .iris-palette-container {
@@ -779,14 +779,14 @@ placeholder when sidebar is empty
     .cs-alpha-wrap {
       position: static;
       width: 231px;
-      padding: 30px 20px 20px 20px;
-      margin-bottom: 18px;
+      padding: 30px 20px 20px;
+      margin-bottom: 0;
 
       .cs-alpha-text {
         top: 0;
         right: 24px;
-        color: #888
-      };
+        color: #888;
+      }
     }
   }
 }
@@ -1001,22 +1001,31 @@ select {
 
 .tdc-textfield-big {
   margin-bottom: 10px;
+  line-height: 27px;
+  height: 27px;
+  width: 100%;
+  display: table;
 
   .tdc-property-title {
     margin-bottom: 0;
+    padding-right: 130px;
+    line-height: 14px;
+    display: table-cell;
+    vertical-align: middle;
   }
 
   .tdc-property {
     position: absolute;
     top: 0;
     right: 0;
-    width: 120px;
+    bottom: 0;
+    margin: auto 0;
+    display: table;
 
     input[type=text] {
       width: 120px;
       font-size: 12px;
       padding: 4px 8px;
-      text-align: right;
     }
   }
 }
@@ -1030,7 +1039,7 @@ select {
 
   .tdc-property-title {
     margin-bottom: 0;
-    padding-right: 50px;
+    padding-right: 60px;
     line-height: 14px;
     display: table-cell;
     vertical-align: middle;
@@ -1043,10 +1052,9 @@ select {
     bottom: 0;
     margin: auto 0;
     display: table;
-    width: 42px;
 
     input[type=text] {
-      width: 42px;
+      width: 50px;
       font-size: 12px;
       padding: 4px 8px;
       text-align: right;
@@ -1061,12 +1069,12 @@ select {
   select {
     width: 100%;
     height: 27px;
-    padding: 0 4px;
+    padding: 0 2px;
   }
 }
 
 .tdc-dropdown-big {
-  margin-bottom: 19px;
+  margin-bottom: 10px;
   line-height: 27px;
   height: 27px;
   width: 100%;
@@ -1092,6 +1100,33 @@ select {
   }
 }
 
+.tdc-dropdown-small {
+  margin-bottom: 19px;
+  line-height: 27px;
+  height: 27px;
+  width: 100%;
+  display: table;
+
+  .tdc-property-title {
+    margin-bottom: 0;
+    padding-right: 60px;
+    line-height: 14px;
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  select {
+    width: 50px;
+    height: 27px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto 0;
+    display: table;
+  }
+}
+
 #td-tab-css, #td-tab-design-options {
   input[type=text] {
     z-index: 2;
@@ -1104,7 +1139,7 @@ select {
 }
 
 
-//particular cases
+// particular cases
 .tdc-property-installed_post_types,
 .tdc-property-custom_url,
 .tdc-property-w_location,
@@ -1115,7 +1150,7 @@ select {
 .tdc-property-playlist_yt,
 .tdc-property-playlist_v,
 .tdc-property-td_grid_style {
-  margin-bottom: 15px !important;
+  margin-bottom: 10px !important;
 }
 
 .tdc-border-radius,
@@ -1130,12 +1165,28 @@ select {
 
 // checkbox
 .tdc-property-checkbox {
-  margin-bottom: 13px;
+  margin-bottom: 10px;
+  line-height: 16px;
+  height: 16px;
+  width: 100%;
+  display: table;
+
+  .tdc-property-title {
+    margin-bottom: 0;
+    padding-right: 26px;
+    line-height: 14px;
+    display: table-cell;
+    vertical-align: middle;
+  }
 
   .tdc-property {
     position: absolute;
-    top: -2px;
+    top: 0;
     right: 0;
+    bottom: 0;
+    margin: auto 0;
+    display: table;
+    line-height: 1;
 
     input {
       margin: 0;
@@ -1143,18 +1194,18 @@ select {
   }
 }
 
-//bg image
+// bg image
 .tdc-property-image {
-  margin-bottom: 13px;
-  line-height: 42px;
+  margin-bottom: 10px;
+  line-height: 50px;
 
   .tdc-property-title {
     margin-bottom: 0;
   }
 
   .tdc-image-wrap {
-    width: 42px;
-    height: 42px;
+    width: 50px;
+    height: 50px;
     cursor: pointer;
     background-size: cover;
     background-position: center center;
@@ -1172,6 +1223,7 @@ select {
     right: 50px;
     font-size: 12px;
     text-decoration: none;
+    margin-right: 10px;
   }
 
   .tdc-hidden-button {
@@ -1185,7 +1237,7 @@ select {
   margin: 25px auto;
 }
 
-//???
+// textarea
 .tdc-textarea {
   width: 100%;
   height: 300px;
