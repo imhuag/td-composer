@@ -261,7 +261,6 @@
     right: 0;
     height: 24px;
     width: 40px;
-    background: url('../images/sidebar/big_grid1.png');
   }
 }
 
@@ -709,6 +708,13 @@ placeholder when sidebar is empty
 */
 .tdc-property-colorpicker {
   position: relative;
+  height: 27px;
+  margin-bottom: 10px;
+
+  .tdc-property-title {
+    margin-bottom: 0;
+    line-height: 27px;
+  }
 
   .tdc-property .wp-picker-container {
 
@@ -720,8 +726,8 @@ placeholder when sidebar is empty
       margin: 0;
       border: 1px solid #ddd;
       position: absolute;
-      top: -5px;
-      right: 1px;
+      top: 0;
+      right: 0;
 
       &:after {
         display: none;
@@ -791,22 +797,17 @@ placeholder when sidebar is empty
 */
 .tdc-property-wrap {
   position: relative;
-
-  .tdc-property-title {
-    font-size: 12px;
-    color: @tdc_font_color;
-    margin-bottom: 4px;
-
-
-  }
 }
 
 .tdc-property-title {
+  font-size: 12px;
+  color: @tdc_font_color;
+  margin-bottom: 4px;
+
   span[title] {
     cursor: pointer;
   }
 }
-
 
 /*
   css box editor
@@ -825,7 +826,7 @@ placeholder when sidebar is empty
     position: relative;
     width: 270px;
     height: 220px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 
     .tdc-margin-label {
       position: absolute;
@@ -977,12 +978,7 @@ placeholder when sidebar is empty
 
 
 //input and select general settings
-input[type=text] {
-  .box-shadow(none);
-  font-size: 12px;
-  margin: 0;
-}
-
+input[type=text],
 select {
   .box-shadow(none);
   font-size: 12px;
@@ -994,8 +990,8 @@ select {
 */
 
 //textfield
-.tdc-textfield-big {
-  margin-bottom: 13px;
+.tdc-property-textfield {
+  margin-bottom: 14px;
 
   input[type=text] {
     width: 100%;
@@ -1004,12 +1000,16 @@ select {
 }
 
 .tdc-textfield-medium {
-  margin-bottom: 19px;
+  margin-bottom: 10px;
+
+  .tdc-property-title {
+    margin-bottom: 0;
+  }
 
   .tdc-property {
     position: absolute;
-    top: -6px;
-    right: 2px;
+    top: 0;
+    right: 0;
     width: 120px;
 
     input[type=text] {
@@ -1022,14 +1022,27 @@ select {
 }
 
 .tdc-textfield-small {
-  margin-bottom: 19px;
+  margin-bottom: 10px;
   line-height: 27px;
   height: 27px;
+  width: 100%;
+  display: table;
+
+  .tdc-property-title {
+    margin-bottom: 0;
+    padding-right: 50px;
+    line-height: 14px;
+    display: table-cell;
+    vertical-align: middle;
+  }
 
   .tdc-property {
     position: absolute;
     top: 0;
     right: 0;
+    bottom: 0;
+    margin: auto 0;
+    display: table;
     width: 42px;
 
     input[type=text] {
@@ -1043,7 +1056,7 @@ select {
 
 //dropdown
 .tdc-property-dropdown {
-  margin-bottom: 13px;
+  margin-bottom: 14px;
 
   select {
     width: 100%;
@@ -1056,14 +1069,26 @@ select {
   margin-bottom: 19px;
   line-height: 27px;
   height: 27px;
+  width: 100%;
+  display: table;
+
+  .tdc-property-title {
+    margin-bottom: 0;
+    padding-right: 125px;
+    line-height: 14px;
+    display: table-cell;
+    vertical-align: middle;
+  }
 
   select {
-    max-width: 60%;
     width: 120px;
     height: 27px;
     position: absolute;
     top: 0;
     right: 0;
+    bottom: 0;
+    margin: auto 0;
+    display: table;
   }
 }
 
@@ -1071,54 +1096,11 @@ select {
   input[type=text] {
     z-index: 2;
   }
-}
 
-//bg upload
-.tdc-bg-upload {
-
-  .tdc-property-title {
-    margin-bottom: 6px;
+  .tdc-border-style,
+  .tdc-bg-style {
+    margin-bottom: 10px;
   }
-
-  .tdc-css-bg-image-wrap {
-    width: 66px;
-    height: 66px;
-    vertical-align: middle;
-    overflow: hidden;
-    display: inline-block;
-
-    img {
-      width: auto;
-      height: 100%;
-      max-width: none;
-      cursor: pointer;
-    }
-  }
-
-  //.tdc-css-bg-remove {
-  //  text-decoration: none;
-  //  font-size: 11px;
-  //  color: #444;
-  //  border: 1px solid #DDDDDD;
-  //  padding: 4px 10px 5px 10px;
-  //  margin-left: 15px;
-  //  transition: all 0.2s ease;
-  //
-  //  &:hover {
-  //    border: 1px solid #888;
-  //    color: #000;
-  //  }
-  //}
-
-  .tdc-hidden-button {
-    display: none;
-  }
-}
-
-.tdc-textarea {
-  width: 100%;
-  height: 300px;
-  display: none;
 }
 
 
@@ -1131,22 +1113,9 @@ select {
 .tdc-property-offset,
 .tdc-property-include,
 .tdc-property-playlist_yt,
-.tdc-property-playlist_v {
+.tdc-property-playlist_v,
+.tdc-property-td_grid_style {
   margin-bottom: 15px !important;
-}
-
-.tdc-property-colorpicker {
-  margin-bottom: -3px;
-}
-
-.tdc-property-ajax_pagination,
-.tdc-property-tdc_row_columns_modifier {
-  margin-top: 9px;
-}
-
-.tdc-property-spot_id,
-.tdc-property-navigation {
-  margin-top: 6px;
 }
 
 .tdc-border-radius,
@@ -1174,14 +1143,18 @@ select {
   }
 }
 
-// image
+//bg image
 .tdc-property-image {
   margin-bottom: 13px;
-  line-height: 40px;
+  line-height: 42px;
+
+  .tdc-property-title {
+    margin-bottom: 0;
+  }
 
   .tdc-image-wrap {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     cursor: pointer;
     background-size: cover;
     background-position: center center;
@@ -1200,10 +1173,21 @@ select {
     font-size: 12px;
     text-decoration: none;
   }
+
+  .tdc-hidden-button {
+    display: none;
+  }
 }
 
 // separator
 .tdc-sidebar-horizontal-separator {
   border-bottom: 1px dashed #eeeeee;
   margin: 25px auto;
+}
+
+//???
+.tdc-textarea {
+  width: 100%;
+  height: 300px;
+  display: none;
 }
