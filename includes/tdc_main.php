@@ -340,8 +340,8 @@ if (!empty($td_action)) {
 			// Iframe content post
 			add_filter( 'show_admin_bar', '__return_false' );
 
-			add_filter( 'the_content', 'filter_function_name', 10000, 1 );
-			function filter_function_name( $content ) {
+			add_filter( 'the_content', 'tdc_on_the_content', 10000, 1 );
+			function tdc_on_the_content( $content ) {
 
 				if ( isset( $_POST['tdc_content'] ) ) {
 
@@ -351,6 +351,15 @@ if (!empty($td_action)) {
 				}
 
 				return $content;
+			}
+
+			add_filter( 'get_post_metadata', 'tdc_on_get_post_metadata', 10, 4 );
+			function tdc_on_get_post_metadata( $value, $object_id, $meta_key, $single ) {
+
+				if ( isset( $_POST['tdc_page_template'] ) && '_wp_page_template' === $meta_key ) {
+					return $_POST['tdc_page_template'];
+				}
+				return $value;
 			}
 
 			/**

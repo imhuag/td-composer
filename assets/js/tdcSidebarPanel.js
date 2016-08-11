@@ -640,7 +640,7 @@ var tdcSidebarPanel = {};
                     return tdcCssEditorTab.addCssEditor(mappedParameter, model);
 
                 case 'horizontal_separator':
-                    return tdcSidebarPanel.addSeparatorHorizontal();
+                    return tdcSidebarPanel.addSeparatorHorizontal(mappedParameter, model);
 
                 default:
                     return mappedParameter.param_name + ' - ' + mappedParameter.type + '<br>';
@@ -1108,10 +1108,10 @@ var tdcSidebarPanel = {};
         },
 
 
-        addSeparatorHorizontal: function() {
+        addSeparatorHorizontal: function(mappedParameter, model) {
             var buffy = '';
 
-            buffy += '<div class="tdc-sidebar-horizontal-separator"></div>';
+            buffy += '<div class="tdc-sidebar-horizontal-separator ' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '"></div>';
 
             return buffy;
         }

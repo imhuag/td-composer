@@ -186,6 +186,10 @@ class tdc_ajax {
 		$post_id      = $_POST['tdc_post_id'];
 		$post_content = $_POST['tdc_content'];
 
+		if ( isset( $_POST['tdc_page_template'] ) ) {
+			$page_template = $_POST['tdc_page_template'];
+		}
+
 		if ( ! isset( $action ) || 'tdc_ajax_save_post' !== $action || ! isset( $post_id ) || ! isset( $post_content ) ) {
 
 			$parameters['errors'][] = 'Invalid data';
@@ -207,6 +211,11 @@ class tdc_ajax {
 			} else {
 				update_post_meta( $post_id, 'tdc_dirty_content', 0 );
 				update_post_meta( $post_id, 'tdc_content', $post_content );
+
+				if ( isset( $page_template ) ) {
+					// Update the page template
+					update_post_meta( $post_id, '_wp_page_template', $page_template );
+				}
 
 				// Reset the vc status
 				update_post_meta( $post_id, '_wpb_vc_js_status', false );
