@@ -132,6 +132,27 @@
 .tdc-top-buttons .tdc-active-element:hover {
   background-color: #fff;
 }
+.tdc-view-page {
+  width: 44px;
+  height: 43px;
+  position: absolute;
+  top: 0;
+  right: 97px;
+  cursor: pointer;
+}
+.tdc-view-page:hover {
+  background-color: #268ac2;
+}
+.tdc-view-page .tdc-icon-view {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: url('../images/sidebar/spritesheet.png');
+  background-repeat: no-repeat;
+  background-position: -65px -124px;
+  width: 22px;
+  height: 20px;
+}
 .tdc-save-page {
   width: 44px;
   height: 43px;
@@ -1028,22 +1049,41 @@ placeholder when sidebar is empty
 /*
   css box editor
 */
-.tdc-box-margin {
+.tdc-property-css_editor {
+  /*
+    top boxes
+  */
+  /*
+    right boxes
+  */
+  /*
+    bottom boxes
+  */
+  /*
+    left boxes
+  */
+}
+.tdc-property-css_editor .tdc-css-box-input {
+  width: 32px;
+  height: 21px;
+  font-size: 11px;
+  text-align: center;
+}
+.tdc-property-css_editor .tdc-box-margin {
   border: 1px solid #ddd;
   position: relative;
   width: 270px;
   height: 220px;
-  margin-top: 3px;
   margin-bottom: 16px;
 }
-.tdc-box-margin .tdc-margin-label {
+.tdc-property-css_editor .tdc-box-margin .tdc-margin-label {
   position: absolute;
   top: 0;
   left: 4px;
   font-size: 10px;
   color: #888888;
 }
-.tdc-box-border {
+.tdc-property-css_editor .tdc-box-border {
   border: 1px dashed #ddd;
   background-color: #f7f7f7;
   position: relative;
@@ -1052,14 +1092,14 @@ placeholder when sidebar is empty
   left: 58px;
   top: 41px;
 }
-.tdc-box-border .tdc-border-label {
+.tdc-property-css_editor .tdc-box-border .tdc-border-label {
   position: absolute;
   bottom: -18px;
   right: -2px;
   font-size: 10px;
   color: #888888;
 }
-.tdc-box-padding {
+.tdc-property-css_editor .tdc-box-padding {
   border: 1px dashed #ddd;
   background-color: #fff;
   position: relative;
@@ -1068,137 +1108,104 @@ placeholder when sidebar is empty
   left: 10px;
   top: 10px;
 }
-.tdc-box-padding .tdc-padding-label {
+.tdc-property-css_editor .tdc-box-padding .tdc-padding-label {
   position: absolute;
   top: 0;
   left: 4px;
   font-size: 10px;
   color: #888888;
 }
-.tdc-css-box-input {
-  width: 32px;
-  height: 21px;
-  font-size: 11px;
-  text-align: center;
-}
-/*
-  top boxes
-*/
-.tdc-css-box-input-top-margin {
+.tdc-property-css_editor .tdc-css-box-input-top-margin {
   position: absolute;
   top: 7px;
   left: 0;
   right: 0;
-  margin: auto;
+  margin: 0 auto;
 }
-.tdc-css-box-input-top-border {
+.tdc-property-css_editor .tdc-css-box-input-top-border {
   position: absolute;
   top: -6px;
   left: 0;
   right: 0;
   margin: auto;
 }
-.tdc-css-box-input-top-padding {
+.tdc-property-css_editor .tdc-css-box-input-top-padding {
   position: absolute;
   top: 12px;
   left: 0;
   right: 0;
   margin: auto;
 }
-/*
-  right boxes
-*/
-.tdc-css-box-input-right-margin {
+.tdc-property-css_editor .tdc-css-box-input-right-margin {
   position: absolute;
   margin-top: -11px;
   top: 50%;
   right: 7px;
 }
-.tdc-css-box-input-right-border {
+.tdc-property-css_editor .tdc-css-box-input-right-border {
   position: absolute;
   margin-top: -11px;
   top: 50%;
   right: -12px;
 }
-.tdc-css-box-input-right-padding {
+.tdc-property-css_editor .tdc-css-box-input-right-padding {
   position: absolute;
   margin-top: -11px;
   top: 50%;
   right: 17px;
 }
-/*
-  bottom boxes
-*/
-.tdc-css-box-input-bottom-margin {
+.tdc-property-css_editor .tdc-css-box-input-bottom-margin {
   position: absolute;
   bottom: 7px;
   left: 0;
   right: 0;
   margin: 0 auto;
 }
-.tdc-css-box-input-bottom-border {
+.tdc-property-css_editor .tdc-css-box-input-bottom-border {
   position: absolute;
   bottom: -6px;
   left: 0;
   right: 0;
   margin: 0 auto;
 }
-.tdc-css-box-input-bottom-padding {
+.tdc-property-css_editor .tdc-css-box-input-bottom-padding {
   position: absolute;
   bottom: 12px;
   left: 0;
   right: 0;
   margin: 0 auto;
 }
-/*
-  left boxes
-*/
-.tdc-css-box-input-left-margin {
+.tdc-property-css_editor .tdc-css-box-input-left-margin {
   position: absolute;
   margin-top: -11px;
   top: 50%;
   left: 7px;
 }
-.tdc-css-box-input-left-border {
+.tdc-property-css_editor .tdc-css-box-input-left-border {
   position: absolute;
   margin-top: -11px;
   top: 50%;
   left: -12px;
 }
-.tdc-css-box-input-left-padding {
+.tdc-property-css_editor .tdc-css-box-input-left-padding {
   position: absolute;
   margin-top: -11px;
   top: 50%;
   left: 17px;
-}
-.tdc-css-bg-image-wrap {
-  width: 66px;
-  height: 66px;
-}
-.tdc-css-bg-image-wrap img {
-  max-width: 100%;
-  max-height: 100%;
-  cursor: pointer;
-}
-.tdc-hidden-button {
-  display: none;
-}
-.tdc-textarea {
-  width: 100%;
-  height: 300px;
-  display: none;
 }
 input[type=text] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
   font-size: 12px;
+  margin: 0;
 }
 select {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
   font-size: 12px;
+  margin: 0;
 }
 /*
   vertical spacing & textfield & dropdown
@@ -1207,17 +1214,18 @@ select {
   margin-bottom: 13px;
 }
 .tdc-textfield-big input[type=text] {
-  max-width: 99.5%;
-  width: 99.5%;
+  width: 100%;
   padding: 4px 8px;
 }
 .tdc-textfield-small {
   margin-bottom: 19px;
+  line-height: 27px;
+  height: 27px;
 }
 .tdc-textfield-small .tdc-property {
   position: absolute;
-  top: -6px;
-  right: 2px;
+  top: 0;
+  right: 0;
   width: 42px;
 }
 .tdc-textfield-small .tdc-property input[type=text] {
@@ -1226,25 +1234,26 @@ select {
   padding: 4px 8px;
   text-align: right;
 }
-.tdc-dropdown-big {
+.tdc-property-dropdown {
   margin-bottom: 13px;
 }
-.tdc-dropdown-big select {
-  max-width: 99.5%;
-  width: 99.5%;
+.tdc-property-dropdown select {
+  width: 100%;
   height: 27px;
   padding: 0 4px;
 }
 .tdc-dropdown-small {
   margin-bottom: 19px;
+  line-height: 27px;
+  height: 27px;
 }
 .tdc-dropdown-small select {
   max-width: 60%;
   width: 120px;
   height: 27px;
   position: absolute;
-  top: -6px;
-  right: -1px;
+  top: 0;
+  right: 0;
 }
 #td-tab-css input[type=text],
 #td-tab-design-options input[type=text] {
@@ -1254,6 +1263,8 @@ select {
   margin-bottom: 6px;
 }
 .tdc-bg-upload .tdc-css-bg-image-wrap {
+  width: 66px;
+  height: 66px;
   vertical-align: middle;
   overflow: hidden;
   display: inline-block;
@@ -1262,14 +1273,15 @@ select {
   width: auto;
   height: 100%;
   max-width: none;
+  cursor: pointer;
 }
-.tdc-bg-upload .tdc-css-bg-remove {
-  text-decoration: none;
-  font-size: 11px;
-  color: #000;
-  border: 1px solid #DDDDDD;
-  padding: 4px 10px 5px 10px;
-  margin-left: 15px;
+.tdc-bg-upload .tdc-hidden-button {
+  display: none;
+}
+.tdc-textarea {
+  width: 100%;
+  height: 300px;
+  display: none;
 }
 .tdc-property-installed_post_types,
 .tdc-property-custom_url,

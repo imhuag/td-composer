@@ -149,7 +149,7 @@
     right: 12px;
     background: url('../images/sidebar/spritesheet.png');
     background-repeat: no-repeat;
-    .stitches-sprite(-125px, -5px, 20px, 20px);
+    .stitches-sprite(-65px, -124px, 22px, 20px);
   }
 }
 
@@ -987,200 +987,182 @@ placeholder when sidebar is empty
 /*
   css box editor
 */
-.tdc-box-margin {
-  border: 1px solid #ddd;
-  position: relative;
-  width: 270px;
-  height: 220px;
-  margin-top: 3px;
-  margin-bottom: 16px;
+.tdc-property-css_editor {
 
-  .tdc-margin-label {
+  .tdc-css-box-input {
+    width: 32px;
+    height: 21px;
+    font-size: 11px;
+    text-align: center;
+  }
+
+  .tdc-box-margin {
+    border: 1px solid #ddd;
+    position: relative;
+    width: 270px;
+    height: 220px;
+    margin-bottom: 16px;
+
+    .tdc-margin-label {
+      position: absolute;
+      top: 0;
+      left: 4px;
+      font-size: 10px;
+      color: #888
+    }
+  }
+
+  .tdc-box-border {
+    border: 1px dashed #ddd;
+    background-color: #f7f7f7;
+    position: relative;
+    width: 152px;
+    height: 136px;
+    left: 58px;
+    top: 41px;
+
+    .tdc-border-label {
+      position: absolute;
+      bottom: -18px;
+      right: -2px;
+      font-size: 10px;
+      color: #888
+    }
+  }
+
+  .tdc-box-padding {
+    border: 1px dashed #ddd;
+    background-color: #fff;
+    position: relative;
+    width: 130px;
+    height: 114px;
+    left: 10px;
+    top: 10px;
+
+    .tdc-padding-label {
+      position: absolute;
+      top: 0;
+      left: 4px;
+      font-size: 10px;
+      color: #888
+    }
+  }
+
+  /*
+    top boxes
+  */
+  .tdc-css-box-input-top-margin {
     position: absolute;
-    top: 0;
-    left: 4px;
-    font-size: 10px;
-    color: #888
+    top: 7px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
   }
-}
 
-
-.tdc-box-border {
-  border: 1px dashed #ddd;
-  background-color: #f7f7f7;
-  position: relative;
-  width: 152px;
-  height: 136px;
-  left: 58px;
-  top: 41px;
-
-  .tdc-border-label {
+  .tdc-css-box-input-top-border {
     position: absolute;
-    bottom: -18px;
-    right: -2px;
-    font-size: 10px;
-    color: #888
+    top: -6px;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
-}
 
-
-.tdc-box-padding {
-  border: 1px dashed #ddd;
-  background-color: #fff;
-  position: relative;
-  width: 130px;
-  height: 114px;
-  left: 10px;
-  top: 10px;
-
-  .tdc-padding-label {
+  .tdc-css-box-input-top-padding {
     position: absolute;
-    top: 0;
-    left: 4px;
-    font-size: 10px;
-    color: #888
+    top: 12px;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  /*
+    right boxes
+  */
+  .tdc-css-box-input-right-margin {
+    position: absolute;
+    margin-top: -11px;
+    top: 50%;
+    right: 7px;
+  }
+
+  .tdc-css-box-input-right-border {
+    position: absolute;
+    margin-top: -11px;
+    top: 50%;
+    right: -12px;
+  }
+
+  .tdc-css-box-input-right-padding {
+    position: absolute;
+    margin-top: -11px;
+    top: 50%;
+    right: 17px;
+  }
+
+  /*
+    bottom boxes
+  */
+  .tdc-css-box-input-bottom-margin {
+    position: absolute;
+    bottom: 7px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+
+  .tdc-css-box-input-bottom-border {
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+
+  .tdc-css-box-input-bottom-padding {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+
+  /*
+    left boxes
+  */
+  .tdc-css-box-input-left-margin {
+    position: absolute;
+    margin-top: -11px;
+    top: 50%;
+    left: 7px;
+  }
+
+  .tdc-css-box-input-left-border {
+    position: absolute;
+    margin-top: -11px;
+    top: 50%;
+    left: -12px;
+  }
+
+  .tdc-css-box-input-left-padding {
+    position: absolute;
+    margin-top: -11px;
+    top: 50%;
+    left: 17px;
   }
 }
 
 
-.tdc-css-box-input {
-  width: 32px;
-  height: 21px;
-  font-size: 11px;
-  text-align: center;
-}
-
-/*
-  top boxes
-*/
-.tdc-css-box-input-top-margin {
-  position: absolute;
-  top: 7px;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-.tdc-css-box-input-top-border {
-  position: absolute;
-  top: -6px;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-.tdc-css-box-input-top-padding {
-  position: absolute;
-  top: 12px;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-/*
-  right boxes
-*/
-.tdc-css-box-input-right-margin {
-  position: absolute;
-  margin-top: -11px;
-  top: 50%;
-  right: 7px;
-}
-
-.tdc-css-box-input-right-border {
-  position: absolute;
-  margin-top: -11px;
-  top: 50%;
-  right: -12px;
-}
-
-.tdc-css-box-input-right-padding {
-  position: absolute;
-  margin-top: -11px;
-  top: 50%;
-  right: 17px;
-}
-
-/*
-  bottom boxes
-*/
-.tdc-css-box-input-bottom-margin {
-  position: absolute;
-  bottom: 7px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-}
-
-.tdc-css-box-input-bottom-border {
-  position: absolute;
-  bottom: -6px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-}
-
-.tdc-css-box-input-bottom-padding {
-  position: absolute;
-  bottom: 12px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-}
-
-/*
-  left boxes
-*/
-.tdc-css-box-input-left-margin {
-  position: absolute;
-  margin-top: -11px;
-  top: 50%;
-  left: 7px;
-}
-
-.tdc-css-box-input-left-border {
-  position: absolute;
-  margin-top: -11px;
-  top: 50%;
-  left: -12px;
-}
-
-.tdc-css-box-input-left-padding {
-  position: absolute;
-  margin-top: -11px;
-  top: 50%;
-  left: 17px;
-}
-
-.tdc-css-bg-image-wrap {
-  width: 66px;
-  height: 66px;
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    cursor: pointer;
-  }
-}
-
-.tdc-hidden-button {
-  display: none;
-}
-
-.tdc-textarea {
-  width: 100%;
-  height: 300px;
-  display: none;
-}
-
-
+//input and select general settings
 input[type=text] {
   .box-shadow(none);
   font-size: 12px;
+  margin: 0;
 }
 
 select {
   .box-shadow(none);
   font-size: 12px;
+  margin: 0;
 }
 
 /*
@@ -1192,19 +1174,20 @@ select {
   margin-bottom: 13px;
 
   input[type=text] {
-    max-width: 99.5%;
-    width: 99.5%;
+    width: 100%;
     padding: 4px 8px;
   }
 }
 
 .tdc-textfield-small {
   margin-bottom: 19px;
+  line-height: 27px;
+  height: 27px;
 
   .tdc-property {
     position: absolute;
-    top: -6px;
-    right: 2px;
+    top: 0;
+    right: 0;
     width: 42px;
 
     input[type=text] {
@@ -1217,12 +1200,11 @@ select {
 }
 
 //dropdown
-.tdc-dropdown-big {
+.tdc-property-dropdown {
   margin-bottom: 13px;
 
   select {
-    max-width: 99.5%;
-    width: 99.5%;
+    width: 100%;
     height: 27px;
     padding: 0 4px;
   }
@@ -1230,14 +1212,16 @@ select {
 
 .tdc-dropdown-small {
   margin-bottom: 19px;
+  line-height: 27px;
+  height: 27px;
 
   select {
     max-width: 60%;
     width: 120px;
     height: 27px;
     position: absolute;
-    top: -6px;
-    right: -1px;
+    top: 0;
+    right: 0;
   }
 }
 
@@ -1255,6 +1239,8 @@ select {
   }
 
   .tdc-css-bg-image-wrap {
+    width: 66px;
+    height: 66px;
     vertical-align: middle;
     overflow: hidden;
     display: inline-block;
@@ -1263,18 +1249,36 @@ select {
       width: auto;
       height: 100%;
       max-width: none;
+      cursor: pointer;
     }
   }
 
-  .tdc-css-bg-remove {
-    text-decoration: none;
-    font-size: 11px;
-    color: #000;
-    border: 1px solid #DDDDDD;
-    padding: 4px 10px 5px 10px;
-    margin-left: 15px;
+  //.tdc-css-bg-remove {
+  //  text-decoration: none;
+  //  font-size: 11px;
+  //  color: #444;
+  //  border: 1px solid #DDDDDD;
+  //  padding: 4px 10px 5px 10px;
+  //  margin-left: 15px;
+  //  transition: all 0.2s ease;
+  //
+  //  &:hover {
+  //    border: 1px solid #888;
+  //    color: #000;
+  //  }
+  //}
+
+  .tdc-hidden-button {
+    display: none;
   }
 }
+
+.tdc-textarea {
+  width: 100%;
+  height: 300px;
+  display: none;
+}
+
 
 //particular cases
 .tdc-property-installed_post_types,
