@@ -59,7 +59,7 @@ tdc_mapper::map(array(
 				'1/3 + 2/3' => '13_23',
 				'1/3 + 1/3 + 1/3' => '13_13_13'
 			),
-			'class' => 'tdc-row-col-dropdown tdc-dropdown-small',
+			'class' => 'tdc-row-col-dropdown tdc-dropdown-big',
 		),
 
 
@@ -137,7 +137,7 @@ tdc_mapper::map(
 					'1/3 + 2/3' => '13_23',
 					'1/3 + 1/3 + 1/3' => '13_13_13'
 				),
-				'class' => 'tdc-innerRow-col-dropdown tdc-dropdown-small'
+				'class' => 'tdc-innerRow-col-dropdown tdc-dropdown-big'
 			),
 
 			array(
