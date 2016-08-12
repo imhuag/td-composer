@@ -412,7 +412,8 @@ var tdcSidebar;
                     tdcSidebar.$_editRow.show();
                     tdcSidebar.$_editColumn.show();
 
-                    currentElementHeadContent = currentModel.get( 'tag' );
+                    //currentElementHeadContent = currentModel.get( 'tag' );
+                    currentElementHeadContent = currentModel.get( 'name' );
                     $currentElementHeadRef = tdcSidebar.getCurrentElement();
 
                     var parentModel = currentModel.get( 'parentModel' ),

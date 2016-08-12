@@ -161,6 +161,15 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 
 					foreach ($mapped_shortcodes as &$mapped_shortcode ) {
 
+						?>
+						<script>
+							if ( 'undefined' === typeof window.tdcPostSettings.shortcodes ) {
+								window.tdcPostSettings.shortcodes = {};
+							}
+							window.tdcPostSettings.shortcodes[ '<?php echo $mapped_shortcode['base'] ?>' ] = '<?php echo $mapped_shortcode['name'] ?>';
+						</script>
+						<?php
+
 						if ( 'vc_row' === $mapped_shortcode['base'] ||
 						     'vc_row_inner' === $mapped_shortcode['base'] ||
 						     'vc_empty_space' === $mapped_shortcode['base'] ) {
