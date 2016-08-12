@@ -1206,6 +1206,18 @@ input[type=checkbox] {
   -moz-box-shadow: none !important;
   box-shadow: none !important;
 }
+.tdc-property-facebook,
+.tdc-property-facebook_access_token {
+  margin-bottom: 35px;
+}
+.tdc-property-facebook .tdc-property-title a,
+.tdc-property-facebook_access_token .tdc-property-title a {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 9px;
+  text-align: right;
+}
 .clearfix {
   *zoom: 1;
 }
