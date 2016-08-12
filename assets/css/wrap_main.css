@@ -944,6 +944,33 @@ input[type=checkbox] {
   width: 100%;
   padding: 4px 8px;
 }
+.tdc-textfield-extrabig {
+  margin-bottom: 10px;
+  line-height: 27px;
+  height: 27px;
+  width: 100%;
+  display: table;
+}
+.tdc-textfield-extrabig .tdc-property-title {
+  margin-bottom: 0;
+  padding-right: 185px;
+  line-height: 14px;
+  display: table-cell;
+  vertical-align: middle;
+}
+.tdc-textfield-extrabig .tdc-property {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto 0;
+  display: table;
+}
+.tdc-textfield-extrabig .tdc-property input[type=text] {
+  width: 180px;
+  font-size: 12px;
+  padding: 4px 6px;
+}
 .tdc-textfield-big {
   margin-bottom: 10px;
   line-height: 27px;

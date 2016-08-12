@@ -248,7 +248,7 @@ var tdcCssEditorTab = {};
                 {value: 'inherit', display: 'Inherit'}
             ];
             buffy += '<div class="tdc-property-wrap tdc-border-style tdc-dropdown-big">';
-            buffy += '<div class="tdc-property-title">Border style:</div>';
+            buffy += '<div class="tdc-property-title">Border style</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<select class="tdc-css-border-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
             buffy += tdcCssEditorTab._generateDropdownOptions(borderStyles, currentBorderStyle);
@@ -260,7 +260,7 @@ var tdcCssEditorTab = {};
             // border color
             var borderColorPickerId = _.uniqueId();
             buffy += '<div class="tdc-property-wrap tdc-property-colorpicker tdc-border-color">';
-            buffy += '<div class="tdc-property-title">Border color:</div>';
+            buffy += '<div class="tdc-property-title">Border color</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<input class="tdc-css-border-color" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' id="' + borderColorPickerId + '" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('border-color') + '"/>';
             buffy += '</div>';
@@ -272,7 +272,7 @@ var tdcCssEditorTab = {};
 
             // border radius
             buffy += '<div class="tdc-property-wrap tdc-border-radius tdc-textfield-small">';
-            buffy += '<div class="tdc-property-title">Border radius:</div>';
+            buffy += '<div class="tdc-property-title">Border radius</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<input class="tdc-css-border-radius" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="" type="text" value="' + tdcCssParser.getPropertyValueClean('border-radius') + '"/>';
             buffy += '</div>';
@@ -282,7 +282,7 @@ var tdcCssEditorTab = {};
             // bg color
             var bgColorPickerId = _.uniqueId();
             buffy += '<div class="tdc-property-wrap tdc-property-colorpicker tdc-bg-color">';
-            buffy += '<div class="tdc-property-title">Background color:</div>';
+            buffy += '<div class="tdc-property-title">Background color</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<input class="tdc-css-background-color" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' id="' + bgColorPickerId + '" name="" type="text" value="' + tdcCssParser.getPropertyValueClean('background-color') + '"/>';
             buffy += '</div>';
@@ -302,7 +302,7 @@ var tdcCssEditorTab = {};
                 {value: 'repeat', display: 'Repeat'}
             ];
             buffy += '<div class="tdc-property-wrap tdc-bg-style tdc-dropdown-big">';
-            buffy += '<div class="tdc-property-title">Background style:</div>';
+            buffy += '<div class="tdc-property-title">Background style</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<select class="tdc-css-bg-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
             buffy += tdcCssEditorTab._generateDropdownOptions(bgStyles, currentBgStyle);
@@ -313,7 +313,7 @@ var tdcCssEditorTab = {};
 
             // bg upload
             buffy += '<div class="tdc-property-wrap tdc-property-image tdc-bg-upload">';
-            buffy += '<div class="tdc-property-title">Background upload:</div>';
+            buffy += '<div class="tdc-property-title">Background upload</div>';
             buffy += '<div class="tdc-property">';
             buffy += '<div class="tdc-image-wrap tdc-no-image-selected" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' style="background-image: url( \'' + window.tdcAdminSettings.pluginUrl + '/assets/images/sidebar/no_img.png\' )">';
             buffy += '</div>';

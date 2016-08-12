@@ -51,7 +51,7 @@ tdc_mapper::map(array(
 		// internal modifier - does not update atts
 		array (
 			'param_name' => 'tdc_row_columns_modifier',
-			'heading' => 'Transform this row:',
+			'heading' => 'Layout',
 			'type' => 'dropdown',
 			'value' => array (
 				'1/1' => '11',
@@ -59,23 +59,23 @@ tdc_mapper::map(array(
 				'1/3 + 2/3' => '13_23',
 				'1/3 + 1/3 + 1/3' => '13_13_13'
 			),
-			'class' => 'tdc-row-col-dropdown tdc-dropdown-big',
+			'class' => 'tdc-row-col-dropdown tdc-dropdown-extrabig',
 		),
 
 
 		array(
 			'type' => 'textfield', // should have been vc_el_id but we use textfield
-			'heading' => 'Row ID:',
+			'heading' => 'Row ID',
 			'param_name' => 'el_id',
 			'description' => 'Make sure that this is unique on the page',
-			'class' => '',
+			'class' => 'tdc-textfield-extrabig',
 		),
 		array(
 			'type' => 'textfield',
-			'heading' => 'Extra class name:',
+			'heading' => 'Extra class',
 			'param_name' => 'el_class',
 			'description' => 'Add a class to this row',
-			'class' => '',
+			'class' => 'tdc-textfield-extrabig',
 		),
 
 		array(
@@ -99,14 +99,14 @@ tdc_mapper::map(
 		'params' => array(
 			array(
 				'type' => 'textfield',
-				'heading' => 'Extra class name:',
+				'heading' => 'Extra class',
 				'param_name' => 'el_class',
-				'description' => 'Add a class to this row',
-				'class' => ''
+				'description' => 'Add a class to this column',
+				'class' => 'tdc-textfield-extrabig'
 			),
 			array(
 				'type' => 'css_editor',
-				'heading' => __( 'CSS box:', 'td_composer' ),
+				'heading' => __( 'CSS box', 'td_composer' ),
 				'param_name' => 'css',
 				'group' => __( 'Design Options', 'td_composer' ),
 			)
@@ -128,7 +128,7 @@ tdc_mapper::map(
 			// internal modifier - does not update atts
 			array (
 				'param_name' => 'tdc_inner_row_columns_modifier',
-				'heading' => 'Transform this inner row:',
+				'heading' => 'Layout',
 				'type' => 'dropdown',
 				'value' => array (
 					'1/1' => '11',
@@ -137,28 +137,28 @@ tdc_mapper::map(
 					'1/3 + 2/3' => '13_23',
 					'1/3 + 1/3 + 1/3' => '13_13_13'
 				),
-				'class' => 'tdc-innerRow-col-dropdown tdc-dropdown-big'
+				'class' => 'tdc-innerRow-col-dropdown tdc-dropdown-extrabig'
 			),
 
 			array(
 				'type' => 'textfield', // should have been vc_el_id but we use textfield
-				'heading' => 'Row ID:',
+				'heading' => 'Row ID',
 				'param_name' => 'el_id',
 				'description' => 'Make sure that this is unique on the page',
-				'class' => '',
+				'class' => 'tdc-textfield-extrabig',
 			),
 			array(
 				'type' => 'textfield',
-				'heading' => 'Extra class name:',
+				'heading' => 'Extra class',
 				'param_name' => 'el_class',
 				'description' => 'Add a class to this row',
-				'class' => '',
+				'class' => 'tdc-textfield-extrabig',
 			),
 
 
 			array(
 				'type' => 'css_editor',
-				'heading' => __('CSS box:', 'td_composer'),
+				'heading' => __('CSS box', 'td_composer'),
 				'param_name' => 'css',
 				'group' => __('Design Options', 'td_composer')
 			),
@@ -179,14 +179,14 @@ tdc_mapper::map(
 		'params' => array(
 			array(
 				'type' => 'textfield',
-				'heading' => 'Extra class name:',
+				'heading' => 'Extra class',
 				'param_name' => 'el_class',
-				'description' => 'Add a class to this row',
-				'class' => '',
+				'description' => 'Add a class to this inner column',
+				'class' => 'tdc-textfield-extrabig',
 			),
 			array(
 				'type' => 'css_editor',
-				'heading' => __( 'CSS box:', 'td_composer' ),
+				'heading' => __( 'CSS box', 'td_composer' ),
 				'param_name' => 'css',
 				'group' => __( 'Design Options', 'td_composer' ),
 			),
@@ -208,15 +208,15 @@ tdc_mapper::map(
 				"type" => "textarea_html",
 				"holder" => "div",
 				'class' => '',
-				"heading" => 'Text:',
-				"value" => __('Html code here! Replace this with any non empty html code and that\'s it.', 'td_composer' ),
-				"description" => 'Enter your content.'
+				"heading" => 'Text',
+				"value" => __('Html code here! Replace this with any non empty html code and that\'s it', 'td_composer' ),
+				"description" => 'Enter your content'
 			),
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Extra class name:', 'td_composer' ),
+				'heading' => __( 'Extra class', 'td_composer' ),
 				'param_name' => 'el_class',
-				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
+				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS', 'td_composer' ),
 				'value' => '',
 				'class' => '',
 			),
@@ -225,7 +225,7 @@ tdc_mapper::map(
 				'param_name' => 'css',
 				'value' => '',
 				'type' => 'css_editor',
-				'heading' => 'Css:',
+				'heading' => 'Css',
 				'group' => 'Design options',
 			)
 		),
@@ -246,24 +246,24 @@ tdc_mapper::map(
 				"type" => "textarea_raw_html",
 				"holder" => "div",
 				'class' => '',
-				"heading" => 'Text:',
-				"value" => base64_encode(__('Html code here! Replace this with any non empty raw html code and that\'s it.', 'td_composer' ) ),
+				"heading" => 'Text',
+				"value" => base64_encode(__('Html code here! Replace this with any non empty raw html code and that\'s it', 'td_composer' ) ),
 				"description" => 'Enter your content.'
 			),
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Extra class name:', 'td_composer' ),
+				'heading' => __( 'Extra class', 'td_composer' ),
 				'param_name' => 'el_class',
-				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
+				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS', 'td_composer' ),
 				'value' => '',
-				'class' => '',
+				'class' => 'tdc-textfield-extrabig',
 			),
 
 			array (
 				'param_name' => 'css',
 				'value' => '',
 				'type' => 'css_editor',
-				'heading' => 'Css:',
+				'heading' => 'Css',
 				'group' => 'Design options',
 			)
 		),
@@ -281,26 +281,26 @@ tdc_mapper::map(
 		'params' => array(
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Height:', 'td_composer' ),
+				'heading' => __( 'Height', 'td_composer' ),
 				'param_name' => 'height',
-				'description' => __( 'Custom height of the empty space.', 'td_composer' ),
+				'description' => __( 'Custom height of the empty space', 'td_composer' ),
 				'value' => '32px',
-				'class' => '',
+				'class' => 'tdc-textfield-extrabig',
 			),
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Extra class name:', 'td_composer' ),
+				'heading' => __( 'Extra class', 'td_composer' ),
 				'param_name' => 'el_class',
-				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
+				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS', 'td_composer' ),
 				'value' => '',
-				'class' => '',
+				'class' => 'tdc-textfield-extrabig',
 			),
 
 			array (
 				'param_name' => 'css',
 				'value' => '',
 				'type' => 'css_editor',
-				'heading' => 'Css:',
+				'heading' => 'Css',
 				'group' => 'Design options',
 			)
 		),
@@ -319,29 +319,29 @@ tdc_mapper::map(
 		'params' => array(
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Widget title:', 'td_composer' ),
+				'heading' => __( 'Widget title', 'td_composer' ),
 				'param_name' => 'title',
-				'description' => __( 'Enter text used as widget title (Note: located above content element).', 'td_composer' ),
+				'description' => __( 'Enter text used as widget title (Note: located above content element)', 'td_composer' ),
 				'value' => '',
-				'class' => '',
+				'class' => 'tdc-textfield-extrabig',
 			),
 			array (
 				'param_name' => 'sidebar_id',
-				'heading' => 'Sidebar:',
+				'heading' => 'Sidebar',
 				'type' => 'dropdown',
 
 				// The parameter is set at 'admin_head' action, there the global $wp_registered_sidebars being set (otherwise it could be set at 'init')
 				// Important! Here is too early to use the global $wp_registered_sidebars, because it isn't set
 				'value' => array(),
-				'class' => 'tdc-widget-sidebar-dropdown',
+				'class' => 'tdc-widget-sidebar-dropdown tdc-dropdown-extrabig',
 			),
 			array(
 				'type' => 'textfield',
-				'heading' => __( 'Extra class name:', 'td_composer' ),
+				'heading' => __( 'Extra class', 'td_composer' ),
 				'param_name' => 'el_class',
-				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
+				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS', 'td_composer' ),
 				'value' => '',
-				'class' => '',
+				'class' => 'tdc-textfield-extrabig',
 			),
 		),
 	)
@@ -367,29 +367,29 @@ function register_external_shortcodes() {
 			'params' => array(
 				array(
 					'type' => 'textfield',
-					'heading' => __( 'Widget title:', 'td_composer' ),
+					'heading' => __( 'Widget title', 'td_composer' ),
 					'param_name' => 'title',
-					'description' => __( 'Enter text used as widget title (Note: located above content element).', 'td_composer' ),
+					'description' => __( 'Enter text used as widget title (Note: located above content element)', 'td_composer' ),
 					'value' => '',
-					'class' => '',
+					'class' => 'tdc-textfield-extrabig',
 				),
 				array(
 					'type' => 'textfield',
-					'heading' => __( 'Revolution Slider:', 'td_composer' ),
+					'heading' => __( 'Revolution Slider', 'td_composer' ),
 					'param_name' => 'alias',
 					'admin_label' => true,
 					'value' => '',
 					'save_always' => true,
-					'description' => __( 'Select your Revolution Slider.', 'td_composer' ),
-					'class' => '',
+					'description' => __( 'Select your Revolution Slider', 'td_composer' ),
+					'class' => 'tdc-textfield-extrabig',
 				),
 				array(
 					'type' => 'textfield',
-					'heading' => __( 'Extra class name:', 'td_composer' ),
+					'heading' => __( 'Extra class', 'td_composer' ),
 					'param_name' => 'el_class',
-					'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'td_composer' ),
+					'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS', 'td_composer' ),
 					'value' => '',
-					'class' => '',
+					'class' => 'tdc-textfield-extrabig',
 				),
 			),
 		)
