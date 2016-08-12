@@ -1138,8 +1138,7 @@ input[type=checkbox] {
 }
 .tdc-property-checkbox {
   margin-bottom: 10px;
-  line-height: 16px;
-  height: 16px;
+  height: 27px;
   width: 100%;
   display: table;
 }
@@ -1164,14 +1163,14 @@ input[type=checkbox] {
 }
 .tdc-property-image {
   margin-bottom: 10px;
-  line-height: 50px;
+  line-height: 27px;
 }
 .tdc-property-image .tdc-property-title {
   margin-bottom: 0;
 }
 .tdc-property-image .tdc-image-wrap {
-  width: 50px;
-  height: 50px;
+  width: 27px;
+  height: 27px;
   cursor: pointer;
   background-size: cover;
   background-position: center center;
@@ -1184,7 +1183,7 @@ input[type=checkbox] {
 .tdc-property-image .tdc-image-remove {
   position: absolute;
   top: 0;
-  right: 50px;
+  right: 27px;
   font-size: 12px;
   text-decoration: none;
   margin-right: 10px;

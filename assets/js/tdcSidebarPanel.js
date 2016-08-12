@@ -890,7 +890,7 @@ var tdcSidebarPanel = {};
             buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
             buffy += '<div class="tdc-property-title"><span' + tooltip + '>' + mappedParameter.heading + '</span></div>';
             buffy += '<div class="tdc-property">';
-            buffy += '<div class="tdc-image-wrap tdc-no-image-selected" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' style="background-image: url( \'' + window.tdcAdminSettings.pluginUrl + '/assets/images/sidebar/no_img.png\' )">';
+            buffy += '<div class="tdc-image-wrap tdc-no-image-selected" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' style="background-image: url(\'' + window.tdcAdminSettings.pluginUrl + '/assets/images/sidebar/no_img.png\')">';
             buffy += '</div>';
             buffy += '<a class="tdc-image-remove tdc-hidden-button" href="#" >Remove</a>';
             buffy += '</div>';
@@ -910,7 +910,7 @@ var tdcSidebarPanel = {};
                     if ( $element.parent().parent( '.tdc-bg-upload' ).length && '' !== currentBgUrl ) {
 
                         $element
-                            .attr( 'style', 'background-image: url(\'' + currentBgUrl + '\'' )
+                            .attr( 'style', 'background-image: url(\'' + currentBgUrl + '\')' )
                             .removeClass('tdc-no-image-selected');
 
                         $element.data( 'image_link', currentBgUrl );
@@ -924,7 +924,7 @@ var tdcSidebarPanel = {};
 
                         if ( '' !== currentImageUrl ) {
                             $element
-                                .attr( 'style', 'background-image: url(\'' + currentImageUrl + '\'' )
+                                .attr( 'style', 'background-image: url(\'' + currentImageUrl + '\')' )
                                 .removeClass('tdc-no-image-selected');
 
                             $element.data( 'image_link', currentImageUrl );
