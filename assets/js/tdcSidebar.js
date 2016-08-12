@@ -362,6 +362,8 @@ var tdcSidebar;
             // The breadcrumb item (tdcSidebar.$_editRow, tdcSidebar.$_editColumn, .. ) where the mouse events will be passed
                 $currentElementHeadRef;
 
+            currentElementHeadContent = window.tdcPostSettings.shortcodes[ currentModel.get( 'tag' ) ];
+
             switch ( currentModelTag ) {
 
                 case 'vc_row':
@@ -370,7 +372,6 @@ var tdcSidebar;
                     tdcSidebar.$_editInnerRow.hide();
                     tdcSidebar.$_editInnerColumn.hide();
 
-                    currentElementHeadContent = tdcSidebar.$_editRow.data( 'name' );
                     $currentElementHeadRef = tdcSidebar.$_editRow;
 
                     break;
@@ -381,7 +382,6 @@ var tdcSidebar;
                     tdcSidebar.$_editInnerRow.hide();
                     tdcSidebar.$_editInnerColumn.hide();
 
-                    currentElementHeadContent = tdcSidebar.$_editColumn.data( 'name' );
                     $currentElementHeadRef = tdcSidebar.$_editColumn;
 
                     break;
@@ -392,7 +392,6 @@ var tdcSidebar;
                     tdcSidebar.$_editInnerRow.hide();
                     tdcSidebar.$_editInnerColumn.hide();
 
-                    currentElementHeadContent = tdcSidebar.$_editInnerRow.data( 'name' );
                     $currentElementHeadRef = tdcSidebar.$_editInnerRow;
 
                     break;
@@ -403,7 +402,6 @@ var tdcSidebar;
                     tdcSidebar.$_editInnerRow.show();
                     tdcSidebar.$_editInnerColumn.hide();
 
-                    currentElementHeadContent = tdcSidebar.$_editInnerColumn.data( 'name' );
                     $currentElementHeadRef = tdcSidebar.$_editInnerColumn;
 
                     break;
@@ -412,8 +410,6 @@ var tdcSidebar;
                     tdcSidebar.$_editRow.show();
                     tdcSidebar.$_editColumn.show();
 
-                    //currentElementHeadContent = currentModel.get( 'tag' );
-                    currentElementHeadContent = currentModel.get( 'name' );
                     $currentElementHeadRef = tdcSidebar.getCurrentElement();
 
                     var parentModel = currentModel.get( 'parentModel' ),

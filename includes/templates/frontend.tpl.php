@@ -34,6 +34,13 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 
 //@todo - refactorizare aici json_encode
 //<link rel="stylesheet" href="http://basehold.it/22">
+
+// Add shortcodes name to be displayed into sidebar panel
+$shortcodes = array();
+foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
+	$shortcodes[ $mapped_shortcode[ 'base' ] ] = $mapped_shortcode[ 'name' ];
+}
+
 ?>
 
 
@@ -57,6 +64,7 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 			postContent: '<?php echo $postContent; ?>',
 			postMetaDirtyContent: '<?php echo get_post_meta( $post->ID, 'tdc_dirty_content', true ) ?>',
 			postMetaVcJsStatus: '<?php echo get_post_meta( $post->ID, '_wpb_vc_js_status', true ) ?>',
+			shortcodes: <?php echo json_encode( $shortcodes ) ?>
 		};
 
 	</script>
@@ -160,15 +168,6 @@ $postContent = str_replace( array( "\r\n", "\n", "\r" ), array( "\r\n'+'" ), $po
 					$mapped_shortcodes = tdc_mapper::get_mapped_shortcodes();
 
 					foreach ($mapped_shortcodes as &$mapped_shortcode ) {
-
-						?>
-						<script>
-							if ( 'undefined' === typeof window.tdcPostSettings.shortcodes ) {
-								window.tdcPostSettings.shortcodes = {};
-							}
-							window.tdcPostSettings.shortcodes[ '<?php echo $mapped_shortcode['base'] ?>' ] = '<?php echo $mapped_shortcode['name'] ?>';
-						</script>
-						<?php
 
 						if ( 'vc_row' === $mapped_shortcode['base'] ||
 						     'vc_row_inner' === $mapped_shortcode['base'] ||
