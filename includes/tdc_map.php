@@ -375,7 +375,7 @@ function register_external_shortcodes() {
 				),
 				array(
 					'type' => 'textfield',
-					'heading' => __( 'Revolution Slider', 'td_composer' ),
+					'heading' => __( 'Slider', 'td_composer' ),
 					'param_name' => 'alias',
 					'admin_label' => true,
 					'value' => '',
