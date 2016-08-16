@@ -168,6 +168,9 @@ var tdcMaskUI;
                 tdcSidebar.setSidebarInfo( model.get( 'tag' ) );
             }
 
+            // Hide the element handler wrapper
+            tdcElementHandlerUI.hide();
+
         } else {
             tdcMaskUI.$content.css({
                 top: '',

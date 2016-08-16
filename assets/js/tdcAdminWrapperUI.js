@@ -57,7 +57,7 @@ var tdcAdminWrapperUI;
 
 
             jQuery( '.tdc-view-page' ).click( function( event ) {
-                window.open( window.tdcPostSettings.postUrl, '_blank');
+                window.open( window.tdcPostSettings.postUrl );
             });
         }
     };

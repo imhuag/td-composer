@@ -76,15 +76,15 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 				Add element
 				<span class="tdc-icon-add"></span>
 			</div>
-			<div class="tdc-view-page">
+			<a class="tdc-view-page" href="#" target="_blank">
 				<span class="tdc-icon-view"></span>
-			</div>
-			<div class="tdc-save-page">
+			</a>
+			<a class="tdc-save-page" href="#">
 				<span class="tdc-icon-save"></span>
-			</div>
-			<div class="tdc-close-page">
+				</a>
+			<a class="tdc-close-page" href="#">
 				<span class="tdc-icon-close"></span>
-			</div>
+			</a>
 		</div>
 
 		<div class="tdc-empty-sidebar" style="text-align: left">
