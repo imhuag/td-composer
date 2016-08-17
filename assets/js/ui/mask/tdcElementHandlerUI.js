@@ -275,6 +275,22 @@ var tdcElementHandlerUI;
 
 
         /**
+         * Helper function used by the tdcMaskUI.setCurrentContainer
+         */
+        show: function() {
+            tdcElementHandlerUI._$handlerWrapper.show();
+        },
+
+
+        /**
+         * Helper function used by the tdcMaskUI.setCurrentContainer
+         */
+        hide: function() {
+            tdcElementHandlerUI._$handlerWrapper.hide();
+        },
+
+
+        /**
          * Trigger the event to its element ( 'tdc-row' )
          *
          * @param event
