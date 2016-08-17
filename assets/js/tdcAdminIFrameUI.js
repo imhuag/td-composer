@@ -620,9 +620,10 @@ var tdcAdminIFrameUI;
 
 
             var postMetaDirtyContent  = window.tdcPostSettings.postMetaDirtyContent,
-                postMetaVcJsStatus =  window.tdcPostSettings.postMetaVcJsStatus;
+                postMetaVcJsStatus =  window.tdcPostSettings.postMetaVcJsStatus,
+                postContent = window.tdcPostSettings.postContent;
 
-            if ( '1' === postMetaDirtyContent || 'true' === postMetaVcJsStatus) {
+            if ( ( '1' === postMetaDirtyContent || 'true' === postMetaVcJsStatus ) && '' !== postContent )  {
                 new tdcNotice.notice( 'The current content page hasn\'t been created by TagDiv Composer!', false, false );
             }
 
@@ -679,7 +680,7 @@ var tdcAdminIFrameUI;
 
         checkIframe: function( $iframe ) {
 
-            tdcDebug.log( $iframe );
+            //tdcDebug.log( $iframe );
 
             if ( _.isUndefined( $iframe ) ) {
 
