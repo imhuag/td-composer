@@ -675,6 +675,15 @@ var tdcAdminIFrameUI;
             $iframeContents.find('a').each(function (index, element) {
                 element.setAttribute('target', '_blank');
             });
+
+
+            // Stop event propagation when the left mouse button is not pressed
+            // It allows us to have a right click enabled on page
+            $iframeContents[0].addEventListener( 'mousedown', function(event) {
+                if ( 1 !== event.which ) {
+                    event.stopPropagation();
+                }
+            }, true );
         },
 
 
