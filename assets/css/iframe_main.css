@@ -342,17 +342,6 @@ html.tdc-active #wpadminbar {
   width: 17px;
   height: 17px;
 }
-#tdc-rows .tdc-add-block {
-  height: 50px;
-  border: 1px solid #ec6432;
-  text-align: center;
-  content: 'Ad Spot';
-  font-size: 12px;
-  line-height: 50px;
-  display: block;
-  color: #666;
-  text-transform: capitalize;
-}
 #tdc-rows .tdc-rev-slider {
   height: 50px;
   border: 1px solid #ec6432;
@@ -466,4 +455,98 @@ html.tdc-active #wpadminbar {
 .tdc-block-empty {
   min-height: 50px;
   outline: 2px dotted #e8e8e8;
+}
+/*
+
+    general ad titles on TDC
+
+*/
+.tdc-add-block {
+  height: 50px;
+  border: 1px solid #ec6432;
+  text-align: center;
+  font-size: 12px;
+  line-height: 50px;
+  display: block;
+  color: #666;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tdc-add-block:before {
+  content: 'Select a spot ID';
+}
+.td-adspot-title {
+  display: none;
+}
+.td-a-rec-id-header {
+  position: relative !important;
+  margin-bottom: 0;
+  width: 728px;
+  height: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  /* responsive portrait tablet */
+  /* responsive portrait phone */
+}
+@media (min-width: 768px) and (max-width: 1018px) {
+  .td-a-rec-id-header {
+    width: 468px;
+  }
+}
+@media (max-width: 767px) {
+  .td-a-rec-id-header {
+    position: relative;
+    width: 320px;
+    height: 50px;
+    margin: 10px auto;
+  }
+}
+.td-a-rec-id-header .tdc-add-block {
+  border-color: #ebebeb;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 90px;
+  line-height: 90px;
+  /* responsive portrait tablet */
+  /* responsive portrait phone */
+}
+@media (min-width: 768px) and (max-width: 1018px) {
+  .td-a-rec-id-header .tdc-add-block {
+    height: 60px;
+    line-height: 60px;
+  }
+}
+@media (max-width: 767px) {
+  .td-a-rec-id-header .tdc-add-block {
+    height: 50px;
+    line-height: 50px;
+  }
+}
+.td-a-rec-id-header .tdc-add-block:before {
+  content: 'Header ad';
+}
+.td-a-rec-id-sidebar .tdc-add-block:before {
+  content: 'Sidebar ad';
+}
+.td-a-rec-id-footer_top .tdc-add-block:before {
+  content: 'Footer top ad';
+}
+.td-a-rec-id-custom_ad_1 .tdc-add-block:before {
+  content: 'Custom ad 1';
+}
+.td-a-rec-id-custom_ad_2 .tdc-add-block:before {
+  content: 'Custom ad 2';
+}
+.td-a-rec-id-custom_ad_3 .tdc-add-block:before {
+  content: 'Custom ad 3';
+}
+.td-a-rec-id-custom_ad_4 .tdc-add-block:before {
+  content: 'Custom ad 4';
+}
+.td-a-rec-id-custom_ad_5 .tdc-add-block:before {
+  content: 'Custom ad 5';
 }
