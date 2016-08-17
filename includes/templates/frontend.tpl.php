@@ -76,7 +76,7 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 				Add element
 				<span class="tdc-icon-add"></span>
 			</div>
-			<a class="tdc-view-page" href="#" target="_blank">
+			<a class="tdc-view-page" href="<?php echo get_permalink($post->ID); ?>" target="_blank">
 				<span class="tdc-icon-view"></span>
 			</a>
 			<a class="tdc-save-page" href="#">
