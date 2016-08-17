@@ -345,15 +345,13 @@ html.tdc-active #wpadminbar {
 #tdc-rows .tdc-add-block {
   height: 50px;
   border: 1px solid #ec6432;
-}
-#tdc-rows .tdc-add-block:after {
   text-align: center;
-  content: 'Add Box Element';
+  content: 'Ad Spot';
   font-size: 12px;
-  line-height: 47px;
+  line-height: 50px;
   display: block;
-  height: 100%;
   color: #666;
+  text-transform: capitalize;
 }
 #tdc-rows .tdc-rev-slider {
   height: 50px;
