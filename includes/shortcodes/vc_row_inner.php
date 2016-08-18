@@ -18,7 +18,7 @@ class vc_row_inner extends tdc_composer_block {
 		$td_row_count++;
 
 
-		$buffy = '<div ' . $this->get_block_dom_id() . 'class="' . $this->get_block_classes(array('vc_row', 'vc_inner', 'wpb_row', 'td-pb-row')) . '" ' . $this->get_block_html_atts() . '>';
+		$buffy = '<div ' . $this->get_block_dom_id() . 'class="' . $this->get_block_classes(array('vc_row', 'vc_inner', 'wpb_row', 'td-pb-row')) . '" >';
 			//get the block css
 			$buffy .= $this->get_block_css();
 			$buffy .= $this->do_shortcode($content);

@@ -1010,7 +1010,7 @@ var tdcSidebarPanel = {};
 
                         var model = tdcIFrameData.getModel( $input.data( 'model_id' ) );
 
-                        editor.on( 'keyup change undo', function( event ) {
+                        editor.on( 'keyup undo', function( event ) {
 
                             var currentValue = editor.getContent({format: 'html'}),
 

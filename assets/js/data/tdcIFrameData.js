@@ -12,6 +12,9 @@
 /* global tdcAdminWrapperUI:{} */
 /* global tdcNotice:{} */
 /* global tdcSidebar:{} */
+/* global tdcRecycle:{} */
+/* global tdcAdminIFrameUI:{} */
+/* global tdcMain:{} */
 
 /* global tdcRowUI:{} */
 /* global tdcColumnUI:{} */
@@ -55,6 +58,7 @@ var tdcIFrameData,
          * The main entry point.
          *
          * @param iframeContents
+         * @param forceReinitialization
          */
         init: function( iframeContents, forceReinitialization ) {
 
@@ -287,7 +291,8 @@ var tdcIFrameData,
 
                     if ( this.model.has( 'html' ) && !_.isUndefined( this.model.get( 'html' ) ) ) {
 
-                        // 'tdc-dropped' class remove the loader
+                        // Attention! The 'tdc-dropped' is removed only when 'change:html' is triggered
+                        // Usually the html is changed because the block have block_uid that's changed at every request
                         this.$el.removeClass( 'tdc-dropped' );
 
 

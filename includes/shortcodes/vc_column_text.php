@@ -30,6 +30,6 @@ class vc_column_text extends tdc_composer_block {
 			$content = $this->do_shortcode($content);
 		}
 
-		return '<div class="wpb_wrapper td_block_wrap ' . $this->get_block_classes( array( $atts['el_class'] ) ) . '">' . $this->get_block_css() . $content . '</div>';
+		return '<div class="wpb_wrapper td_block_wrap ' . $this->get_block_classes( array( $atts['el_class'] ) ) . '" ' . $this->get_block_html_atts() . '">' . $this->get_block_css() . $content . '</div>';
 	}
 }

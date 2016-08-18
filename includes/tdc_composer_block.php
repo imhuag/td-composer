@@ -19,11 +19,6 @@ class tdc_composer_block {
 			),
 			$atts
 		);
-
-
-
-
-
 	}
 
 
@@ -101,7 +96,7 @@ class tdc_composer_block {
 
 
 	protected function get_block_html_atts() {
-		return '';
+		return ' data-td-block-uid="' . $this->block_uid . '" ';
 	}
 
 

@@ -19,7 +19,7 @@ class vc_row extends tdc_composer_block {
 
 
 
-		$buffy = '<div ' . $this->get_block_dom_id() . 'class="' . $this->get_block_classes(array('wpb_row', 'td-pb-row')) . '" ' . $this->get_block_html_atts() . '>';
+		$buffy = '<div ' . $this->get_block_dom_id() . 'class="' . $this->get_block_classes(array('wpb_row', 'td-pb-row')) . '" >';
 			//get the block css
 			$buffy .= $this->get_block_css();
 			$buffy .= $this->do_shortcode($content);
