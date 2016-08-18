@@ -606,7 +606,40 @@ html.tdc-active #wpadminbar {
 
 // footer ad
 .td-a-rec-id-footer_top {
+  position: relative !important;
+  margin-bottom: 0;
+  width: 728px;
+  height: 90px;
+  margin-left: auto;
+  margin-right: auto;
+
+  /* responsive portrait tablet */
+  @media (min-width: 768px) and (max-width: 1018px) {
+    width: 468px;
+  }
+  /* responsive portrait phone */
+  @media (max-width: 767px) {
+    position: relative;
+    width: 320px;
+    height: 50px;
+    margin: 10px auto;
+  }
+
   .tdc-add-block {
+    height: 90px;
+    line-height: 90px;
+
+    /* responsive portrait tablet */
+    @media (min-width: 768px) and (max-width: 1018px) {
+      height: 60px;
+      line-height: 60px;
+    }
+    /* responsive portrait phone */
+    @media (max-width: 767px) {
+      height: 50px;
+      line-height: 50px;
+    }
+
     &:before {
       content: 'Footer top ad';
     }

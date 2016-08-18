@@ -532,6 +532,47 @@ html.tdc-active #wpadminbar {
 .td-a-rec-id-sidebar .tdc-add-block:before {
   content: 'Sidebar ad';
 }
+.td-a-rec-id-footer_top {
+  position: relative !important;
+  margin-bottom: 0;
+  width: 728px;
+  height: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  /* responsive portrait tablet */
+  /* responsive portrait phone */
+}
+@media (min-width: 768px) and (max-width: 1018px) {
+  .td-a-rec-id-footer_top {
+    width: 468px;
+  }
+}
+@media (max-width: 767px) {
+  .td-a-rec-id-footer_top {
+    position: relative;
+    width: 320px;
+    height: 50px;
+    margin: 10px auto;
+  }
+}
+.td-a-rec-id-footer_top .tdc-add-block {
+  height: 90px;
+  line-height: 90px;
+  /* responsive portrait tablet */
+  /* responsive portrait phone */
+}
+@media (min-width: 768px) and (max-width: 1018px) {
+  .td-a-rec-id-footer_top .tdc-add-block {
+    height: 60px;
+    line-height: 60px;
+  }
+}
+@media (max-width: 767px) {
+  .td-a-rec-id-footer_top .tdc-add-block {
+    height: 50px;
+    line-height: 50px;
+  }
+}
 .td-a-rec-id-footer_top .tdc-add-block:before {
   content: 'Footer top ad';
 }
