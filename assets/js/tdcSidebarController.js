@@ -205,7 +205,7 @@ var tdcSidebarController = {};
                 };
 
                 // Loader image is shown
-                tdcSidebar.getCurrentElement().addClass( 'tdc-dropped' );
+                //tdcSidebar.getCurrentElement().addClass( 'tdc-dropped' );
 
                 tdcJobManager.addJob( newJob );
             } {
