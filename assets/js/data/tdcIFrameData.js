@@ -294,6 +294,7 @@ var tdcIFrameData,
                         // Attention! The 'tdc-dropped' is removed only when 'change:html' is triggered
                         // Usually the html is changed because the block have block_uid that's changed at every request
                         this.$el.removeClass( 'tdc-dropped' );
+                        this.$el.removeClass( 'tdc-changed' );
 
 
 
