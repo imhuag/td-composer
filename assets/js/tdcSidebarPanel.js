@@ -60,7 +60,7 @@ var tdcSidebarPanel = {};
 
 
             // dropdown hook
-            $body.on('change focus', '.tdc-property-dropdown:not(.tdc-row-col-dropdown):not(.tdc-innerRow-col-dropdown) select', function() {
+            $body.on('change focus', '.tdc-property-dropdown:not(.tdc-row-col-dropdown):not(.tdc-innerRow-col-dropdown) select', function( event ) {
                 // save the oldValue on focus in
                 if (event.type === 'focusin' || event.type === 'focus') { // the select raises a focus event instead of focusin
                     this.oldValue = this.value;
