@@ -27,7 +27,8 @@ class tdc_state {
 	private static $is_live_editor_ajax;
 
 
-	//private static $
+	private static $customized_settings;
+	private static $customized_menu_settings;
 
 
 	/**
@@ -105,4 +106,45 @@ class tdc_state {
 		self::$post = $post;
 	}
 
+
+
+	public static function get_customized_settings() {
+		if ( isset( self::$customized_settings ) ) {
+			return self::$customized_settings;
+		}
+		return false;
+	}
+
+	public static function set_customized_settings() {
+		if ( isset( $_POST['tdc_customized'] ) && !isset( self::$customized_settings ) ) {
+			self::$customized_settings = json_decode( wp_unslash( $_POST['tdc_customized'] ), true );
+
+			if ( isset( self::$customized_settings['menus'] ) ) {
+
+				$menus = self::$customized_settings['menus'];
+				foreach ( $menus as $menu_key => $menu_value ) {
+					$current_menu_settings = json_decode( $menu_value, true );
+
+					foreach ( $current_menu_settings as $setting ) {
+						self::$customized_menu_settings[ $menu_key ][ $setting['name']] = $setting['value'];
+					}
+				}
+			}
+		}
+	}
+
+	public static function get_customized_menu_settings( $menu_id = null ) {
+		if ( isset( self::$customized_menu_settings )  ) {
+			if ( isset( $menu_id ) ) {
+				if ( isset( self::$customized_menu_settings[ 'existing_menu_' . $menu_id ] ) ) {
+					return self::$customized_menu_settings[ 'existing_menu_' . $menu_id ];
+				} else {
+					return false;
+				}
+			} else {
+				return self::$customized_menu_settings;
+			}
+		}
+		return false;
+	}
 }

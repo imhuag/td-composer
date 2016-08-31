@@ -70,7 +70,10 @@ function tdc_on_admin_head() {
 		'wpRestUrl' => rest_url(),
 		'permalinkStructure' => get_option('permalink_structure'),
 		'pluginUrl' => TDC_URL,
-		'mappedShortcodes' => $mappedShortcodes // get ALL the mapped shortcodes / we should turn off pretty print
+		'mappedShortcodes' => $mappedShortcodes, // get ALL the mapped shortcodes / we should turn off pretty print
+		'customized' => array(
+			'menus' => new stdClass()
+		)
 	);
 
 	ob_start();
@@ -271,8 +274,6 @@ function tdc_external_shortcode($atts, $content, $name) {
 //	}
 //}
 
-
-
 if (!empty($td_action)) {
 
 	// $_GET['post_id'] is requiered from now on
@@ -359,7 +360,166 @@ if (!empty($td_action)) {
 				if ( isset( $_POST['tdc_page_template'] ) && '_wp_page_template' === $meta_key ) {
 					return $_POST['tdc_page_template'];
 				}
+
+				if ( 'td_mega_menu_cat' === $meta_key || 'td_mega_menu_page_id' === $meta_key ) {
+					// Look inside of the customized menu settings
+
+					$customized_menu_settings = tdc_state::get_customized_menu_settings();
+
+					if ( false !== $customized_menu_settings ) {
+						foreach ( $customized_menu_settings as $key_menu_settings => $value_menu_settings ) {
+							if ( isset($value_menu_settings[ $meta_key .'[' . $object_id . ']' ] ) ) {
+								return $value_menu_settings[ $meta_key .'[' . $object_id . ']' ];
+							}
+						}
+					}
+				}
 				return $value;
+			}
+
+			add_filter( 'wp_get_nav_menu_items', 'tdc_on_wp_get_nav_menu_items', 10, 3 );
+			function tdc_on_wp_get_nav_menu_items( $items, $menu, $args ) {
+
+				//var_dump($menu);
+
+				tdc_state::set_customized_settings();
+				$menu_settings = tdc_state::get_customized_menu_settings( $menu->term_id );
+
+				if ( false !== $menu_settings ) {
+
+					//var_dump($menu_settings);
+					//return $items;
+
+					$new_items = array();
+
+					foreach ( $menu_settings as $key => $value) {
+
+						if ( 0 === strpos( $key, 'menu-item-db-id' ) ) {
+
+							$item = new stdClass();
+
+							$item->ID = $value;
+							$item->post_type = 'nav_menu_item';
+
+							if ( isset($menu_settings[ "menu-item-object-id[$value]" ] ) ) {
+								$item->object_id = $menu_settings[ "menu-item-object-id[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-object[$value]" ] ) ) {
+								$item->object = $menu_settings[ "menu-item-object[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-parent-id[$value]" ] ) ) {
+								$item->menu_item_parent = $menu_settings[ "menu-item-parent-id[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-type[$value]" ] ) ) {
+								$item->type = $menu_settings[ "menu-item-type[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-title[$value]" ] ) ) {
+								$item->title = $menu_settings[ "menu-item-title[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-url[$value]" ] ) ) {
+								$item->url = $menu_settings[ "menu-item-url[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-title[$value]" ] ) ) {
+								$item->title = $menu_settings[ "menu-item-title[$value]" ];
+								$item->post_title = $item->title;
+							}
+
+							if ( isset($menu_settings[ "menu-item-attr-title[$value]" ] ) ) {
+								$item->attr_title = $menu_settings[ "menu-item-attr-title[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-description[$value]" ] ) ) {
+								$item->description = $menu_settings[ "menu-item-description[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-classes[$value]" ] ) ) {
+								$item->classes = $menu_settings[ "menu-item-classes[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-xfn[$value]" ] ) ) {
+								$item->xfn = $menu_settings[ "menu-item-xfn[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-position[$value]" ] ) ) {
+								$item->menu_order = $menu_settings[ "menu-item-position[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "menu-item-db-id[$value]" ] ) ) {
+								$item->db_id = $menu_settings[ "menu-item-db-id[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "td_mega_menu_cat[$value]" ] ) ) {
+								$item->td_mega_menu_cat = $menu_settings[ "td_mega_menu_cat[$value]" ];
+							}
+
+							if ( isset($menu_settings[ "td_mega_menu_page_id[$value]" ] ) ) {
+								$item->td_mega_menu_page_id = $menu_settings[ "td_mega_menu_page_id[$value]" ];
+							}
+
+
+
+							// CODE SECTION FROM wp customizer >>>
+
+							$post = new WP_Post( (object) $item );
+
+							if ( empty( $post->post_author ) ) {
+								$post->post_author = get_current_user_id();
+							}
+
+							if ( ! isset( $post->type_label ) ) {
+								if ( 'post_type' === $post->type ) {
+									$object = get_post_type_object( $post->object );
+									if ( $object ) {
+										$post->type_label = $object->labels->singular_name;
+									} else {
+										$post->type_label = $post->object;
+									}
+								} elseif ( 'taxonomy' == $post->type ) {
+									$object = get_taxonomy( $post->object );
+									if ( $object ) {
+										$post->type_label = $object->labels->singular_name;
+									} else {
+										$post->type_label = $post->object;
+									}
+								} else {
+									$post->type_label = __( 'Custom Link' );
+								}
+							}
+
+							/** This filter is documented in wp-includes/nav-menu.php */
+							$post->attr_title = apply_filters( 'nav_menu_attr_title', $post->attr_title );
+
+							/** This filter is documented in wp-includes/nav-menu.php */
+							$post->description = apply_filters( 'nav_menu_description', wp_trim_words( $post->description, 200 ) );
+
+							/** This filter is documented in wp-includes/nav-menu.php */
+							$post = apply_filters( 'wp_setup_nav_menu_item', $post );
+
+							// <<< CODE SECTION FROM wp customizer
+
+							$new_items[] = $post;
+						}
+					}
+
+					// CODE SECTION FROM wp customizer >>>
+					foreach ( $new_items as $item ) {
+						foreach ( get_object_vars( $item ) as $key => $value ) {
+							$item->$key = $value;
+						}
+					}
+					// <<< CODE SECTION FROM wp customizer
+
+					//print_r($new_items);
+
+					return $new_items;
+				}
+				return $items;
 			}
 
 			/**
@@ -520,4 +680,22 @@ function on_admin_head_add_tdc_loader() {
 
 
 
+// Set the tdc_state
+$tdcMenuSettings = tdc_util::get_get_val( 'tdc-menu-settings' );
+if ( 'nav-menus' === basename($_SERVER["SCRIPT_FILENAME"], '.php') && false !== $tdcMenuSettings ) {
+	add_action('admin_head', 'on_admin_head_add_menu_settings');
+	function on_admin_head_add_menu_settings() {
+		?>
+		<style>
+			.tdc-menu-settings {
 
+			}
+			#wpcontent {
+			    margin-left: 0;
+				margin-top: -30px;
+			}
+
+		</style>
+		<?php
+	}
+}

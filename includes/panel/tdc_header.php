@@ -31,55 +31,74 @@
 	?>
 
 	<input type="hidden" id="tdc_content" name="tdc_content" value="">
-	<input type="hidden" id="tdc_page_template" name="tdc_page_template" value="">
+	<input type="hidden" id="tdc_customized" name="tdc_customized" value="">
+
+	<!-- WP SETTINGS -->
+	<?php echo td_panel_generator::box_start('WP Settings'); ?>
+
+		<select name="tdc_page_template" id="tdc_page_template">
+			<?php
+			/**
+			 * Filter the title of the default page template displayed in the drop-down.
+			 *
+			 * @since 4.1.0
+			 *
+			 * @param string $label   The display value for the default page template title.
+			 * @param string $context Where the option label is displayed. Possible values
+			 *                        include 'meta-box' or 'quick-edit'.
+			 */
+			$template = !empty($post->page_template) ? $post->page_template : false;
+			$default_title = apply_filters( 'default_page_template_title',  __( 'Default Template' ), 'meta-box' );
+			?>
+			<option value="default"><?php echo esc_html( $default_title ); ?></option>
+			<?php page_template_dropdown($template); ?>
+		</select>
+
+	<?php echo td_panel_generator::box_end();?>
+
+	<!-- HEADER STYLE -->
+	<?php echo td_panel_generator::box_start('Header Style'); ?>
 
 
-<!-- WP SETTINGS -->
-<?php echo td_panel_generator::box_start('WP Settings'); ?>
-
-	<select name="page_template" id="page_template">
-		<?php
-		/**
-		 * Filter the title of the default page template displayed in the drop-down.
-		 *
-		 * @since 4.1.0
-		 *
-		 * @param string $label   The display value for the default page template title.
-		 * @param string $context Where the option label is displayed. Possible values
-		 *                        include 'meta-box' or 'quick-edit'.
-		 */
-		$template = !empty($post->page_template) ? $post->page_template : false;
-		$default_title = apply_filters( 'default_page_template_title',  __( 'Default Template' ), 'meta-box' );
-		?>
-		<option value="default"><?php echo esc_html( $default_title ); ?></option>
-		<?php page_template_dropdown($template); ?>
-	</select>
-
-<?php echo td_panel_generator::box_end();?>
-
-<!-- HEADER STYLE -->
-<?php echo td_panel_generator::box_start('Header Style'); ?>
-
-
-<!-- HEADER STYLE -->
-<div class="td-box-row">
-	<div class="td-box-description">
-		<span class="td-box-title">HEADER STYLE</span>
-		<p>Select the order in which the header elements will be arranged</p>
+	<!-- HEADER STYLE -->
+	<div class="td-box-row">
+		<div class="td-box-description">
+			<span class="td-box-title">HEADER STYLE</span>
+			<p>Select the order in which the header elements will be arranged</p>
+		</div>
+		<div class="td-box-control-full">
+			<?php
+			echo td_panel_generator::radio_button_control(array(
+				'ds' => 'td_option',
+				'option_id' => 'tds_header_style',
+				'values' => td_api_header_style::_helper_generate_tds_header_style()
+			));
+			?>
+		</div>
 	</div>
-	<div class="td-box-control-full">
-		<?php
-		echo td_panel_generator::radio_button_control(array(
-			'ds' => 'td_option',
-			'option_id' => 'tds_header_style',
-			'values' => td_api_header_style::_helper_generate_tds_header_style()
-		));
-		?>
-	</div>
-</div>
 
+	<?php echo td_panel_generator::box_end();?>
 
-<?php echo td_panel_generator::box_end();?>
+	<!-- WP SETTINGS -->
+	<?php echo td_panel_generator::box_start('Menu Settings'); ?>
+
+	<?php
+
+	// Get menus
+	$menus = wp_get_nav_menus();
+
+	$buffer = '<ul>';
+	foreach ( $menus as $menu ) {
+		$buffer .= '<li class="tdc-panel-menu" data-menu_id="' . $menu->term_id . '">' . esc_html( $menu->name ) . '</li>';
+	}
+	$buffer .= '</ul>';
+
+	echo $buffer;
+
+	?>
+	
+	<?php echo td_panel_generator::box_end();?>
+
 
 </form>
 

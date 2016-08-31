@@ -52,6 +52,8 @@ var tdcSavePost;
                     // add the nonce used for cookie authentication
                     beforeSend: function ( xhr ) {
                         xhr.setRequestHeader( 'X-WP-Nonce', window.tdcAdminSettings.wpRestNonce);
+
+                        tdcLivePanel.saveMenuSettings();
                     },
                     data: tdcLivePanel.$panel.serialize()
 

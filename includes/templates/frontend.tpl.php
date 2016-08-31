@@ -255,7 +255,7 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 	</div>
 
 
-
+	<div id="tdc-menu-settings"></div>
 
 <?php
 require_once( ABSPATH . 'wp-admin/admin-footer.php' );

@@ -187,7 +187,7 @@ class tdc_ajax {
 		$post_content = $_POST['tdc_content'];
 
 		if ( isset( $_POST['tdc_page_template'] ) ) {
-			$page_template = $_POST['tdc_page_template'];
+			$tdc_page_template = $_POST['tdc_page_template'];
 		}
 
 		if ( ! isset( $action ) || 'tdc_ajax_save_post' !== $action || ! isset( $post_id ) || ! isset( $post_content ) ) {
@@ -212,9 +212,9 @@ class tdc_ajax {
 				update_post_meta( $post_id, 'tdc_dirty_content', 0 );
 				update_post_meta( $post_id, 'tdc_content', $post_content );
 
-				if ( isset( $page_template ) ) {
+				if ( isset( $tdc_page_template ) ) {
 					// Update the page template
-					update_post_meta( $post_id, '_wp_page_template', $page_template );
+					update_post_meta( $post_id, '_wp_page_template', $tdc_page_template );
 				}
 
 				// Reset the vc status
