@@ -126,7 +126,11 @@ var tdcLivePanel;
                     $currentIframeMenuSettings = jQuery( '<iframe id="tdc-iframe-settings-menu-' + menuId + '" src="' + url + '" data-menu_id="' + menuId + '" scrolling="auto" style="width: 100%; height: 100%"></iframe>')
                         .load(function() {
 
+                            // This is the jquery iframe document
                             var $iframeMenuSettingsContents = $currentIframeMenuSettings.contents();
+
+                            // This is the iframe window
+                            var iframeWindow = $currentIframeMenuSettings[0].contentWindow || $currentIframeMenuSettings[0].contentDocument;
 
                             $iframeMenuSettingsContents.find( 'body' ).addClass( 'tdc-menu-settings' );
 
@@ -155,8 +159,17 @@ var tdcLivePanel;
                             $saveMenuSettings.click(function(event) {
                                 event.preventDefault();
 
-                                tdcLivePanel.saveMenuSettings( $iframeMenuSettingsContents, menuId );
+                                // Important! The wpNavMenu.eventOnClickMenuSave must be called
+                                // The position for the new added elements is computed
+                                iframeWindow.wpNavMenu.eventOnClickMenuSave();
 
+                                var $updateNavMenuForm = $iframeMenuSettingsContents.find( '#update-nav-menu' ),
+                                    navMenuData = $updateNavMenuForm.serializeArray();
+
+                                window.tdcAdminSettings.customized.menus[ 'existing_menu_' + menuId ] = JSON.stringify( navMenuData );
+
+                                // Submit the panel
+                                tdcLivePanel.submit();
                             });
 
                         });
@@ -187,52 +200,44 @@ var tdcLivePanel;
 
 
         /**
-         * Save menu/all menus settings.
-         * For saving a specific menu, the both params must be specified
-         *
-         * @param $iframeMenuSettingsContents
-         * @param menuId
+         * Save all menus' settings.
          */
-        saveMenuSettings: function( $iframeMenuSettingsContents, menuId ) {
+        saveMenuSettings: function() {
 
-            if ( _.isUndefined( $iframeMenuSettingsContents ) || _.isUndefined( menuId ) ) {
+            var $tdcMenuSettings = jQuery( '#tdc-menu-settings' );
 
-                var $tdcMenuSettings = jQuery( '#tdc-menu-settings' );
+            $tdcMenuSettings.find( 'iframe').each(function( index, element ) {
 
-                $tdcMenuSettings.find( 'iframe').each(function( index, element ) {
-                    var $element = jQuery( element ),
-                        menuId = $element.data( 'menu_id' ),
-                        $updateNavMenuForm = $element.contents().find( '#update-nav-menu' ),
-                        navMenuData = $updateNavMenuForm.serializeArray(),
+                // This is the iframe window
+                var iframeWindow = element.contentWindow || element.contentDocument;
 
-                        // ajax data plain object
-                        dataRequest = {};
+                // Important! The wpNavMenu.eventOnClickMenuSave must be called
+                // The position for the new added elements is computed
+                iframeWindow.wpNavMenu.eventOnClickMenuSave();
 
-                    $updateNavMenuForm.find( 'input[name=nav-menu-data]').val( JSON.stringify( navMenuData ) );
+                var $element = jQuery( element ),
+                    menuId = $element.data( 'menu_id' ),
+                    $updateNavMenuForm = $element.contents().find( '#update-nav-menu' ),
+                    navMenuData = $updateNavMenuForm.serializeArray(),
 
-                    $updateNavMenuForm.find( 'input[type=hidden]').each(function( index, element) {
-                        var $element = jQuery( element );
-                        dataRequest[ $element.attr( 'name' ) ] = $element.val();
-                    });
+                    // ajax data plain object
+                    dataRequest = {};
 
-                    jQuery.ajax({
-                        url: 'nav-menus.php?menu=' + menuId,
-                        method: 'POST',
-                        data: dataRequest
-                    });
+                $updateNavMenuForm.find( 'input[name=nav-menu-data]').val( JSON.stringify( navMenuData ) );
+
+                $updateNavMenuForm.find( 'input[type=hidden]').each(function( index, element) {
+                    var $element = jQuery( element );
+                    dataRequest[ $element.attr( 'name' ) ] = $element.val();
                 });
 
-            } else {
-
-                var $updateNavMenuForm = $iframeMenuSettingsContents.find( '#update-nav-menu' ),
-                    navMenuData = $updateNavMenuForm.serializeArray();
-
-                window.tdcAdminSettings.customized.menus[ 'existing_menu_' + menuId ] = JSON.stringify( navMenuData );
-
-                // Submit the panel
-                tdcLivePanel.submit();
-            }
+                jQuery.ajax({
+                    url: 'nav-menus.php?menu=' + menuId,
+                    method: 'POST',
+                    data: dataRequest
+                });
+            });
         },
+
 
 
         /**
