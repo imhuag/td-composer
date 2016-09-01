@@ -2,17 +2,18 @@
  * Created by ra on 5/13/2016.
  */
 
+/* global tdcJobManager:{} */
+/* global tdcAdminIFrameUI:{} */
+/* global tdcIFrameData:{} */
+/* global tdcSidebar:{} */
 /* global tdcNotice:{} */
+/* global tdcDebug:{} */
 
 /* global jQuery:{} */
 /* global _:{} */
 
 
 var tdcSidebarController = {};
-
-
-
-
 
 
 
@@ -52,7 +53,7 @@ var tdcSidebarController = {};
                 }
             }
             //throw 'Map value not found for ' + tag + ' ' + paramName;
-            new tdcNotice.notice( 'Map value not found for ' + tag + ' ' + paramName, true, false );
+            tdcNotice.notice( 'Map value not found for ' + tag + ' ' + paramName, true, false );
         },
 
 

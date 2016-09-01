@@ -7,10 +7,12 @@
 /* global Backbone:{} */
 /* global _:{} */
 
+/* global tdcElementUI:{} */
 /* global tdcDebug:{} */
 /* global tdcAdminWrapperUI:{} */
 /* global tdcOperationUI:{} */
 /* global tdcIFrameData:{} */
+/* global tdcNotice:{} */
 
 var tdcAdminIFrameUI;
 
@@ -37,7 +39,7 @@ var tdcAdminIFrameUI;
         getIframeWindow: function() {
             if (_.isUndefined(tdcAdminIFrameUI._liveIframeWindowObject)) {
                 //throw "tdcAdminIFrameUI._liveIframeWindowObject is undefined. AKA: The iFrame window object is undefined. The iFrame was probably not added to the page!"
-                new tdcNotice.notice( 'tdcAdminIFrameUI._liveIframeWindowObject is undefined. AKA: The iFrame window object is undefined. The iFrame was probably not added to the page!', true, false );
+                tdcNotice.notice( 'tdcAdminIFrameUI._liveIframeWindowObject is undefined. AKA: The iFrame window object is undefined. The iFrame was probably not added to the page!', true, false );
             }
             return tdcAdminIFrameUI._liveIframeWindowObject;
         },
@@ -624,7 +626,7 @@ var tdcAdminIFrameUI;
                 postContent = window.tdcPostSettings.postContent;
 
             if ( ( '1' === postMetaDirtyContent || 'true' === postMetaVcJsStatus ) && '' !== postContent )  {
-                new tdcNotice.notice( 'The current content page hasn\'t been created by TagDiv Composer!', false, false );
+                tdcNotice.notice( 'The current content page hasn\'t been created by TagDiv Composer!', false, false );
             }
 
 

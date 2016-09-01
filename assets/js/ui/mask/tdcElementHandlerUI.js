@@ -6,8 +6,13 @@
 /* global Backbone:{} */
 /* global _:{} */
 
+/* global tdcAdminWrapperUI:{} */
+/* global tdcSidebarPanel:{} */
+/* global tdcElementUI:{} */
+/* global tdcIFrameData:{} */
 /* global tdcMaskUI:{} */
 /* global tdcOperationUI:{} */
+/* global tdcNotice:{} */
 
 /*
  * The mask handler object
@@ -141,7 +146,7 @@ var tdcElementHandlerUI;
 
                 // @todo This check should be removed - the content should have consistency
                 if ( _.isUndefined( elementModelId ) ) {
-                    new tdcNotice.notice( 'tdcElementHandlerUI -> tdcElementHandlerUI._$handlerClone Error: Element model id is not in $draggedElement data!', true, false );
+                    tdcNotice.notice( 'tdcElementHandlerUI -> tdcElementHandlerUI._$handlerClone Error: Element model id is not in $draggedElement data!', true, false );
 
                     //alert('changeData - Error: Element model id is not in $draggedElement data!');
                     return;
@@ -151,7 +156,7 @@ var tdcElementHandlerUI;
 
                 // @todo This check should be removed - the content should have consistency
                 if ( _.isUndefined(elementModel ) ) {
-                    new tdcNotice.notice( 'tdcElementHandlerUI -> tdcElementHandlerUI._$handlerClone Error: Element model not in structure data!', true, false );
+                    tdcNotice.notice( 'tdcElementHandlerUI -> tdcElementHandlerUI._$handlerClone Error: Element model not in structure data!', true, false );
 
                     //alert('changeData Error: Element model not in structure data!');
                     return;
@@ -181,7 +186,7 @@ var tdcElementHandlerUI;
                 if ( _.isUndefined( destinationModel ) ) {
                     //throw 'changeData Error: Destination model not in structure data!';
 
-                    new tdcNotice.notice( 'tdcElementHandlerUI -> tdcElementHandlerUI._$handlerClone Error: Destination model not in structure data!', true, false );
+                    tdcNotice.notice( 'tdcElementHandlerUI -> tdcElementHandlerUI._$handlerClone Error: Destination model not in structure data!', true, false );
                 }
 
                 var destinationColParam = tdcIFrameData._getDestinationCol();

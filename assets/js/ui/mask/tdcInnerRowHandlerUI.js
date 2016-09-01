@@ -6,8 +6,11 @@
 /* global Backbone:{} */
 /* global _:{} */
 
+/* global tdcInnerRowUI:{} */
+/* global tdcIFrameData:{} */
 /* global tdcMaskUI:{} */
 /* global tdcOperationUI:{} */
+/* global tdcNotice:{} */
 
 /*
  * The mask handler object
@@ -133,7 +136,7 @@ var tdcInnerRowHandlerUI;
 
                 // @todo This check should be removed - the content should have consistency
                 if ( _.isUndefined( innerRowModelId ) ) {
-                    new tdcNotice.notice( 'tdcInnerRowHandlerUI -> tdcInnerRowHandlerUI._$handlerClone Error: Element model id is not in $draggedElement data!', true, false );
+                    tdcNotice.notice( 'tdcInnerRowHandlerUI -> tdcInnerRowHandlerUI._$handlerClone Error: Element model id is not in $draggedElement data!', true, false );
                     return;
                 }
 
@@ -141,7 +144,7 @@ var tdcInnerRowHandlerUI;
 
                 // @todo This check should be removed - the content should have consistency
                 if ( _.isUndefined(innerRowModel ) ) {
-                    new tdcNotice.notice( 'tdcInnerRowHandlerUI -> tdcInnerRowHandlerUI._$handlerClone Error: Element model not in structure data!', true, false );
+                    tdcNotice.notice( 'tdcInnerRowHandlerUI -> tdcInnerRowHandlerUI._$handlerClone Error: Element model not in structure data!', true, false );
                     return;
                 }
 

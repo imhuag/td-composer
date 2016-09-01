@@ -22,8 +22,6 @@ var tdcNotice;
                 return;
             }
 
-            this.msg = msg;
-
             var errorClass = '';
             if ( 'undefined' !== typeof isError && true === isError ) {
                 errorClass = 'tdc-notice-error';

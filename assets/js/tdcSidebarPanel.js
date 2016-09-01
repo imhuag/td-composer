@@ -3,11 +3,20 @@
  * Created by ra on 5/5/2016.
  */
 
+/* global tdcJobManager:{} */
+/* global tdcSidebarController:{} */
+/* global tdcIFrameData:{} */
 /* global tdcNotice:{} */
+/* global tdcCssEditorTab:{} */
+/* global tdcUtil:{} */
+/* global tdcCssParser:{} */
+/* global tdcSidebar:{} */
 
 /* global jQuery:{} */
 /* global Backbone:{} */
 /* global _:{} */
+/* global wp:{} */
+/* global tinymce:{} */
 
 /* tdcAdminSettings */
 
@@ -161,7 +170,7 @@ var tdcSidebarPanel = {};
                     window.send_to_editor = window.original_send_to_editor;
 
                     //close the modal window
-                    tb_remove();
+                    window.tb_remove();
 
                     var curValue = '';
 
@@ -280,7 +289,7 @@ var tdcSidebarPanel = {};
 
                 } else {
                     //throw 'Invalid row change detected: this.oldValue:' + this.oldValue + ' and curValue: ' + curValue;
-                    new tdcNotice.notice( 'Invalid row change detected: this.oldValue:' + this.oldValue + ' and curValue: ' + curValue, false, true );
+                    tdcNotice.notice( 'Invalid row change detected: this.oldValue:' + this.oldValue + ' and curValue: ' + curValue, false, true );
                 }
 
                 this.oldValue = curValue;
@@ -391,18 +400,23 @@ var tdcSidebarPanel = {};
 
             var currentTabId = tdcSidebar.getCurrentTabId();
 
+            var firstElementActive,
+                firstElementInactive,
+                panelHtmlBuffer,
+                tabId;
+
             // tabs - top
             panelHtml += '<div class="tdc-tabs">';
 
-                var firstElementActive = '',
-                    firstElementInactive = '',
-                    panelHtmlBuffer = '';
+                firstElementActive = '';
+                firstElementInactive = '';
+                panelHtmlBuffer = '';
 
                 for (cnt = 0; cnt < allGroupNames.length; cnt++) {
 
                     currentGroup = tdcSidebarPanel._fixGroupName(allGroupNames[cnt]);
 
-                    var tabId = tdcUtil.makeSafeForCSS(currentGroup);
+                    tabId = tdcUtil.makeSafeForCSS(currentGroup);
 
                     //tdcDebug.log( tabId );
 
@@ -425,14 +439,14 @@ var tdcSidebarPanel = {};
             // tabs - content
             panelHtml += '<div class="tdc-tab-content-wrap">';
 
-                var firstElementActive = '',
-                    firstElementInactive = '',
-                    panelHtmlBuffer = '';
+                firstElementActive = '';
+                firstElementInactive = '';
+                panelHtmlBuffer = '';
 
                 for (cnt = 0; cnt < allGroupNames.length; cnt++) {
                     currentGroup = tdcSidebarPanel._fixGroupName(allGroupNames[cnt]);
 
-                    var tabId = tdcUtil.makeSafeForCSS(currentGroup);
+                    tabId = tdcUtil.makeSafeForCSS(currentGroup);
 
                     if ( 0 === cnt ) {
                         firstElementActive = '<div class="tdc-tab-content tdc-tab-content-visible" id="td-tab-' + tabId + '">';
@@ -1073,7 +1087,7 @@ var tdcSidebarPanel = {};
 
                 if ( 'success' === textStatus ) {
                     if ( _.isObject( data ) && _.has( data, 'errors' ) ) {
-                        new tdcNotice.notice( data.errors, true, false );
+                        tdcNotice.notice( data.errors, true, false );
                     } else {
                         jQuery( '#' + textareaId ).html( data.parsed_content ).show();
                     }

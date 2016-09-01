@@ -6,8 +6,11 @@
 /* global Backbone:{} */
 /* global _:{} */
 
+/* global tdcMain:{} */
 /* global tdcAdminWrapperUI:{} */
+/* global tdcIFrameData:{} */
 /* global tdcMaskUI:{} */
+/* global tdcNotice:{} */
 
 /* global tdcRowUI:{} */
 /* global tdcColumnUI:{} */
@@ -15,6 +18,7 @@
 /* global tdcInnerColumnUI:{} */
 /* global tdcElementUI:{} */
 /* global tdcSidebar:{} */
+/* global tdcSidebarPanel:{} */
 
 /* global tdcRecycleUI:{} */
 
@@ -924,7 +928,7 @@ var tdcOperationUI;
 
                 if ( ! wasSidebarElementDragged && ! wasElementDragged && ! wasInnerColumnDragged && ! wasInnerRowDragged && ! wasTempInnerRowDragged && ! wasColumnDragged && ! wasRowDragged && ! wasTempRowDragged ) {
 
-                    new tdcNotice.notice( '_moveDraggedElement Error: $draggedElement not valid!', true, false );
+                    tdcNotice.notice( '_moveDraggedElement Error: $draggedElement not valid!', true, false );
 
                     //alert( '_moveDraggedElement Error: $draggedElement not valid!' );
                     return;

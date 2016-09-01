@@ -86,7 +86,7 @@ var tdcIFrameData,
                         tdcDebug.log( errors[ prop ] );
                     }
 
-                    new tdcNotice.notice( 'Errors happened during tdcIframeData.init() -> bindViewsModelsWrappers()!', true, false );
+                    tdcNotice.notice( 'Errors happened during tdcIframeData.init() -> bindViewsModelsWrappers()!', true, false );
 
                     //throw 'Errors happened during tdcIframeData.init() -> bindViewsModelsWrappers()! Errors in console ...';
                 }
@@ -343,7 +343,7 @@ var tdcIFrameData,
                                             tdcDebug.log( errors[ prop ] );
                                         }
 
-                                        new tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
+                                        tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
 
                                         //alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
                                         return;
@@ -399,7 +399,7 @@ var tdcIFrameData,
                                                 tdcDebug.log(errors[prop]);
                                             }
 
-                                            new tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
+                                            tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
 
                                             //alert('Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...');
                                             return;
@@ -445,7 +445,7 @@ var tdcIFrameData,
                                             tdcDebug.log( errors[ prop ] );
                                         }
 
-                                        new tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
+                                        tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
 
                                         //alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
                                         return;
@@ -505,7 +505,7 @@ var tdcIFrameData,
                                                 tdcDebug.log( errors[ prop ] );
                                             }
 
-                                            new tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
+                                            tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
 
                                             //alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
                                             return;
@@ -566,7 +566,7 @@ var tdcIFrameData,
                                                 tdcDebug.log( errors[ prop ] );
                                             }
 
-                                            new tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
+                                            tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
 
                                             //alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
                                             return;
@@ -627,7 +627,7 @@ var tdcIFrameData,
                                                 tdcDebug.log( errors[ prop ] );
                                             }
 
-                                            new tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
+                                            tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
 
                                             //alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
                                             return;
@@ -687,7 +687,7 @@ var tdcIFrameData,
                                                 tdcDebug.log( errors[ prop ] );
                                             }
 
-                                            new tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
+                                            tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
 
                                             //alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
                                             return;
@@ -735,7 +735,7 @@ var tdcIFrameData,
                                             tdcDebug.log( errors[ prop ] );
                                         }
 
-                                        new tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
+                                        tdcNotice.notice( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender!', true, false );
 
                                         //alert( 'Errors happened during tdcIFrameData.TdcLiveView -> customRender! Errors in console ...' );
                                         return;
@@ -860,7 +860,7 @@ var tdcIFrameData,
 
                     tdcDebug.log( errors );
 
-                    new tdcNotice.notice( 'Errors happened during _initStructureData() -> _getData()!', true, false );
+                    tdcNotice.notice( 'Errors happened during _initStructureData() -> _getData()!', true, false );
 
                     //throw 'Errors happened during _initStructureData() -> _getData()! Errors in console ...';
                 }
@@ -877,7 +877,7 @@ var tdcIFrameData,
 
                     tdcDebug.log( data.error );
 
-                    new tdcNotice.notice( errors, true, false );
+                    tdcNotice.notice( errors, true, false );
 
                     //throw 'Errors happened during _initStructureData() -> checkCurrentData()! Errors in console ...';
                 }
@@ -909,7 +909,7 @@ var tdcIFrameData,
 
                     tdcDebug.log( errors );
 
-                    new tdcNotice.notice( errors, true, false );
+                    tdcNotice.notice( errors, true, false );
 
                     //throw 'Errors happened during _initNewContentStructureData() -> _getData()! Errors in console ...';
                 }
@@ -925,7 +925,7 @@ var tdcIFrameData,
                 if ( !_.isUndefined( data.error ) ) {
                     tdcDebug.log( data.error );
 
-                    new tdcNotice.notice( 'Errors happened during _initNewContentStructureData() -> checkCurrentData()!', true, false );
+                    tdcNotice.notice( 'Errors happened during _initNewContentStructureData() -> checkCurrentData()!', true, false );
 
                     //throw 'Errors happened during _initNewContentStructureData() -> checkCurrentData()! Errors in console ...';
                 }
@@ -1489,7 +1489,7 @@ var tdcIFrameData,
                     if ( _.isUndefined( destinationModel ) ) {
                         //throw 'changeData Error: Destination model not in structure data!';
 
-                        new tdcNotice.notice( 'changeData Error: Destination model not in structure data!', true, false );
+                        tdcNotice.notice( 'changeData Error: Destination model not in structure data!', true, false );
                     }
 
                     destinationColParam = tdcIFrameData._getDestinationCol();
@@ -1550,7 +1550,7 @@ var tdcIFrameData,
                     if ( _.isUndefined( destinationModel ) ) {
                         //throw 'changeData Error: Destination model not in structure data!';
 
-                        new tdcNotice.notice( 'changeData Error: Destination model not in structure data!', true, false );
+                        tdcNotice.notice( 'changeData Error: Destination model not in structure data!', true, false );
                     }
 
                     destinationColParam = tdcIFrameData._getDestinationCol();
@@ -1675,7 +1675,7 @@ var tdcIFrameData,
 
                 // @todo This check should be removed - the content should have consistency
                 if (_.isUndefined(elementModelId)) {
-                    new tdcNotice.notice( 'changeData Error: Element model id is not in $draggedElement data!', true, false );
+                    tdcNotice.notice( 'changeData Error: Element model id is not in $draggedElement data!', true, false );
 
                     //alert('changeData - Error: Element model id is not in $draggedElement data!');
                     return;
@@ -1686,7 +1686,7 @@ var tdcIFrameData,
 
                 // @todo This check should be removed - the content should have consistency
                 if (_.isUndefined(elementModel)) {
-                    new tdcNotice.notice( 'changeData Error: Element model not in structure data!', true, false );
+                    tdcNotice.notice( 'changeData Error: Element model not in structure data!', true, false );
 
                     //alert('changeData Error: Element model not in structure data!');
                     return;
@@ -1730,7 +1730,7 @@ var tdcIFrameData,
                     if ( _.isUndefined( destinationModel ) ) {
                         //throw 'changeData Error: Destination model not in structure data!';
 
-                        new tdcNotice.notice( 'changeData Error: Destination model not in structure data!', true, false );
+                        tdcNotice.notice( 'changeData Error: Destination model not in structure data!', true, false );
                     }
 
                     if ( sourceModel.cid === destinationModel.cid ) {
@@ -1792,7 +1792,7 @@ var tdcIFrameData,
                     if ( _.isUndefined( destinationModel ) ) {
                         //throw 'changeData Error: Destination model not in structure data!';
 
-                        new tdcNotice.notice( 'changeData Error: Destination model not in structure data!', true, false );
+                        tdcNotice.notice( 'changeData Error: Destination model not in structure data!', true, false );
                     }
 
                     if ( sourceModel.cid === destinationModel.cid ) {
@@ -2213,7 +2213,7 @@ var tdcIFrameData,
             if ( ! $destination.length ) {
                 //throw '_getDestinationModel Error: Container destination not available!';
 
-                new tdcNotice.notice( '_getDestinationModel Error: Container destination not available!', true, false );
+                tdcNotice.notice( '_getDestinationModel Error: Container destination not available!', true, false );
             }
 
             // The model id (where the item model must be inserted)
@@ -2222,7 +2222,7 @@ var tdcIFrameData,
             if ( _.isUndefined( destinationModelId ) ) {
                 //throw '_getDestinationModel Error: Model id of the container destination not in data!';
 
-                new tdcNotice.notice( '_getDestinationModel Error: Model id of the container destination not in data!', true, false );
+                tdcNotice.notice( '_getDestinationModel Error: Model id of the container destination not in data!', true, false );
             }
 
             // The model (where the item model must be inserted)
@@ -2231,7 +2231,7 @@ var tdcIFrameData,
             if ( _.isUndefined( destinationModel ) ) {
                 //throw '_getDestinationModel Error: Model not in structure data!';
 
-                new tdcNotice.notice( '_getDestinationModel Error: Model not in structure data!', true, false );
+                tdcNotice.notice( '_getDestinationModel Error: Model not in structure data!', true, false );
             }
 
             //tdcDebug.log( destinationModel );
@@ -2270,7 +2270,7 @@ var tdcIFrameData,
                 if ( _.isUndefined( destinationInnerColumnModelId ) ) {
                     //throw '_getDestinationCol Error: The inner column model id not in data!';
 
-                    new tdcNotice.notice( '_getDestinationCol Error: The inner column model id not in data!', true, false );
+                    tdcNotice.notice( '_getDestinationCol Error: The inner column model id not in data!', true, false );
                 }
 
                 // The inner column model (where the item model must be inserted)
@@ -2279,7 +2279,7 @@ var tdcIFrameData,
                 if ( _.isUndefined( destinationInnerColumnModel ) ) {
                     //throw '_getDestinationCol Error: The inner column model not in structure data!';
 
-                    new tdcNotice.notice( '_getDestinationCol Error: The inner column model not in structure data!', true, false );
+                    tdcNotice.notice( '_getDestinationCol Error: The inner column model not in structure data!', true, false );
                 }
 
                 // Get the inner columns' number
@@ -2300,7 +2300,7 @@ var tdcIFrameData,
                 if ( _.isUndefined( destinationColumnModelId ) ) {
                     //throw '_getDestinationCol Error: The column model id not in data!';
 
-                    new tdcNotice.notice( '_getDestinationCol Error: The column model id not in data!', true, false );
+                    tdcNotice.notice( '_getDestinationCol Error: The column model id not in data!', true, false );
                 }
 
                 // The column model (where the item model must be inserted)
@@ -2309,7 +2309,7 @@ var tdcIFrameData,
                 if ( _.isUndefined( destinationColumnModelId ) ) {
                     //throw '_getDestinationCol Error: Tne column model not in structure data!';
 
-                    new tdcNotice.notice( '_getDestinationCol Error: Tne column model not in structure data!', true, false );
+                    tdcNotice.notice( '_getDestinationCol Error: Tne column model not in structure data!', true, false );
                 }
 
                 // Get the columns' number
@@ -2323,7 +2323,7 @@ var tdcIFrameData,
                 // The destination column must be present all the time.
                 //throw '_getDestinationCol Error: The destination container is not inside of .tdc-column !';
 
-                new tdcNotice.notice( '_getDestinationCol Error: The destination container is not inside of .tdc-column !', true, false );
+                tdcNotice.notice( '_getDestinationCol Error: The destination container is not inside of .tdc-column !', true, false );
             }
         },
 

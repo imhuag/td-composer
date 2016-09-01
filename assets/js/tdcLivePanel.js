@@ -2,6 +2,10 @@
  * Created by tagdiv on 20.07.2016.
  */
 
+/* global tdcAdminIFrameUI:{} */
+/* global tdcIFrameData:{} */
+/* global tdcDebug:{} */
+
 /* global jQuery:{} */
 /* global _:{} */
 
@@ -31,12 +35,11 @@ var tdcLivePanel;
             tdcLivePanel.$tdcCustomized = tdcLivePanel.$panel.find( '#tdc_customized' );
 
             tdcLivePanel.$tdcIframeCover = jQuery( '#tdc-iframe-cover' );
-            //tdcLivePanel.$tdcIframeCover.hide();
 
+            // Switch the old iframe content withe the new iframe content.
             tdcLivePanel.$panel.submit({
                 //test: 'testare'
             }, function( eventData ) {
-                //tdcDebug.log( 'eventData' );
                 //tdcDebug.log( eventData );
 
                 var $newTdcLiveIframe = jQuery( '#tdc-live-iframe-temp' );
@@ -77,64 +80,13 @@ var tdcLivePanel;
                 event.preventDefault();
 
                 // Update the hidden field
-                var $this = jQuery(this),
+                var $this = jQuery( this ),
                     wrapper_id = $this.data('control-id');
 
-                jQuery('#hidden_' + wrapper_id).val(jQuery(this).closest( '.td-box').attr( 'id' ) );
+                jQuery( '#hidden_' + wrapper_id ).val( $this.closest( '.td-box' ).attr( 'id' ) );
 
-
-                // Create new iframe
-
-                var $tdcLiveIframe = jQuery( '#tdc-live-iframe' );
-
-                if ( _.isUndefined( tdcLivePanel._iframeSrc ) ) {
-                    tdcLivePanel._iframeSrc = $tdcLiveIframe.attr( 'src' );
-                }
-
-                var uniqueId = 'uid_' + Math.floor((Math.random() * 10000) + 1) + '_' + Math.floor((Math.random() * 100) + 1 ),
-                    $newTdcLiveIframe = jQuery( '<iframe id="tdc-live-iframe-temp" name="' + uniqueId + '" scrolling="auto" src="about:blank" style="width: 100%; height: 100%" class="tdc-live-iframe-temp"></iframe>' );
-
-                $newTdcLiveIframe.insertAfter( $tdcLiveIframe );
-
-
-                tdcLivePanel.$panel.attr( 'target', uniqueId );
-                tdcLivePanel.$panel.attr( 'action', tdcLivePanel._iframeSrc );
-
-                tdcLivePanel.$tdcIframeCover.show();
-                tdcLivePanel.$tdcIframeCover.addClass( 'tdc-iframe-cover-show' );
-
-
-                // Get the new content (the post shortcode) and preview it
-                var data = {
-                    error: undefined,
-                    getShortcode: ''
-                };
-
-                tdcIFrameData.getShortcodeFromData( data );
-
-                if ( !_.isUndefined( data.error ) ) {
-                    tdcDebug.log( data.error );
-                }
-
-                if ( !_.isUndefined( data.getShortcode ) ) {
-
-                    tdcLivePanel.$tdcContent.val( data.getShortcode );
-
-                    // The new post content is set to the global 'window.tdcPostSettings.postContent'
-                    window.tdcPostSettings.postContent = data.getShortcode;
-                }
-
-                // This ensure that nothing will be save to the database
-                // This field is restored to 'tdc_ajax_save_post' by the Save button
-                tdcLivePanel.$tdcAction.val( 'preview' );
-
-
-                tdcLivePanel.$tdcCustomized.val( JSON.stringify( window.tdcAdminSettings.customized ) );
-
-
-                // Do a normal submit
-                tdcLivePanel.$panel.submit();
-
+                // Submit the panel
+                tdcLivePanel.submit();
             });
 
 
@@ -144,58 +96,13 @@ var tdcLivePanel;
                 event.preventDefault();
 
                 // Update the hidden field
-                var wrapper_id = jQuery(this).data('control-id');
-                jQuery('#hidden_' + wrapper_id).val(jQuery(this).data('option-value'));
+                var $this = jQuery( this ),
+                    wrapper_id = $this.data( 'control-id' );
 
+                jQuery( '#hidden_' + wrapper_id ).val( $this.data( 'option-value' ) );
 
-                // Create new iframe
-
-                var $tdcLiveIframe = jQuery( '#tdc-live-iframe' );
-
-                if ( _.isUndefined( tdcLivePanel._iframeSrc ) ) {
-                    tdcLivePanel._iframeSrc = $tdcLiveIframe.attr( 'src' );
-                }
-
-                var uniqueId = 'uid_' + Math.floor((Math.random() * 10000) + 1) + '_' + Math.floor((Math.random() * 100) + 1 ),
-                    $newTdcLiveIframe = jQuery( '<iframe id="tdc-live-iframe-temp" name="' + uniqueId + '" scrolling="auto" src="about:blank" style="width: 100%; height: 100%" class="tdc-live-iframe-temp"></iframe>' );
-
-                $newTdcLiveIframe.insertAfter( $tdcLiveIframe );
-
-
-                tdcLivePanel.$panel.attr( 'target', uniqueId );
-                tdcLivePanel.$panel.attr( 'action', tdcLivePanel._iframeSrc );
-
-                tdcLivePanel.$tdcIframeCover.show();
-                tdcLivePanel.$tdcIframeCover.addClass( 'tdc-iframe-cover-show' );
-
-
-                // Get the new content (the post shortcode) and preview it
-                var data = {
-                    error: undefined,
-                    getShortcode: ''
-                };
-
-                tdcIFrameData.getShortcodeFromData( data );
-
-                if ( !_.isUndefined( data.error ) ) {
-                    tdcDebug.log( data.error );
-                }
-
-                if ( !_.isUndefined( data.getShortcode ) ) {
-
-                    tdcLivePanel.$tdcContent.val( data.getShortcode );
-
-                    // The new post content is set to the global 'window.tdcPostSettings.postContent'
-                    window.tdcPostSettings.postContent = data.getShortcode;
-                }
-
-                // This ensure that nothing will be save to the database
-                // This field is restored to 'tdc_ajax_save_post' by the Save button
-                tdcLivePanel.$tdcAction.val( 'preview' );
-
-
-                // Do a normal submit
-                tdcLivePanel.$panel.submit();
+                // Submit the panel
+                tdcLivePanel.submit();
             });
 
 
@@ -206,6 +113,8 @@ var tdcLivePanel;
 
                 var $this = jQuery( this ),
                     menuId = $this.data( 'menu_id'),
+
+                    // Some css is applied because of the 'tdc-menu-settings' get param
                     url = window.tdcAdminSettings.adminUrl + '/nav-menus.php?action=edit&menu=' + menuId + '&tdc-menu-settings=1',
                     $tdcMenuSettings = jQuery( '#tdc-menu-settings' ),
                     $currentIframeMenuSettings = $tdcMenuSettings.find( '#tdc-iframe-settings-menu-' + menuId );
@@ -214,7 +123,7 @@ var tdcLivePanel;
                     $currentIframeMenuSettings.show();
                 } else {
                     $tdcMenuSettings.addClass( 'tdc-dropped' );
-                    $currentIframeMenuSettings = jQuery( '<iframe id="tdc-iframe-settings-menu-' + $this.data( 'menu_id' ) + '" src="' + url + '" data-menu_id="' + $this.data( 'menu_id' ) + '" scrolling="auto" style="width: 100%; height: 100%"></iframe>')
+                    $currentIframeMenuSettings = jQuery( '<iframe id="tdc-iframe-settings-menu-' + menuId + '" src="' + url + '" data-menu_id="' + menuId + '" scrolling="auto" style="width: 100%; height: 100%"></iframe>')
                         .load(function() {
 
                             var $iframeMenuSettingsContents = $currentIframeMenuSettings.contents();
@@ -250,44 +159,6 @@ var tdcLivePanel;
 
                             });
 
-                            //$saveMenuSettings.click(function(event) {
-                            //    event.preventDefault();
-                            //
-                            //    var dataRequest = {},
-                            //        $updateNavMenuForm = $iframeMenuSettingsContents.find( '#update-nav-menu' ),
-                            //        navMenuData = $updateNavMenuForm.serializeArray();
-                            //
-                            //    $updateNavMenuForm.find( 'input[name=nav-menu-data]').val( JSON.stringify( navMenuData ) );
-                            //
-                            //    $updateNavMenuForm.find( 'input[type=hidden]').each(function( index, element) {
-                            //        var $element = jQuery( element );
-                            //        dataRequest[ $element.attr( 'name' ) ] = $element.val();
-                            //    });
-                            //
-                            //    console.log( dataRequest );
-                            //
-                            //    var menuId = $this.data( 'menu_id' );
-                            //
-                            //    //window.tdcAdminSettings.customized.menus[ 'existing_menu_' + menuId ] = dataRequest;
-                            //    //
-                            //    //jQuery( "#tdc_page_template" ).trigger( "change" );
-                            //
-                            //    //jQuery.ajax({
-                            //    //    url: 'nav-menus.php?menu=' + $this.data( 'menu_id' ),
-                            //    //    method: 'POST',
-                            //    //    data: dataRequest
-                            //    //}).done(function( data, textStatus, jqXHR ) {
-                            //    //
-                            //    //    if ( 'success' === textStatus ) {
-                            //    //        jQuery( "#tdc_page_template" ).trigger( "change" );
-                            //    //    }
-                            //    //
-                            //    //}).fail(function( jqXHR, textStatus, errorThrown ) {
-                            //    //    alert( 'Error saving menu!' );
-                            //    //});
-                            //
-                            //});
-
                         });
 
                     $tdcMenuSettings.append( $currentIframeMenuSettings );
@@ -315,29 +186,27 @@ var tdcLivePanel;
         },
 
 
-
+        /**
+         * Save menu/all menus settings.
+         * For saving a specific menu, the both params must be specified
+         *
+         * @param $iframeMenuSettingsContents
+         * @param menuId
+         */
         saveMenuSettings: function( $iframeMenuSettingsContents, menuId ) {
 
-            if ( ! _.isUndefined( $iframeMenuSettingsContents ) && ! _.isUndefined( menuId ) ) {
+            if ( _.isUndefined( $iframeMenuSettingsContents ) || _.isUndefined( menuId ) ) {
 
-                var $updateNavMenuForm = $iframeMenuSettingsContents.find( '#update-nav-menu' ),
-                    navMenuData = $updateNavMenuForm.serializeArray();
-
-                var value = JSON.stringify( navMenuData );
-
-                window.tdcAdminSettings.customized.menus[ 'existing_menu_' + menuId ] = value;
-
-                jQuery( "#tdc_page_template" ).trigger( "change" );
-
-            } else {
                 var $tdcMenuSettings = jQuery( '#tdc-menu-settings' );
 
                 $tdcMenuSettings.find( 'iframe').each(function( index, element ) {
-                    var $element = jQuery( element );
-
-                    var dataRequest = {},
+                    var $element = jQuery( element ),
+                        menuId = $element.data( 'menu_id' ),
                         $updateNavMenuForm = $element.contents().find( '#update-nav-menu' ),
-                        navMenuData = $updateNavMenuForm.serializeArray();
+                        navMenuData = $updateNavMenuForm.serializeArray(),
+
+                        // ajax data plain object
+                        dataRequest = {};
 
                     $updateNavMenuForm.find( 'input[name=nav-menu-data]').val( JSON.stringify( navMenuData ) );
 
@@ -346,15 +215,81 @@ var tdcLivePanel;
                         dataRequest[ $element.attr( 'name' ) ] = $element.val();
                     });
 
-                    var menuId = $element.data( 'menu_id' );
-
                     jQuery.ajax({
                         url: 'nav-menus.php?menu=' + menuId,
                         method: 'POST',
                         data: dataRequest
                     });
                 });
+
+            } else {
+
+                var $updateNavMenuForm = $iframeMenuSettingsContents.find( '#update-nav-menu' ),
+                    navMenuData = $updateNavMenuForm.serializeArray();
+
+                window.tdcAdminSettings.customized.menus[ 'existing_menu_' + menuId ] = JSON.stringify( navMenuData );
+
+                // Submit the panel
+                tdcLivePanel.submit();
             }
+        },
+
+
+        /**
+         * Submit the live panel.
+         * Prepare the new temporary iframe to replace the old iframe.
+         */
+        submit: function() {
+
+            // Create new iframe
+
+            var $tdcLiveIframe = jQuery( '#tdc-live-iframe' );
+
+            if ( _.isUndefined( tdcLivePanel._iframeSrc ) ) {
+                tdcLivePanel._iframeSrc = $tdcLiveIframe.attr( 'src' );
+            }
+
+            var uniqueId = 'uid_' + Math.floor((Math.random() * 10000) + 1) + '_' + Math.floor((Math.random() * 100) + 1 ),
+                $newTdcLiveIframe = jQuery( '<iframe id="tdc-live-iframe-temp" name="' + uniqueId + '" scrolling="auto" src="about:blank" style="width: 100%; height: 100%" class="tdc-live-iframe-temp"></iframe>' );
+
+            $newTdcLiveIframe.insertAfter( $tdcLiveIframe );
+
+
+            tdcLivePanel.$panel.attr( 'target', uniqueId );
+            tdcLivePanel.$panel.attr( 'action', tdcLivePanel._iframeSrc );
+
+            tdcLivePanel.$tdcIframeCover.show();
+            tdcLivePanel.$tdcIframeCover.addClass( 'tdc-iframe-cover-show' );
+
+
+            // Get the new content (the post shortcode) and preview it
+            var data = {
+                error: undefined,
+                getShortcode: ''
+            };
+
+            tdcIFrameData.getShortcodeFromData( data );
+
+            if ( !_.isUndefined( data.error ) ) {
+                tdcDebug.log( data.error );
+            }
+
+            if ( !_.isUndefined( data.getShortcode ) ) {
+
+                tdcLivePanel.$tdcContent.val( data.getShortcode );
+
+                // The new post content is set to the global 'window.tdcPostSettings.postContent'
+                window.tdcPostSettings.postContent = data.getShortcode;
+            }
+
+            // This ensure that nothing will be save to the database
+            // This field is restored to 'tdc_ajax_save_post' by the Save button
+            tdcLivePanel.$tdcAction.val( 'preview' );
+
+            tdcLivePanel.$tdcCustomized.val( JSON.stringify( window.tdcAdminSettings.customized ) );
+
+            // Do a normal submit
+            tdcLivePanel.$panel.submit();
         }
     };
 

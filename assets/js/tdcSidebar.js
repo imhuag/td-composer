@@ -495,7 +495,7 @@ var tdcSidebar;
 
                     if ( ! _.isUndefined( model ) ) {
 
-                        new tdcNotice.notice( 'td_block_homepage_full_1 este deja in pagina', false, true );
+                        tdcNotice.notice( 'td_block_homepage_full_1 este deja in pagina', false, true );
                         return;
                     }
                 }

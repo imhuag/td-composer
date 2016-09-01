@@ -7,6 +7,11 @@
 /* global _:{} */
 
 /* global tdcIFrameData:{} */
+/* global tdcLivePanel:{} */
+/* global tdcNotice:{} */
+/* global tdcMain:{} */
+/* global tdcJobManager:{} */
+/* global tdcUtil:{} */
 /* global tdcDebug:{} */
 
 
@@ -53,6 +58,7 @@ var tdcSavePost;
                     beforeSend: function ( xhr ) {
                         xhr.setRequestHeader( 'X-WP-Nonce', window.tdcAdminSettings.wpRestNonce);
 
+                        // Save the customized menu info
                         tdcLivePanel.saveMenuSettings();
                     },
                     data: tdcLivePanel.$panel.serialize()
@@ -68,9 +74,9 @@ var tdcSavePost;
 
                     if ( 'success' === textStatus ) {
                         if ( _.isObject( data ) && _.has( data, 'errors' ) ) {
-                            new tdcNotice.notice( data.errors, true, false );
+                            tdcNotice.notice( data.errors, true, false );
                         } else {
-                            new tdcNotice.notice( textStatus, false, true );
+                            tdcNotice.notice( textStatus, false, true );
                         }
 
                         // Reset the flag that inform the content has been modified

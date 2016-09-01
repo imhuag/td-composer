@@ -2,6 +2,8 @@
  * Created by ra on 6/10/2016.
  */
 
+/* global _:{} */
+
 /* global tdcNotice:{} */
 
 /* global cssjs:{} */
@@ -10,7 +12,7 @@
 var tdcCssParser = {};
 
 
-(function() {
+(function( _ ) {
     'use strict';
 
     tdcCssParser = {
@@ -93,7 +95,7 @@ var tdcCssParser = {};
 
                 //throw "Parse did not run";
 
-                new tdcNotice.notice( 'Parse did not run', true, false );
+                tdcNotice.notice( 'Parse did not run', true, false );
             }
 
 
@@ -360,7 +362,7 @@ var tdcCssParser = {};
 
     };
 
-})();
+})( _ );
 
 
 
