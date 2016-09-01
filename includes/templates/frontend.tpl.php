@@ -70,7 +70,7 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 	</script>
 
 	<!-- the composer sidebar -->
-	<div id="tdc-sidebar">
+	<div id="tdc-sidebar" class="tdc-sidebar-inline">
 		<div class="tdc-top-buttons">
 			<div class="tdc-add-element">
 				Add element
@@ -241,7 +241,7 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 
 
 	<!-- The live iFrame loads in this wrapper :) -->
-	<div id="tdc-live-iframe-wrapper" class="tdc-live-iframe-wrapper-full"></div>
+	<div id="tdc-live-iframe-wrapper" class="tdc-live-iframe-wrapper-inline"></div>
 
 	<div id="tdc-iframe-cover"></div>
 
