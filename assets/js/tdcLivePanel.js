@@ -134,23 +134,7 @@ var tdcLivePanel;
 
                             $iframeMenuSettingsContents.find( 'body' ).addClass( 'tdc-menu-settings' );
 
-                            //$tdcMenuSettings.addClass( 'menu-settings-available' );
                             $tdcMenuSettings.removeClass( 'tdc-dropped' );
-
-                            $iframeMenuSettingsContents.find( '#wpadminbar').hide();
-                            $iframeMenuSettingsContents.find( '#adminmenumain').hide();
-
-                            $iframeMenuSettingsContents.find( '.delete-action').hide();
-                            //$iframeMenuSettingsContents.find( '.publishing-action').hide();
-
-                            $iframeMenuSettingsContents.find( '#wpbody-content').children().each( function( index, element ) {
-                                var $element = jQuery( element );
-                                if ( $element.hasClass( 'wrap' ) ) {
-                                    $element.find( 'h1,h2,.manage-menus').hide();
-                                } else {
-                                    $element.hide();
-                                }
-                            });
 
                             $iframeMenuSettingsContents.find( 'input[name=save_menu]').val( 'Preview Menu' );
 

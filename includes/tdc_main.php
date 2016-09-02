@@ -695,6 +695,24 @@ if ( 'nav-menus' === basename($_SERVER["SCRIPT_FILENAME"], '.php') && false !== 
 				margin-top: -30px;
 			}
 
+			#wpadminbar,
+			#screen-meta,
+			#screen-meta-links,
+			#adminmenumain,
+			#wpfooter,
+			.wrap > h1,
+			.wrap > h2,
+			.wrap > .manage-menus,
+			.delete-action,
+			.error,
+			.menu-settings {
+				display: none;
+			}
+
+			#wpbody-content {
+				padding-bottom: 0;
+			}
+
 		</style>
 		<?php
 	}
