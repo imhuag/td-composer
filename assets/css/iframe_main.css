@@ -53,6 +53,7 @@ html.tdc-active #wpadminbar {
 .tdc-element-inner-row,
 .tdc-element-inner-column {
   cursor: pointer;
+  transition: opacity 0.4s ease;
 }
 .tdc-element:after {
   content: '';
@@ -154,6 +155,9 @@ html.tdc-active #wpadminbar {
   background-position: center;
   animation: tdc-dropped-colorchange 1s linear infinite;
   -webkit-animation: tdc-dropped-colorchange 1s linear infinite;
+}
+.tdc-changed {
+  opacity: 0.5;
 }
 .tdc-element-empty {
   border: 1px solid #4eb2ec;
