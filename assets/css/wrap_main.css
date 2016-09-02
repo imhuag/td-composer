@@ -17,6 +17,7 @@
   -moz-transition: left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s, box-shadow 0.4s ease 0s;
   -o-transition: left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s, box-shadow 0.4s ease 0s;
   transition: left 0.4s cubic-bezier(0.55, 0, 0.1, 1) 0s, box-shadow 0.4s ease 0s;
+  overflow: hidden;
 }
 #tdc-sidebar:before {
   content: '';
@@ -406,11 +407,13 @@
 placeholder when sidebar is empty
 */
 .tdc-empty-sidebar {
-  width: 100%;
-  position: relative;
+  width: 317px;
+  position: absolute;
   top: 55px;
+  bottom: 55px;
   text-align: center;
   color: #000000;
+  overflow-y: scroll;
 }
 .tdc-empty-sidebar .tdc-start-tips {
   padding: 12px;
@@ -1251,6 +1254,96 @@ input[type=checkbox] {
   width: auto;
   max-width: 100%;
   margin-right: 0;
+}
+#tdc-menu-settings {
+  position: fixed;
+  border: 1px solid red;
+  width: 1100px;
+  height: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  margin: 0 auto;
+  background-color: #FFFFFF;
+  display: none;
+}
+.menu-settings-available {
+  opacity: 1 !important;
+}
+#tdc-close-iframe {
+  position: absolute;
+  top: -22px;
+  right: -22px;
+  border: 1px solid red;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  background-color: #FFFFFF;
+}
+#tdc-close-iframe:before {
+  content: 'X';
+}
+/* ----------------------------------------------------------------------------------------
+  When a element is dropped, the job is running and we're waiting for new content
+*/
+@keyframes tdc-dropped-colorchange {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes tdc-dropped-colorchange {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+.tdc-dropped {
+  position: relative;
+  max-height: 550px;
+  min-height: 120px;
+  overflow: hidden;
+  margin-bottom: 45px;
+}
+.tdc-dropped .td-video-play-ico {
+  display: none;
+}
+.tdc-dropped:before {
+  top: 0;
+  left: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  content: '';
+  z-index: 1;
+  min-height: 100px;
+  background-color: white;
+}
+.tdc-dropped:after {
+  top: 0;
+  left: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: #f1f1f1 url("../images/loader.gif") no-repeat;
+  content: '';
+  z-index: 2;
+  background-position: center;
+  animation: tdc-dropped-colorchange 1s linear infinite;
+  -webkit-animation: tdc-dropped-colorchange 1s linear infinite;
 }
 /*
   Full screen loader
