@@ -67,6 +67,9 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 			shortcodes: <?php echo json_encode( $shortcodes ) ?>
 		};
 
+		// Set the local storage to show inline the iframe wrapper and the sidebar
+		window.localStorage.setItem( 'tdc_live_iframe_wrapper_inline', 1 );
+
 	</script>
 
 	<!-- the composer sidebar -->
