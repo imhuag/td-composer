@@ -212,7 +212,7 @@ var tdcSidebar;
                 tdcSidebar.$_sidebarOpen.addClass( 'tdc-sidebar-reopen' );
             }
 
-            if ( '1' === localStorageLiveIframeWrapperInline ) {
+            if ( null === localStorageLiveIframeWrapperInline ) {
 
                 tdcMain.setSidebarInline();
 
