@@ -41,18 +41,18 @@
 
 #tdc-menu-settings {
   position: fixed;
-  border: 1px solid red;
+  border: 1px solid #4eb2ec;
   width: 1100px;
   height: 600px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 101; // over live panel
+  z-index: 101;
   margin: 0 auto;
   background-color: #FFFFFF;
   display: none;
-//  opacity: 0;
-//  transition: opacity 0.4s ease;
+  .box-shadow(0px 0px 20px 1px rgba(0,0,0,0.15));
+  .transition(all 0.5s ease-in-out);
 }
 
 .menu-settings-available {
@@ -61,16 +61,36 @@
 
 #tdc-close-iframe {
   position: absolute;
-  top: -22px;
-  right: -22px;
-  border: 1px solid red;
-  width: 20px;
-  height: 20px;
+  top: -17px;
+  right: -17px;
+  width: 33px;
+  height: 33px;
   text-align: center;
-  background-color: #FFFFFF;
+  color: #fff;
+  background-color: #4eb2ec;
+  cursor: pointer;
+  .transition(background-color 0.05s ease-in-out);
+
+  &:hover {
+    background-color: #268ac2;
+  }
 
   &:before {
-    content: 'X';
+    //content: 'X';
+    //line-height: 33px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    content: '';
+    display: block;
+    width: 19px;
+    height: 19px;
+    background: url('../images/sidebar/spritesheet.png');
+    background-repeat: no-repeat;
+    background-position: -5px -126px;
   }
 }
 
