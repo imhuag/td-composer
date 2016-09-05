@@ -32,7 +32,7 @@ class vc_widget_sidebar extends tdc_composer_block {
 		}
 
 		$output = '
-			<div class="wpb_wrapper td_block_wrap ' . $this->get_block_classes( array( $atts['el_class'] ) ) . '">
+			<div class="wpb_wrapper td_block_wrap ' . $this->get_block_classes( array( $atts['el_class'] ) ) . ' ' . $this->get_block_html_atts() . '">
 				<div class="td-block-title-wrap">
 					<h4 class="block-title"><span>' . $atts['title'] . '</span></h4>
 		        </div>'
