@@ -34,7 +34,7 @@
 	<input type="hidden" id="tdc_customized" name="tdc_customized" value="">
 
 	<!-- WP SETTINGS -->
-	<?php echo td_panel_generator::box_start('WP Settings'); ?>
+	<?php echo td_panel_generator::box_start('Template settings'); ?>
 
 		<select name="tdc_page_template" id="tdc_page_template">
 			<?php
