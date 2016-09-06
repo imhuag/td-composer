@@ -26,6 +26,10 @@ var tdcLivePanel;
 
         $panel: undefined,
 
+        $_iframeCloseButton: undefined,
+        $_iframeApplyButton: undefined,
+        $_iframeOkButton: undefined,
+
 
         init: function() {
 
@@ -109,77 +113,310 @@ var tdcLivePanel;
 
 
             tdcLivePanel.$panel.on( 'click', '.tdc-panel-menu', function(event) {
-                event.preventDefault();
 
                 var $this = jQuery( this ),
                     menuId = $this.data( 'menu_id'),
 
                     // Some css is applied because of the 'tdc-menu-settings' get param
                     url = window.tdcAdminSettings.adminUrl + '/nav-menus.php?action=edit&menu=' + menuId + '&tdc-menu-settings=1',
+
+                    // The wrapper of the iframes
                     $tdcMenuSettings = jQuery( '#tdc-menu-settings' ),
-                    $currentIframeMenuSettings = $tdcMenuSettings.find( '#tdc-iframe-settings-menu-' + menuId );
+
+                    // The iframe id
+                    currentIframeId = 'tdc-iframe-settings-menu-' + menuId,
+
+                    $currentIframeMenuSettings = $tdcMenuSettings.find( '#' + currentIframeId );
+
+
+
+                // Create the saved menu content for this iframe (if it's not already created)
+
+                var currentIframeDataId = currentIframeId + '-data',
+                    $_currentIframeData = $tdcMenuSettings.find( '#' + currentIframeDataId );
+
+                if ( ! $_currentIframeData.length ) {
+                    $_currentIframeData = jQuery( '<div id="' + currentIframeDataId + '" style="display: none"></div>' );
+                    $tdcMenuSettings.append( $_currentIframeData );
+                }
+
+                $tdcMenuSettings.show();
 
                 if ( $currentIframeMenuSettings.length ) {
                     $currentIframeMenuSettings.show();
+
+                    tdcLivePanel._setIframeInterface( {
+                        type: 'menu',
+                        menuId: menuId
+                    } );
+
+                    tdcLivePanel._synchronizeIframeMenuData( currentIframeId );
+
                 } else {
                     $tdcMenuSettings.addClass( 'tdc-dropped' );
-                    $currentIframeMenuSettings = jQuery( '<iframe id="tdc-iframe-settings-menu-' + menuId + '" src="' + url + '" data-menu_id="' + menuId + '" scrolling="auto" style="width: 100%; height: 100%"></iframe>')
+
+                    $currentIframeMenuSettings = jQuery( '<iframe id="' + currentIframeId + '" class="tdc-iframe-settings-menu" src="' + url + '" data-menu_id="' + menuId + '" scrolling="auto" style="width: 100%; height: 100%"></iframe>')
                         .load(function() {
 
                             // This is the jquery iframe document
                             var $iframeMenuSettingsContents = $currentIframeMenuSettings.contents();
 
-                            // This is the iframe window
-                            var iframeWindow = $currentIframeMenuSettings[0].contentWindow || $currentIframeMenuSettings[0].contentDocument;
-
                             $iframeMenuSettingsContents.find( 'body' ).addClass( 'tdc-menu-settings' );
 
                             $tdcMenuSettings.removeClass( 'tdc-dropped' );
 
-                            $iframeMenuSettingsContents.find( 'input[name=save_menu]').val( 'Preview Menu' );
-
-                            var $saveMenuSettings = $iframeMenuSettingsContents.find( 'input[name=save_menu]');
-
-                            $saveMenuSettings.click(function(event) {
-                                event.preventDefault();
-
-                                // Important! The wpNavMenu.eventOnClickMenuSave must be called
-                                // The position for the new added elements is computed
-                                iframeWindow.wpNavMenu.eventOnClickMenuSave();
-
-                                var $updateNavMenuForm = $iframeMenuSettingsContents.find( '#update-nav-menu' ),
-                                    navMenuData = $updateNavMenuForm.serializeArray();
-
-                                window.tdcAdminSettings.customized.menus[ 'existing_menu_' + menuId ] = JSON.stringify( navMenuData );
-
-                                // Submit the panel
-                                tdcLivePanel.submit();
+                            tdcLivePanel._setIframeInterface({
+                                type: 'menu',
+                                menuId: menuId
                             });
 
+                            tdcLivePanel._synchronizeIframeMenuData( currentIframeId );
                         });
 
                     $tdcMenuSettings.append( $currentIframeMenuSettings );
                 }
-                $currentIframeMenuSettings.siblings().hide();
-                $tdcMenuSettings.show();
 
-                $tdcMenuSettings.removeClass( 'menu-settings-available' );
-
-                var $tdcCloseIframe = $tdcMenuSettings.find( '#tdc-close-iframe' );
-
-                if ( ! $tdcCloseIframe.length ) {
-                    $tdcCloseIframe = jQuery( '<div id="tdc-close-iframe"></div>' );
-
-                    $tdcCloseIframe.click( function(event) {
-                        $tdcMenuSettings.hide();
-                        $currentIframeMenuSettings.hide();
-                    });
-
-                    $tdcMenuSettings.append( $tdcCloseIframe );
-                }
-                $tdcCloseIframe.show();
-                $tdcMenuSettings.show();
+                // Hide and cancel the siblings of the current iframe
+                $currentIframeMenuSettings.siblings( '.tdc-iframe-settings-menu' ).each(function(index, element) {
+                    var $element = jQuery( element );
+                    if ( $element.is( ':visible' ) ) {
+                        tdcLivePanel._synchronizeIframeMenuData( $element.attr( 'id' ) );
+                        $element.hide();
+                    }
+                });
             });
+
+
+            // initialize the content of the tdcMenuSettings (the iframe buttons)
+            tdcLivePanel._setIframeInterface();
+        },
+
+
+        /**
+         * Synchronize menus of iframes with their corresponding data
+         * If the content of the data is empty, it will be populated with the current content of the $updateNavMenu
+         * If the content of the data is not empty, its content will populate the $updateNavMenu, and the wpNavMenu is initialized
+         *
+         * @param currentIframeId
+         * @private
+         */
+        _synchronizeIframeMenuData: function( currentIframeId ) {
+
+            var currentIframeDataId = currentIframeId + '-data',
+                $tdcMenuSettings = jQuery( '#tdc-menu-settings' ),
+                $currentIframeData = $tdcMenuSettings.find( '#' + currentIframeDataId ),
+                contentHtml = $currentIframeData.html(),
+                $currentIframeMenuSettings = $tdcMenuSettings.find( '#' + currentIframeId ),
+                $updateNavMenu = $currentIframeMenuSettings.contents().find( '#update-nav-menu' );
+
+            if ( '' === contentHtml ) {
+                $currentIframeData.html( $updateNavMenu.contents().clone() );
+            } else {
+                $updateNavMenu.html( contentHtml );
+
+                var iframeWindow = $currentIframeMenuSettings[0].contentWindow || $currentIframeMenuSettings[0].contentDocument;
+
+                // We need to reinit the wpNavMenu, because the menu operations was removed
+                iframeWindow.wpNavMenu.init();
+            }
+        },
+
+
+        /**
+         *
+         */
+        _setIframeInterface: function( data ) {
+
+            var $tdcMenuSettings = jQuery( '#tdc-menu-settings' );
+
+
+            // Get(create) the Close(cancel) button
+            tdcLivePanel.$_iframeCloseButton = $tdcMenuSettings.find( '#tdc-iframe-close-button' );
+
+            if ( ! tdcLivePanel.$_iframeCloseButton.length ) {
+                tdcLivePanel.$_iframeCloseButton = jQuery( '<div id="tdc-iframe-close-button"></div>' );
+
+                tdcLivePanel.$_iframeCloseButton.click( function(event) {
+
+                    var $this = jQuery( this ),
+
+                    // Current iframe
+                        $currentIframeMenuSettings = jQuery( '#' + $this.data( 'current_iframe' ) ),
+
+                    // Current iframe data
+                        $currentIframeData = jQuery( '#' + $this.data( 'current_iframe' ) + '-data' ),
+
+                    // Content html of the current iframe data
+                        contentHtml = $currentIframeData.html(),
+
+                    // #update-nav-menu of the current iframe
+                        $updateNavMenu = $currentIframeMenuSettings.contents().find( '#update-nav-menu' );
+
+                    if ( '' !== contentHtml ) {
+                        $updateNavMenu.html( contentHtml );
+
+                        var iframeWindow = $currentIframeMenuSettings[0].contentWindow || $currentIframeMenuSettings[0].contentDocument;
+
+                        // We need to reinit the wpNavMenu, because the menu operations was removed
+                        iframeWindow.wpNavMenu.init();
+
+                        $currentIframeData.html( '' );
+                    }
+
+                    $tdcMenuSettings.hide();
+                    $currentIframeMenuSettings.hide();
+                });
+                $tdcMenuSettings.append( tdcLivePanel.$_iframeCloseButton );
+            }
+
+
+
+            // Get(create) the Apply(preview) button
+
+            tdcLivePanel.$_iframeApplyButton = $tdcMenuSettings.find( '#tdc-iframe-apply-button' );
+
+            if ( ! tdcLivePanel.$_iframeApplyButton.length ) {
+                tdcLivePanel.$_iframeApplyButton = jQuery( '<div id="tdc-iframe-apply-button"></div>' );
+
+                tdcLivePanel.$_iframeApplyButton.click( function(event) {
+
+                    var $this = jQuery( this ),
+
+                    // Current iframe
+                        $currentIframeMenuSettings = jQuery( '#' + $this.data( 'current_iframe' ) ),
+
+                    // Current iframe contents
+                        $iframeMenuSettingsContents = $currentIframeMenuSettings.contents(),
+
+                    // Current iframe data
+                        $currentIframeData = jQuery( '#' + $this.data( 'current_iframe' ) + '-data' ),
+
+                    // Content html of the current iframe data
+                        contentHtml = $currentIframeData.html(),
+
+                    // #update-nav-menu of the current iframe
+                        $updateNavMenu = $currentIframeMenuSettings.contents().find( '#update-nav-menu' );
+
+                    $currentIframeData.html( $iframeMenuSettingsContents.find( '#update-nav-menu' ).contents().clone() );
+
+                    _previewMenuSettings( this );
+
+                });
+                $tdcMenuSettings.append( tdcLivePanel.$_iframeApplyButton );
+            }
+
+
+
+            // Get(create) the Ok button
+
+            tdcLivePanel.$_iframeOkButton = $tdcMenuSettings.find( '#tdc-iframe-ok-button' );
+
+            if ( ! tdcLivePanel.$_iframeOkButton.length ) {
+                tdcLivePanel.$_iframeOkButton = jQuery( '<div id="tdc-iframe-ok-button"></div>' );
+
+                tdcLivePanel.$_iframeOkButton.click( function(event) {
+
+                    var $this = jQuery( this ),
+
+                    // Current iframe
+                        $currentIframeMenuSettings = jQuery( '#' + $this.data( 'current_iframe' ) ),
+
+                    // Current iframe contents
+                        $iframeMenuSettingsContents = $currentIframeMenuSettings.contents(),
+
+                    // Current iframe data
+                        $currentIframeData = jQuery( '#' + $this.data( 'current_iframe' ) + '-data' ),
+
+                    // Content html of the current iframe data
+                        contentHtml = $currentIframeData.html(),
+
+                    // #update-nav-menu of the current iframe
+                        $updateNavMenu = $currentIframeMenuSettings.contents().find( '#update-nav-menu' );
+
+                    $currentIframeData.html( $iframeMenuSettingsContents.find( '#update-nav-menu' ).contents().clone() );
+
+                    _previewMenuSettings( this );
+
+                    $tdcMenuSettings.hide();
+                    $currentIframeMenuSettings.hide();
+                });
+
+                $tdcMenuSettings.append( tdcLivePanel.$_iframeOkButton );
+            }
+
+            if ( ! _.isUndefined( data ) ) {
+                if ( ! _.isUndefined( data.type ) ) {
+                    switch ( data.type ) {
+                        case 'menu':
+
+                            var menuId = data.menuId;
+
+                            tdcLivePanel.$_iframeCloseButton.data( 'current_iframe', 'tdc-iframe-settings-menu-' + menuId );
+                            tdcLivePanel.$_iframeApplyButton.data( 'current_iframe', 'tdc-iframe-settings-menu-' + menuId );
+                            tdcLivePanel.$_iframeOkButton.data( 'current_iframe', 'tdc-iframe-settings-menu-' + menuId );
+
+                            tdcLivePanel.$_iframeCloseButton.data( 'current_menu', menuId );
+                            tdcLivePanel.$_iframeApplyButton.data( 'current_menu', menuId );
+                            tdcLivePanel.$_iframeOkButton.data( 'current_menu', menuId );
+
+                            break;
+                    }
+                }
+
+                tdcLivePanel.$_iframeCloseButton.show();
+                tdcLivePanel.$_iframeApplyButton.show();
+                tdcLivePanel.$_iframeOkButton.show();
+
+            } else {
+
+                tdcLivePanel.$_iframeCloseButton.data( 'current_iframe', '' );
+                tdcLivePanel.$_iframeApplyButton.data( 'current_iframe', '' );
+                tdcLivePanel.$_iframeOkButton.data( 'current_iframe', '' );
+
+                tdcLivePanel.$_iframeCloseButton.data( 'current_menu', '' );
+                tdcLivePanel.$_iframeApplyButton.data( 'current_menu', '' );
+                tdcLivePanel.$_iframeOkButton.data( 'current_menu', '' );
+
+                tdcLivePanel.$_iframeCloseButton.hide();
+                tdcLivePanel.$_iframeApplyButton.hide();
+                tdcLivePanel.$_iframeOkButton.hide();
+            }
+
+
+            /**
+             *
+             * @param sender - the button
+             * @private
+             */
+            function _previewMenuSettings( sender ) {
+
+                var $this = jQuery( sender ),
+
+                    currentIframeId = $this.data( 'current_iframe' ),
+
+                    currentMenuId = $this.data( 'current_menu' ),
+
+                // Current iframe
+                    $currentIframeMenuSettings = jQuery( '#' + currentIframeId ),
+
+                // Current iframe contents
+                    $iframeMenuSettingsContents = $currentIframeMenuSettings.contents(),
+
+                // This is the iframe window
+                    iframeWindow = $currentIframeMenuSettings[0].contentWindow || $currentIframeMenuSettings[0].contentDocument;
+
+                // Important! The wpNavMenu.eventOnClickMenuSave must be called
+                // The position for the new added elements is computed
+                iframeWindow.wpNavMenu.eventOnClickMenuSave();
+
+                var $updateNavMenuForm = $iframeMenuSettingsContents.find( '#update-nav-menu' ),
+                    navMenuData = $updateNavMenuForm.serializeArray();
+
+                window.tdcAdminSettings.customized.menus[ 'existing_menu_' + currentMenuId ] = JSON.stringify( navMenuData );
+
+                // Submit the panel
+                tdcLivePanel.submit();
+            }
         },
 
 
@@ -192,6 +429,10 @@ var tdcLivePanel;
 
             $tdcMenuSettings.find( 'iframe').each(function( index, element ) {
 
+                var $element = jQuery( element );
+
+                tdcLivePanel._synchronizeIframeMenuData( $element.attr( 'id' ) );
+
                 // This is the iframe window
                 var iframeWindow = element.contentWindow || element.contentDocument;
 
@@ -199,8 +440,7 @@ var tdcLivePanel;
                 // The position for the new added elements is computed
                 iframeWindow.wpNavMenu.eventOnClickMenuSave();
 
-                var $element = jQuery( element ),
-                    menuId = $element.data( 'menu_id' ),
+                var menuId = $element.data( 'menu_id' ),
                     $updateNavMenuForm = $element.contents().find( '#update-nav-menu' ),
                     navMenuData = $updateNavMenuForm.serializeArray(),
 
