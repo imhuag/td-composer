@@ -465,7 +465,7 @@ html.tdc-active #wpadminbar {
     general ad titles on TDC
 
 */
-.tdc-add-block {
+.tdc-placeholder-title {
   height: 50px;
   border: 1px solid #ec6432;
   text-align: center;
@@ -476,7 +476,7 @@ html.tdc-active #wpadminbar {
   margin-left: auto;
   margin-right: auto;
 }
-.tdc-add-block:before {
+.tdc-placeholder-title:before {
   content: 'Select a spot ID';
 }
 .td-adspot-title {
@@ -505,7 +505,7 @@ html.tdc-active #wpadminbar {
     margin: 10px auto;
   }
 }
-.td-a-rec-id-header .tdc-add-block {
+.td-a-rec-id-header .tdc-placeholder-title {
   border-color: #ebebeb;
   position: absolute;
   top: 0;
@@ -519,21 +519,21 @@ html.tdc-active #wpadminbar {
   /* responsive portrait phone */
 }
 @media (min-width: 768px) and (max-width: 1018px) {
-  .td-a-rec-id-header .tdc-add-block {
+  .td-a-rec-id-header .tdc-placeholder-title {
     height: 60px;
     line-height: 60px;
   }
 }
 @media (max-width: 767px) {
-  .td-a-rec-id-header .tdc-add-block {
+  .td-a-rec-id-header .tdc-placeholder-title {
     height: 50px;
     line-height: 50px;
   }
 }
-.td-a-rec-id-header .tdc-add-block:before {
+.td-a-rec-id-header .tdc-placeholder-title:before {
   content: 'Header ad';
 }
-.td-a-rec-id-sidebar .tdc-add-block:before {
+.td-a-rec-id-sidebar .tdc-placeholder-title:before {
   content: 'Sidebar ad';
 }
 .td-a-rec-id-footer_top {
@@ -559,39 +559,42 @@ html.tdc-active #wpadminbar {
     margin: 10px auto;
   }
 }
-.td-a-rec-id-footer_top .tdc-add-block {
+.td-a-rec-id-footer_top .tdc-placeholder-title {
   height: 90px;
   line-height: 90px;
   /* responsive portrait tablet */
   /* responsive portrait phone */
 }
 @media (min-width: 768px) and (max-width: 1018px) {
-  .td-a-rec-id-footer_top .tdc-add-block {
+  .td-a-rec-id-footer_top .tdc-placeholder-title {
     height: 60px;
     line-height: 60px;
   }
 }
 @media (max-width: 767px) {
-  .td-a-rec-id-footer_top .tdc-add-block {
+  .td-a-rec-id-footer_top .tdc-placeholder-title {
     height: 50px;
     line-height: 50px;
   }
 }
-.td-a-rec-id-footer_top .tdc-add-block:before {
+.td-a-rec-id-footer_top .tdc-placeholder-title:before {
   content: 'Footer top ad';
 }
-.td-a-rec-id-custom_ad_1 .tdc-add-block:before {
+.td-a-rec-id-custom_ad_1 .tdc-placeholder-title:before {
   content: 'Custom ad 1';
 }
-.td-a-rec-id-custom_ad_2 .tdc-add-block:before {
+.td-a-rec-id-custom_ad_2 .tdc-placeholder-title:before {
   content: 'Custom ad 2';
 }
-.td-a-rec-id-custom_ad_3 .tdc-add-block:before {
+.td-a-rec-id-custom_ad_3 .tdc-placeholder-title:before {
   content: 'Custom ad 3';
 }
-.td-a-rec-id-custom_ad_4 .tdc-add-block:before {
+.td-a-rec-id-custom_ad_4 .tdc-placeholder-title:before {
   content: 'Custom ad 4';
 }
-.td-a-rec-id-custom_ad_5 .tdc-add-block:before {
+.td-a-rec-id-custom_ad_5 .tdc-placeholder-title:before {
   content: 'Custom ad 5';
+}
+.td_block_list_menu .tdc-placeholder-title:before {
+  content: 'Select a menu';
 }

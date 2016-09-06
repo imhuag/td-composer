@@ -536,7 +536,7 @@ html.tdc-active #wpadminbar {
     general ad titles on TDC
 
 */
-.tdc-add-block {
+.tdc-placeholder-title {
   height: 50px;
   border: 1px solid #ec6432;
   text-align: center;
@@ -577,7 +577,7 @@ html.tdc-active #wpadminbar {
     margin: 10px auto;
   }
 
-  .tdc-add-block {
+  .tdc-placeholder-title {
     border-color: #ebebeb;
     position: absolute;
     top: 0;
@@ -606,7 +606,7 @@ html.tdc-active #wpadminbar {
 }
 
 // sidebar ad
-.td-a-rec-id-sidebar .tdc-add-block:before {
+.td-a-rec-id-sidebar .tdc-placeholder-title:before {
   content: 'Sidebar ad';
 }
 
@@ -631,7 +631,7 @@ html.tdc-active #wpadminbar {
     margin: 10px auto;
   }
 
-  .tdc-add-block {
+  .tdc-placeholder-title {
     height: 90px;
     line-height: 90px;
 
@@ -653,18 +653,23 @@ html.tdc-active #wpadminbar {
 }
 
 // custom ad
-.td-a-rec-id-custom_ad_1 .tdc-add-block:before {
+.td-a-rec-id-custom_ad_1 .tdc-placeholder-title:before {
   content: 'Custom ad 1';
 }
-.td-a-rec-id-custom_ad_2 .tdc-add-block:before {
+.td-a-rec-id-custom_ad_2 .tdc-placeholder-title:before {
   content: 'Custom ad 2';
 }
-.td-a-rec-id-custom_ad_3 .tdc-add-block:before {
+.td-a-rec-id-custom_ad_3 .tdc-placeholder-title:before {
   content: 'Custom ad 3';
 }
-.td-a-rec-id-custom_ad_4 .tdc-add-block:before {
+.td-a-rec-id-custom_ad_4 .tdc-placeholder-title:before {
   content: 'Custom ad 4';
 }
-.td-a-rec-id-custom_ad_5 .tdc-add-block:before {
+.td-a-rec-id-custom_ad_5 .tdc-placeholder-title:before {
   content: 'Custom ad 5';
+}
+
+// List menu
+.td_block_list_menu .tdc-placeholder-title:before {
+  content: 'Select a menu';
 }
