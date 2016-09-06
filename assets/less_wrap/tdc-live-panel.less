@@ -55,7 +55,7 @@
 }
 
 
-#tdc-close-iframe {
+#tdc-iframe-close-button {
   position: absolute;
   top: -17px;
   right: -17px;
@@ -72,8 +72,6 @@
   }
 
   &:before {
-    //content: 'X';
-    //line-height: 33px;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -87,6 +85,66 @@
     background: url('../images/sidebar/spritesheet.png');
     background-repeat: no-repeat;
     background-position: -5px -126px;
+  }
+}
+
+#tdc-iframe-apply-button {
+  position: absolute;
+  bottom: 11px;
+  right: 26px;
+  width: 59px;
+  height: 33px;
+  text-align: center;
+  color: #fff;
+  background-color: #4eb2ec;
+  cursor: pointer;
+  .transition(background-color 0.05s ease-in-out);
+
+  &:hover {
+    background-color: #268ac2;
+  }
+
+  &:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    content: 'Apply';
+    display: block;
+    width: 33px;
+    height: 19px;
+  }
+}
+
+#tdc-iframe-ok-button {
+  position: absolute;
+  bottom: 11px;
+  right: 94px;
+  width: 33px;
+  height: 33px;
+  text-align: center;
+  color: #fff;
+  background-color: #4eb2ec;
+  cursor: pointer;
+  .transition(background-color 0.05s ease-in-out);
+
+  &:hover {
+    background-color: #268ac2;
+  }
+
+  &:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    content: 'Ok';
+    display: block;
+    width: 19px;
+    height: 19px;
   }
 }
 

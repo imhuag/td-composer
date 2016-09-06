@@ -695,18 +695,23 @@ if ( 'nav-menus' === basename($_SERVER["SCRIPT_FILENAME"], '.php') && false !== 
 				margin-top: -30px;
 			}
 
+			#nav-menus-frame {
+				margin-top: 0;
+			}
+
 			#wpadminbar,
 			#screen-meta,
 			#screen-meta-links,
 			#adminmenumain,
 			#wpfooter,
-			.wrap > h1,
+			.wrap > h1 > a,
 			.wrap > h2,
 			.wrap > .manage-menus,
+			.menu-save,
 			.delete-action,
 			.error,
 			.menu-settings {
-				display: none;
+				display: none !important;
 			}
 
 			#wpbody-content {
