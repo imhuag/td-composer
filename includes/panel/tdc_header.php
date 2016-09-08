@@ -34,7 +34,7 @@
 	<input type="hidden" id="tdc_customized" name="tdc_customized" value="">
 
 	<!-- WP SETTINGS -->
-	<?php echo td_panel_generator::box_start('Template settings'); ?>
+	<?php echo td_panel_generator::box_start('Template settings', false); ?>
 
 		<select name="tdc_page_template" id="tdc_page_template">
 			<?php
@@ -57,7 +57,7 @@
 	<?php echo td_panel_generator::box_end();?>
 
 	<!-- HEADER STYLE -->
-	<?php echo td_panel_generator::box_start('Header Style'); ?>
+	<?php echo td_panel_generator::box_start('Header Style', false); ?>
 
 
 	<!-- HEADER STYLE -->
@@ -80,7 +80,7 @@
 	<?php echo td_panel_generator::box_end();?>
 
 	<!-- WP SETTINGS -->
-	<?php echo td_panel_generator::box_start('Menu Settings'); ?>
+	<?php echo td_panel_generator::box_start('Menu Settings', false); ?>
 
 	<?php
 
