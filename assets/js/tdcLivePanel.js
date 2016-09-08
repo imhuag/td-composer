@@ -165,6 +165,10 @@ var tdcLivePanel;
 
                             $tdcMenuSettings.removeClass( 'tdc-dropped' );
 
+                            var $menuName = $iframeMenuSettingsContents.find( '#menu-name' );
+                            $menuName.hide();
+                            jQuery( '<label>' + $menuName.val() + '</label>').insertAfter( $menuName );
+
                             tdcLivePanel._setIframeInterface({
                                 type: 'menu',
                                 menuId: menuId
