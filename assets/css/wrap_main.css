@@ -760,9 +760,9 @@ placeholder when sidebar is empty
   margin-bottom: 0;
 }
 .tdc-property-colorpicker .tdc-property .wp-picker-container .cs-alpha-wrap .cs-alpha-text {
-  top: 0;
-  right: 24px;
-  color: #888;
+  top: auto;
+  right: 20px;
+  bottom: 20px;
 }
 /*
   Properties
@@ -1289,7 +1289,7 @@ input[type=checkbox] {
   -moz-box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.15) !important;
   box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.15) !important;
 }
-#tdc-close-iframe {
+#tdc-iframe-close-button {
   position: absolute;
   top: -17px;
   right: -17px;
@@ -1304,10 +1304,10 @@ input[type=checkbox] {
   -o-transition: background-color 0.05s ease-in-out;
   transition: background-color 0.05s ease-in-out;
 }
-#tdc-close-iframe:hover {
+#tdc-iframe-close-button:hover {
   background-color: #268ac2;
 }
-#tdc-close-iframe:before {
+#tdc-iframe-close-button:before {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -1321,6 +1321,66 @@ input[type=checkbox] {
   background: url('../images/sidebar/spritesheet.png');
   background-repeat: no-repeat;
   background-position: -5px -126px;
+}
+#tdc-iframe-apply-button {
+  position: absolute;
+  bottom: 11px;
+  right: 26px;
+  width: 59px;
+  height: 33px;
+  text-align: center;
+  color: #fff;
+  background-color: #4eb2ec;
+  cursor: pointer;
+  -webkit-transition: background-color 0.05s ease-in-out;
+  -moz-transition: background-color 0.05s ease-in-out;
+  -o-transition: background-color 0.05s ease-in-out;
+  transition: background-color 0.05s ease-in-out;
+}
+#tdc-iframe-apply-button:hover {
+  background-color: #268ac2;
+}
+#tdc-iframe-apply-button:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  content: 'Apply';
+  display: block;
+  width: 33px;
+  height: 19px;
+}
+#tdc-iframe-ok-button {
+  position: absolute;
+  bottom: 11px;
+  right: 94px;
+  width: 33px;
+  height: 33px;
+  text-align: center;
+  color: #fff;
+  background-color: #4eb2ec;
+  cursor: pointer;
+  -webkit-transition: background-color 0.05s ease-in-out;
+  -moz-transition: background-color 0.05s ease-in-out;
+  -o-transition: background-color 0.05s ease-in-out;
+  transition: background-color 0.05s ease-in-out;
+}
+#tdc-iframe-ok-button:hover {
+  background-color: #268ac2;
+}
+#tdc-iframe-ok-button:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  content: 'Ok';
+  display: block;
+  width: 19px;
+  height: 19px;
 }
 /* ----------------------------------------------------------------------------------------
   When a element is dropped, the job is running and we're waiting for new content
