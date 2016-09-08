@@ -210,15 +210,43 @@ var tdcLivePanel;
                 $updateNavMenu = $currentIframeMenuSettings.contents().find( '#update-nav-menu' );
 
             if ( '' === contentHtml ) {
-                $currentIframeData.html( $updateNavMenu.contents().clone() );
+                $currentIframeData.html( $updateNavMenu.html() );
             } else {
                 $updateNavMenu.html( contentHtml );
-
                 var iframeWindow = $currentIframeMenuSettings[0].contentWindow || $currentIframeMenuSettings[0].contentDocument;
-
-                // We need to reinit the wpNavMenu, because the menu operations was removed
-                iframeWindow.wpNavMenu.init();
+                tdcLivePanel._reinitWpNavMenu( iframeWindow );
             }
+        },
+
+
+        /**
+         * Reinit the wpNavMenu.
+         * Important! Actually we need to call only the 'initSortables' function, as the init function does. But because it uses the local 'api' variable,
+         * we can not make this 'api' variable to reference the new content.
+         *
+         * For doing this, we switch off all functions of init, except this 'initSortables'
+         *
+         * @param iframeWindow
+         * @private
+         */
+        _reinitWpNavMenu: function( iframeWindow ) {
+
+            iframeWindow.menus.oneThemeLocationNoMenus = false;
+
+            // We need to reinit the wpNavMenu, because the menu operations was removed
+            iframeWindow.wpNavMenu.jQueryExtensions = function() {};
+            iframeWindow.wpNavMenu.attachMenuEditListeners = function() {};
+            iframeWindow.wpNavMenu.attachQuickSearchListeners = function() {};
+            iframeWindow.wpNavMenu.attachThemeLocationsListeners = function() {};
+            iframeWindow.wpNavMenu.attachMenuSaveSubmitListeners = function() {};
+            iframeWindow.wpNavMenu.attachTabsPanelListeners = function() {};
+            iframeWindow.wpNavMenu.attachUnsavedChangesListener = function() {};
+            iframeWindow.wpNavMenu.initManageLocations = function() {};
+            iframeWindow.wpNavMenu.initAccessibility = function() {};
+            iframeWindow.wpNavMenu.initToggles = function() {};
+            iframeWindow.wpNavMenu.initPreviewing = function() {};
+
+            iframeWindow.wpNavMenu.init();
         },
 
 
@@ -258,7 +286,7 @@ var tdcLivePanel;
                         var iframeWindow = $currentIframeMenuSettings[0].contentWindow || $currentIframeMenuSettings[0].contentDocument;
 
                         // We need to reinit the wpNavMenu, because the menu operations was removed
-                        iframeWindow.wpNavMenu.init();
+                        tdcLivePanel._reinitWpNavMenu( iframeWindow );
 
                         $currentIframeData.html( '' );
                     }
@@ -525,3 +553,9 @@ var tdcLivePanel;
     tdcLivePanel.init();
 
 })( _ );
+
+
+function preinit($updateNavMenu) {
+    api.menuList = $updateNavMenu.find('#menu-to-edit');
+    api.targetList = api.menuList;
+}

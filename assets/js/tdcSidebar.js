@@ -81,7 +81,7 @@ var tdcSidebar;
             tdcSidebar.$_sidebarClosePage = tdcSidebar.$_sidebar.find( '.tdc-close-page:first' );
             tdcSidebar.$_sidebarBullet = tdcSidebar.$_sidebar.find( '.tdc-bullet:first' );
             tdcSidebar.$_sidebarClose = tdcSidebar.$_sidebar.find( '.tdc-sidebar-close:first' );
-            tdcSidebar.$_sidebarOpen = tdcSidebar.$_sidebar.find( '.tdc-sidebar-open:first' );
+            tdcSidebar.$_sidebarOpen = tdcSidebar.$_sidebar.siblings( '.tdc-sidebar-open:first' );
             tdcSidebar.$_sidebarSearch = tdcSidebar.$_sidebar.find( '.tdc-sidebar-modal-search:first > input' );
 
 

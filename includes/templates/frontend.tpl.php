@@ -72,7 +72,16 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 
 	</script>
 
+	<?php
+			// tdc-icon-sidebar-open is outside of the sidebar, because the sidebar has overflow hidden
+	?>
+
 	<!-- the composer sidebar -->
+
+	<div class="tdc-sidebar-open">
+		<span class="tdc-icon-sidebar-open"></span>
+	</div>
+
 	<div id="tdc-sidebar" class="tdc-sidebar-inline">
 		<div class="tdc-top-buttons">
 			<div class="tdc-add-element">
@@ -136,9 +145,6 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 		<div class="tdc-sidebar-bottom">
 			<div class="tdc-sidebar-close">
 				<span class="tdc-icon-sidebar-close"></span>
-			</div>
-			<div class="tdc-sidebar-open">
-				<span class="tdc-icon-sidebar-open"></span>
 			</div>
 			<div class="tdc-bullet">
 				<span class="tdc-icon-bullet"></span>
