@@ -250,7 +250,7 @@ var tdcSidebarPanel = {};
 
 
             // hook the custom row dropdown
-            $body.on( 'change focus', '.tdc-row-col-dropdown select', function () {
+            $body.on( 'change focus', '.tdc-row-col-dropdown select', function ( event ) {
 
                 // save the oldValue on focus in
                 if ( event.type === 'focusin' || event.type === 'focus' ) { // the select raises a focus event instead of focusin
@@ -300,7 +300,7 @@ var tdcSidebarPanel = {};
 
 
             // hook the custom innerRow dropdown
-            $body.on('change focus', '.tdc-innerRow-col-dropdown select', function() {
+            $body.on('change focus', '.tdc-innerRow-col-dropdown select', function( event ) {
 
                 // save the oldValue on focus in
                 if (event.type === 'focusin' || event.type === 'focus') { // the select raises a focus event instead of focusin
@@ -321,7 +321,7 @@ var tdcSidebarPanel = {};
 
 
             // hook the custom innerRow dropdown
-            $body.on('change focus', '.tdc-widget-sidebar-dropdown select', function() {
+            $body.on('change focus', '.tdc-widget-sidebar-dropdown select', function( event ) {
 
                 // save the oldValue on focus in
                 if (event.type === 'focusin' || event.type === 'focus') { // the select raises a focus event instead of focusin
