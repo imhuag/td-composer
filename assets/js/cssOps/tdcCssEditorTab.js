@@ -279,6 +279,10 @@ var tdcCssEditorTab = {};
             buffy += '</div>';
 
 
+            // separator
+            buffy += '<div class="tdc-sidebar-horizontal-separator tdc-property-wrap tdc-property-horizontal_separator tdc-property-separator "></div>';
+
+
             // bg color
             var bgColorPickerId = _.uniqueId();
             buffy += '<div class="tdc-property-wrap tdc-property-colorpicker tdc-bg-color">';
@@ -290,6 +294,17 @@ var tdcCssEditorTab = {};
             tdcSidebarPanel._hook.addAction( 'panel_rendered', function () {
                 jQuery("#" + bgColorPickerId).cs_wpColorPicker();
             });
+
+
+            // bg upload
+            buffy += '<div class="tdc-property-wrap tdc-property-image tdc-bg-upload">';
+            buffy += '<div class="tdc-property-title">Background image</div>';
+            buffy += '<div class="tdc-property">';
+            buffy += '<div class="tdc-image-wrap tdc-no-image-selected" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' style="background-image: url( \'' + window.tdcAdminSettings.pluginUrl + '/assets/images/sidebar/no_img.png\' )">';
+            buffy += '</div>';
+            buffy += '<a class="tdc-image-remove tdc-hidden-button" href="#" >Remove</a>';
+            buffy += '</div>';
+            buffy += '</div>';
 
 
             // bg style
@@ -307,17 +322,6 @@ var tdcCssEditorTab = {};
             buffy += '<select class="tdc-css-bg-style" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' name="">';
             buffy += tdcCssEditorTab._generateDropdownOptions(bgStyles, currentBgStyle);
             buffy += '</select>';
-            buffy += '</div>';
-            buffy += '</div>';
-
-
-            // bg upload
-            buffy += '<div class="tdc-property-wrap tdc-property-image tdc-bg-upload">';
-            buffy += '<div class="tdc-property-title">Background upload</div>';
-            buffy += '<div class="tdc-property">';
-            buffy += '<div class="tdc-image-wrap tdc-no-image-selected" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + ' style="background-image: url( \'' + window.tdcAdminSettings.pluginUrl + '/assets/images/sidebar/no_img.png\' )">';
-            buffy += '</div>';
-            buffy += '<a class="tdc-image-remove tdc-hidden-button" href="#" >Remove</a>';
             buffy += '</div>';
             buffy += '</div>';
 
