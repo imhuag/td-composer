@@ -1291,15 +1291,19 @@ input[type=checkbox] {
   box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.15) !important;
 }
 #tdc-menu-settings header,
-#tdc-menu-settings footer,
-#tdc-menu-settings .content {
-  width: 1102px;
+#tdc-menu-settings footer {
+  width: 1100px;
 }
 #tdc-menu-settings header {
-  width: 1102px;
   margin: -1px 0 0 -1px;
   height: 35px;
   background-color: #4eb2ec;
+}
+#tdc-menu-settings header #title {
+  padding: 9px 0 0 19px;
+  float: left;
+  font-size: 12px;
+  color: #fff;
 }
 #tdc-menu-settings footer {
   margin-left: -1px;

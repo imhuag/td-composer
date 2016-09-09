@@ -325,7 +325,7 @@ var tdcLivePanel;
                             var menuId = data.menuId,
                                 menuName = data.menuName;
 
-                            $tdcMenuSettingsTitle.html( 'Menu: <label>' + menuName + '</label>' );
+                            $tdcMenuSettingsTitle.html( 'MENU: ' + menuName );
 
                             tdcLivePanel.$_iframeCloseButton.data( 'current_iframe', 'tdc-iframe-settings-menu-' + menuId );
                             tdcLivePanel.$_iframeApplyButton.data( 'current_iframe', 'tdc-iframe-settings-menu-' + menuId );
