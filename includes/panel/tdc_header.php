@@ -89,7 +89,7 @@
 
 	$buffer = '<ul>';
 	foreach ( $menus as $menu ) {
-		$buffer .= '<li class="tdc-panel-menu" data-menu_id="' . $menu->term_id . '">' . esc_html( $menu->name ) . '</li>';
+		$buffer .= '<li class="tdc-panel-menu" data-menu_id="' . $menu->term_id . '" data-menu_name="' . esc_html( $menu->name ) . '">' . esc_html( $menu->name ) . '</li>';
 	}
 	$buffer .= '</ul>';
 

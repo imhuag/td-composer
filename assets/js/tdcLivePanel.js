@@ -116,6 +116,7 @@ var tdcLivePanel;
 
                 var $this = jQuery( this ),
                     menuId = $this.data( 'menu_id'),
+                    menuName = $this.data( 'menu_name'),
 
                     // Some css is applied because of the 'tdc-menu-settings' get param
                     url = window.tdcAdminSettings.adminUrl + '/nav-menus.php?action=edit&menu=' + menuId + '&tdc-menu-settings=1',
@@ -147,7 +148,8 @@ var tdcLivePanel;
 
                     tdcLivePanel._setIframeInterface( {
                         type: 'menu',
-                        menuId: menuId
+                        menuId: menuId,
+                        menuName: menuName
                     } );
 
                     tdcLivePanel._synchronizeIframeMenuData( currentIframeId );
@@ -165,13 +167,10 @@ var tdcLivePanel;
 
                             $tdcMenuSettings.removeClass( 'tdc-dropped' );
 
-                            var $menuName = $iframeMenuSettingsContents.find( '#menu-name' );
-                            $menuName.hide();
-                            jQuery( '<label>' + $menuName.val() + '</label>').insertAfter( $menuName );
-
                             tdcLivePanel._setIframeInterface({
                                 type: 'menu',
-                                menuId: menuId
+                                menuId: menuId,
+                                menuName: menuName
                             });
 
                             tdcLivePanel._synchronizeIframeMenuData( currentIframeId );
@@ -261,94 +260,72 @@ var tdcLivePanel;
         _setIframeInterface: function( data ) {
 
             var $tdcMenuSettings = jQuery( '#tdc-menu-settings' ),
-                $tdcMenuSettingsHeader = $tdcMenuSettings.children('header'),
-                $tdcMenuSettingsFooter = $tdcMenuSettings.children('footer');
+                $tdcMenuSettingsTitle = $tdcMenuSettings.find( '#title' );
 
 
-            // Get(create) the Close(cancel) button
-            tdcLivePanel.$_iframeCloseButton = $tdcMenuSettings.find( '#tdc-iframe-close-button' );
+            // Set the interface events
 
-            if ( ! tdcLivePanel.$_iframeCloseButton.length ) {
-                tdcLivePanel.$_iframeCloseButton = jQuery( '<div id="tdc-iframe-close-button"></div>' );
+            if ( _.isUndefined( tdcLivePanel.$_iframeCloseButton ) ) {
+                tdcLivePanel.$_iframeCloseButton = $tdcMenuSettings.find('#tdc-iframe-close-button');
+                tdcLivePanel.$_iframeCloseButton.click(function (event) {
 
-                tdcLivePanel.$_iframeCloseButton.click( function(event) {
-
-                    var $this = jQuery( this ),
+                    var $this = jQuery(this),
 
                     // Current iframe
-                        $currentIframeMenuSettings = jQuery( '#' + $this.data( 'current_iframe' ) ),
+                        $currentIframeMenuSettings = jQuery('#' + $this.data('current_iframe')),
 
                     // Current iframe data
-                        $currentIframeData = jQuery( '#' + $this.data( 'current_iframe' ) + '-data' ),
+                        $currentIframeData = jQuery('#' + $this.data('current_iframe') + '-data'),
 
                     // Content html of the current iframe data
                         contentHtml = $currentIframeData.html(),
 
                     // #update-nav-menu of the current iframe
-                        $updateNavMenu = $currentIframeMenuSettings.contents().find( '#update-nav-menu' );
+                        $updateNavMenu = $currentIframeMenuSettings.contents().find('#update-nav-menu');
 
-                    if ( '' !== contentHtml ) {
-                        $updateNavMenu.html( contentHtml );
+                    if ('' !== contentHtml) {
+                        $updateNavMenu.html(contentHtml);
 
                         var iframeWindow = $currentIframeMenuSettings[0].contentWindow || $currentIframeMenuSettings[0].contentDocument;
 
                         // We need to reinit the wpNavMenu, because the menu operations was removed
-                        tdcLivePanel._reinitWpNavMenu( iframeWindow );
+                        tdcLivePanel._reinitWpNavMenu(iframeWindow);
 
-                        $currentIframeData.html( '' );
+                        $currentIframeData.html('');
                     }
 
                     $tdcMenuSettings.hide();
                     $currentIframeMenuSettings.hide();
                 });
-                $tdcMenuSettingsHeader.append( tdcLivePanel.$_iframeCloseButton );
             }
 
-
-
-            // Get(create) the Apply(preview) button
-
-            tdcLivePanel.$_iframeApplyButton = $tdcMenuSettings.find( '#tdc-iframe-apply-button' );
-
-            if ( ! tdcLivePanel.$_iframeApplyButton.length ) {
-                tdcLivePanel.$_iframeApplyButton = jQuery( '<div id="tdc-iframe-apply-button"></div>' );
-
+            if ( _.isUndefined( tdcLivePanel.$_iframeApplyButton ) ) {
+                tdcLivePanel.$_iframeApplyButton = $tdcMenuSettings.find( '#tdc-iframe-apply-button' );
                 tdcLivePanel.$_iframeApplyButton.click( function(event) {
-
-                    var $this = jQuery( this );
-
-                    _saveIframeState( $this.data( 'current_iframe' ), false );
+                    _saveIframeState( jQuery( this ).data( 'current_iframe' ), false );
                     _previewMenuSettings( this );
                 });
-                $tdcMenuSettingsFooter.append( tdcLivePanel.$_iframeApplyButton );
+            }
+
+            if ( _.isUndefined( tdcLivePanel.$_iframeOkButton ) ) {
+                tdcLivePanel.$_iframeOkButton = $tdcMenuSettings.find('#tdc-iframe-ok-button');
+                tdcLivePanel.$_iframeOkButton.click(function (event) {
+                    _saveIframeState(jQuery(this).data('current_iframe'), true);
+                    _previewMenuSettings(this);
+                });
             }
 
 
-
-            // Get(create) the Ok button
-
-            tdcLivePanel.$_iframeOkButton = $tdcMenuSettings.find( '#tdc-iframe-ok-button' );
-
-            if ( ! tdcLivePanel.$_iframeOkButton.length ) {
-                tdcLivePanel.$_iframeOkButton = jQuery( '<div id="tdc-iframe-ok-button"></div>' );
-
-                tdcLivePanel.$_iframeOkButton.click( function(event) {
-
-                    var $this = jQuery( this );
-
-                    _saveIframeState( $this.data( 'current_iframe' ), true );
-                    _previewMenuSettings( this );
-                });
-                
-                $tdcMenuSettingsFooter.append( tdcLivePanel.$_iframeOkButton );
-            }
 
             if ( ! _.isUndefined( data ) ) {
                 if ( ! _.isUndefined( data.type ) ) {
                     switch ( data.type ) {
                         case 'menu':
 
-                            var menuId = data.menuId;
+                            var menuId = data.menuId,
+                                menuName = data.menuName;
+
+                            $tdcMenuSettingsTitle.html( 'Menu: <label>' + menuName + '</label>' );
 
                             tdcLivePanel.$_iframeCloseButton.data( 'current_iframe', 'tdc-iframe-settings-menu-' + menuId );
                             tdcLivePanel.$_iframeApplyButton.data( 'current_iframe', 'tdc-iframe-settings-menu-' + menuId );
@@ -382,7 +359,9 @@ var tdcLivePanel;
             }
 
 
+
             /**
+             * Local helper function
              * Save the state of the iframe
              *
              * @param iframe_id - iframe dom id
@@ -395,10 +374,10 @@ var tdcLivePanel;
                 var $currentIframeMenuSettings = jQuery( '#' + iframe_id ),
 
                 // Current iframe contents
-                $iframeMenuSettingsContents = $currentIframeMenuSettings.contents(),
+                    $iframeMenuSettingsContents = $currentIframeMenuSettings.contents(),
 
                 // Current iframe data
-                $currentIframeData = jQuery( '#' + iframe_id + '-data' );
+                    $currentIframeData = jQuery( '#' + iframe_id + '-data' );
 
 
                 // Preset the input fields, otherwise clone or html jquery methods does not copy the real values
@@ -441,6 +420,8 @@ var tdcLivePanel;
 
 
             /**
+             * Local helper function
+             * Load the page with the new menu settings without saving them
              *
              * @param sender - the button
              * @private

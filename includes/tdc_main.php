@@ -710,6 +710,8 @@ if ( 'nav-menus' === basename($_SERVER["SCRIPT_FILENAME"], '.php') && false !== 
 			.menu-save,
 			.delete-action,
 			.error,
+			.update-nag,
+			.major-publishing-actions,
 			.menu-settings {
 				display: none !important;
 			}

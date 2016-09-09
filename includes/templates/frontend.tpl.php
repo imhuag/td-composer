@@ -265,9 +265,15 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 
 
 	<div id="tdc-menu-settings">
-		<header></header>
+		<header>
+			<div id="title"></div>
+			<div id="tdc-iframe-close-button"></div>
+		</header>
 		<div class="content"></div>
-		<footer></footer>
+		<footer>
+			<div id="tdc-iframe-apply-button"></div>
+			<div id="tdc-iframe-ok-button"></div>
+		</footer>
 	</div>
 
 <?php
