@@ -187,7 +187,10 @@ var tdcAdminIFrameUI;
              * Add wrappers around all shortcode dom elements
              */
             window.addWrappers = function ($iframeContents) {
-                $iframeContents.find('.tdc-row')
+
+                var $tdMainContentWrap = $iframeContents.find( '.td-main-content-wrap' );
+
+                $tdMainContentWrap.find('.tdc-row')
                     .wrapAll('<div id="tdc-rows"></div>')
                     .each(function (index, el) {
                         jQuery(el).find('.tdc-column').wrapAll('<div class="tdc-columns"></div>');
@@ -196,7 +199,7 @@ var tdcAdminIFrameUI;
 
                 // all tdc-inner-rows
                 // all tdc-elements
-                $iframeContents.find('.tdc-column').each(function (index, el) {
+                $tdMainContentWrap.find('.tdc-column').each(function (index, el) {
                     var $el = jQuery(el);
 
                     $el.find('.tdc-inner-row').wrap('<div class="tdc-element-inner-row"></div>');
@@ -209,7 +212,7 @@ var tdcAdminIFrameUI;
 
                 // all tdc-inner-columns
                 // all tdc-element of the tdc-inner-column, moved to the tdc-elements
-                $iframeContents.find('.tdc-inner-row').each(function (index, el) {
+                $tdMainContentWrap.find('.tdc-inner-row').each(function (index, el) {
                     var $el = jQuery(el);
 
                     $el.find('.tdc-inner-column')
@@ -232,7 +235,7 @@ var tdcAdminIFrameUI;
                 });
 
 
-                $iframeContents.find('.tdc-element, .tdc-element-inner-row').each(function (index, el) {
+                $tdMainContentWrap.find('.tdc-element, .tdc-element-inner-row').each(function (index, el) {
                     var tdcElement = jQuery(el);
 
                     if (tdcElement.length) {
@@ -244,7 +247,7 @@ var tdcAdminIFrameUI;
 
 
                 // all tdc-element not already moved to tdc-elements, moved to their new tdc-elements (columns can have their elements, which are not inside of an inner row > inner column)
-                $iframeContents.find('.tdc-column').each(function (index, el) {
+                $tdMainContentWrap.find('.tdc-column').each(function (index, el) {
 
                     var tdcElement = jQuery(el).find('.tdc-element, .tdc-element-inner-row');
 
@@ -266,7 +269,7 @@ var tdcAdminIFrameUI;
 
 
                 // all empty '.tdc-elements' will have an empty element
-                $iframeContents.find('.tdc-elements:empty').each(function (index, element) {
+                $tdMainContentWrap.find('.tdc-elements:empty').each(function (index, element) {
 
                     // Add the 'tdc-element-column' or the 'tdc-element-inner-column' class to the empty element
                     var structureClass = '',

@@ -2371,7 +2371,8 @@ var tdcIFrameData,
                 collection = tdcIFrameData.tdcRows;
 
                 // Bind rows
-                var tdc_row = tdcIFrameData.iframeContents.find( '.tdc-row' );
+                // Important! We need to target "#tdc-rows .tdc-row" and not just ".tdc-row" because we could have mega menus with ".tdc-rows", and these rows are not valid for composer
+                var tdc_row = tdcIFrameData.iframeContents.find( '#tdc-rows .tdc-row' );
 
 
                 // Stop if models number doesn't match the DOM elements number
@@ -2380,7 +2381,7 @@ var tdcIFrameData,
                     errors[ _.keys(errors).length ] = {
                         collection: collection,
                         jqDOMElements: tdc_row,
-                        info: 'Error at rows'
+                        info: 'Error at rows: ' + collection.models.length + '(models) : ' + tdc_row.length + '(dom)'
                     };
                     return;
                 }
@@ -2440,7 +2441,7 @@ var tdcIFrameData,
                             errors[ _.keys(errors).length ] = {
                                 collection: collection,
                                 jqDOMElements: jqDOMElements,
-                                info: 'Errors at columns',
+                                info: 'Errors at columns: ' + collection.models.length + '(models) : ' + jqDOMElements.length + '(dom)',
                                 level: level
                             };
                             return;
@@ -2458,7 +2459,7 @@ var tdcIFrameData,
                             errors[ _.keys(errors).length ] = {
                                 collection: collection,
                                 jqDOMElements: jqDOMElements,
-                                info: 'Errors at columns elements',
+                                info: 'Errors at columns elements: ' + collection.models.length + '(models) : ' + jqDOMElements.length + '(dom)',
                                 level: level
                             };
                             return;
@@ -2476,7 +2477,7 @@ var tdcIFrameData,
                             errors[ _.keys(errors).length ] = {
                                 collection: collection,
                                 jqDOMElements: jqDOMElements,
-                                info: 'Errors at inner columns',
+                                info: 'Errors at inner columns: ' + collection.models.length + '(models) : ' + jqDOMElements.length + '(dom)',
                                 level: level
                             };
                             return;
@@ -2494,7 +2495,7 @@ var tdcIFrameData,
                             errors[ _.keys(errors).length ] = {
                                 collection: collection,
                                 jqDOMElements: jqDOMElements,
-                                info: 'Errors at elements',
+                                info: 'Errors at elements: ' + collection.models.length + '(models) : ' + jqDOMElements.length + '(dom)',
                                 level: level
                             };
                             return;
