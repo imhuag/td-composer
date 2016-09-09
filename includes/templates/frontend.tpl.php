@@ -266,6 +266,7 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 
 	<div id="tdc-menu-settings">
 		<header></header>
+		<div class="content"></div>
 		<footer></footer>
 	</div>
 

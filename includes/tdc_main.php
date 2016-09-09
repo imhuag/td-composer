@@ -704,7 +704,7 @@ if ( 'nav-menus' === basename($_SERVER["SCRIPT_FILENAME"], '.php') && false !== 
 			#screen-meta-links,
 			#adminmenumain,
 			#wpfooter,
-			.wrap > h1 > a,
+			.wrap > h1,
 			.wrap > h2,
 			.wrap > .manage-menus,
 			.menu-save,
