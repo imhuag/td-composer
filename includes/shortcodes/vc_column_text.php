@@ -14,7 +14,7 @@ class vc_column_text extends tdc_composer_block {
 
 		$atts = shortcode_atts(
 			array(
-				'content' => __('Html code here! Replace this with any non empty html code and that\'s it.', 'td_composer' ),
+				'content' => __('Html code here! Replace this with any non empty text and that\'s it.', 'td_composer' ),
 				'el_class' => '',
 				'css_editor' => ''
 			), $atts, 'vc_column_text' );

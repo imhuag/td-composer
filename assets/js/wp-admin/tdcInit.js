@@ -153,5 +153,33 @@ var tdcInit = {};
         tdcInit.init();
 
     });
+    //jQuery('div.widgets-sortables').on( "sortstop", function( event, ui ) {
+    //    alert(1);
+    //} );
+    //
+    //jQuery('.widgets-chooser').on( 'click.widgets-chooser', function( event ) {
+    //    event.preventDefault();
+    //    //alert(2);
+    //    return false;
+    //}).on( 'keyup.widgets-chooser', function( event ) {
+    //    event.preventDefault();
+    //    return false;
+    //});
+    //
+    //if ( 'undefined' !== wpWidgets.addWidget ) {
+    //    wpWidgets.__addWidget = wpWidgets.addWidget;
+    //    wpWidgets.addWidget = function( test) {
+    //        wpWidgets.__addWidget( test );
+    //        //alert(1);
+    //    };
+    //}
+    //
+    //if ( 'undefined' !== wpWidgets.save ) {
+    //    wpWidgets.__save = wpWidgets.save;
+    //    wpWidgets.save = function( widget, del, animate, order ) {
+    //        wpWidgets.__save( widget, del, animate, order );
+    //        alert( 'save' );
+    //    };
+    //}
 
 })( jQuery, _ );
