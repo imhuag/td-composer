@@ -259,7 +259,9 @@ var tdcLivePanel;
          */
         _setIframeInterface: function( data ) {
 
-            var $tdcMenuSettings = jQuery( '#tdc-menu-settings' );
+            var $tdcMenuSettings = jQuery( '#tdc-menu-settings' ),
+                $tdcMenuSettingsHeader = $tdcMenuSettings.children('header'),
+                $tdcMenuSettingsFooter = $tdcMenuSettings.children('footer');
 
 
             // Get(create) the Close(cancel) button
@@ -298,7 +300,7 @@ var tdcLivePanel;
                     $tdcMenuSettings.hide();
                     $currentIframeMenuSettings.hide();
                 });
-                $tdcMenuSettings.append( tdcLivePanel.$_iframeCloseButton );
+                $tdcMenuSettingsHeader.append( tdcLivePanel.$_iframeCloseButton );
             }
 
 
@@ -334,7 +336,7 @@ var tdcLivePanel;
                     _previewMenuSettings( this );
 
                 });
-                $tdcMenuSettings.append( tdcLivePanel.$_iframeApplyButton );
+                $tdcMenuSettingsFooter.append( tdcLivePanel.$_iframeApplyButton );
             }
 
 
@@ -373,7 +375,7 @@ var tdcLivePanel;
                     $currentIframeMenuSettings.hide();
                 });
 
-                $tdcMenuSettings.append( tdcLivePanel.$_iframeOkButton );
+                $tdcMenuSettingsFooter.append( tdcLivePanel.$_iframeOkButton );
             }
 
             if ( ! _.isUndefined( data ) ) {
