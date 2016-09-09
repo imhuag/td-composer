@@ -214,7 +214,7 @@ var tdcLivePanel;
                 $updateNavMenu = $currentIframeMenuSettings.contents().find( '#update-nav-menu' );
 
             if ( '' === contentHtml ) {
-                $currentIframeData.html( $updateNavMenu.html() );
+                $currentIframeData.html( $updateNavMenu.contents().clone() );
             } else {
                 $updateNavMenu.html( contentHtml );
                 var iframeWindow = $currentIframeMenuSettings[0].contentWindow || $currentIframeMenuSettings[0].contentDocument;
@@ -252,6 +252,7 @@ var tdcLivePanel;
 
             iframeWindow.wpNavMenu.init();
         },
+
 
 
         /**
@@ -312,27 +313,10 @@ var tdcLivePanel;
 
                 tdcLivePanel.$_iframeApplyButton.click( function(event) {
 
-                    var $this = jQuery( this ),
+                    var $this = jQuery( this );
 
-                    // Current iframe
-                        $currentIframeMenuSettings = jQuery( '#' + $this.data( 'current_iframe' ) ),
-
-                    // Current iframe contents
-                        $iframeMenuSettingsContents = $currentIframeMenuSettings.contents(),
-
-                    // Current iframe data
-                        $currentIframeData = jQuery( '#' + $this.data( 'current_iframe' ) + '-data' ),
-
-                    // Content html of the current iframe data
-                        contentHtml = $currentIframeData.html(),
-
-                    // #update-nav-menu of the current iframe
-                        $updateNavMenu = $currentIframeMenuSettings.contents().find( '#update-nav-menu' );
-
-                    $currentIframeData.html( $iframeMenuSettingsContents.find( '#update-nav-menu' ).contents().clone() );
-
+                    _saveIframeState( $this.data( 'current_iframe' ), false );
                     _previewMenuSettings( this );
-
                 });
                 $tdcMenuSettings.append( tdcLivePanel.$_iframeApplyButton );
             }
@@ -348,31 +332,11 @@ var tdcLivePanel;
 
                 tdcLivePanel.$_iframeOkButton.click( function(event) {
 
-                    var $this = jQuery( this ),
+                    var $this = jQuery( this );
 
-                    // Current iframe
-                        $currentIframeMenuSettings = jQuery( '#' + $this.data( 'current_iframe' ) ),
-
-                    // Current iframe contents
-                        $iframeMenuSettingsContents = $currentIframeMenuSettings.contents(),
-
-                    // Current iframe data
-                        $currentIframeData = jQuery( '#' + $this.data( 'current_iframe' ) + '-data' ),
-
-                    // Content html of the current iframe data
-                        contentHtml = $currentIframeData.html(),
-
-                    // #update-nav-menu of the current iframe
-                        $updateNavMenu = $currentIframeMenuSettings.contents().find( '#update-nav-menu' );
-
-                    $currentIframeData.html( $iframeMenuSettingsContents.find( '#update-nav-menu' ).contents().clone() );
-
+                    _saveIframeState( $this.data( 'current_iframe' ), true );
                     _previewMenuSettings( this );
-
-                    $tdcMenuSettings.hide();
-                    $currentIframeMenuSettings.hide();
                 });
-
                 $tdcMenuSettings.append( tdcLivePanel.$_iframeOkButton );
             }
 
@@ -412,6 +376,64 @@ var tdcLivePanel;
                 tdcLivePanel.$_iframeCloseButton.hide();
                 tdcLivePanel.$_iframeApplyButton.hide();
                 tdcLivePanel.$_iframeOkButton.hide();
+            }
+
+
+            /**
+             * Save the state of the iframe
+             *
+             * @param iframe_id - iframe dom id
+             * @param close_iframe - hide the iframe and its container
+             * @private
+             */
+            function _saveIframeState( iframe_id, close_iframe ) {
+
+                // Current iframe
+                var $currentIframeMenuSettings = jQuery( '#' + iframe_id ),
+
+                // Current iframe contents
+                $iframeMenuSettingsContents = $currentIframeMenuSettings.contents(),
+
+                // Current iframe data
+                $currentIframeData = jQuery( '#' + iframe_id + '-data' );
+
+
+                // Preset the input fields, otherwise clone or html jquery methods does not copy the real values
+
+                $iframeMenuSettingsContents.find( '#update-nav-menu' ).find( 'select[name*=td_mega_menu_cat]' ).each(function( index, element ) {
+                    var $element = jQuery( element ),
+                        $option = $element.find( 'option' ),
+                        $selectedOption = $element.find( 'option:selected' ),
+                        $firstOption = $element.find( 'option:first' );
+
+                    if ( '' === $element.val() ) {
+                        $option.removeAttr( 'selected' );
+                        $firstOption.attr( 'selected', 'selected' );
+                    } else {
+                        $option.each(function(index_option, element_option) {
+                            var $element_option = jQuery( element_option);
+                            if ( $element.val() === $element_option.attr( 'value' ) ) {
+                                $element_option.attr( 'selected', 'selected' );
+                            } else {
+                                $element_option.removeAttr( 'selected' );
+                            }
+                        });
+                    }
+                });
+
+                $iframeMenuSettingsContents.find( '#update-nav-menu').find( 'input').each(function( index, element ) {
+                    var $element = jQuery( element );
+                    $element.attr( 'value', $element.val() );
+                });
+
+                // Clone the content
+                $currentIframeData.html( $iframeMenuSettingsContents.find( '#update-nav-menu' ).contents().clone() );
+
+                // Hide the iframe if it's necessary
+                if ( true === close_iframe ) {
+                    $tdcMenuSettings.hide();
+                    $currentIframeMenuSettings.hide();
+                }
             }
 
 
