@@ -352,6 +352,10 @@ var tdcCssEditorTab = {};
                 // The css will be generated using only this element
                 $target = jQuery( '#td-tab-css' );
 
+            if ( ! $target.length ) {
+                // The rows, columns, inner-rows and inner-columns, here are the design options
+                $target = jQuery( '#td-tab-design-options' );
+            }
 
             // css for padding, border margin (the square inputs)
             $target.find( ".tdc-css-box-input" ).each(function( index ) {
