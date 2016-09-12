@@ -205,8 +205,25 @@ var tdcSidebarController = {};
                     tdcDebug.log( job );
                 };
 
+
                 // Loader image is shown
-                tdcSidebar.getCurrentElement().addClass( 'tdc-changed' );
+                var $loaderImageToElement = tdcSidebar.getCurrentElement();
+                if ( _.isUndefined( $loaderImageToElement ) ) {
+                    $loaderImageToElement = tdcSidebar.getCurrentInnerColumn();
+                    if ( _.isUndefined( $loaderImageToElement ) ) {
+                        $loaderImageToElement = tdcSidebar.getCurrentInnerRow();
+                        if ( _.isUndefined( $loaderImageToElement ) ) {
+                            $loaderImageToElement = tdcSidebar.getCurrentColumn();
+                            if ( _.isUndefined( $loaderImageToElement ) ) {
+                                $loaderImageToElement = tdcSidebar.getCurrentRow();
+                            }
+                        }
+                    }
+                }
+
+                if ( ! _.isUndefined( $loaderImageToElement ) ) {
+                    $loaderImageToElement.addClass( 'tdc-changed' );
+                }
 
                 tdcJobManager.addJob( newJob );
             } {
