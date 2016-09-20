@@ -249,4 +249,4 @@ class tdc_ajax {
 		}
 		die( json_encode( $parameters ) );
 	}
-}
+		}

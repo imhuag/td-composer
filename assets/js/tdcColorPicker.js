@@ -143,7 +143,7 @@
                                 });
 
                                 // show alpha wrapper on click color picker button
-                                $container.on('click', '.wp-color-result', function() {
+                                $container.on('click', '.wp-color-result', function( event ) {
                                     $alpha_wrap.toggle();
                                 });
 

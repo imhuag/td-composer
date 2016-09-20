@@ -276,6 +276,16 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 		</footer>
 	</div>
 
+	<div id="tdc-wpeditor">
+		<header>
+			<div id="title"></div>
+			<div id="tdc-iframe-close-button"></div>
+		</header>
+		<div class="content"></div>
+	</div>
+
+
+
 <?php
 require_once( ABSPATH . 'wp-admin/admin-footer.php' );
 

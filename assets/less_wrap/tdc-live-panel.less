@@ -178,6 +178,44 @@
   }
 }
 
+
+#tdc-wpeditor {
+  box-sizing: border-box;
+  position: fixed;
+  border: 1px solid #ddd;
+  width: 1100px;
+  height: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101; // over live panel
+  margin: 0 auto;
+  background-color: #FFFFFF;
+  display: none;
+  .box-shadow(0px 0px 20px 1px rgba(0,0,0,0.15));
+
+  header {
+    width: 1100px;
+  }
+
+  header {
+    margin: -1px 0 0 -1px;
+    height: 35px;
+    background-color: #4eb2ec;
+
+    #title {
+      padding: 9px 0 0 19px;
+      float: left;
+      font-size: 12px;
+      color: #fff;
+    }
+  }
+
+  .content {
+    height: 526px;
+  }
+}
+
 /* ----------------------------------------------------------------------------------------
   When a element is dropped, the job is running and we're waiting for new content
 */

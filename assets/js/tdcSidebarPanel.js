@@ -344,6 +344,39 @@ var tdcSidebarPanel = {};
 
 
 
+
+
+
+
+
+            // on wpeditor
+            $body.on( 'click', '.tdc-open-wpeditor', function(event) {
+                event.preventDefault();
+
+                var $this = jQuery( this ),
+                    $tdcWpEditor = jQuery( '#tdc-wpeditor' ),
+                    $content = $tdcWpEditor.children( '.content' ),
+                    dataModelId = $this.data( 'model_id' ),
+                    dataMappedParameterName = $this.data( 'mapped_parameter_name' );
+
+                $tdcWpEditor.show();
+
+                $content.html( '<iframe id="tdc-iframe-wpeditor" src="' + window.tdcAdminSettings.pluginUrl + '/includes/wpeditor.php" scrolling="auto" style="width: 100%; height: 100%" data-model_id="' + dataModelId + '" data-mapped_parameter_name="' + dataMappedParameterName + '"></iframe>' );
+
+            });
+
+            $body.on( 'click', '#tdc-wpeditor #tdc-iframe-close-button', function(event) {
+                event.preventDefault();
+
+                var $tdcWpEditor = jQuery( '#tdc-wpeditor' );
+
+                $tdcWpEditor.hide();
+            });
+
+
+
+
+
         },
 
 
@@ -671,7 +704,7 @@ var tdcSidebarPanel = {};
          */
         _deletePanel: function () {
             //return;
-            console.log('clear  _deletePanel ');
+            tdcDebug.log( 'clear  _deletePanel ');
 
             // @todo The hook callback stack should be cleaned!
             tdcSidebarPanel._hook._hooks = [];
@@ -684,6 +717,10 @@ var tdcSidebarPanel = {};
             jQuery('.tdc-inspector .tdc-tabs-wrapper').empty();
 
             jQuery('.tdc-empty-sidebar').show();
+
+
+            // @todo wpeditor - A better method must be found!
+            tdcSidebar.hideWpeditor();
         },
 
 
@@ -991,57 +1028,16 @@ var tdcSidebarPanel = {};
             var tinymceId = _.uniqueId( 'tdc_tinymce_' );
 
             var buffy = '';
-            buffy += '<div class="' + tdcSidebarPanel._getParameterClasses(mappedParameter) + '">';
-            buffy += '<div class="tdc-property-title"><span' + tooltip + '>' + mappedParameter.heading + '</span></div>';
-            buffy += '<div class="tdc-property">';
-            buffy += '<div id="' + tinymceId + '" ' + tdcSidebarPanel._getParamterDataAtts(mappedParameter, model) + '>' + tdcSidebarPanel._getParameterCurrentValue(mappedParameter, model) + '</div>';
-            buffy += '</div>';
-            buffy += '</div>';
+            buffy += '<div id="' + tinymceId + '"></div>';
+            buffy += '<a href="#" class="tdc-open-wpeditor" data-model_id="' + model.cid + '" data-mapped_parameter_name="' + mappedParameter.param_name + '">Edit Content</a>';
 
-
-            /**
-             * There were some attempts to reuse a tinymce instance once it has been created, but destroying the DOM elements that has been referenced by the editor,
-             * there's no tinymce API support to rebind it (as I can see!). This means a new tinymce editor should be created!
-             *
-             * Important! Even though the existing tinymce editor (once previously created) is found and removed, the tinymce.EditorManager keep a reference to it (@todo Is it a bug or what?)
-             */
             tdcSidebarPanel._hook.addAction( 'panel_rendered', function () {
 
-                var existingEditor = tinymce.get( tinymceId );
+                // Nothing for now!
 
-                if ( ! _.isNull( existingEditor ) ) {
-                    tinymce.remove( tinymceId );
-                }
-
-                var newEditor = tinymce.createEditor( tinymceId, {
-
-                    // Disable menu bar
-                    menubar: false,
-
-                    setup: function( editor ) {
-
-                        var $input = jQuery( '#' + tinymceId );
-
-                        var model = tdcIFrameData.getModel( $input.data( 'model_id' ) );
-
-                        editor.on( 'keyup undo', function( event ) {
-
-                            var currentValue = editor.getContent({format: 'html'}),
-
-                            // @todo This should be the content before change
-                                previousValue = currentValue;
-
-                            tdcSidebarController.onUpdate (
-                                model,
-                                $input.data( 'param_name' ),    // the name of the parameter
-                                previousValue,                  // the old value
-                                currentValue                    // the new value
-                            );
-                        });
-                    }
-                });
-
-                newEditor.render();
+                //setTimeout(function() {
+                //    jQuery( 'body').find( '.tdc-open-wpeditor').click();
+                //}, 100);
             });
 
             return buffy;

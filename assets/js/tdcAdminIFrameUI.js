@@ -615,7 +615,7 @@ var tdcAdminIFrameUI;
              * @param $tdBlockWrap
              */
             window.checkTdBlockWrap = function( $tdBlockWrap ) {
-                if ( 0 === parseInt( $tdBlockWrap.height() ) ) {
+                if ( 0 === parseInt( $tdBlockWrap.height() ) && 0 === parseInt( $tdBlockWrap.parent().height() ) ) {
                     $tdBlockWrap.addClass( 'tdc-block-empty' );
                 }
             };
@@ -688,6 +688,16 @@ var tdcAdminIFrameUI;
                 if ( 1 !== event.which ) {
                     event.stopPropagation();
                 }
+
+                //var $tdcIframeWpeditor = jQuery( '#tdc-iframe-wpeditor' ),
+                //    $tdcWpeditor = jQuery( '#tdc-wpeditor' );
+                //
+                //if ( $tdcIframeWpeditor.length && !jQuery(event.target).hasClass( 'vc_column_text' ) && !jQuery(event.currentTarget).hasClass( 'vc_column_text' ) && !$tdcWpeditor.is(event.target) && $tdcWpeditor.has( event.target).length === 0 ) {
+                //    console.log(111);
+                //    console.log(jQuery(event.target).attr( 'class' ));
+                //    $tdcWpeditor.hide();
+                //}
+
             }, true );
         },
 

@@ -273,6 +273,11 @@ var tdcIFrameData,
                     } else {
                         this.$el.removeClass( cssClass );
                     }
+
+
+                    // Also, set suplementary settings:
+                    //  1. width - necessary for the tinymce editor
+                    this.model.set( 'cssWidth', this.$el.css( 'width' ) );
                 },
 
                 customRemove: function( model, value, options ) {
@@ -301,7 +306,7 @@ var tdcIFrameData,
                         this.$el.html( this.model.get( 'html' ) );
 
                         // Add the 'tdc-block-min' class
-                        if ( 0 === parseInt( this.$el.find( '.td_block_wrap').height() ) ) {
+                        if ( 0 === parseInt( this.$el.find( '.td_block_wrap').height() ) && 0 === parseInt( this.$el.find( '.td_block_wrap').parent().height() ) ) {
                             this.$el.find( '.td_block_wrap').addClass( 'tdc-block-empty' );
                         }
 

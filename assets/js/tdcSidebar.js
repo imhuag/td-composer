@@ -347,6 +347,20 @@ var tdcSidebar;
 
 
         /**
+         * @todo Wtf, find a better method to do that!
+         *
+         * @private
+         */
+        hideWpeditor: function() {
+            var $tdcWpeditor = jQuery( '#tdc-wpeditor' );
+            $tdcWpeditor.hide();
+        },
+
+
+
+
+
+        /**
          * Activate/deactivate the breadcrumb items and set the sidebar current element info
          *
          * @private
@@ -738,6 +752,10 @@ var tdcSidebar;
 
                 // Close the sidebar modal 'Add Elements'
                 tdcSidebar.closeModal();
+
+
+                // @todo wpeditor - A better method must be found!
+                tdcSidebar.hideWpeditor( tdcSidebar._currentModel );
 
             } else {
                 tdcSidebarPanel.clearPanel();
