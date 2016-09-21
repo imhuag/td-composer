@@ -77,7 +77,9 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 					// Timeout used especially for IE or any browser where the editor is not already built at body 'onload'
 					// (no reliable event has been found for setting the content)
 					setTimeout(function() {
-						editor.setContent( mappedParameterValue );
+						if ( 'undefined' !== typeof mappedParameterValue ) {
+							editor.setContent( mappedParameterValue );
+						}
 					}, 100);
 
 					editor.on( 'keyup undo change', function( event ) {
