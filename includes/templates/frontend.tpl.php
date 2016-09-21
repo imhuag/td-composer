@@ -278,7 +278,7 @@ foreach (tdc_mapper::get_mapped_shortcodes() as $mapped_shortcode ) {
 
 	<div id="tdc-wpeditor">
 		<header>
-			<div id="title"></div>
+			<div id="title">WP Editor</div>
 			<div id="tdc-iframe-close-button"></div>
 		</header>
 		<div class="content"></div>
