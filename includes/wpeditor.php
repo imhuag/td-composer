@@ -23,12 +23,7 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 
 			wp_enqueue_style( 'common' );
 			wp_enqueue_style( 'forms' );
-			wp_enqueue_style( 'admin-menu' );
-			wp_enqueue_style( 'dashboard' );
-			wp_enqueue_style( 'list-tables' );
-			wp_enqueue_style( 'edit' );
-			wp_enqueue_style( 'revisions' );
-			wp_enqueue_style( 'media' );
+
 
 		?>
 
@@ -57,7 +52,20 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 					mappedParameterName = $tdcIframeWpeditor.data( 'mapped_parameter_name' ),
 					mappedParameterValue = model.get('attrs')[mappedParameterName];
 
-				$tdcWpeditor.width( editorWidth );
+				//$tdcWpeditor.width( editorWidth + 20 );
+
+				var parsed = {};
+
+				for ( var prop in editorWidth ) {
+					parsed[prop] = editorWidth[prop];
+				}
+
+				//console.log( parsed );
+				//$tdcWpeditor.css( parsed );
+
+
+
+				$tdcWpeditor.width( editorWidth + 'px');
 
 				var editor = window.tinymce.activeEditor;
 
@@ -109,15 +117,46 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 
 			<?php
 
-				// This make the js editor to be instantiated (it's not null)
-				add_filter( 'wp_default_editor', create_function('', 'return "tmce";') );
+			// The editor id
+			global $wpeditorId;
+			$wpeditorId = 'tdc-wpeditor';
 
-				$wpeditorId = 'tdc-wpeditor';
 
-				wp_editor(
-					'',
-					$wpeditorId
-				);
+
+			// Preset the 'visual' editor tab (This make the js editor to be instantiated - it's not null)
+			add_filter( 'wp_default_editor', create_function('', 'return "tmce";') );
+
+
+			// Add custom style to editor iframe content
+			add_filter('tiny_mce_before_init','tdc_tiny_mce_before_init');
+			function tdc_tiny_mce_before_init( $mceInit ) {
+
+				global $wpeditorId;
+				$styles = 'body.' . $wpeditorId . ' { word-wrap: normal !important;}';
+
+				if ( isset( $mceInit['content_style'] ) ) {
+					$mceInit['content_style'] .= ' ' . $styles . ' ';
+				} else {
+					$mceInit['content_style'] = $styles . ' ';
+				}
+				return $mceInit;
+			}
+
+
+			// Add editor extensions as they are in theme
+			require_once get_template_directory() . '/includes/wp_booster/wp-admin/tinymce/tinymce.php';
+
+			add_filter( 'mce_external_plugins', 'fb_add_tinymce_plugin' );
+			// Add to line 1 form WP TinyMCE
+			add_filter( 'mce_buttons', 'td_add_tinymce_button' );
+
+
+			// Render the editor
+			wp_editor(
+				'',
+				$wpeditorId
+			);
+
 			?>
 
 		</div>

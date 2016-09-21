@@ -277,7 +277,9 @@ var tdcIFrameData,
 
                     // Also, set suplementary settings:
                     //  1. width - necessary for the tinymce editor
-                    this.model.set( 'cssWidth', this.$el.css( 'width' ) );
+                    //var computedStyle = window.getComputedStyle( this.$el[0], null);
+                    //this.model.set( 'css', computedStyle );
+                    this.model.set( 'cssWidth', this.$el.width() );
                 },
 
                 customRemove: function( model, value, options ) {
