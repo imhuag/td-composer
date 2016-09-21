@@ -60,18 +60,7 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 					mappedParameterName = $tdcIframeWpeditor.data( 'mapped_parameter_name' ),
 					mappedParameterValue = model.get('attrs')[mappedParameterName];
 
-				//$tdcWpeditor.width( editorWidth + 20 );
-
-				var parsed = {};
-
-				for ( var prop in editorWidth ) {
-					parsed[prop] = editorWidth[prop];
-				}
-
-				//console.log( parsed );
-				//$tdcWpeditor.css( parsed );
-
-
+				$tdcIframeWpeditor.parent().removeClass( 'tdc-dropped' );
 
 				$tdcWpeditor.width( editorWidth + 'px');
 
