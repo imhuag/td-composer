@@ -37,6 +37,14 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 				transform: translate(-50%, -50%)
 			}
 
+			.mce-fullscreen .tdc-wpeditor {
+				position: static !important;
+				top: auto !important;;
+				left: auto !important;;
+				margin-right: auto !important;;
+				transform: none !important;
+			}
+
 		</style>
 
 		<script>
@@ -71,7 +79,7 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 
 				// The editor should not be null
 				if ( _.isNull( editor ) ) {
-					alert ( 'editor null' );
+					tdcDebug.log( 'editor null' );
 				} else {
 
 					// Timeout used especially for IE or any browser where the editor is not already built at body 'onload'
@@ -118,7 +126,7 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 
 
 	</head>
-	<body class="test" onload="loadIframe()">
+	<body onload="loadIframe()">
 
 		<div class="tdc-wpeditor">
 
@@ -161,7 +169,10 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 			// Render the editor
 			wp_editor(
 				'',
-				$wpeditorId
+				$wpeditorId,
+				array(
+					'teeny' => false
+				)
 			);
 
 			?>
