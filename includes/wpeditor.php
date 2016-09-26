@@ -108,6 +108,28 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 							currentValue                    // the new value
 						);
 					});
+
+					// Update the model with the new content.
+					// In the editor, the new content is not present immediately, so we use a timeout function.
+					// The 'click' event can't be used.
+					$body.on( 'mouseup', '.media-toolbar button', function(event) {
+
+						setTimeout(function() {
+
+							var currentValue = editor.getContent({format: 'html'}),
+
+							// @todo This should be the content before change
+								previousValue = currentValue;
+
+							window.parent.tdcSidebarController.onUpdate (
+								model,
+								'content',    // the name of the parameter
+								previousValue,                  // the old value
+								currentValue                    // the new value
+							);
+
+						}, 200);
+					});
 				}
 			}
 		</script>
