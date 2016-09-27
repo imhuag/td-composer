@@ -546,7 +546,6 @@ if (!empty($td_action)) {
 			// This stops 'td_animation_stack' library to be applied
 			// @todo - trebuie sa fie din thema?
 			td_options::update_temp('tds_animation_stack', 'lorem ipsum ..');
-			//td_global::$td_options['tds_animation_stack'] = 'lorem ipsum ..';
 			break;
 
 

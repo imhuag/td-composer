@@ -37,6 +37,14 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 				transform: translate(-50%, -50%)
 			}
 
+			.mce-fullscreen .tdc-wpeditor {
+				position: static !important;
+				top: auto !important;;
+				left: auto !important;;
+				margin-right: auto !important;;
+				transform: none !important;
+			}
+
 		</style>
 
 		<script>
@@ -52,18 +60,7 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 					mappedParameterName = $tdcIframeWpeditor.data( 'mapped_parameter_name' ),
 					mappedParameterValue = model.get('attrs')[mappedParameterName];
 
-				//$tdcWpeditor.width( editorWidth + 20 );
-
-				var parsed = {};
-
-				for ( var prop in editorWidth ) {
-					parsed[prop] = editorWidth[prop];
-				}
-
-				//console.log( parsed );
-				//$tdcWpeditor.css( parsed );
-
-
+				$tdcIframeWpeditor.parent().removeClass( 'tdc-dropped' );
 
 				$tdcWpeditor.width( editorWidth + 'px');
 
@@ -71,7 +68,7 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 
 				// The editor should not be null
 				if ( _.isNull( editor ) ) {
-					alert ( 'editor null' );
+					tdcDebug.log( 'editor null' );
 				} else {
 
 					// Timeout used especially for IE or any browser where the editor is not already built at body 'onload'
@@ -111,6 +108,28 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 							currentValue                    // the new value
 						);
 					});
+
+					// Update the model with the new content.
+					// In the editor, the new content is not present immediately, so we use a timeout function.
+					// The 'click' event can't be used.
+					$body.on( 'mouseup', '.media-toolbar button', function(event) {
+
+						setTimeout(function() {
+
+							var currentValue = editor.getContent({format: 'html'}),
+
+							// @todo This should be the content before change
+								previousValue = currentValue;
+
+							window.parent.tdcSidebarController.onUpdate (
+								model,
+								'content',    // the name of the parameter
+								previousValue,                  // the old value
+								currentValue                    // the new value
+							);
+
+						}, 200);
+					});
 				}
 			}
 		</script>
@@ -118,7 +137,7 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 
 
 	</head>
-	<body class="test" onload="loadIframe()">
+	<body onload="loadIframe()">
 
 		<div class="tdc-wpeditor">
 
@@ -161,7 +180,10 @@ require_once( $parse_uri[0] . 'wp-load.php' );
 			// Render the editor
 			wp_editor(
 				'',
-				$wpeditorId
+				$wpeditorId,
+				array(
+					'teeny' => false
+				)
 			);
 
 			?>

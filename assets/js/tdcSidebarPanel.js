@@ -359,9 +359,11 @@ var tdcSidebarPanel = {};
                     dataModelId = $this.data( 'model_id' ),
                     dataMappedParameterName = $this.data( 'mapped_parameter_name' );
 
-                $tdcWpEditor.show();
+                $content.addClass( 'tdc-dropped' );
 
                 $content.html( '<iframe id="tdc-iframe-wpeditor" src="' + window.tdcAdminSettings.pluginUrl + '/includes/wpeditor.php" scrolling="auto" style="width: 100%; height: 100%" data-model_id="' + dataModelId + '" data-mapped_parameter_name="' + dataMappedParameterName + '"></iframe>' );
+
+                $tdcWpEditor.show();
 
             });
 
@@ -1025,11 +1027,7 @@ var tdcSidebarPanel = {};
                 tooltip = ' title="' + mappedParameter.description + '" ';
             }
 
-            var tinymceId = _.uniqueId( 'tdc_tinymce_' );
-
-            var buffy = '';
-            buffy += '<div id="' + tinymceId + '"></div>';
-            buffy += '<a href="#" class="tdc-open-wpeditor" data-model_id="' + model.cid + '" data-mapped_parameter_name="' + mappedParameter.param_name + '">Edit Content</a>';
+            var buffy = '<a href="#" class="tdc-open-wpeditor" data-model_id="' + model.cid + '" data-mapped_parameter_name="' + mappedParameter.param_name + '">Edit Content</a>';
 
             tdcSidebarPanel._hook.addAction( 'panel_rendered', function () {
 
