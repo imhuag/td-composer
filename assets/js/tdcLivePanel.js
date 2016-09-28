@@ -65,7 +65,7 @@ var tdcLivePanel;
 
                     setTimeout(function() {
 
-                        tdcLivePanel.$tdcIframeCover.hide();
+                        //tdcLivePanel.$tdcIframeCover.hide();
                         $iframeToRemove.remove();
 
                         $newTdcLiveIframe.attr( 'id', 'tdc-live-iframe' );
