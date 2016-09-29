@@ -332,7 +332,7 @@ var tdcIFrameData,
                                 this.$el.removeClass( 'tdc-element-inner-row-temp' ).addClass( 'tdc-element-inner-row' );
 
                                 // Add wrappers to the existing 'tdc-column' element
-                                window.addWrappers( this.$el );
+                                window.addInnerRowWrappers( this.$el );
 
                                 var childCollection = model.get( 'childCollection' );
 
